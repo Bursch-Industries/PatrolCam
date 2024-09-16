@@ -23,6 +23,7 @@ header.hero {
     padding: 250px 0;
 }
 
+
 .navbar {
     background-color: rgba(0, 0, 0, 0.9);
     position: fixed;
@@ -30,26 +31,32 @@ header.hero {
     top: 0;
     z-index: 1000;
     height: 150px;
+    text-align: center;
+    
 }
-
 .logo {
     font-size: 2em;
     font-weight: bold;
     color: #ffd700; 
-    padding: 15px 20px;
+    display: inline-block;
 }
 
 .nav-menu {
-    margin-right: 20px; 
+    margin-right: 20px;
+    display: inline-block; 
+    text-align: right;
+    padding: 50px;
+    justify-content: space-between;
 }
 
 .nav-menu li {
     display: inline-block;
     margin-left: 20px;
+    text-align: center;
 }
 
 .nav-menu a {
-    color: #fff;
+    color: white;
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -101,8 +108,14 @@ main {
 }
 
 /* Features Section */
+.features-intro {
+    background-color: #2E8BC0;
+    padding: 80px 0;
+    text-align: center;
+    font-size: xx-large;
+}
 .features {
-    background-color: #fff;
+    background-color: #145DA0;
     padding: 80px 0;
 }
 
