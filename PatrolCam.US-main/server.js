@@ -29,6 +29,6 @@ app.use('/subdir', express.static(path.join(__dirname, '/public')));
 // Routers
 app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/api/register'));
-
+app.use('/test', require('./routes/api/test'));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

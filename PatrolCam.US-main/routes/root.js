@@ -15,4 +15,9 @@ router.get('/patrolcam-demo', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'patrolcam-demo.html'));
 })
 
+router.get('/test', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', 'test.html'))
+})
+
+
 module.exports = router
