@@ -1,0 +1,171 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+
+/* Demo Page */
+#demo-body {
+    background: linear-gradient(to bottom, #1e3c72, #2a5298);
+    font-family: 'Inter', sans-serif;
+    color: #FFF;
+}
+
+.demo-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.demo-cta {
+    /* text-align: right; */
+    margin-right: 100px;
+    display: flex;
+    justify-content: end;
+}
+
+.demo-frame {
+    border-radius: 10px;
+}
+
+.demo-cta-button {
+    background-color: #dab900;
+    font-family: 'Inter', sans-serif;
+    color: #FFF;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.demo-cta-button:hover {
+    background-color: #2377ffe3;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.demo-text {
+    color: white;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: 1.5;
+}
+
+/* Demo Footer Section */
+footer {
+    /* background-color: #000; */
+    color: #FFF;
+    margin: 0;
+    padding: 0;
+
+    padding-top: 50px; 
+    /* padding: 20px; */
+    text-align: center;
+}
+
+footer a {
+    color: #FFD700;
+    text-decoration: none;
+}
+
+
+/* Contact Us Page */
+
+#contact-body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+.contact-section {
+    display: flex;
+    height: 100vh;
+}
+
+/* Left side for the form */
+.form-container {
+    width: 50%;
+    padding: 40px;
+    background-color: white;
+}
+
+.form-container h1 {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.form-container h1 span {
+    color: #3650FF;
+}
+
+.form-container p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-bottom: 1px solid #3650FF;
+}
+
+.city-postcode {
+    display: flex;
+    justify-content: space-between;
+}
+
+.city-postcode input {
+    width: 48%;
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3650FF;
+    color: white;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+/* Right section with background color and map */
+.right-section {
+    width: 800px; 
+    height: 100%; 
+    background-color: #6DE1C2; 
+    position: relative; /* Allows centering of the map */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Centered map inside the right section */
+/* .map-container {
+    width: 638px;
+    height: 819px;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+ */
