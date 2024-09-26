@@ -17,6 +17,7 @@ html, body {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    margin-left: 20px;
 }
 
 .demo-cta {
@@ -28,6 +29,7 @@ html, body {
 
 .demo-frame {
     border-radius: 10px;
+    
 }
 
 .demo-cta-button {
@@ -72,9 +74,7 @@ footer a {
     text-decoration: none;
 }
 
-
 /* Contact Us Page */
-
 #contact-body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -85,11 +85,13 @@ footer a {
 .contact-section {
     display: flex;
     height: 100vh;
+    position: relative; 
+    justify-content: space-between;
 }
 
 /* Left side for the form */
 .form-container {
-    width: 50%;
+    width: calc(100% - 975px); 
     padding: 40px;
     background-color: white;
 }
@@ -146,26 +148,22 @@ footer a {
     border-radius: 8px;
 }
 
-/* Right section with background color and map */
+/* Map container */
+.map-container {
+    width: 556px;
+    height: 809px;
+    background-color: white;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-left: 200px; 
+}
+
+
+/* Right section with fixed width */
 .right-section {
-    width: 800px; 
-    height: 100%; 
-    background-color: #6DE1C2; 
-    position: relative; /* Allows centering of the map */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Centered map inside the right section */
-/* .map-container {
-    width: 638px;
-    height: 819px;
-}
-
-.map-container iframe {
-    width: 100%;
+    width: 419px; 
+    background-color: #6DE1C2;
     height: 100%;
-    border: none;
 }
- */
