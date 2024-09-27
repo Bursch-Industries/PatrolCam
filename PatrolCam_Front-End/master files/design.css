@@ -73,7 +73,6 @@ footer a {
     color: #FFD700;
     text-decoration: none;
 }
-
 /* Contact Us Page */
 #contact-body {
     font-family: Arial, sans-serif;
@@ -112,7 +111,8 @@ footer a {
 }
 
 .contact-form input,
-.contact-form textarea {
+.contact-form textarea,
+.contact-form select {
     width: 100%;
     padding: 10px 0;
     margin-bottom: 15px;
@@ -124,7 +124,8 @@ footer a {
 }
 
 .contact-form input:focus,
-.contact-form textarea:focus {
+.contact-form textarea:focus,
+.contact-form select:focus {
     border-bottom: 1px solid #3650FF;
 }
 
@@ -160,10 +161,9 @@ footer a {
     margin-left: 200px; 
 }
 
-
 /* Right section with fixed width */
 .right-section {
     width: 419px; 
-    background-color: #6DE1C2;
+    background-color: #1b2affec;
     height: 100%;
 }
