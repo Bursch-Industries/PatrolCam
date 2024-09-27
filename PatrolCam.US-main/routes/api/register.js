@@ -7,4 +7,6 @@ router.post('/org', registerController.handleNewOrgantization);
 
 router.delete('/delUser', registerController.handleDeleteUser)
 
+router.post('/resetpwd', registerController.handlePwdReset)
+
 module.exports = router;

@@ -12,8 +12,8 @@ const handleNewUser = async (req, res) => {
 
     try {
         //encrypt the password
-        const hashedPwd = await bcrypt.hash(pwd, 10);
-
+        const hashedPwd = await hashPassword(pwd);
+        
         //create and store the new user
         const result = await User.create({
             "username": user,
@@ -38,7 +38,7 @@ const handleNewOrgantization = async (req, res) => {
 
     try{
         //encrypt password
-        const hashedPwd = await bcrypt.hash(pwd, 10);
+        const hashedPwd = await hashPassword(pwd);
 
         //create and store organization
         const result = await Organization.create({
@@ -57,7 +57,7 @@ const handleNewOrgantization = async (req, res) => {
 
 const handleDeleteUser = async (req, res) => {
     const { username } = req.body;
-    if (!username) return res.status(400).json({"Delete Error message" : "Username can not be empty!!"});
+    if (!username) return res.status(400).json({"Delete Error message" : "Username cannot be empty!!"});
 
     try{
         const deleteUser = await User.findOneAndDelete({username})
@@ -66,9 +66,36 @@ const handleDeleteUser = async (req, res) => {
             return res.status(400).json({ "Delete Error message" : "User not found."})
         }
         return res.status(200).json({ "Deletion Confirmation" : `User ${username} deleted Successfully!`})
-    } catch (err){
+    } catch (error){
         return res.status(500).json({ "Delete Error message" : "Error occured while deleting user", error : error.message})
     }
 };
 
-module.exports = { handleNewUser, handleNewOrgantization, handleDeleteUser};
+const handlePwdReset = async (req, res) => {
+    const { username, newPwd } = req.body;
+    if (!username, !newPwd) return res.status(400).json({"Password Reset error" : "Username and new password cannot be empty!"});
+
+    try{
+        const newHashedPwd = await hashPassword(newPwd);
+        const resetPwd = await User.findOneAndUpdate(
+            {username},
+            {password : newHashedPwd}
+        )
+
+        if (!resetPwd) {
+            return res.status(404).json({ "Password Reset error" : "User not found!"})
+        }
+
+        return res.status(200).json({"Password Reset Success" : `Password Reset for ${username} succcessfully!`})
+    } catch (error){
+        return res.status(500).json({"Password Reset error" : "An error occured while resetting password", error : error.message})
+    }
+};
+
+//hash passsword function
+const hashPassword = async (password) => {
+    hashedPwd = await bcrypt.hash(password, 10);
+    return hashedPwd;
+}
+
+module.exports = { handleNewUser, handleNewOrgantization, handleDeleteUser, handlePwdReset};
