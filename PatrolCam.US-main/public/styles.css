@@ -1,9 +1,12 @@
+/* Dynamic Wording */
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     color: white;
     text-align: center;
 }
+
+/* Header CSS */
 header {
     position: sticky;
     top: 0;
@@ -11,7 +14,6 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
     background-color: #0C2D48;
     opacity: 90%;
     
@@ -62,10 +64,19 @@ header {
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
+    font-size: x-large;
     height: 30px;
     width: 100px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    margin-right: 20px;
+    line-height: normal;
 }
+
+.login:hover {
+    opacity: 90%;
+}
+
+/* Hero Introduction */
 .container {
     padding: 50px;
     text-align: center;
@@ -106,11 +117,16 @@ header {
 .btn:hover {
     opacity: 90%;
 }
+
+/* Features */
+
 .features-intro {
     background-color: #5C9BD1;
     padding: 20px;
     font-size: 80px;
 }
+
+/* Surveillance Features Section */
 
 .Surveillance {
     display: flex;
@@ -145,16 +161,93 @@ header {
     padding-left: 50px;
 }
 
+/* Vehicle Tracking Features Section */
+
+.VehicleTracking {
+    display: flex;
+    background-color: #0C2D48;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.image-vehicleTracking {
+    padding-right: 25rem;
+    padding-top: 1rem;
+}
+
+.text-vehicleTracking {
+    background-color: #B1D4E0;
+    border-radius: 20px;
+    margin-right: 15rem;
+    margin-left:76px;
+    height: 50rem;
+    width: 65rem;
+    margin-top:30px;
+    margin-bottom:30px;
+}
+
+.text-vehicleTracking h1 {
+    color: black;
+    font-size: 60px;
+    padding-top:14px;
+}
+
+.text-vehicleTracking p {
+    color: black;
+    font-size: 50px;
+    text-align: left;
+    padding-left: 50px;
+}
+
+/* Easy Ping Features Section */
+
+.EasyPing {
+    display: flex;
+    background-color: #145DA0;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.image-ping {
+    padding-left: 5rem;
+    padding-top: 1rem;
+}
+
+.text-ping {
+    background-color: #B1D4E0;
+    border-radius: 20px;
+    margin-right: 15rem;
+    margin-left:100px;
+    height: 50rem;
+    width: 55rem;
+}
+
+.text-ping h1 {
+    color: black;
+    font-size: 60px;
+    padding-top:14px;
+}
+
+.text-ping p {
+    color: black;
+    font-size: 50px;
+    text-align: left;
+    padding-left: 50px;
+}
+
 .features-gs-button {
     background-color: #4553FF;
     color: white;
-    border-radius: 15px;
-    box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.3);
-    height: 5rem;
-    width: 11rem;
-    align-items: left;
+    border-radius: 5px;
+    text-decoration: none;
     font-weight: bold;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    height: 30px;
+    width: 150px;
+    padding: 15px;
     font-size: x-large;
+
 }
 
 .features-gs-button:hover {
@@ -162,6 +255,7 @@ header {
 }
 
 
+/* Footer CSS */
 .footer {
     padding: 25px;
     font-size: 30px;
