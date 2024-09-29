@@ -134,9 +134,11 @@ header {
     align-items: center;
     justify-content: space-between;
 }
-.image-surveillance {
-    padding-left: 5rem;
+.image-surveillance img {
+    padding-left: 8rem;
     padding-top: 1rem;
+    height: 55rem;
+    width: 60rem;
 }
 
 .text-surveillance {
@@ -146,6 +148,8 @@ header {
     margin-left:100px;
     height: 50rem;
     width: 55rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
 }
 
 .text-surveillance h1 {
@@ -170,18 +174,17 @@ header {
     justify-content: space-between;
 }
 
-.image-vehicleTracking {
-    padding-right: 25rem;
-    padding-top: 1rem;
+.image-vehicleTracking img{
+    padding-right: 21.5rem;
+    height: 50rem;
 }
 
 .text-vehicleTracking {
     background-color: #B1D4E0;
     border-radius: 20px;
-    margin-right: 15rem;
-    margin-left:76px;
+    margin-left:10rem;
     height: 50rem;
-    width: 65rem;
+    width: 55rem;
     margin-top:30px;
     margin-bottom:30px;
 }
@@ -208,9 +211,10 @@ header {
     justify-content: space-between;
 }
 
-.image-ping {
-    padding-left: 5rem;
+.image-ping img {
+    padding-left: 8rem;
     padding-top: 1rem;
+    width: 60rem;
 }
 
 .text-ping {
@@ -254,12 +258,106 @@ header {
     opacity: 90%;
 }
 
+/* Contact Page */
+
+.contact-section {
+    display: flex;
+    height: 100vh;
+    position: relative; 
+    justify-content: space-between;
+    background-color: #0C2D48;
+}
+
+/* Left side for the form */
+.form-container {
+    width: calc(100% - 975px); 
+    padding: 40px;
+    background-color: #B1D4E0;
+    align-items: center;
+    margin-left: 20rem;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+}
+
+.form-container h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #3650FF;
+}
+
+.form-container h1 span {
+    color: #3650FF;
+}
+
+.form-container p {
+    font-size: 30px;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+    border-bottom: 1px solid #3650FF;
+}
+
+.contact-form label {
+    color: black;
+    font-size:30px;
+}
+
+.city-postcode {
+    display: flex;
+    justify-content: space-between;
+}
+
+.city-postcode input {
+    width: 48%;
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3650FF;
+    color: white;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+/* Map container */
+.map-container {
+    width: 556px;
+    height: 809px;
+    background-color: white;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-right:10rem;
+    margin-top:15rem;
+}
 
 /* Footer CSS */
 .footer {
     padding: 25px;
     font-size: 30px;
-    background-color: #B1D4E0;
+    background-color: black;
+    opacity: 90%;
     text-align: center;
     position: relative;
 }
