@@ -1,7 +1,6 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #004080;
     color: white;
     text-align: center;
 }
@@ -70,6 +69,9 @@ header {
 .container {
     padding: 50px;
     text-align: center;
+    background-image: url('/hero-background.jpg');
+    background-size: cover;
+    background-position: center;
 }
 .content {
     display: flex;
@@ -107,8 +109,59 @@ header {
 .features-intro {
     background-color: #5C9BD1;
     padding: 20px;
-    font-size: 60px;
+    font-size: 80px;
 }
+
+.Surveillance {
+    display: flex;
+    background-color: #145DA0;
+    align-items: center;
+    justify-content: space-between;
+}
+.image-surveillance {
+    padding-left: 5rem;
+    padding-top: 1rem;
+}
+
+.text-surveillance {
+    background-color: #B1D4E0;
+    border-radius: 20px;
+    margin-right: 15rem;
+    margin-left:100px;
+    height: 50rem;
+    width: 55rem;
+}
+
+.text-surveillance h1 {
+    color: black;
+    font-size: 60px;
+    padding-top:14px;
+}
+
+.text-surveillance p {
+    color: black;
+    font-size: 50px;
+    text-align: left;
+    padding-left: 50px;
+}
+
+.features-gs-button {
+    background-color: #4553FF;
+    color: white;
+    border-radius: 15px;
+    box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.3);
+    height: 5rem;
+    width: 11rem;
+    align-items: left;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.features-gs-button:hover {
+    opacity: 90%;
+}
+
+
 .footer {
     padding: 25px;
     font-size: 30px;
