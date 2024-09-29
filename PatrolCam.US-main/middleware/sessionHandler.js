@@ -7,21 +7,25 @@ const store = new MongoDBStore({
   uri: process.env.MONGODB_DATABASE_URL
 });
 
+console.log('MongoDBStore created')
+
 // Catch errors
 store.on('error', (error) => {
   console.error(error);
 });
 
+
+
 // Session middleware
-const sessionMiddleware = session({
+app.use(session({
   secret: 'yourSecretKey', // Replace with a strong secret
   resave: false,
   saveUninitialized: false,
   store: store,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24, // Set cookie expiration (1 day)
+    maxAge: 1000 * 60 * 60, // Set cookie expiration (1 hour)
   },
-});
+}))
 
 
 module.exports = sessionMiddleware
