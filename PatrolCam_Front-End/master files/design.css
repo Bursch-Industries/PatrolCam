@@ -3,13 +3,23 @@ html, body {
     padding: 0;
     height: 100%;
 }
+html {
+    scroll-behavior: smooth;
+}
 
-
-/* Demo Page */
 #demo-body {
-    background: linear-gradient(to bottom, #1e3c72, #2a5298);
+    background: linear-gradient(45deg,#145DA0, #2E8BC0);
+    background-size: 200% 200%;
+    animation: gradientAnimation 3s ease infinite;
     font-family: 'Inter', sans-serif;
     color: #FFF;
+    min-height: 100vh;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .demo-container {
@@ -29,21 +39,31 @@ html, body {
 
 .demo-frame {
     border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.demo-frame-container {
+    display: flex;
+    justify-content: center; 
+    padding: 20px 0; 
     
 }
 
+
 .demo-cta-button {
-    background-color: #dab900;
+    background-color: #FFEB00;
     font-family: 'Inter', sans-serif;
-    color: #FFF;
+    color: black;
     padding: 10px 20px;
     text-decoration: none;
     font-size: 18px;
+    font-weight: 500;
     border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .demo-cta-button:hover {
-    background-color: #2377ffe3;
+    transform: scale(1.05);
+    background-color: rgba(255, 170, 0, 0.92);
     transition: background-color 0.3s ease-in-out;
 }
 
@@ -55,6 +75,12 @@ html, body {
     font-style: normal;
     font-weight: 200;
     line-height: 1.5;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+}
+.demo-text:hover {
+    color: #ffbf00;
+    transition: color 0.3s ease;
 }
 
 /* Demo Footer Section */
@@ -78,7 +104,7 @@ footer a {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: white;
+    background-color: lighblue;
 }
 
 .contact-section {
@@ -86,13 +112,14 @@ footer a {
     height: 100vh;
     position: relative; 
     justify-content: space-between;
+    background-color: lightblue;
 }
 
 /* Left side for the form */
 .form-container {
     width: calc(100% - 975px); 
     padding: 40px;
-    background-color: white;
+    background-color: lightblue;
 }
 
 .form-container h1 {
@@ -122,6 +149,20 @@ footer a {
     outline: none;
     transition: border-color 0.3s;
 }
+.contact-form input,
+.contact-form select {
+    background-color: transparent;
+    border-bottom: 1px solid #3650FF;
+    color: #000;
+}
+
+.contact-form input::placeholder,
+.contact-form select::placeholder {
+    color: #666; 
+}
+
+.contact-form input:focus,
+
 
 .contact-form input:focus,
 .contact-form textarea:focus,
@@ -153,12 +194,15 @@ footer a {
 .map-container {
     width: 556px;
     height: 809px;
-    background-color: white;
+    background-color: lightblue;
     position: relative;
     z-index: 1;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     margin-left: 200px; 
+}
+select option[disabled] {
+    color: #999; 
 }
 
 /* Right section with fixed width */
@@ -166,4 +210,27 @@ footer a {
     width: 419px; 
     background-color: #1b2affec;
     height: 100%;
+}
+.contact-footer {
+    background-color: lightblue;
+    color: black;
+    margin: 0;
+    padding: 20px 0; 
+    text-align: center;
+    font-family: Arial, sans-serif; 
+    position: relative; 
+    width: 100%; 
+}
+
+.contact-footer p {
+    margin: 0; 
+}
+
+.contact-footer a {
+    color: #FFD700; 
+    text-decoration: none;
+}
+
+.contact-footer a:hover {
+    text-decoration: underline; 
 }
