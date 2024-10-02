@@ -206,3 +206,19 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #0056b3;
 }
+
+/* skeeter learning/testing */
+
+.test-container {
+    background-color: rgba(100, 0, 0, 0.5);
+    height: 400px;
+    width: 400px;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.test-input[type = 'text'] {
+    width: 200px;
+    margin: 10px;
+}
