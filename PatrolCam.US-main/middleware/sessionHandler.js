@@ -2,30 +2,19 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
 
-// Set up MongoDB session store
+// Session Auth Middleware
 const store = new MongoDBStore({
-  uri: process.env.MONGODB_DATABASE_URL
+  uri: process.env.MONGODB_DATABASE_URL,
+  collection: 'sessions',
 });
 
-console.log('MongoDBStore created')
-
-// Catch errors
-store.on('error', (error) => {
-  console.error(error);
-});
-
-
-
-// Session middleware
-app.use(session({
-  secret: 'yourSecretKey', // Replace with a strong secret
-  resave: false,
-  saveUninitialized: false,
+const sessionMiddleware = session({
+  secret: 'your-secret-key', // Replace with a strong secret
+  resave: false,              // Don't save session if unmodified
+  saveUninitialized: false,   // Save uninitialized sessions
   store: store,
-  cookie: {
-    maxAge: 1000 * 60 * 60, // Set cookie expiration (1 hour)
-  },
-}))
-
+  cookie: { secure: false },   // Set to true if using HTTPS
+  maxAge: 1000 * 60 * 60, // Set cookie expiration (1 hour)
+})
 
 module.exports = sessionMiddleware
