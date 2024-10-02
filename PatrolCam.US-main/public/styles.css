@@ -224,6 +224,8 @@ header {
     margin-left:100px;
     height: 50rem;
     width: 55rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
 }
 
 .text-ping h1 {
@@ -361,3 +363,4 @@ header {
     text-align: center;
     position: relative;
 }
+
