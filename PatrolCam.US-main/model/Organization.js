@@ -6,21 +6,19 @@ const organizationSchema = new Schema({
         type : String,
         required: true
     },
-    username: {
-        type: String,
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
-    roles: {
-        User: {
-            type: String,
-            default: "Creator"
-        },
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    refreshToken: String
+    users: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 module.exports = mongoose.model('Organization', organizationSchema);
