@@ -4,6 +4,7 @@ const registerController = require('../../controllers/registerController');
 
 router.post('/', registerController.handleNewUser);
 router.post('/org', registerController.handleNewOrgantization);
+router.post('/newOrgUser', registerController.handleAddNewOrgUser);
 
 router.delete('/delUser', registerController.handleDeleteUser)
 
