@@ -8,6 +8,7 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions')
 const connectDB = require('./config/dbConn');
 const sessionMiddleware = require('./middleware/sessionHandler');
+const requireAuth = require('./middleware/authMiddleware');
 
 const PORT = process.env.PORT || 3000;
 
@@ -37,10 +38,14 @@ app.use('/', require('./routes/root'));
 // API Routers
 app.use('/register', require('./routes/api/register'));
 
+// Protected API
+app.use('/test', require('./routes/api/testAPI'));
+
+app.use(requireAuth);
+
 // Protected Routers
 app.use('/protected', require('./routes/protected/protectedRoute'));
 
-// Protected API
-app.use('/test', require('./routes/api/testAPI'));
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
