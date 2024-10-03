@@ -8,18 +8,17 @@ const testLogin = async (req, res) => {
 
     try {
 
-    
-    // check for user in the database
-    const user = await Test.findOne({ username: username}).exec();
-    console.log('Usercheck: ' + user)
+        // Check for user in the database
+        const user = await Test.findOne({ username: username}).exec();
+        console.log('Usercheck: ' + user)
 
-    // Check for password in the database 
-    const validatePassword = await bcrypt.compare(password, user.password);
+        // Check for password in the database 
+        const validatePassword = await bcrypt.compare(password, user.password);
 
-    if (validatePassword) {
-        req.session.user = { id: username };
-        console.log('Logged in');
-    } 
+        if (validatePassword) {
+            req.session.user = { id: username };
+            console.log('Logged in');
+        }    
 
         res.redirect('/')
     } catch (err) {
@@ -27,4 +26,17 @@ const testLogin = async (req, res) => {
     }
 }
 
-module.exports = { testLogin };
+// Logout Function to Destroy Session
+const testLogout = async (req, res) => {
+    
+    try {
+        req.session.destroy()
+        res.redirect('/')
+
+    } catch (err) {
+        res.status(500).json({ 'message': err.message });
+    }
+}
+
+
+module.exports = { testLogin, testLogout };

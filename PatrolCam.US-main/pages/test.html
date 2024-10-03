@@ -19,4 +19,21 @@
             <button type = 'submit'>Submit</button>
         </form>
     </div>
+
+    <div class = 'test-container'></div>
+        <form action = '/test/login' method = 'post'>
+            <label for = 'username'>Username</label>
+            <input class = 'test-input' name = 'username' autocomplete = 'off' type = 'text' placeholder = 'Username'></input>
+            <label for = 'password'>Password</label>
+            <input class = 'test-input' name = 'password' autocomplete = 'off' type = 'text' placeholder = 'Password'></input>
+            <label for = 'email address'>Email</label>
+            <input class = 'test-input' name = 'email' autocomplete = 'off' type = 'text' placeholder = 'Email Address'></input><br></br>
+            <button type = 'submit'>Submit</button>
+        </form>
+    </div>
+
+    <form action="/test/logout" method="post" id="logoutForm">
+        <button type="submit">Logout</button>
+    </form>
+    
 </body>

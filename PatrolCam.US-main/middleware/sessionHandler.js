@@ -13,8 +13,9 @@ const sessionMiddleware = session({
   resave: false,              // Don't save session if unmodified
   saveUninitialized: false,   // Save uninitialized sessions
   store: store,
-  cookie: { secure: false },   // Set to true if using HTTPS
-  maxAge: 1000 * 60 * 60, // Set cookie expiration (1 hour)
+  cookie: { secure: false, 
+            maxAge: 1000 * 60 * 60} // Set cookie expiration (1 hour) },   // Set to true if using HTTPS
+  
 })
 
 module.exports = sessionMiddleware
