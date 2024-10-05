@@ -40,6 +40,8 @@ html {
 .demo-frame {
     border-radius: 10px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    height: 600px;
 }
 .demo-frame-container {
     display: flex;
@@ -99,6 +101,8 @@ footer a {
     color: #FFD700;
     text-decoration: none;
 }
+
+
 /* Contact Us Page */
 #contact-body {
     font-family: Arial, sans-serif;
@@ -201,8 +205,40 @@ footer a {
     border-radius: 8px;
     margin-left: 200px; 
 }
+
 select option[disabled] {
     color: #999; 
+}
+
+.contact-info {
+    display: flex;
+    justify-content: space-between; /* Ensure Phone and Email are spaced apart */
+    margin-top: 20px; /* Add space above this section */
+}
+
+.contact-column {
+    display: flex;
+    flex-direction: column; /* Stack the label and content vertically */
+    align-items: flex-start; /* Align text to the left */
+    width: 48%; /* Each column takes up 48% of the width */
+}
+
+
+.contact-info p {
+    margin: 5px 0; /* Add some spacing between the lines */
+}
+
+.contact-info span {
+    font-weight: bold; /* Make the phone number bold */
+}
+
+.contact-info a {
+    color: #3650FF; /* Add a color to the email link */
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline; /* Underline the email link on hover */
 }
 
 /* Right section with fixed width */
@@ -233,4 +269,76 @@ select option[disabled] {
 
 .contact-footer a:hover {
     text-decoration: underline; 
+}
+
+
+
+
+/* Responsive Layout Adjustments */
+
+/* For tablets and smaller devices */
+@media (max-width: 768px) {
+    .demo-container {
+        flex-direction: column; /* Stack elements vertically */
+        text-align: center; /* Center text for smaller screens */
+    }
+
+    .demo-cta {
+        margin-right: 0; /* Remove right margin */
+        justify-content: center;
+    }
+
+    .demo-cta-button {
+        font-size: 16px; /* Adjust button size */
+        padding: 8px 16px;
+        margin-top: 20px;
+    }
+
+    .demo-frame {
+        width: 80%; 
+    }
+
+    .map-container {
+        width: 40%; /* Map takes full width on smaller screens */
+        margin-left: 0; /* Remove left margin */
+    }
+
+    .form-container {
+        width: 100%; /* Full width for the form */
+        padding: 20px;
+    }
+
+    .right-section {
+        display: none; /* Hide right section on smaller screens */
+    }
+
+    .contact-info {
+        flex-direction: column; /* Stack the contact info vertically */
+        width: 100%; /* Ensure full width on mobile */
+    }
+}
+
+/* For mobile devices */
+@media (max-width: 480px) {
+    .demo-text {
+        font-size: 24px; /* Reduce font size for smaller screens */
+    }
+
+    .demo-cta-button {
+        font-size: 16px; /* Adjust button size */
+        padding: 8px 16px;
+        margin-top: 20px;
+    }
+
+    .contact-form input, .contact-form select, .contact-form textarea {
+        font-size: 14px; /* Adjust form input size for readability */
+    }
+
+    .map-container {
+        height: 400px; /* Adjust height for mobile screens */
+    }
+
+    footer {
+        padding: 10px 0; /* Smaller padding for footer */
+    }
 }
