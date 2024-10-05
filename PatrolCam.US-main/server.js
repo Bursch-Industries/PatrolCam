@@ -10,6 +10,7 @@ const connectDB = require('./config/dbConn');
 const sessionMiddleware = require('./middleware/sessionHandler');
 const requireAuth = require('./middleware/authMiddleware');
 
+
 const PORT = process.env.PORT || 3000;
 
 
@@ -26,7 +27,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Set up session
-app.use(sessionMiddleware)
+app.use(sessionMiddleware);
+
+
 
 // Serving static files
 app.use('/', express.static(path.join(__dirname, '/public')));
@@ -38,8 +41,13 @@ app.use('/', require('./routes/root'));
 // API Routers
 app.use('/register', require('./routes/api/register'));
 
-// Protected API
+// Test API
 app.use('/test', require('./routes/api/testAPI'));
+
+// Email API
+app.use('/test-contact', require('./routes/api/emailAPI'));
+
+
 
 app.use(requireAuth);
 
