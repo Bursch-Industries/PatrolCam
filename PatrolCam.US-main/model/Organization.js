@@ -11,6 +11,10 @@ const organizationSchema = new Schema({
         ref: 'User',
         required: true
     },
+    organizationEmail: {
+        type: String,
+        required: true
+    },
     users: [{
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -18,7 +22,12 @@ const organizationSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+
+    cameras: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Camera'
+    }]
 });
 
 module.exports = mongoose.model('Organization', organizationSchema);

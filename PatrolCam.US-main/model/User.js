@@ -7,19 +7,63 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
+    firstname: {
+        type: String,
+        required: true,
+    },
+    lastname: {
+        type: String,
+        required: true,
+    },
     roles: {
         type: String,
-        default: "User"
+        default: "User",
+        required: true
     },
     password: {
         type: String,
         required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        default: null
+    },
+    phone: {
+        type: String,
+        required: false,
+        default: null
+    },
+    rank: {
+        type: String,
+        required: false,
+        default: null
     },
     refreshToken: String,
 
     organization: {
         type: Schema.Types.ObjectId,
         ref: 'Organization'
+    },
+
+    lastLoggedIn: {
+        type: Date,
+        default: Date.now
+    },
+
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+
+    createdBy: {
+        type:Schema.Types.ObjectId,
+        ref:'User'
+    },
+
+    status: {
+        type: String,
+        default: "Active"
     }
 });
 
