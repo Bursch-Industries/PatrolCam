@@ -241,20 +241,17 @@
     /* Hero Queries */
 
     .text-section {
-        font-size: 30px;
-        margin-right: 500px;
-        padding-right: 50px;
-        background-color: black;
+        font-size: 25px;
     }
 
     .image-section {
-        align-items: left;
         display: flex;
         width: 100%;
     }
 
     .image-section img {
-        background-color: black;
+        height: 30rem;
+        width: 50rem;
     }
     .btn {
         padding: 15px 30px;
@@ -391,7 +388,7 @@
         border-radius: 15px;
         margin-top: 2rem;
         margin-right:30px;
-        margin-left:300px;
+        margin-left:220px;
         padding:30px;
     }
 
