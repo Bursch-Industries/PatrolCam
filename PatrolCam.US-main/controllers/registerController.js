@@ -2,6 +2,7 @@ const User = require('../model/User'); //user schema
 const Organization = require('../model/Organization'); //organization schema
 const Camera = require('../model/Camera'); //camera schema
 const bcrypt = require('bcrypt'); //for hashing passwords
+const { logNewUserCreation, logOrganizationCreation, logSubUserCreation, logDeleteOrganizationUser, logPasswordReset } = require('./logger');
 
 //handles new user creation
 async function handleNewUser (req, res) {
@@ -10,7 +11,7 @@ async function handleNewUser (req, res) {
         return res.status(400).json({ 'message': 'Username, password, firstname, lastname, and email are required.' });
     }
 
-    // check for duplicate usernames in the db
+    //check for duplicate usernames in the db
     const duplicate = await User.findOne({ username: user }).exec();
     if (duplicate) return res.sendStatus(409); //Conflict 
 
@@ -28,6 +29,13 @@ async function handleNewUser (req, res) {
         });
         await result.save();
 
+        await logNewUserCreation(result._id, "System", {
+            username: user,
+            firstname: userFirstname,
+            lastname: userLastname,
+            email: userEmail
+        });
+
         res.status(201).json({ 'User creation success': `New user ${user} created!` });
     } catch (err) {
         res.status(500).json({ 'Error occured while creating user': err.message });
@@ -35,7 +43,7 @@ async function handleNewUser (req, res) {
 }
 
 //handles new organization creation
-async function handleNewOrgantization (req, res) {
+async function handleNewOrganization (req, res) {
     const { orgName, orgEmail, user, password, userFirstname, userLastname, userEmail } = req.body;
     if (!orgName || !user || !password || !orgEmail || !userFirstname || !userLastname || !userEmail) {
         return res.status(400).json({ 
@@ -75,6 +83,14 @@ async function handleNewOrgantization (req, res) {
         //update the organization for the user
         await User.findByIdAndUpdate(owner, {organization: newOrgantization._id});
 
+        //Log new organization creation
+        await logOrganizationCreation(newOrgantization._id, owner.username, {
+            organizationName : orgName,
+            owner: owner._id,
+            users: [owner._id], 
+            organizationEmail: orgEmail,
+        })
+
         res.status(201).json({ 'success': `New Organization ${orgName} created!`})
     } catch (error){
         res.status(500).json({ 'Orgnaization message': error.message});
@@ -82,18 +98,41 @@ async function handleNewOrgantization (req, res) {
 }
 
 //deletes user using username
-async function handleDeleteUser (req, res) {
-    const { username } = req.body;
-    if (!username) return res.status(400).json({"Delete Error message" : "Username cannot be empty!!"});
+async function deleteOrganizationUser (req, res) {
+    const { username, admin } = req.body;
+
+    //check if request body is empty
+    if (!username || !admin) return res.status(400).json({"Delete Error message" : "username and admin cannot be empty!!"});
 
     try{
-        const deleteUser = await User.findOneAndDelete({username})//locate username and delete
+        const performedBy = await findUser(admin)
+        const user = await findUser(username)
 
-        //check if user exists in database
-        if(!deleteUser){
+        //check if user is undefined
+        if(!performedBy || !user){
             return res.status(404).json({"Delete Error message" : "User not found."})
         }
-        return res.status(200).json({"Deletion Confirmation" : `User ${username} deleted Successfully!`})
+
+        //check if both users are from the same organization and action performers role is set to creator
+        if(performedBy.organization.equals(user.organization) && checkUserRole(performedBy)){
+            
+            //remove user from organization
+            await Organization.findByIdAndUpdate(
+                performedBy.organization,
+                { $pull: {users: user._id}},
+                { new: true}
+            )
+            
+            await User.deleteOne({username})//locate username and delete
+
+            await logDeleteOrganizationUser(user._id, performedBy.username, user.organization)//log delete activity
+
+            return res.status(200).json({"Deletion Confirmation" : `User ${username} deleted Successfully!`})//deletion success
+        }
+
+        //if action can't be performed
+        return res.status(403).json({"Access Denied" : `User: ${performedBy.username} cannot perform delete action`});
+
     } catch (error){
         return res.status(500).json({"Delete Error message" : "Error occured while deleting user", error : error.message})
     }
@@ -102,23 +141,27 @@ async function handleDeleteUser (req, res) {
 //user password reset
 async function handlePasswordReset (req, res) {
     const { username, newPwd } = req.body;
-    if (!username, !newPwd) return res.status(400).json({"Password Reset error" : "Username and new password cannot be empty!"});
+    if (!username || !newPwd) return res.status(400).json({"Password Reset error" : "Username and new password cannot be empty!"});
 
     try{
         const newHashedPwd = await hashPassword(newPwd);//hash new password
-        const resetPwd = await User.findOneAndUpdate( //update new password over in database
+        const user = await findUser(username)
+        const resetPassword = await User.findOneAndUpdate( //update new password over in database
             {username},
             {password : newHashedPwd}
         )
+        await logPasswordReset(user._id, user.organization, user.username, user.password, newHashedPwd)//Log password reset
 
         //if password reset failed
-        if (!resetPwd) {
+        if (!resetPassword) {
             return res.status(404).json({ "Password Reset error" : "User not found!"})
         }
 
-        return res.status(200).json({"Password Reset Success" : `Password Reset for ${username} succcessfully!`})
+        
+
+        return res.status(200).json({"Password Reset Success" : `Password Reset for ${username} succcessfully!`})//success
     } catch (error){
-        return res.status(500).json({"Password Reset error" : "An error occured while resetting password", error : error.message})
+        return res.status(500).json({"Password Reset error" : error.message})
     }
 };
 
@@ -168,6 +211,14 @@ async function handleAddNewOrgUser (req, res) {
             return res.status(400).json({"Adding organization user" : `Couldn't add user into organization`});
         }
 
+        //Log sub user creation
+        await logSubUserCreation(subUser._id, creator, organization._id, {
+            username: user,
+            firstname: userFirstname,
+            lastname: userLastname,
+            email: userEmail,
+        })
+
         //Successfully added new user
         return res.status(201).json({"Successfully added new user" : `New User ${subUser.username} has been added to Organization ${orgId.organizationName}`});
     } catch(error) {
@@ -178,9 +229,9 @@ async function handleAddNewOrgUser (req, res) {
 async function findOrganizationCreator (creator) {
     try {
         //Find the creator user
-        const user = await User.findOne({username:creator})
+        const user = await findUser(creator);
         if(!user){
-            return {error : 'User not found'}; //return null if user not found
+            return {error : 'User not found'}; //return error if user not found
         }
 
         //Check if user has "Creator" role
@@ -253,4 +304,14 @@ async function addCameraToOrganization(req, res) {
 function checkUserRole(user){
     return user.roles === "Creator";
 }
-module.exports = { handleNewUser, handleNewOrgantization, handleDeleteUser, handlePasswordReset, handleAddNewOrgUser, addCameraToOrganization};
+
+async function findUser(username){
+    const user = await User.findOne({username:username})
+
+    if(!user){
+        return false
+    }
+
+    return user
+}
+module.exports = { handleNewUser, handleNewOrganization, deleteOrganizationUser, handlePasswordReset, handleAddNewOrgUser, addCameraToOrganization};
