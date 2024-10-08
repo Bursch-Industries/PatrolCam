@@ -17,6 +17,7 @@ body {
         justify-content: space-between;
         align-items: center;
         background-color: #0C2D48;
+        border-bottom: 3px solid #333;
     }
 
     .logo {
@@ -64,6 +65,56 @@ body {
     .navbar a:hover {
         background-color: #333;
     }
+
+    /* SETTINGS SIDEBAR */
+
+    .settings {
+        display: flex;
+        height: calc(100vh - 22vh);
+        color: white;
+        background-color: #0C2D48;
+    }
+    .sidebar {
+        width: 275px;  
+        background-color: #0C2D48;
+        display: flex;
+        flex-direction: column;
+        border-right: 3px solid #333;
+    }
+    .sidebar label {
+        font-size: 29px;
+        color: #c0c0c0;
+        border: 1.5px solid #333;
+        border-left: none;
+        border-top: none;
+        border-right:none;
+    }
+    .tab {
+        padding: 20px;
+        text-align: left;
+        border: none;
+        background: none;
+        color: #c0c0c0;
+        cursor: pointer;
+        border: 1.5px solid #333;
+        border-left: none;
+        border-right: none;
+        font-size: 20px;
+    }
+
+    .tab:hover {
+        color: yellow;
+    }
+    .content {
+        flex: 1;
+        padding: 20px;
+        background-color: #2E8BC0;
+    }
+    .content-section h2 {
+        color: black;
+        justify-content: left;
+    }
+    
 
 
     /*Footer Queries */

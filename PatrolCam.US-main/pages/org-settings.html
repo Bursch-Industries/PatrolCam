@@ -19,7 +19,7 @@
             <a href="#features-intro">Features</a>
             <a href="/sign-up">Demo</a>
             <a href="#contact-section">Contact Us</a>
-            <a href="#">Surveillance</a>
+            <a href="index">Surveillance</a>
         </nav>
         <button id="logout-show">Log Out</button>
 
@@ -51,6 +51,28 @@
             });
         </script>
     </header>
+
+    <div class="settings">
+        <div class="sidebar">
+            <label class="sidebar-label">Settings</label>
+            <button class="tab" onclick="openTab('account')">Account Info</button>
+            <button class="tab" onclick="openTab('cameras')">Cameras</button>
+            <button class="tab" onclick="openTab('officers')">Officers</button>
+            <button class="tab" onclick="openTab('privacy')">Privacy</button>
+        </div>
+        <div class="content">
+            <div id="account" class="content-section">
+                <h2>General</h2>
+                <p>Allow Notifications on website</p>
+                <input type="checkbox">
+            </div>
+            <div id="cameras" class="content-section" style="display: none;">
+                <h2>Notifications</h2>
+                <button>Add League</button>
+                <button>Add Teams</button>
+            </div>
+        </div>
+    </div>    
 
     <footer>
         <div class="container">
