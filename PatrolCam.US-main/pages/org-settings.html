@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/org-settings.css">
     <link rel="stylesheet" href="/login-modal.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="org-settings.js"></script>
 
 
 </head>
@@ -16,10 +17,10 @@
             <img src="PatrolCamLogo.png" alt="PatrolCam Logo">
         </div>
         <nav class="navbar">
-            <a href="#features-intro">Features</a>
+            <a href="/#features-intro">Features</a>
             <a href="/sign-up">Demo</a>
-            <a href="#contact-section">Contact Us</a>
-            <a href="index">Surveillance</a>
+            <a href="/#contact-section">Contact Us</a>
+            <a href="/">Surveillance</a>
         </nav>
         <button id="logout-show">Log Out</button>
 
@@ -62,14 +63,29 @@
         </div>
         <div class="content">
             <div id="account" class="content-section">
-                <h2>General</h2>
-                <p>Allow Notifications on website</p>
-                <input type="checkbox">
+                <h2>Account Information</h2>
+                <p>Organization Name:<div class="organization-name" id="org-name-box"></div>Your Organization Name</p>
+                <p>Email Address:<div class="organization-name" id="org-name-box"></div>Your Email</p>
+                <p>Phone Number:<div class="organization-name" id="org-name-box"></div>Your Phone Number</p>
+                <p>Address:<div class="organization-name" id="org-name-box"></div>Your Address</p>
+                <p>Subscription Plan:<div class="organization-name" id="org-name-box"></div>Your Subscription Plan</p>
             </div>
             <div id="cameras" class="content-section" style="display: none;">
-                <h2>Notifications</h2>
-                <button>Add League</button>
-                <button>Add Teams</button>
+                <h2>Cameras</h2>
+                
+                
+            </div>
+            <div id="officers" class="content-section" style="display: none;">
+                <h2>Officers</h2>
+                <div class="officer-container">
+                    <div class="accordion">
+                        <img src="placeholderOfficer.png" class="Officericon">
+                        <p> Officer Brad Pitt </p>
+                    </div>
+                </div>
+            </div>
+            <div id="privacy" class="content-section" style="display: none;">
+                <h2>Privacy</h2>
             </div>
         </div>
     </div>    

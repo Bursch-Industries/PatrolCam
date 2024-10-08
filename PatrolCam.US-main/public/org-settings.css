@@ -107,14 +107,51 @@ body {
     }
     .content {
         flex: 1;
+        text-align: left;
         padding: 20px;
         background-color: #2E8BC0;
     }
     .content-section h2 {
         color: black;
+        font-size: 30px;
         justify-content: left;
+        padding-bottom: 20px;
+    }
+
+    .content-section p {
+        font-size: 23px;
+        font-weight: bold
+    }
+
+    .content-section input {
+        margin-left: 10px;
+        margin-bottom: 10px;
     }
     
+    /* OFFICER SETTINGS */
+    .accordian {
+        background-color: white;
+        border-radius: 10px;
+    }
+    .accordion-content {
+        display: none;
+        padding: 10px;
+      }
+      
+      .accordion-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #eee;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+        outline: none;
+        font-size: 18px;
+      }
+      
+      .accordion-item.active .accordion-content {
+        display: block;
+      }
 
 
     /*Footer Queries */
