@@ -175,6 +175,7 @@
     .form-container {
         height: 600px;
         width: 500px;
+        align-items: center;
         max-width: 100%;
         margin-left: 10px;
         margin-right: 10px;
@@ -233,9 +234,12 @@
         width: 100px;
     }
 
-    .login {
-        height: 20px;
-        width: 70px;
+    #login-show{
+        margin-right:30px;
+        width:100px;
+        height: 40px;
+        background-color: #B1D4E0;
+        border-radius: 10px;
     }
     
     /* Hero Queries */
@@ -250,7 +254,7 @@
     }
 
     .image-section img {
-        height: 30rem;
+        height: 27rem;
         width: 50rem;
     }
     .btn {
