@@ -1,3 +1,4 @@
+/* THIS IS FOR THE LOGIN MODAL //// LOG OUT MODAL IS BELOW */
 #login-modal {
     position: fixed;
     top: 0;
@@ -60,5 +61,71 @@
 }
 
 .login-form button:hover {
+    opacity: 90%;
+}
+
+/* LOG OUT MODAL */
+#logout-modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 100;
+    display: none;
+    justify-content: right;
+    margin-bottom:35rem;
+    margin-left: 58.5rem;
+    margin-right:5rem;
+    border-radius: 10px;
+}
+
+.out-modal {
+    background-color: #B1D4E0;
+    padding: 10px 0px 20px 0;
+    border-radius: 10px;
+    width: 250px;
+    text-align: center;
+}
+
+.top-out-form {
+    display:flex;
+    justify-content: flex-end;
+}
+
+.top-out-form .close-out-modal {
+    cursor: pointer;
+    padding: 0 20px;
+    font-size: 30px;
+}
+
+.logout-form h2 {
+    letter-spacing: 2px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.logout-form form input {
+    width: 75%;
+    margin-bottom: 20px;
+    padding: 12px 12px;
+    box-sizing: border-box;
+    border: 1px solid #d0d5d8;
+    border-radius: 3px;
+}
+
+.logout-form button {
+    padding: 12px 0;
+    width: 75%;
+    background: #145DA0;
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.logout-form button:hover {
     opacity: 90%;
 }

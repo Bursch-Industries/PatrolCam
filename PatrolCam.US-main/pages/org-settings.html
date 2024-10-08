@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
-    <link rel="stylesheet" href="/org-settings.css"> 
+    <link rel="stylesheet" href="/org-settings.css">
+    <link rel="stylesheet" href="/login-modal.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 </head>
 <body>
@@ -18,7 +21,35 @@
             <a href="#contact-section">Contact Us</a>
             <a href="#">Surveillance</a>
         </nav>
-        
+        <button id="logout-show">Log Out</button>
+
+        <div id="logout-modal">
+            <div class="out-modal">
+                <div class="top-out-form">
+                    <div class="close-out-modal">
+                        &#10006;
+                    </div>
+                </div>
+                <div class="logout-form">
+                    <h2>Log Out</h2>
+                    <form action="">
+                        <button type = "button" class="submit-btn">Log Out</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(function() {
+                $('#logout-show').click(function(){
+                    $('#logout-modal').fadeIn();
+                });
+
+                $('.close-out-modal').click(function(){
+                    $('#logout-modal').fadeOut();
+                });
+            });
+        </script>
     </header>
 
     <footer>
