@@ -7,7 +7,7 @@ const organizationSchema = new Schema({
         required: true
     },
     owner: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId, //Owner of the organization
         ref: 'User',
         required: true
     },
@@ -15,8 +15,8 @@ const organizationSchema = new Schema({
         type: String,
         required: true
     },
-    users: [{
-        type: Schema.Types.ObjectId,
+    users: [{ 
+        type: Schema.Types.ObjectId, //Collection of users in organization
         ref: 'User'
     }],
     createdAt: {
@@ -25,7 +25,7 @@ const organizationSchema = new Schema({
     },
 
     cameras: [{
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId, //Collection of cameras owned by organization
         ref: 'Camera'
     }]
 });

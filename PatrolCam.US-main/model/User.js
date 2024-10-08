@@ -16,7 +16,7 @@ const userSchema = new Schema({
         required: true,
     },
     roles: {
-        type: String,
+        type: String, //Eg: "Creator", "Admin", "User"
         default: "User",
         required: true
     },
@@ -36,13 +36,11 @@ const userSchema = new Schema({
     },
     rank: {
         type: String,
-        required: false,
-        default: null
     },
     refreshToken: String,
 
     organization: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId, //Which organization the user is in
         ref: 'Organization'
     },
 
