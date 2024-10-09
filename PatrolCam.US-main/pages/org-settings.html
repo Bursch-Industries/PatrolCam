@@ -77,12 +77,27 @@
             </div>
             <div id="officers" class="content-section" style="display: none;">
                 <h2>Officers</h2>
-                <div class="officer-container">
-                    <div class="accordion">
-                        <img src="placeholderOfficer.png" class="Officericon">
-                        <p> Officer Brad Pitt </p>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <img src="placeholderOfficer.png" alt="Officer Photo" class="officer-photo">
+                        <span id="officer-name-officer-id">Officer Brad Pitt</span>
+                        <button class="toggle-button">▼</button>
                     </div>
-                </div>
+                
+                    <div class="accordion-content">
+                        <form onsubmit="saveChanges('officer-id'); return false;">
+                            <label>Officer Name: 
+                                <span id="officer-name-officer-id" class="read-only">Officer Brad Pitt</span>
+                            </label><br>
+                            <label>Email: <input type="email" id="email-officer-id" value="brad.pitt@patrolcam.com"></label><br>
+                            <label>Password: <input type="text" id="password-officer-id" value="BradPitt123"></label><br>
+                            <label>
+                                <span id="officer-last-login" class="read-only"></span>
+                            </label>
+                                <button type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>                
             </div>
             <div id="privacy" class="content-section" style="display: none;">
                 <h2>Privacy</h2>

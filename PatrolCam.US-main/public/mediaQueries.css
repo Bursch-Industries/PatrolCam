@@ -391,9 +391,8 @@
         width: 700px;
         border-radius: 15px;
         margin-top: 2rem;
-        margin-right:30px;
-        margin-left:220px;
         padding:30px;
+        align-items: center;
     }
 
     .form-container p {
