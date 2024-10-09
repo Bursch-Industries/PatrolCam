@@ -175,6 +175,7 @@
     .form-container {
         height: 600px;
         width: 500px;
+        align-items: center;
         max-width: 100%;
         margin-left: 10px;
         margin-right: 10px;
@@ -233,28 +234,28 @@
         width: 100px;
     }
 
-    .login {
-        height: 20px;
-        width: 70px;
+    #login-show{
+        margin-right:30px;
+        width:100px;
+        height: 40px;
+        background-color: #B1D4E0;
+        border-radius: 10px;
     }
     
     /* Hero Queries */
 
     .text-section {
-        font-size: 30px;
-        margin-right: 500px;
-        padding-right: 50px;
-        background-color: black;
+        font-size: 25px;
     }
 
     .image-section {
-        align-items: left;
         display: flex;
         width: 100%;
     }
 
     .image-section img {
-        background-color: black;
+        height: 27rem;
+        width: 50rem;
     }
     .btn {
         padding: 15px 30px;
@@ -390,9 +391,8 @@
         width: 700px;
         border-radius: 15px;
         margin-top: 2rem;
-        margin-right:30px;
-        margin-left:300px;
         padding:30px;
+        align-items: center;
     }
 
     .form-container p {

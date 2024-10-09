@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="/org-settings.css">
+    <link rel="stylesheet" href="/login-modal.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="org-settings.js"></script>
+
+
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="PatrolCamLogo.png" alt="PatrolCam Logo">
+        </div>
+        <nav class="navbar">
+            <a href="/#features-intro">Features</a>
+            <a href="/sign-up">Demo</a>
+            <a href="/#contact-section">Contact Us</a>
+            <a href="/">Surveillance</a>
+        </nav>
+        <button id="logout-show">Log Out</button>
+
+        <div id="logout-modal">
+            <div class="out-modal">
+                <div class="top-out-form">
+                    <div class="close-out-modal">
+                        &#10006;
+                    </div>
+                </div>
+                <div class="logout-form">
+                    <h2>Log Out</h2>
+                    <form action="">
+                        <button type = "button" class="submit-btn">Log Out</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(function() {
+                $('#logout-show').click(function(){
+                    $('#logout-modal').fadeIn();
+                });
+
+                $('.close-out-modal').click(function(){
+                    $('#logout-modal').fadeOut();
+                });
+            });
+        </script>
+    </header>
+
+    <div class="settings">
+        <div class="sidebar">
+            <label class="sidebar-label">Settings</label>
+            <button class="tab" onclick="openTab('account')">Account Info</button>
+            <button class="tab" onclick="openTab('cameras')">Cameras</button>
+            <button class="tab" onclick="openTab('officers')">Officers</button>
+            <button class="tab" onclick="openTab('privacy')">Privacy</button>
+        </div>
+        <div class="content">
+            <div id="account" class="content-section">
+                <h2>Account Information</h2>
+                <p>Organization Name:<div class="organization-name" id="org-name-box"></div>Your Organization Name</p>
+                <p>Email Address:<div class="organization-name" id="org-name-box"></div>Your Email</p>
+                <p>Phone Number:<div class="organization-name" id="org-name-box"></div>Your Phone Number</p>
+                <p>Address:<div class="organization-name" id="org-name-box"></div>Your Address</p>
+                <p>Subscription Plan:<div class="organization-name" id="org-name-box"></div>Your Subscription Plan</p>
+            </div>
+            <div id="cameras" class="content-section" style="display: none;">
+                <h2>Cameras</h2>
+                
+                
+            </div>
+            <div id="officers" class="content-section" style="display: none;">
+                <h2>Officers</h2>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <img src="placeholderOfficer.png" alt="Officer Photo" class="officer-photo">
+                        <span id="officer-name-officer-id">Officer Brad Pitt</span>
+                        <button class="toggle-button">▼</button>
+                    </div>
+                
+                    <div class="accordion-content">
+                        <form onsubmit="saveChanges('officer-id'); return false;">
+                            <label>Officer Name: 
+                                <span id="officer-name-officer-id" class="read-only">Officer Brad Pitt</span>
+                            </label><br>
+                            <label>Email: <input type="email" id="email-officer-id" value="brad.pitt@patrolcam.com"></label><br>
+                            <label>Password: <input type="text" id="password-officer-id" value="BradPitt123"></label><br>
+                            <label>
+                                <span id="officer-last-login" class="read-only"></span>
+                            </label>
+                                <button type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>                
+            </div>
+            <div id="privacy" class="content-section" style="display: none;">
+                <h2>Privacy</h2>
+            </div>
+        </div>
+    </div>    
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 PatrolCam. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
