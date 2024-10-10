@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 
 const testContact = async (req, res) => {
-    const { name, email, org, mess, misc } = req.body;
+    const { name, org, email, productInterest } = req.body;
 
     console.log(req.body);
     if (!name || !email || !org) return res.status(400).json({ 'message': 'Please fill in all required fields.' });
@@ -20,9 +20,9 @@ const testContact = async (req, res) => {
 
         let mailOptions = {
             from: `"${name}" <${email}>`,
-            to: 'david.cathcart@mnsu.edu', // 
+            to: 'david.cathcart@mnsu.edu', 
             subject: 'New Contact Form Submission',
-            text: `New inquiry from ${name} at ${org} about: ${misc}\n ${mess}`,
+            text: `New inquiry from ${name} at ${org} about: ${productInterest}`,
         };
         
         await transporter.sendMail(mailOptions);

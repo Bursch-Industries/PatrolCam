@@ -2,7 +2,7 @@
 const Test = require('../model/Test');
 const bcrypt = require('bcrypt');
 
-const testLogin = async (req, res) => {
+const userLogin = async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) return res.status(400).json({ 'message': 'Username and password are required.' });
 
@@ -27,7 +27,7 @@ const testLogin = async (req, res) => {
 }
 
 // Logout Function to Destroy Session
-const testLogout = async (req, res) => {
+const userLogout = async (req, res) => {
     
     try {
         req.session.destroy()
@@ -39,4 +39,4 @@ const testLogout = async (req, res) => {
 }
 
 
-module.exports = { testLogin, testLogout };
+module.exports = { userLogin, userLogout };

@@ -43,7 +43,7 @@ p {
     font-weight: bold;
 }
 
-input[type="email"], input[type="password"] {
+input[type="email"], input[type="password"], input[type="text"]{
     width: 100%;
     padding: 15px;
     border-radius: 10px;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
-    <link rel="stylesheet" href="/PatrolCam.US-main/public/design.css">
+    <link rel="stylesheet" href="./design.css">
 </head>
 <body id="contact-body">
     <section class="contact-section">
@@ -13,14 +13,15 @@
             <p>We'd love to hear back from you. Do you want lemonades or grapes?</p>
             
             <form class="contact-form">
-                <input type="text" placeholder="Contact name">
+                <label for="name">Name:</label>
+                <input type="text" placeholder="Contact name" name="name">
                 <input type="text" placeholder="Street">
                 <div class="city-postcode">
                     <input type="text" placeholder="City">
                     <input type="text" placeholder="Postcode">
                 </div>
                 <input type="text" placeholder="Contact Phone">
-                <input type="email" placeholder="E-mail">
+                <input type="email" placeholder="E-mail" name="email">
 
                 <select id="product-interest" name="product-interest">
                     <option value="" disabled selected>What product are you interested in?</option> 

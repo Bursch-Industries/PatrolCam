@@ -42,12 +42,13 @@ app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/api/register'));
 
 // Test API
-app.use('/test', require('./routes/api/testAPI'));
+app.use('/test', require('./routes/api/loginAPI'));
 
 // Email API
-app.use('/test-contact', require('./routes/api/emailAPI'));
+app.use('/', require('./routes/api/emailAPI'));
 
-
+// Login API
+app.use('/login', require('./routes/api/loginAPI'));
 
 app.use(requireAuth);
 
