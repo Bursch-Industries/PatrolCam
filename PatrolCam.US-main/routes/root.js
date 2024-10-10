@@ -19,6 +19,7 @@ router.get('/test', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'test.html'))
 })
 
+<<<<<<< HEAD
 router.get('/org-settings', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'org-settings.html'));
 })
@@ -26,5 +27,14 @@ router.get('/org-settings', (req, res) => {
 router.get('/org-settings.js', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'org-settings.js'));
 })
+=======
+router.get('/test-login', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', 'login.html'))
+});
+
+router.get('/test-contact', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', 'test-contact.html'))
+});
+>>>>>>> skeeter_sessions
 
 module.exports = router
