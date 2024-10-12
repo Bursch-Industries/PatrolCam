@@ -1,5 +1,5 @@
 const Test = require('../model/Test');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const testFunction = async (req, res) => {
     const { username, password, email } = req.body;
