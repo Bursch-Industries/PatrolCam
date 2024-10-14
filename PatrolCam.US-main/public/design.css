@@ -7,6 +7,40 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Header */
+.my-header {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar {
+    display: flex;
+    gap: 50px; 
+    border: 10px 10px;
+    background-color: black;
+    padding: 15px 50px;
+    margin-right: 150px;
+    border-radius: 5px ;
+    
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    /* font-weight: 500; */
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: grey;
+}
+
+
+
+/* Body */
 #demo-body {
     background: linear-gradient(45deg,#145DA0, #2E8BC0);
     background-size: 200% 200%;
@@ -49,7 +83,6 @@ html {
     padding: 20px 0; 
     
 }
-
 
 .demo-cta-button {
     background-color: #FFEB00;
@@ -270,8 +303,6 @@ select option[disabled] {
 .contact-footer a:hover {
     text-decoration: underline; 
 }
-
-
 
 
 /* Responsive Layout Adjustments */
