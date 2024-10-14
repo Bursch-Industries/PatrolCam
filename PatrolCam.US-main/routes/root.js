@@ -11,8 +11,8 @@ router.get('/sign-up', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'sign-up.html'));
 })
 
-router.get('/patrolcam-demo', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'patrolcam-demo.html'));
+router.get('/demo', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', 'demo.html'));
 })
 
 router.get('/test', (req, res) => {
@@ -21,10 +21,6 @@ router.get('/test', (req, res) => {
 
 router.get('/org-settings', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'org-settings.html'));
-})
-
-router.get('/org-settings.js', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'org-settings.js'));
 })
 
 router.get('/login', (req, res) => {
@@ -37,6 +33,10 @@ router.get('/cameras', (req, res) => {
 
 router.get('/test-contact', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'test-contact.html'))
+});
+
+router.get('/logIndex', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', 'logIndex.html'))
 });
 
 module.exports = router

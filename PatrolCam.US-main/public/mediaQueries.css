@@ -236,10 +236,8 @@
 
     #login-show{
         margin-right:30px;
-        width:100px;
-        height: 40px;
-        background-color: #B1D4E0;
-        border-radius: 10px;
+        width:75px;
+        height: 50px;
     }
     
     /* Hero Queries */
