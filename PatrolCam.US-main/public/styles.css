@@ -80,7 +80,7 @@ header {
 .container {
     padding: 50px;
     text-align: center;
-    background-image: url('/hero-background.jpg');
+    background-image: url('/PatrolCam.US-main/public/hero-background.jpg');
     background-size: cover;
     background-position: center;
 }
