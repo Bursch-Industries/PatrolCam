@@ -68,11 +68,31 @@
                 <p>Address:<div class="organization-name" id="org-name-box"></div>Your Address</p>
                 <p>Subscription Plan:<div class="organization-name" id="org-name-box"></div>Your Subscription Plan</p>
             </div>
+
             <div id="cameras" class="content-section" style="display: none;">
                 <h2>Cameras</h2>
-                
-                
+
+                <div class="individual-camera">
+                    <img id="camera-id-img" src="surveillanceImage.jpg">
+                    <div class="camera-accordion">
+                        <div class="camera-accordion-header" onclick="toggleAccordion(this)">
+                            <form onsubmit="saveChanges('camera-id'); return false;"></form>
+                            <label>Camera Name: <span type="camName" class="read-only" id="name-camera-id" value="Camera 1"></span>Camera 1</label>
+                            <button class="toggle-button">▼</button>
+                        </div>
+                    
+                        <div class="camera-accordion-content">
+                            <form onsubmit="saveChanges('camera-id'); return false;">
+                                <label>Camera Name: <input type="camName" id="name-camera-id" value="Camera 1"></label><br>
+                                <label>Location: <input type="text" id="location-camera-id" value="South Street"></label><br>
+                                <label>Status: <span class="read-only" id="status-camera-id" value="Active">Active</span></label>
+                                <button id="camera-save" type="submit">Save</button>
+                            </form>
+                        </div>
+                    </div> 
+                </div>               
             </div>
+                
             <div id="officers" class="content-section" style="display: none;">
                 <h2>Officers</h2>
                 <div class="accordion">
@@ -99,6 +119,10 @@
             </div>
             <div id="privacy" class="content-section" style="display: none;">
                 <h2>Privacy</h2>
+
+                <h3>Change Password</h3><br>
+                <h3>Two-Factor Authentication (2FA)</h3><br>
+                <h3>Login History</h3><br>
             </div>
         </div>
     </div>    
