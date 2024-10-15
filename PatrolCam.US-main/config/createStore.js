@@ -3,11 +3,11 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 const createStore = async () => {
 
-  console.log('creating store');
     const store = new MongoDBStore({
         uri: process.env.MONGODB_DATABASE_URL,
         collection: 'sessions',
       });
-    
+
+    return store;
   }
 module.exports = createStore;

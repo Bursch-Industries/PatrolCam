@@ -31,7 +31,7 @@ const userLogout = async (req, res) => {
     
     try {
         req.session.destroy()
-        res.redirect('/')
+        res.redirect(301, '/')
 
     } catch (err) {
         res.status(500).json({ 'message': err.message });
