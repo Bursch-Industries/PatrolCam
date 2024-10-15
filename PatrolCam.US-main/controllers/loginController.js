@@ -20,7 +20,7 @@ const userLogin = async (req, res) => {
             console.log('Logged in');
         }    
 
-        res.redirect('/')
+        res.redirect('/logIndex')
     } catch (err) {
         res.status(500).json({ 'message': err.message });
     }

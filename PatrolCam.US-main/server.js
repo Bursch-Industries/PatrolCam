@@ -29,8 +29,6 @@ app.use(express.urlencoded({ extended: false }));
 // Set up session
 app.use(sessionMiddleware);
 
-
-
 // Serving static files
 app.use('/', express.static(path.join(__dirname, '/public')));
 app.use('/subdir', express.static(path.join(__dirname, '/public')));
@@ -54,7 +52,5 @@ app.use(requireAuth);
 
 // Protected Routers
 app.use('/protected', require('./routes/protected/protectedRoute'));
-
-
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
