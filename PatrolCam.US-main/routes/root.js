@@ -27,6 +27,10 @@ router.get('/org-settings.js', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'org-settings.js'));
 })
 
+router.get('/camera-grid.js', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'camera-grid.js'));
+})
+
 router.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'login.html'))
 });
