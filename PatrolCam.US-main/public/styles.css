@@ -303,6 +303,7 @@ header {
 .contact-form select {
     width: 100%;
     padding: 10px 0;
+    padding-left: 2px;
     margin-bottom: 15px;
     border: none;
     border-bottom: 1px solid #ccc;
@@ -317,21 +318,7 @@ header {
     border-bottom: 1px solid #3650FF;
 }
 
-/* skeeter learning/testing */
 
-.test-container {
-    background-color: rgba(100, 0, 0, 0.5);
-    height: 400px;
-    width: 400px;
-    align-items: center;
-    align-content: center;
-    text-align: center;
-}
-
-.test-input[type = 'text'] {
-    width: 200px;
-    margin: 10px;
-}
 .contact-form label {
     color: black;
     font-size:30px;
