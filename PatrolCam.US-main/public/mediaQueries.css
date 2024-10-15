@@ -238,6 +238,7 @@
         margin-right:30px;
         width:75px;
         height: 50px;
+        cursor: pointer;
     }
     
     /* Hero Queries */
