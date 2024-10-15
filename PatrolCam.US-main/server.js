@@ -50,7 +50,7 @@ app.use('/protected', require('./routes/protected/protectedRoute'));
 
 // Universal 404 Catch
 app.use((req, res, next) => {
-    res.status(404).json({ error: 'Not Found' });
+    res.status(404).sendFile(path.join(__dirname, 'pages', '404.html'));
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -47,4 +47,8 @@ router.get('/logIndex', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'logIndex.html'))
 });
 
+router.get('/401', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', '401.html'))
+});
+
 module.exports = router
