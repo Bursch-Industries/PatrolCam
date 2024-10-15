@@ -34,12 +34,12 @@
     .content {
         align-items: left;
     }
-    .text-section {
+    /* .text-section {
         text-align: center;
         font-size: 20px;
         margin-right: 500px;
         padding-right: 50px;
-    }
+    } */
 
     .image-section {
         display: none;
@@ -124,6 +124,27 @@
         padding-top: none;
         text-align: center;
     }
+    .text-section {
+    text-align: center;
+    font-size: 18px; /* reduce size for mobile */
+    margin-right: 20px; /* lower margin for mobile */
+    padding-right: 10px; /* more responsive padding */
+}
+
+.btn {
+    padding: 10px 20px; /* smaller button padding */
+    margin: 10px auto; /* center and reduce margin */
+}
+
+.text-surveillance, .text-vehicleTracking, .text-ping {
+    height: auto; /* Remove fixed height */
+    max-width: 100%; /* Ensure it adapts */
+}
+
+.text-surveillance h1, .text-vehicleTracking h1, .text-ping h1 {
+    font-size: 28px; /* smaller heading for mobile */
+}
+
 
 
     /* Easy Ping Queries */
@@ -254,7 +275,8 @@
 
     .image-section img {
         height: 27rem;
-        width: 50rem;
+        /* width: 50rem; */
+        margin-left: 50px;
     }
     .btn {
         padding: 15px 30px;
