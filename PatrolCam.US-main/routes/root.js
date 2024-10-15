@@ -23,6 +23,10 @@ router.get('/org-settings', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'org-settings.html'));
 })
 
+router.get('/org-settings.js', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'org-settings.js'));
+})
+
 router.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'login.html'))
 });
