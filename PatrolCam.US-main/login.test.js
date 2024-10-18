@@ -1,30 +1,72 @@
 const supertest = require('supertest');
-const startServer = require('./utils/createServerNoSession');
 const mongoose = require('mongoose');
+const startServer = require('./utils/createServerNoSession');
+const model = require('./model/Test');
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
-const app = startServer();
+let app;
 
-describe("--Landing Page--", () => {
+beforeAll(async () => {
+  app = startServer();
+  await mongoose.connect(process.env.MONGODB_DATABASE_URL);
+});
 
-  beforeEach(() => {
-    mongoose.connect(process.env.MONGODB_DATABASE_URL).then(console.log('DB Connected'))
-  })
-
-  afterEach(() => {
-      mongoose.connection.close()
-  })
+afterAll(async () => {
+  await mongoose.disconnect();
+});
 
 
-  describe("Get Page Route", () => {
+describe("--Login API Test--", () => {
 
-    describe("Given the Page does not exist", () => {
+  describe("Create Test User", () => {
+    beforeEach(async () => {
+      const password = 'PleaseDoNotHackMe123';
+      const fakepwd = await bcrypt.hash(password, 10);
+      const tester = new model({username: 'Bob McGee', password: fakepwd, email: 'someemail@email.com'});
+      await tester.save();
+    })
+
+    afterEach(async () => {
+      // Clean up the database after each test
+      //await model.deleteMany({username: 'Bob McGee'});
+    });
+    
+
+    describe("Check Test User Can Login", () => {
       
-      it("should return 404", async () => {
+      it("Should Log In Successfully", async () => {
 
-        await supertest(app).get('routes/api/pr');
+        const response = await supertest(app)
+        .post('/login/login')
+        .send({username: "Bob McGee", password: "PleaseDoNotHackMe123"});
+        expect(response.status).toBe(200);
+        
 
       });
+
+      it("Should Decline Input For Missing Password", async () => {
+
+        const response = await supertest(app)
+        .post('/login/login')
+        .send({username: 'Bob McGee'});
+        expect(response.status).toBe(400);
+        
+
+      });
+
+      it("Should Decline Input For Missing Username", async () => {
+
+        const response = await supertest(app)
+        .post('/login/login')
+        .send({password: 'PleaseDoNotHackMe123'});
+        expect(response.status).toBe(400);
+        
+
+      });
+
+
+
     });
   });
 
