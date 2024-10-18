@@ -24,7 +24,7 @@ app.use(sessionMiddleware.sessionMiddleware);
 
 // Serving static files
 app.use('/', express.static(path.join(__dirname, '../public')));
-app.use('/subdir', express.static(path.join(__dirname, '../public')));
+app.use('/FrontEndJavaScript', express.static(path.join(__dirname, '../FrontEndJavaScript')));
 
 // Page Routers
 app.use('/', require('../routes/root'));
