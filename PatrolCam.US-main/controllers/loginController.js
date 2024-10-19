@@ -1,6 +1,6 @@
 
 const Test = require('../model/Test');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const userLogin = async (req, res) => {
 
@@ -25,7 +25,11 @@ const userLogin = async (req, res) => {
             console.log('Logged in');
         }    
 
+<<<<<<< HEAD
         res.redirect('/protected');
+=======
+        res.redirect('/logIndex')
+>>>>>>> Ethan_Off_Midterm
     } catch (err) {
         res.status(500).json({ 'message': err.message });
     }

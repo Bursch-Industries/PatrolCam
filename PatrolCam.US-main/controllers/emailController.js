@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 
 const testContact = async (req, res) => {
-    const { name, org, email, productInterest } = req.body;
+    const { name, org, ext, phone, email, productInterest } = req.body;
 
     console.log(req.body);
     if (!name || !email || !org) return res.status(400).json({ 'message': 'Please fill in all required fields.' });
@@ -18,13 +18,23 @@ const testContact = async (req, res) => {
             }
         });
 
-        let mailOptions = {
-            from: `"${name}" <${email}>`,
-            to: 'david.cathcart@mnsu.edu', 
-            subject: 'New Contact Form Submission',
-            text: `New inquiry from ${name} at ${org} about: ${productInterest}`,
+        let mailOptions;
+
+        if (!ext) {
+            mailOptions = {
+                from: `"${name}" <${email}>`,
+                to: 'patrolcamproject@gmail.com', 
+                subject: 'New Contact Form Submission',
+                text: `New inquiry from: \n ${name} at ${org} \n ${phone} about: ${productInterest}\n\n`,
         };
-        
+        } else {
+            mailOptions = {
+                from: `"${name}" <${email}>`,
+                to: 'patrolcamproject@gmail.com', 
+                subject: 'New Contact Form Submission',
+                text: `New inquiry from: \n${name} at ${org} \nPhone: ${ext} - ${phone} \nAbout: ${productInterest}`,
+            };
+        }
         await transporter.sendMail(mailOptions);
 
         res.status(200).json({ 'message': 'Thank you for your interest in Patrol Cam products and services, we will get back to you shortly' });

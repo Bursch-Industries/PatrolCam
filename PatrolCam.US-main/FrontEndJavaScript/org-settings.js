@@ -3,7 +3,7 @@ function openTab(tabName) {
     sections.forEach(section => {
         section.style.display = "none";
     });
-    document.getElementById(tabName).style.display = "block";
+    const selectedSection = document.getElementById(tabName).style.display="block";
 }
 // Toggle accordion function
 function toggleAccordion(element) {

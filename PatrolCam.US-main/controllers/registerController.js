@@ -1,7 +1,7 @@
 const User = require('../model/User'); //user schema
 const Organization = require('../model/Organization'); //organization schema
 const Camera = require('../model/Camera'); //camera schema
-const bcrypt = require('bcrypt'); //for hashing passwords
+const bcrypt = require('bcryptjs'); //for hashing passwords
 const { logNewUserCreation, logOrganizationCreation, logSubUserCreation, logDeleteOrganizationUser, logPasswordReset } = require('./logger');
 
 //handles new user creation

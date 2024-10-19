@@ -11,8 +11,8 @@ router.get('/sign-up', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'sign-up.html'));
 })
 
-router.get('/patrolcam-demo', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'patrolcam-demo.html'));
+router.get('/demo', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', 'demo.html'));
 })
 
 router.get('/test', (req, res) => {
@@ -31,7 +31,13 @@ router.get('/org-settings.js', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'org-settings.js'));
 })
 
+<<<<<<< HEAD
 
+=======
+router.get('/camera-grid.js', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'camera-grid.js'));
+})
+>>>>>>> Ethan_Off_Midterm
 
 router.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'login.html'))
@@ -43,6 +49,14 @@ router.get('/cameras', (req, res) => {
 
 router.get('/test-contact', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'test-contact.html'))
+});
+
+router.get('/logIndex', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', 'logIndex.html'))
+});
+
+router.get('/401', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', '401.html'))
 });
 
 module.exports = router

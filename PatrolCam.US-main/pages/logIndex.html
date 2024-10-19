@@ -6,6 +6,7 @@
     <title>PatrolCam</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="mediaQueries.css">
+    <link rel="stylesheet" href="login-modal.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
@@ -18,10 +19,38 @@
             <a href="#features-intro">Features</a>
             <a href="/demo">Demo</a>
             <a href="#contact-section">Contact Us</a>
+            <a href="/cameras">Surveillance</a>
         </nav>
 
-        <a href="/login" id="loginButton">Login</a>
+        <img src="placeholderOfficer.png" id="login-show">
 
+        <div id="login-modal">
+            <div class="modal">
+                <div class="top-form">
+                    <div class="close-modal">
+                        &#10006;
+                    </div>
+                </div>
+                <div class="login-form">
+                    <a href="/org-settings">Settings</a>
+                    <form action="/login/logout" method="post" id="logoutForm">
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(function() {
+                $('#login-show').click(function(){
+                    $('#login-modal').fadeIn();
+                });
+
+                $('.close-modal').click(function(){
+                    $('#login-modal').fadeOut();
+                });
+            });
+        </script> 
     </header>
     <!-- The first actual part of the website users will see-->
     <div class="container">
@@ -47,10 +76,10 @@
                 <img src="SurveillanceImage.jpg" alt="Surveillance Image">
             </div>
             <div class="text-surveillance">  <br> 
-                <img src="camera-icon.png" alt="LittleCameraIcon"> 
+                <img src="Camera-icon.png" alt="LittleCameraIcon"> 
                 <h1> 24/7 SURVEILLANCE </h1>
                 <p> Stay protected around the clock with our continuous monitoring system.</p>
-                <a href="#contact-section" class="features-gs-button">Get Started</a>
+                <a href="/sign-up" class="features-gs-button">Get Started</a>
             </div>
         </div>
     <!--Start of the Second Subset-->
@@ -60,7 +89,7 @@
                 <img src="VehicleTrackingIcon.png" alt="AI Icon"> 
                 <h1> AI-DRIVEN <br> VEHICLE TRACKING </h1>
                 <p> Advanced Machine Learning algorithms are engineered to help you track suspicious vehicles with unparalleled precision.</p>
-                <a href="#contact-section" class="features-gs-button">Get Started</a>
+                <a href="/sign-up" class="features-gs-button">Get Started</a>
             </div>
             <div class="image-vehicleTracking">
                 <img src="VehicleTrackingImage.png" alt="VehicleTracking Image">
@@ -79,7 +108,7 @@
                 <img src="Ping.png" alt="LittleCameraIcon"> 
                 <h1> EASY PING FOR <br> RAPID RESPONSE </h1> 
                 <p> With a single tap, instantly access live feeds, send commands, or retrieve stored footage.</p>
-                <a href="#contact-section" class="features-gs-button">Get Started</a>
+                <a href="/sign-up" class="features-gs-button">Get Started</a>
             </div>
         </div>
     </div>
@@ -87,15 +116,16 @@
     <section id="contact-section" class="contact-section">
         <div class="form-container">
             <h1>Get In <span>Touch</span></h1>
-            <p>Let us know what you are interested in</p>
+            <p>We'd love to hear back from you. Do you want lemonades or grapes?</p>
             
             <form class="contact-form"  action="/contact" method="post">
-                <input type="text" placeholder="Contact Name" name="name">
-                <input type="text" placeholder="Organization" name="org">
+                <input type="text" placeholder="Contact name" name="name">
+                <input type="text" placeholder="Street" name="org">
                 <div class="city-postcode">
-                    <input type="text" placeholder="Extension (optional)" name="ext">
-                    <input type="text" placeholder="Phone Number" name="phone">
+                    <input type="text" placeholder="City">
+                    <input type="text" placeholder="Postcode">
                 </div>
+                <input type="text" placeholder="Contact Phone">
                 <input type="email" placeholder="E-mail" name="email">
                 <!-- <textarea placeholder="Let’s talk about your idea"></textarea> -->
                 <label for="product-interest">What product are you interested in?</label>
@@ -109,7 +139,18 @@
                 <button type="submit">Submit</button>
             </form>
         </div>
+        <div class="map-container">
 
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d11450.329702895031!2d-94.02643908167559!3d44.15385383267066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x87f43765f958aea3%3A0xd4bd415b398032e5!2sSibley%20Park%2C%20Mound%20Avenue%2C%20Mankato%2C%20MN!3m2!1d44.1615061!2d-94.0329562!4m5!1s0x87f4399100646f93%3A0xb422c67833f318a7!2s601%20Maywood%20Ave%2C%20Mankato%2C%20MN%2056002!3m2!1d44.147804199999996!2d-94.00026919999999!5e0!3m2!1sen!2sus!4v1727392129963!5m2!1sen!2sus"
+                width="556" 
+                height="809" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
     </section>
 
     <!-- CopyRight Footer-->

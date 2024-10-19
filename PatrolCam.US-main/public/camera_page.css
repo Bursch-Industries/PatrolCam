@@ -1,17 +1,80 @@
+
 body {
+    font-family: 'Roboto', sans-serif;
     background-color: #145DA0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     height: 100vh;
     margin: 0;
 }
 
+header {
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0C2D48;
+    opacity: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 100px;
+    margin-left: 20px;
+}
+
+.navbar {
+    display: flex;
+    gap: 0px;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
+    opacity: 90%;
+}
+
+.navbar a {
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: black;
+    border-radius: 5px;
+    width: 100px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.navbar a:hover {
+    background-color: #333;
+}
+
+#logout-show{
+    margin-right:30px;
+    width:75px;
+    height: 50px;
+}
+
+.grid-icon {
+    width: 30px; /* Adjust the size of the grid icon */
+    height: auto;
+    cursor: pointer;
+}
+
+/* Grid container styles */
 .grid-container {
+    margin-top: 50px;
+    margin-bottom: 50px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
-    width: 80%;
+    width: 100%;
 }
 
 .grid-container iframe {
