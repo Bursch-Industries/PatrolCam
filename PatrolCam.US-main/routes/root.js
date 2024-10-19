@@ -27,18 +27,6 @@ router.get('/org-settings', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'org-settings.html'));
 })
 
-router.get('/org-settings.js', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'org-settings.js'));
-})
-
-<<<<<<< HEAD
-
-=======
-router.get('/camera-grid.js', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'camera-grid.js'));
-})
->>>>>>> Ethan_Off_Midterm
-
 router.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'login.html'))
 });

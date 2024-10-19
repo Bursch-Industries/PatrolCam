@@ -8,7 +8,7 @@ const userLogin = async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
         console.log('username or password missing')
-        return res.status(400).json({ 'message': 'Username and password are required.' });
+        return res.sendStatus(400).json({ message: 'Username and password are required.' });
     }
 
     try {
@@ -16,6 +16,10 @@ const userLogin = async (req, res) => {
 
         // Check for user in the database
         const user = await Test.findOne({ username: username}).exec();
+        if(!user) {
+            console.log('user not found in db')
+            return res.status(401).json({ message: 'invalid-credentials' });
+        }
 
         // Check for password in the database 
         const validatePassword = await bcrypt.compare(password, user.password);
@@ -23,15 +27,13 @@ const userLogin = async (req, res) => {
         if (validatePassword) {
             req.session.user = { id: username };
             console.log('Logged in');
-        }    
-
-<<<<<<< HEAD
-        res.redirect('/protected');
-=======
-        res.redirect('/logIndex')
->>>>>>> Ethan_Off_Midterm
+            res.sendStatus(200);
+        } 
+        else {    
+            return res.status(401).json({ message: 'invalid-credentials' });
+        }
     } catch (err) {
-        res.status(500).json({ 'message': err.message });
+        res.sendStatus(500).json({ message: err.message });
     }
 }
 

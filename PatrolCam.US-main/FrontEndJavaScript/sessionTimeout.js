@@ -1,6 +1,8 @@
 function checkSession() {
+    console.log('fetching session')
     fetch('/protected/checkSession')
         .then(response => {
+            console.log(response.status);
             if (response.status === 401) {
                 // Session expired, redirect to login
                 window.location.href = '/login'; // Adjust the URL as necessary
