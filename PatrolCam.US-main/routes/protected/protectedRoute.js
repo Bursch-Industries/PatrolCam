@@ -11,8 +11,6 @@ protectedRouter.get('/', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname,'..', '..', 'pages', 'protected', 'protection.html'));
 });
 
-
-
 protectedRouter.get('/checkSession', isSessionExpired);
 
 module.exports = protectedRouter;
