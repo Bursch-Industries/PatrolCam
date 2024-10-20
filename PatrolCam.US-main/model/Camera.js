@@ -12,7 +12,7 @@ const cameraSchema = new Schema({
         default: null
     },
     
-    org_id: {
+    owner: {
         type: Schema.Types.ObjectId, //The organization that owns the camera
         ref: 'Organization',
         required: true
