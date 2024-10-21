@@ -8,7 +8,8 @@ async function logActivity({
     organizationId = null,
     originalData = null,
     newData = null,
-    removedData = null
+    removedData = null,
+    session = null //Added session for transaction
 }) {
     try{
         const log = new ActivityLog({
@@ -22,7 +23,12 @@ async function logActivity({
             removedData
         })
 
-        await log.save()
+        //Save the log with or without session
+        if(session){
+            await log.save({ session })
+        } else {
+            await log.save()
+        }
     } catch (error){
         throw new Error(`Error occured while logging ${action} on ${collectionName}: ${error.message}`)
     }

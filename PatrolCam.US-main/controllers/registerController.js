@@ -108,7 +108,8 @@ async function handleNewOrganization (req, res) {
                 documentId: owner._id,
                 performedBy: 'System',
                 organizationId: newOrgantization._id,
-                newData: owner
+                newData: owner,
+                session
             });
 
             //Log new organization creation
@@ -117,7 +118,8 @@ async function handleNewOrganization (req, res) {
                 collectionName: 'Organization',
                 documentId: newOrgantization._id,
                 performedBy: 'Master',
-                newData: newOrgantization
+                newData: newOrgantization,
+                session
             });
         });
 
@@ -461,4 +463,46 @@ async function findUser(username){
     if(!user) return false
     return user //Return result
 }
-module.exports = { handleNewUser, handleNewOrganization, deleteOrganizationUser, handlePasswordReset, handleAddNewOrgUser, addCameraToOrganization};
+
+async function getCameraDetails(req, res) {
+    const { username } = req.body;
+
+    if(!username){
+        return res.status(400).json({error: "All fields are required"})
+    }
+
+    try{
+        const user = await findUser(username)
+        
+        if(!user){
+            return res.status(404).json({error: `User ${username} not found`})
+        }
+
+        const organization = await Organization.findById(user.organization._id).populate({
+            path: 'cameras',
+            select: 'camera_Name location status'
+        }).exec();
+
+        if(!organization || !organization.cameras || !organization.cameras.length === 0){
+            return res.status(404).json({
+                message: `No cameras found for organization associated with user ${username}.`
+            })
+        }
+
+        return res.status(200).json({
+            message: `Cameras found for user ${username}`,
+            cameras: organization.cameras
+        })
+    } catch (error) {
+        res.status(500).json({ error: `Error occured while getting camera details: ${error.message}`})
+    }
+}
+module.exports = { 
+    handleNewUser, 
+    handleNewOrganization, 
+    deleteOrganizationUser, 
+    handlePasswordReset, 
+    handleAddNewOrgUser, 
+    addCameraToOrganization,
+    getCameraDetails
+};
