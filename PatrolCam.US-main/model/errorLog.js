@@ -11,7 +11,7 @@ const errorLogSchema = new Schema({
         enum: ['TRACE', 'FATAL', 'INFO', 'WARN', 'ERROR', 'DEBUG'], // Allowed log levels
         required: true,
       },
-      message: {
+      desc: {
         type: String,
         required: true,
       },
@@ -30,9 +30,15 @@ const errorLogSchema = new Schema({
           required: false,
       },
       meta: {
+        message: {
+          type: String,
+          required: false
+        }, 
+        stack: {
         type: String,
-        required: false // Optional field for extra context as needed
-      },
+        required: false 
+      }
+    }
     });
     
 

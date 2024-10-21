@@ -5,7 +5,7 @@ function checkSession() {
             console.log(response.status);
             if (response.status === 401) {
                 // Session expired, redirect to login
-                window.location.href = '/login'; // Adjust the URL as necessary
+                window.location.href = '/logged-out'; // Adjust the URL as necessary
             }
         })
         .catch(error => {

@@ -35,10 +35,6 @@ router.get('/cameras', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'camera_page.html'))
 });
 
-router.get('/test-contact', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'test-contact.html'))
-});
-
 router.get('/logIndex', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'logIndex.html'))
 });

@@ -1,3 +1,5 @@
+// Check to see if the User has an existing session. Differs from authMiddlware in that it returns a 200 status instead next()
+
 const isSessionExpired = async (req, res) => {
 
     if (req.session.user) {

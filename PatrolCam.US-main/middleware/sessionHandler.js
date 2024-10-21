@@ -1,6 +1,7 @@
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
+const sessionMaxAge = 1000 * 60 * 5 // Time in ms
 
 // Session Auth Middleware
 const store = new MongoDBStore({
@@ -10,11 +11,11 @@ const store = new MongoDBStore({
 
 const sessionMiddleware = session({
   secret: 'your-secret-key', // Replace with a strong secret
-  resave: false,              // Don't save session if unmodified
-  saveUninitialized: false,   // Save uninitialized sessions
+  resave: false,              // False = Don't save session if unmodified
+  saveUninitialized: false,   // False = Don't save uninitialized sessions
   store: store,
   cookie: { secure: false, 
-            maxAge: 1000 * 60 * 5} // Set cookie expiration }
+            maxAge: sessionMaxAge} // Set cookie expiration }
   
 })
 
@@ -23,7 +24,7 @@ function sessionRefresh(req, res, next) {
 
   
   if (req.session.user) {
-      req.session.cookie.maxAge = 1000 * 30;
+      req.session.cookie.maxAge = sessionMaxAge;
   }
   next();
 }

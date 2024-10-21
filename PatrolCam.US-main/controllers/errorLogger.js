@@ -2,34 +2,33 @@ const errorLog = require('../model/errorLog');
 
 async function logError(req, {
     level,
-    message,
+    desc,
     source,
     userId,
     code,
-    meta,
-    session = null
+    meta, 
+    session
 }) 
 
 {
 
-    if(req.session.user){
-        console.log('user is logged in when sending an email')
-        userId = req.session.user
+    if(req.session && req.session.user){
+        userId = req.session.user.id
     }
 
     try{
         const log = new errorLog({
             level,
-            message,
+            desc,
             source,
             userId,
             code,
             meta
         })
 
-        await log.save({ session })
+        await log.save({session})
     } catch (error){
-        throw new Error(`Error occured while logging ${action} on ${collectionName}: ${error.message}`)
+        throw new Error(`Error occured while logging Error: ${error.message}`)
     }
 }
 
