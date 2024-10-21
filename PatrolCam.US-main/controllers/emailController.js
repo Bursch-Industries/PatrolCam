@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const { withTransaction } = require('./transactionHandler')
+const { logError } = require('../controllers/errorLogger'); 
 
 
 const testContact = async (req, res) => {
@@ -36,6 +38,20 @@ const testContact = async (req, res) => {
             };
         }
         await transporter.sendMail(mailOptions);
+
+        await withTransaction(async (session) => {
+                
+            await logError(req, {
+                level: 'ERROR',
+                message: 'Failed to send email',
+                source: 'emailController',
+                userId: '12345',
+                code: '500',
+                meta: 'yeah',
+                session
+            });
+
+        });
 
         res.status(200).json({ 'message': 'Thank you for your interest in Patrol Cam products and services, we will get back to you shortly' });
     } catch (err) {

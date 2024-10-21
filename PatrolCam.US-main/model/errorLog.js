@@ -25,11 +25,9 @@ const errorLogSchema = new Schema({
         type: String,
         required: false, 
       },
-      error: {
-        code: {
+      code: {
           type: String,
           required: false,
-        }
       },
       meta: {
         type: String,

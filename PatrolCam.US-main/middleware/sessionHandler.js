@@ -14,7 +14,7 @@ const sessionMiddleware = session({
   saveUninitialized: false,   // Save uninitialized sessions
   store: store,
   cookie: { secure: false, 
-            maxAge: 1000 * 30} // Set cookie expiration (1 hour) },   // Set to true if using HTTPS
+            maxAge: 1000 * 60 * 5} // Set cookie expiration }
   
 })
 
