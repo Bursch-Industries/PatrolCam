@@ -1,224 +1,369 @@
-/* styles.css */
-
-/* Global Styles */
+/* Dynamic Wording */
 body {
-    font-family: 'Roboto', sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    text-align: center;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Header Styles */
-header.hero {
-    background-image: url('/hero-background.jpg');
-    background-size: cover;
-    background-position: center;
-    color: #fff;
-    padding: 250px 0;
-}
-
-.navbar {
-    background-color: rgba(0, 0, 0, 0.9);
-    position: fixed;
-    width: 100%;
+/* Header CSS */
+header {
+    position: sticky;
     top: 0;
     z-index: 1000;
-    height: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0C2D48;
+    opacity: 90%;
 }
 
 .logo {
-    font-size: 2em;
-    font-weight: bold;
-    color: #ffd700; 
-    padding: 15px 20px;
-}
-
-.nav-menu {
-    margin-right: 20px; 
-}
-
-.nav-menu li {
-    display: inline-block;
-    margin-left: 20px;
-}
-
-.nav-menu a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.nav-menu a:hover {
-    color: #ffd700;
-}
-
-main {
-    padding-top: 60px;
-}
-
-.hero-content {
-    text-align: center;
-}
-
-.hero-content h2 {
-    font-size: 3em;
-    margin-bottom: 20px;
-}
-
-.hero-content p {
-    font-size: 1.2em;
-    margin-bottom: 40px;
-}
-
-.btn {
-    display: inline-block;
-    background-color: #ffd700;
-    color: #333;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.btn2 {
-    display: inline-block;
-    background-color: #0059ff;
-    color: #333;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-    background-color: #ffcc00; 
-}
-
-/* Features Section */
-.features {
-    background-color: #fff;
-    padding: 80px 0;
-}
-
-.feature {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.feature img {
-    width: 100px;
-    margin-bottom: 20px;
-}
-
-.feature h3 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.feature p {
-    font-size: 1.1em;
-}
-
-/* Call-to-Action Section */
-.cta {
-    background-color: #ffd700;
-    color: #333;
-    padding: 80px 0;
-    text-align: center;
-}
-
-.cta h2 {
-    font-size: 3em;
-    margin-bottom: 20px;
-}
-
-.cta p {
-    font-size: 1.2em;
-    margin-bottom: 40px;
-}
-
-/* Footer Styles */
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-}
-
-/* Styles for the responsive video wrapper */
-.video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%; 
-    height: 0;
-    overflow: hidden;
-}
-
-/* Styles for the responsive iframe */
-.responsive-iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-/* Sign-up form styles */
-.sign-up-section {
-    padding: 50px 0;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    color: #333;
-}
-
-input[type="text"],
-input[type="email"] {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-/* skeeter learning/testing */
-
-.test-container {
-    background-color: rgba(100, 0, 0, 0.5);
-    height: 400px;
-    width: 400px;
+    display: flex;
     align-items: center;
-    align-content: center;
-    text-align: center;
 }
 
-.test-input[type = 'text'] {
-    width: 200px;
-    margin: 10px;
+.logo img {
+    height: 200px;
+    margin-right: 10px;
 }
+
+.logo span {
+    font-size: 28px;
+    color: yellow;
+    font-weight: bold;
+}
+
+.navbar {
+    display: flex;
+    gap: 20px;
+    background-color: black;
+    border-radius: 10px;
+}
+
+.navbar a {
+    color: white;
+    font-size: 30px;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: black;
+    border-radius: 5px;
+    width: 250px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.navbar a:hover {
+    background-color: #333;
+}
+
+#loginButton {
+    background-color: #FFD700; /* Yellow */
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: x-large;
+    height: 30px;
+    width: 100px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    margin-right: 20px;
+    line-height: normal;
+}
+
+#loginButton {
+    opacity: 90%;
+}
+
+/* Hero Introduction */
+.container {
+    padding: 50px;
+    text-align: center;
+    background-image: url('hero-background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.text-section {
+    flex: 1;
+    text-align: left;
+    padding-right: 20px;
+    padding-left: 100px;
+    font-size: 50px;
+}
+.image-section {
+    flex: 1;
+
+}
+.image-section img {
+    max-width: 100%;
+    height: 50rem; 
+  
+}
+.btn {
+    background-color: #FFD700; /* Yellow button */
+    color: black;
+    padding: 15px 30px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 20px;
+    box-shadow: 15px 15px 15px  rgba(0, 0, 0, 0.3);
+}
+.btn:hover {
+    opacity: 90%;
+}
+
+/* Features */
+
+.features-intro {
+    background-color: #5C9BD1;
+    padding: 20px;
+    font-size: 80px;
+}
+
+/* Surveillance Features Section */
+
+.Surveillance {
+    display: flex;
+    background-color: #145DA0;
+    align-items: center;
+    justify-content: space-between;
+}
+.image-surveillance img {
+    padding-left: 8rem;
+    padding-top: 1rem;
+    height: 55rem;
+    width: 60rem;
+}
+
+.text-surveillance {
+    background-color: #B1D4E0;
+    border-radius: 20px;
+    margin-right: 15rem;
+    margin-left:100px;
+    height: 50rem;
+    width: 55rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.text-surveillance h1 {
+    color: black;
+    font-size: 60px;
+    padding-top:14px;
+}
+
+.text-surveillance p {
+    color: black;
+    font-size: 50px;
+    text-align: left;
+    padding-left: 50px;
+}
+
+/* Vehicle Tracking Features Section */
+
+.VehicleTracking {
+    display: flex;
+    background-color: #0C2D48;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.image-vehicleTracking img{
+    padding-right: 21.5rem;
+    height: 50rem;
+}
+
+.text-vehicleTracking {
+    background-color: #B1D4E0;
+    border-radius: 20px;
+    margin-left:10rem;
+    height: 50rem;
+    width: 55rem;
+    margin-top:30px;
+    margin-bottom:30px;
+}
+
+.text-vehicleTracking h1 {
+    color: black;
+    font-size: 60px;
+    padding-top:14px;
+}
+
+.text-vehicleTracking p {
+    color: black;
+    font-size: 50px;
+    text-align: left;
+    padding-left: 50px;
+}
+
+/* Easy Ping Features Section */
+
+.EasyPing {
+    display: flex;
+    background-color: #145DA0;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.image-ping img {
+    padding-left: 8rem;
+    padding-top: 1rem;
+    width: 60rem;
+}
+
+.text-ping {
+    background-color: #B1D4E0;
+    border-radius: 20px;
+    margin-right: 15rem;
+    margin-left:100px;
+    height: 50rem;
+    width: 55rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.text-ping h1 {
+    color: black;
+    font-size: 60px;
+    padding-top:14px;
+}
+
+.text-ping p {
+    color: black;
+    font-size: 50px;
+    text-align: left;
+    padding-left: 50px;
+}
+
+.features-gs-button {
+    background-color: #4553FF;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    height: 30px;
+    width: 150px;
+    padding: 15px;
+    font-size: x-large;
+
+}
+
+.features-gs-button:hover {
+    opacity: 90%;
+}
+
+/* Contact Page */
+
+.contact-section {
+    display: flex;
+    height: 100vh;
+    position: relative; 
+    justify-content: space-between;
+    background-color: #0C2D48;
+}
+
+/* Left side for the form */
+.form-container {
+    width: calc(100% - 975px); 
+    padding: 40px;
+    background-color: #B1D4E0;
+    align-items: center;
+    margin-left: 20rem;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+}
+
+.form-container h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #3650FF;
+}
+
+.form-container h1 span {
+    color: #3650FF;
+}
+
+.form-container p {
+    font-size: 30px;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+    width: 100%;
+    padding: 10px 0;
+    padding-left: 2px;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+    border-bottom: 1px solid #3650FF;
+}
+
+
+.contact-form label {
+    color: black;
+    font-size:30px;
+}
+
+.city-postcode {
+    display: flex;
+    justify-content: space-between;
+}
+
+.city-postcode input {
+    width: 48%;
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3650FF;
+    color: white;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+/* Map container */
+.map-container {
+    width: 556px;
+    height: 809px;
+    background-color: white;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-right:10rem;
+    margin-top:15rem;
+}
+
+/* Footer CSS */
+.footer {
+    padding: 25px;
+    font-size: 30px;
+    background-color: black;
+    opacity: 90%;
+    text-align: center;
+    position: relative;
+}
+

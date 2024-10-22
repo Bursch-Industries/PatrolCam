@@ -1,0 +1,158 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    /*
+    background: linear-gradient(45deg,#145DA0, #2E8BC0);
+    background-size: 200% 200%;
+    animation: gradientAnimation 3s ease infinite;
+    */
+    color: #FFF;
+    min-height: 100vh;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* Header */
+header {
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0C2D48;
+    opacity: 90%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 100px;
+    margin-left: 20px;
+}
+
+#loginButton{
+    background-color: #FFD700; /* Yellow */
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: x-large;
+    height: 30px;
+    width: 100px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    margin-right: 20px;
+    line-height: normal;
+    opacity: 90%;
+}
+
+.navbar {
+    display: flex;
+    gap: 0px;
+    background-color: black;
+    border-radius: 10px;
+}
+
+.navbar a {
+    display: flex;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: black;
+    border-radius: 5px;
+    width: 100px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+}
+
+.navbar a:hover {
+    background-color: #333;
+}
+
+/* Body */
+
+.demo-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-left: 20px;
+}
+
+.demo-text {
+    background-color: #145DA0;
+    padding-top: 3vh;
+}
+
+.demo-cta {
+    /* text-align: right; */
+    margin-right: 100px;
+    display: flex;
+    justify-content: end;
+    
+}
+
+.demo-frame {
+    background-color: #145DA0;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    height: 600px;
+}
+.demo-frame-container {
+    display: flex;
+    justify-content: center; 
+    padding: 20px 0; 
+    background-color: #145DA0;
+}
+
+.demo-cta-button {
+    background-color: #FFEB00;
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.demo-cta-button:hover {
+    transform: scale(1.05);
+    background-color: rgba(255, 170, 0, 0.92);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.demo-text {
+    color: white;
+    margin: 0;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: 1.5;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+}
+.demo-text:hover {
+    color: #ffbf00;
+    transition: color 0.3s ease;
+}
+
+/* Demo Footer Section */
+/* Footer CSS */
+.footer {
+    padding: 25px;
+    font-size: 15px;
+    background-color: black;
+    opacity: 90%;
+    text-align: center;
+    position: relative;
+}

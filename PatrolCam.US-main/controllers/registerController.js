@@ -3,6 +3,7 @@ const Organization = require('../model/Organization'); //Organization schema
 const Camera = require('../model/Camera'); //Camera schema
 const bcrypt = require('bcrypt'); //For hashing passwords
 const  { logActivity }  = require('./logger');
+const { logError } = require('./errorLogger'); 
 const { withTransaction } = require('./transactionHandler')
 
 //Handles new user creation
@@ -11,6 +12,7 @@ async function handleNewUser (req, res) {
 
     //Check missing request fields
     if (!user || !password || !userFirstname || !userLastname || !userEmail){
+        // REPLACE with client-side js validation ?
         return res.status(400).json({ 'Error while creating new user': 'All required fields must be filled.' });
     }
 
@@ -49,6 +51,21 @@ async function handleNewUser (req, res) {
         //User creation success
         res.status(201).json({ 'User creation success': `New user ${user} created!` });
     } catch (error) {
+
+        await withTransaction(async (session) => {
+                
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to create User',
+                source: 'registerController - handleNewUser',
+                userId: 'System',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+
+        });
+
         //Server error
         res.status(500).json({ 'Error occured while creating user': error.message });
     }
@@ -60,6 +77,7 @@ async function handleNewOrganization (req, res) {
 
     //Check missing request fields
     if (!orgName || !orgPhone || !orgAddress || !user || !password || !orgEmail || !userFirstname || !userLastname || !userEmail) {
+        // REPLACE with client-side js for validation ?
         return res.status(400).json({ 
             'Error occured while creating new organization' : 'All required fields must be filled.'
         });
@@ -126,6 +144,21 @@ async function handleNewOrganization (req, res) {
         //Organization creation success
         res.status(201).json({ 'success': `New Organization ${orgName} created!`})
     } catch (error){
+
+        await withTransaction(async (session) => {
+                
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to create Organization',
+                source: 'registerController - handleNewOrganization',
+                userId: 'Master',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+
+        });
+
         //server error
         res.status(500).json({ error: `Error occured while creating organization ${error.message}`});
     }
@@ -136,6 +169,7 @@ async function deleteOrganizationUser (req, res) {
     const { username, admin } = req.body;
 
     //Check missing request fields
+    // REPLACE with client-side js validation ?
     if (!username || !admin) return res.status(400).json({
         "Error occured while deleting user" : "All required fields must be filled."
     });
@@ -197,6 +231,20 @@ async function deleteOrganizationUser (req, res) {
         return res.status(200).json({"Deletion Confirmation" : `User ${username} deleted Successfully!`})
 
     } catch (error){
+
+        await withTransaction(async (session) => {
+                
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to delete User',
+                source: 'registerController - deleteOrganizationUser',
+                userId: deletedBy,
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+
+        });
         //Server error
         return res.status(500).json({error : `Error occured while deleting user ${error.message}`})
     }
@@ -207,6 +255,7 @@ async function handlePasswordReset (req, res) {
     const { username, newPwd } = req.body;
 
     //check missing request fields
+    // REPLACE with client-side js validation ?
     if (!username || !newPwd) {
         return res.status(400).json({"Password Reset error" : "All required fields must be filled."});
     }
@@ -240,6 +289,21 @@ async function handlePasswordReset (req, res) {
         //Password reset success
         return res.status(200).json({"Password Reset Success" : `Password Reset for ${username} succcessfully!`})//success
     } catch (error){
+
+        await withTransaction(async (session) => {
+                
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to reset password',
+                source: 'registerController - handlePasswordReset',
+                userId: 'System', // REPLACE with user id ?
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+
+        });
+
         //Server error
         return res.status(500).json({error : `Error occurred while reseting user password. ${error.message}`})
     }
@@ -250,6 +314,7 @@ async function handleAddNewOrgUser (req, res) {
     const {creator, user, userPassword, userFirstname, userLastname, userEmail } = req.body;
 
     //Check missing request fields
+    // REPLACE with client-side js validation ?
     if(!creator || !user || !userPassword || !userFirstname || !userLastname || !userEmail) {
         return res.status(400).json({"Adding organization user" : "All required fields must be filled."});
     }
@@ -327,6 +392,20 @@ async function handleAddNewOrgUser (req, res) {
         //Successfully added new user
         return res.status(201).json({"Successfully added new user" : `New User has been added to Organization`});
     } catch(error) {
+
+        await withTransaction(async (session) => {
+                
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to add User to Organization',
+                source: 'registerController - handleAddNewOrgUser',
+                userId: user,
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+
+        });
         //Server error
         return res.status(500).json({
             "Message" : "Error occured while adding organization user",
@@ -340,6 +419,7 @@ async function addCameraToOrganization(req, res) {
     const {camName, username, camModel, camLocation} = req.body;
 
     //Check missing request fields
+    // REPLACE with client-side js validation ?
     if (!camName || !username || !camModel || !camLocation){
         return res.status(400).json({"Error occured while adding camera to organization":"All required fields must be filled."})
     } 
@@ -410,6 +490,20 @@ async function addCameraToOrganization(req, res) {
         return res.status(201).json({ 'Camera creation success': `New Camera: ${camName} created and added to organization!` });
 
     } catch(error) {
+
+        await withTransaction(async (session) => {
+                
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to create new Camera',
+                source: 'registerController - addCameraToOrganization',
+                userId: userId,
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+
+        });
         //Server error
         return res.status(500).json({"Error occured while adding camera to organization:":error.message})
     }
@@ -432,6 +526,21 @@ async function findOrganizationCreator (creator) {
         return [(await user.populate('organization')).organization, user._id]
 
     } catch (error) {
+
+        await withTransaction(async (session) => {
+                
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to find Organization Creator',
+                source: 'registerController - findOrganizationCreator',
+                userId: 'System',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+
+        });
+
         throw new Error(`Error occured while searching for creator: ${error.message}`)
     }
 };
@@ -443,6 +552,21 @@ async function hashPassword (password) {
         return hashedPwd;
     }
     catch(error) {
+
+        await withTransaction(async (session) => {
+                
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to hash password',
+                source: 'registerController - hashPassword',
+                userId: 'System',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+
+        });
+
         throw new Error("Error occured while hashing password" + error.message)
     }
 }
@@ -494,6 +618,22 @@ async function getCameraDetails(req, res) {
             cameras: organization.cameras
         })
     } catch (error) {
+
+        await withTransaction(async (session) => {
+                
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to retrieve Camera details',
+                source: 'registerController - getCameraDetails',
+                userId: 'System',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+
+        });
+
+
         res.status(500).json({ error: `Error occured while getting camera details: ${error.message}`})
     }
 }

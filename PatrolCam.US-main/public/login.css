@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fff;
+}
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    justify-content: space-between;
+}
+
+.left-section {
+    flex: 1;
+    padding: 50px;
+    margin-top: 30px;
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.enter-credentials {
+    margin-bottom: 60px;
+    font-weight: bold;
+}
+
+input[type="email"], input[type="password"], input[type="text"]{
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #4e47ff;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3c38cc;
+}
+
+.password-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgot-password {
+    color: #4e47ff;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.signup {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.signup span {
+    color: #4e47ff;
+    cursor: pointer;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.remember-me input {
+    margin-right: 10px;
+}
+
+.right-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-section img {
+    width: 650px;
+    height: auto;
+}
