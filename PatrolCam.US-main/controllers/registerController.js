@@ -2,9 +2,9 @@ const User = require('../model/User'); //User schema
 const Organization = require('../model/Organization'); //Organization schema
 const Camera = require('../model/Camera'); //Camera schema
 const bcrypt = require('bcrypt'); //For hashing passwords
-const  { logActivity }  = require('./logger');
-const { logError } = require('./errorLogger'); 
-const { withTransaction } = require('./transactionHandler')
+const  { logActivity } = require('./logger'); //Used for logging activities
+const { logError } = require('./errorLogger'); //Used for logging errors
+const { withTransaction } = require('./transactionHandler') //Handles Database transaction
 
 //Handles new user creation
 async function handleNewUser (req, res) {
@@ -34,6 +34,7 @@ async function handleNewUser (req, res) {
                 firstname: userFirstname,
                 lastname: userLastname,
                 email: userEmail,
+                organization: "Individual",
                 phone: phone || 'N/A', //Optional
                 rank: rank || 'N/A' //Optional
             });
@@ -647,33 +648,18 @@ async function getCameraDetails(req, res) {
     }
 }
 
-async function getOrgUsers(req, res) {
+async function getOrgUserData(req, res) {
     const { username } = req.body
 
-    if(!username){
-        return res.status(400).json({"Error occured while getting organization users": "All fields are required"})
-    }
-
     try{
-        const {organizationData, error} = await findOrganizationForAdmin(username)
-
-        if(error){
-            return res.sendStatus(error === "User not found" ? 404 : 403)
-        }
-        const orgUserArray = await Organization.findById(organizationData._id).populate({
-            path: 'users',
-            select: 'firstname lastname'
-        }).exec()
-
-        if (!orgUserArray, !orgUserArray.users , !orgUserArray.users.length === 0){
-            return res.sendStatus(404)
-        }
-        
+        const orgUserArray = await getUserFields(username, ['firstname', 'lastname']) 
         return res.status(200).json({
             message: `Users found for user ${username}`,
             users: orgUserArray.users
         })
     } catch (error) {
+        if(error.message === "404") return res.sendStatus(404)
+        if(error.message === "403") return res.sendStatus(403)
 
         await withTransaction(async (session) => {  
             await logError(req, {
@@ -690,6 +676,60 @@ async function getOrgUsers(req, res) {
         return res.status(500).json({'Error occured while getting user from organization' : error.message})
     } 
 }
+
+async function getUserLastLogin(req, res) {
+    const { username } = req.body
+
+    try{
+        const lastLoginArray = await getUserFields(username, ["lastLoggedIn"])
+        return res.status(200).json({
+            message: 'Login history found',
+            users: lastLoginArray.users
+        })
+    } catch (error) {
+        if(error.message === "404") return res.sendStatus(404)
+        if(error.message === "403") return res.sendStatus(403)
+
+        await withTransaction(async (session) => {  
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to retrieve login history of users in organization',
+                source: 'registerController - getuserLastLogin',
+                userId: 'System',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+        });
+
+        return res.status(500).json({'Error occured while getting user from organization' : error.message})
+    }
+}
+
+async function getUserFields(username, fields = []) {
+    if(!username){
+        throw new Error("All fields are required")
+    }
+    const {organizationData, error} = await findOrganizationForAdmin(username)
+
+    if(error){
+        throw new Error(error === "User not found" ? "404" : "403")
+    }
+
+    const fieldSelection = fields.join(' ')
+    const orgUserData = await Organization.findById(organizationData._id)
+        .populate({
+            path: "users",
+            select: fieldSelection
+        }).exec()
+    
+    if(!orgUserData || !orgUserData.users || !orgUserData.users.length === 0) {
+        throw new Error("404")
+    }
+
+    return orgUserData
+}
+
 module.exports = { 
     handleNewUser, 
     handleNewOrganization, 
@@ -698,5 +738,6 @@ module.exports = {
     handleAddNewOrgUser, 
     addCameraToOrganization,
     getCameraDetails,
-    getOrgUsers
+    getOrgUserData,
+    getUserLastLogin
 };
