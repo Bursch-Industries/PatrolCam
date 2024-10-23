@@ -20,10 +20,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             },
             body: JSON.stringify({ username, password }),
         });
-        console.log('After fetch')
         if (!response.ok) {
             const data = await response.json();
-            console.log('response ' + data.message);
            // errorMessage.textContent = data.message; // Display error message
 
             if (data.message.includes('invalid-credentials')) {
@@ -38,7 +36,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         
         
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error:', error.message);
         //errorMessage.textContent = 'An unexpected error occurred.';
     }
 });

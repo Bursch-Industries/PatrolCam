@@ -1,25 +1,19 @@
 
-const Test = require('../model/Test'); // REPLACE with User model
+const User = require('../model/User'); 
 const bcrypt = require('bcryptjs');
 const { withTransaction } = require('./transactionHandler');
 const { logError } = require('./errorLogger'); 
 
-const userLogin = async (req, res) => {
 
+const userLogin = async (req, res) => {
 
     const { username, password } = req.body;
 
-    // REPLACE with client-side js for validation
-    if (!username || !password) {
-        console.log('username or password missing')
-        return res.sendStatus(400).json({ message: 'Username and password are required.' });
-    }
-
     try {
 
-
         // Check for user in the database
-        const user = await Test.findOne({ username: username}).exec();
+        const user = await User.findOne({ username: username}).exec();
+
         if(!user) {
             console.log('user not found in db')
             return res.status(401).json({ message: 'invalid-credentials' });
@@ -28,19 +22,19 @@ const userLogin = async (req, res) => {
         // Check for password in the database and compare
         const validatePassword = await bcrypt.compare(password, user.password);
 
+
         if (validatePassword) {
 
             // Set session information here
-            req.session.user = { id: username }; // REPLACE with user object ID
-
-          
-           
-            res.sendStatus(200);
+            req.session.user = { id: user._id };
+            return res.sendStatus(200);
         } 
         else {    
             return res.status(401).json({ message: 'invalid-credentials' });
         }
+        
     } catch (err) {
+
 
         await withTransaction(async (session) => {
                 
@@ -48,7 +42,7 @@ const userLogin = async (req, res) => {
                 level: 'ERROR',
                 desc: 'Login Failed',
                 source: 'loginController',
-                userId: { id: username }, // REPLACE with user object ID
+                userId: username, 
                 code: '500',
                 meta: { message: err.message, stack: err.stack },
                 session
@@ -56,7 +50,8 @@ const userLogin = async (req, res) => {
 
         });
 
-        res.sendStatus(500).json({ message: err.message });
+        console.log(err.message)
+        res.sendStatus(500);
     }
 }
 
@@ -75,7 +70,7 @@ const userLogout = async (req, res) => {
                 level: 'ERROR',
                 desc: 'Logout Failed',
                 source: 'loginController',
-                userId: { id: username }, // REPLACE with user object ID
+                userId: req.session.user, 
                 code: '500',
                 meta: { message: err.message, stack: err.stack },
                 session
