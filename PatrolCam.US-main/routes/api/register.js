@@ -7,9 +7,11 @@ router.post('/', registerController.handleNewUser);
 router.post('/org', registerController.handleNewOrganization);
 router.post('/newOrgUser', registerController.handleAddNewOrgUser);
 router.post('/addNewCam', registerController.addCameraToOrganization);
+router.post('/resetpwd', registerController.handlePasswordReset)
 
 router.delete('/delUser', registerController.deleteOrganizationUser)
 
-router.post('/resetpwd', registerController.handlePasswordReset)
+router.get('/getCams', registerController.getCameraDetails)
+router.get('/getOrgUsers', registerController.getOrgUsers)
 
 module.exports = router;

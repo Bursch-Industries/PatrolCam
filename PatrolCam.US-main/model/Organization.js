@@ -15,6 +15,14 @@ const organizationSchema = new Schema({
         type: String,
         required: true
     },
+    organizationPhone: {
+        type: String,
+        required: true
+    },
+    organizationAddress: {
+        type: String,
+        required: true
+    },
     users: [{ 
         type: Schema.Types.ObjectId, //Collection of users in organization
         ref: 'User'
