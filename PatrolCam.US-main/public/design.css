@@ -90,6 +90,7 @@ header {
 .demo-text {
     background-color: #145DA0;
     padding-top: 3vh;
+    padding-left: 3vh;
 }
 
 .demo-cta {
@@ -97,7 +98,6 @@ header {
     margin-right: 100px;
     display: flex;
     justify-content: end;
-    
 }
 
 .demo-frame {
