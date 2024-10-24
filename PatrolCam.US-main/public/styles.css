@@ -313,15 +313,14 @@ header {
 
 /* Left side for the form */
 .form-container {
+    border-radius: 1.3rem;
     height: 37.5rem;
     width: 43.75rem;
     padding: 1.875rem;
     background-color: #B1D4E0;
     align-items: center;
     margin: 0 auto;
-    /* margin-left: 25rem;
-    margin-top: 10rem;
-    margin-bottom: 10rem; */
+    margin-top: 1.5rem;
 }
 
 .form-container h1 {

@@ -1,239 +1,8 @@
 /* Media Queries */
 
-<<<<<<< HEAD
-=======
-/* Mobile  Version */
-
-@media only screen and (max-width:600px) {
-    .wrapper-main {
-        max-width: 80%;
-    }
-
-    /* Header Queries */
-    .logo {
-        display: flex;
-        align-items: center;
-    }
-    
-    .logo img {
-        height: 100px;
-    }
-    
-    .navbar {
-        display: none;
-    }
-
-    /* Hero Queries */
-
-    .container {
-        padding: 50px;
-        text-align: center;
-        background-image: url('/hero-background.jpg');
-        background-size: cover;
-        background-position: center;
-    }
-
-    .content {
-        align-items: left;
-    }
-    /* .text-section {
-        text-align: center;
-        font-size: 20px;
-        margin-right: 500px;
-        padding-right: 50px;
-    } */
-
-    .image-section {
-        display: none;
-    }
-    .image-section img {
-        max-width: 100%;
-        height: 15px;
-    }
-    .btn {
-        padding: 15px 30px;
-        margin-top: 20px;
-        margin-right:85px;
-    }
-
-    /* Features Intro */
-    .features-intro {
-        font-size: 40px;
-    }
-
-    /* Surveillance Queries */
-    .image-surveillance img {
-        display: none;
-    }
-
-    .text-surveillance {
-        height: 500px;
-        width: 500px;
-        max-width: 100%;
-        margin-left: 10px;
-        margin-right: 10px;
-        padding-right: 20px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .text-surveillance img{
-        padding-left:25px;
-        height: 70px;
-        width: 75px;
-    }
-    
-    .text-surveillance h1 {
-        font-size: 40px;
-        padding-left: 30px;
-    }
-    
-    .text-surveillance p {
-        font-size: 30px;
-        padding-top: none;
-        text-align: center;
-    }
-
-    /* Text Vehicle Tracking Queries */
-    .image-vehicleTracking img{
-        display: none;
-    }
-
-    .text-vehicleTracking {
-        height: 500px;
-        width: 500px;
-        max-width: 100%;
-        margin-left: 10px;
-        margin-right: 10px;
-        padding-right: 20px;
-        margin-top: 10px;
-        margin-bottom: 10px;   
-    }
-
-    .text-vehicleTracking img {
-        height: 100px;
-        width: 100px;
-        margin-left: 35px;
-    }
-
-    .text-vehicleTracking h1 {
-        font-size: 35px;
-        padding-left: 30px;
-    }
-    
-    .text-vehicleTracking p {
-        font-size: 26px;
-        padding-top: none;
-        text-align: center;
-    }
-    .text-section {
-    text-align: center;
-    font-size: 18px; /* reduce size for mobile */
-    margin-right: 20px; /* lower margin for mobile */
-    padding-right: 10px; /* more responsive padding */
-}
-
-.btn {
-    padding: 10px 20px; /* smaller button padding */
-    margin: 10px auto; /* center and reduce margin */
-}
-
-.text-surveillance, .text-vehicleTracking, .text-ping {
-    height: auto; /* Remove fixed height */
-    max-width: 100%; /* Ensure it adapts */
-}
-
-.text-surveillance h1, .text-vehicleTracking h1, .text-ping h1 {
-    font-size: 28px; /* smaller heading for mobile */
-}
-
-
-
-    /* Easy Ping Queries */
-    .image-ping img {
-        display: none;
-    }
-
-    .text-ping {
-        height: 500px;
-        width: 500px;
-        max-width: 100%;
-        margin-left: 10px;
-        margin-right: 10px;
-        padding-right: 20px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .text-ping img {
-        height: 100px;
-        width: 100px;
-        margin-left: 20px;
-    }
-
-    .text-ping h1 {
-        font-size: 40px;
-        padding-left:30px;
-    }
-    
-    .text-ping p {
-        font-size: 26px;
-        text-align: center;
-        padding-left: 50px;
-    }
-
-    .features-gs-button {
-        height: 30px;
-        width: 75px;
-        font-size: 14px;
-        margin-left:20px;
-    }
-
-    /* Contact Page Queries */
-
-    .contact-section {
-        height: 700px;
-
-    }
-
-    .form-container {
-        height: 600px;
-        width: 500px;
-        align-items: center;
-        max-width: 100%;
-        margin-left: 10px;
-        margin-right: 10px;
-        padding-right: 20px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        border-radius: 20px;
-    }
-
-    .form-container p {
-        font-size: 25px;
-    }
-
-    .contact-form label {
-        font-size:25px;
-    }
-    
-
-    .map-container {
-        display: none;
-    }
-
-    /*Footer Queries */
-    .footer {
-        font-size: 30px;
-        background-color: black;
-        opacity: 90%;
-    }
-}
-
->>>>>>> 2fa36a26de8ca0a965346796e25e3eda08ca105e
 /* Laptop Screen */
 
-@media screen and (min-width: 800px) and (max-height: 1310px) and (max-width: 2000px) {
+@media (min-width: 1440px) and (max-width: 2000px) {
 
     .wrapper-main {
         max-width: 80%;
@@ -246,30 +15,30 @@
     }
     
     .logo img {
-        height: 100px;
-        margin-left: 20px;
+        height: 6.25rem;
+        margin-left: 1.25rem; 
     }
 
     .navbar {
-        gap: 0px;
+        gap: 3rem;
     }
 
     .navbar a {
-        font-size: 20px;
-        width: 100px;
+        font-size: 1.5rem;
+        width: 8rem;
     }
 
-    #login-show{
-        margin-right:30px;
-        width:75px;
-        height: 50px;
+    #login-show {
+        margin-right: 1.875rem; 
+        width: 4.6875rem; 
+        height: 3.125rem;
         cursor: pointer;
     }
     
     /* Hero Queries */
 
     .text-section {
-        font-size: 25px;
+        font-size: 1.5625rem;
     }
 
     .image-section {
@@ -278,157 +47,155 @@
     }
 
     .image-section img {
-        height: 27rem;
-        /* width: 50rem; */
-        margin-left: 50px;
+        height: 1.6875rem;
+        margin-left: 3.125rem; 
     }
+    
     .btn {
-        padding: 15px 30px;
-        margin-top: 20px;
-        margin-right:85px;
+        padding: 0.9375rem 1.875rem; 
+        margin-top: 1.25rem; 
+        margin-right: 5.3125rem; 
     }
 
     /* Features Intro */
     .features-intro {
-        font-size: 40px;
+        font-size: 2.5rem; 
     }
 
     /* Surveillance Queries */
     .image-surveillance img {
-        height:400px;
-        width: 450px;
-        padding-left:0rem;
-        margin-left:120px;
+        height: 25rem; 
+        width: 28.125rem;
+        padding-left: 0rem;
+        margin-left: 7.5rem;
     }
 
     .text-surveillance {
-        height: 500px;
-        width: 500px;
+        height: 31.25rem; 
+        width: 31.25rem; 
         max-width: 100%;
-        margin-left: 10px;
-        margin-right: 75px;
-        padding-right: 20px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-left: 0.625rem; 
+        margin-right: 4.6875rem; 
+        padding-right: 1.25rem; 
+        margin-top: 1.25rem; 
+        margin-bottom: 1.25rem; 
     }
 
-    .text-surveillance img{
-        padding-left:25px;
-        height: 70px;
-        width: 75px;
+    .text-surveillance img {
+        padding-left: 1.5625rem; 
+        height: 4.375rem; 
+        width: 4.6875rem; 
     }
     
     .text-surveillance h1 {
-        font-size: 40px;
-        padding-left: 30px;
+        font-size: 2.5rem; 
+        padding-left: 1.875rem; 
     }
     
     .text-surveillance p {
-        font-size: 30px;
+        font-size: 1.875rem; 
         padding-top: none;
         text-align: center;
     }
 
     /* Text Vehicle Tracking Queries */
-    .image-vehicleTracking img{
-        height:400px;
-        width: 450px;
-        margin-right: 90px;
-        padding-right: 30px;
+    .image-vehicleTracking img {
+        height: 25rem; 
+        width: 28.125rem; 
+        margin-right: 5.625rem; 
+        padding-right: 1.875rem; 
     }
 
     .text-vehicleTracking {
-        height: 500px;
-        width: 500px;
+        height: 31.25rem; 
+        width: 31.25rem; 
         max-width: 100%;
-        margin-left: 90px;
-        margin-top: 10px;
-        margin-bottom: 10px;   
+        margin-left: 5.625rem; 
+        margin-top: 0.625rem; 
+        margin-bottom: 0.625rem;    
     }
 
     .text-vehicleTracking img {
-        height: 100px;
-        width: 100px;
+        height: 6.25rem; 
+        width: 6.25rem; 
     }
 
     .text-vehicleTracking h1 {
-        font-size: 35px;
+        font-size: 2.1875rem; 
     }
     
     .text-vehicleTracking p {
-        font-size: 26px;
+        font-size: 1.625rem; 
         padding-top: none;
         text-align: center;
-        padding-right: 30px;
+        padding-right: 1.875rem; 
     }
-
 
     /* Easy Ping Queries */
     .image-ping img {
-        height: 400px;
-        width: 450px;
-        padding-left: 7.5rem;
+        height: 25rem; 
+        width: 28.125rem; 
+        padding-left: 0.46875rem;
     }
 
     .text-ping {
-        height: 500px;
-        width: 500px;
+        height: 31.25rem; 
+        width: 31.25rem; 
         max-width: 100%;
-        margin-left: 10px;
-        margin-right: 75px;
-        padding-right: 20px;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-left: 0.625rem; 
+        margin-right: 4.6875rem; 
+        padding-right: 1.25rem;
+        margin-top: 0.625rem; 
+        margin-bottom: 0.625rem; 
     }
 
     .text-ping img {
-        height: 100px;
-        width: 100px;
-        margin-left: 20px;
+        height: 6.25rem; 
+        width: 6.25rem; 
+        margin-left: 1.25rem; 
     }
 
     .text-ping h1 {
-        font-size: 40px;
-        padding-left:30px;
+        font-size: 2.5rem;
+        padding-left: 1.875rem; 
     }
     
     .text-ping p {
-        font-size: 26px;
+        font-size: 1.625rem; 
         text-align: center;
-        padding-left: 50px;
-    }con
+        padding-left: 3.125rem; 
+    }
 
     .features-gs-button {
-        height: 20px;
-        width: 75px;
-        font-size: 14px;
-        margin-left:20px;
+        height: 1.25rem; 
+        width: 4.6875rem; 
+        font-size: 0.875rem; 
+        margin-left: 1.25rem; 
     }
 
     /* Contact Page Queries */
 
     .contact-section {
-        height: 750px;
+        height: 46.875rem; 
     }
 
     .form-container {
-        height:600px;            
-        width: 700px;
-        border-radius: 15px;
-        margin-top: 2rem;
-        padding:30px;
+        height: 37.5rem;         
+        width: 43.75rem; 
+        border-radius: 0.9375rem; 
+        margin-top: 0.125rem; 
+        padding: 1.875rem;
         align-items: center;
     }
 
     .form-container p {
-        font-size: 25px;
+        font-size: 1.5625rem; 
     }
 
     .contact-form label {
-        font-size:25px;
+        font-size: 1.5625rem; 
     }
     
-
     .map-container {
        display: none;
     }
@@ -439,4 +206,191 @@
         background-color: black;
         opacity: 90%;
     }
+}
+
+/* LARGE DESKTOPS */
+@media (min-width: 2001px) {
+    
+    .logo img {
+        height: 8rem;
+    }
+
+    .navbar {
+        gap: 3rem;
+    }
+
+    .navbar a {
+        font-size: 2rem;
+        width: 10rem;
+    }
+
+    /* Hero Queries */
+
+    .text-section {
+        font-size: 3rem;
+    }
+
+    .image-section img {
+        height: 50rem;
+        margin-left: 7rem;
+    }
+
+    /* Features Intro */
+
+    .features-intro {
+        font-size: 4rem;
+    }
+
+    /* Surveillance Queries */
+    .image-surveillance img {
+        height: 40rem; 
+        width: 50rem;
+        margin: 1rem;
+        padding-left: 0rem;
+        margin-left: 15rem;
+    }
+
+    .text-surveillance {
+        height: 40rem; 
+        width: 50rem; 
+        max-width: 100%; 
+        margin-right: 15rem; 
+        margin-top: 1.25rem; 
+        margin-bottom: 1.25rem; 
+    }
+
+    .text-surveillance img {
+        padding-left: 1.5625rem; 
+        height: 7rem; 
+        width: 7rem; 
+    }
+    
+    .text-surveillance h1 {
+        font-size: 4rem; 
+        padding-left: 1.875rem; 
+    }
+    
+    .text-surveillance p {
+        font-size: 2.6rem; 
+        padding-top: none;
+        text-align: center;
+    }
+
+    /* Text Vehicle Tracking Queries */
+    .image-vehicleTracking img {
+        height: 40rem; 
+        width: 50rem; 
+        margin-right: 15rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem; 
+        padding-right: 1.875rem; 
+    }
+
+    .text-vehicleTracking {
+        height: 40rem; 
+        width: 50rem; 
+        max-width: 100%;
+        margin-left: 15rem;   
+    }
+
+    .text-vehicleTracking img {
+        height: 7rem; 
+        width: 7rem; 
+    }
+
+    .text-vehicleTracking h1 {
+        font-size: 3.2rem; 
+    }
+    
+    .text-vehicleTracking p {
+        font-size: 2.3rem; 
+        padding-top: none;
+        text-align: center;
+        padding-right: 1.875rem; 
+    }
+
+    /* Easy Ping Queries */
+    .image-ping img {
+        height: 40rem; 
+        width: 50rem;
+        margin-left: 15rem; 
+        padding-left: 0rem;
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .text-ping {
+        height: 40rem; 
+        width: 50rem; 
+        max-width: 100%;
+        margin-right: 15rem; 
+        margin-top: 1.25rem; 
+        margin-bottom: 1.25rem; 
+    }
+
+    .text-ping img {
+        height: 9rem; 
+        width: 9rem; 
+        margin-left: 1.25rem; 
+    }
+
+    .text-ping h1 {
+        font-size: 3rem;
+        padding-left: 1.875rem; 
+        padding-top: 0rem;
+    }
+    
+    .text-ping p {
+        font-size: 2.4rem; 
+        text-align: center;
+        padding-left: 3.125rem; 
+    }
+
+    .features-gs-button {
+        height: 1.25rem; 
+        width: 2rem; 
+        font-size: 0.875rem; 
+        margin-left: 1.25rem; 
+    }
+
+    /* Contact Page Queries */
+
+    .contact-section {
+        height: 46.875rem; 
+    }
+
+    .form-container {
+        height: 37.5rem;         
+        width: 43.75rem; 
+        border-radius: 0.9375rem; 
+        margin-top: 1rem; 
+        padding: 1.875rem;
+        align-items: center;
+    }
+
+    .form-container p {
+        font-size: 1.5625rem; 
+    }
+
+    .contact-form label {
+        font-size: 1.5625rem; 
+    }
+    
+    .map-container {
+       display: none;
+    }
+    
+    .features-gs-button {
+        height: 4rem;
+        width: 7rem;
+        font-size: 1.5rem;
+    }
+
+    /*Footer Queries */
+    .footer {
+        font-size: 1.25rem;
+        background-color: black;
+        opacity: 90%;
+    }
+
 }
