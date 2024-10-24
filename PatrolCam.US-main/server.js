@@ -1,56 +1,14 @@
-require('dotenv').config();
-const express = require('express');
-const app = express();
-const path = require('path');
-const { logger, logEvents } = require('./middleware/logEvents');
-const errorHandler = require('./middleware/errorHandler')
-const cors = require('cors');
-const corsOptions = require('./config/corsOptions')
 const connectDB = require('./config/dbConn');
-const sessionMiddleware = require('./middleware/sessionHandler');
-const requireAuth = require('./middleware/authMiddleware');
+const createServer = require('./utils/createServer')
 
 
 const PORT = process.env.PORT || 3000;
 
-
 // Connect to MongoDB
 connectDB();
 
-// Cross Origin Resource Sharing
-app.use(cors(corsOptions));
+// Create the server
+const app = createServer();
 
-// json handling middleware
-app.use(express.json());
-
-// Middleware to handle url encoded data (form data)
-app.use(express.urlencoded({ extended: false }));
-
-// Set up session
-app.use(sessionMiddleware);
-
-// Serving static files
-app.use('/', express.static(path.join(__dirname, '/public')));
-app.use('/subdir', express.static(path.join(__dirname, '/public')));
-
-// Page Routers
-app.use('/', require('./routes/root'));
-
-// API Routers
-app.use('/register', require('./routes/api/register'));
-
-// Email API
-app.use('/', require('./routes/api/emailAPI'));
-
-// Login API
-app.use('/login', require('./routes/api/loginAPI'));
-
-// Protected Routers
-app.use('/protected', require('./routes/protected/protectedRoute'));
-
-// Universal 404 Catch
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'pages', '404.html'));
-});
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

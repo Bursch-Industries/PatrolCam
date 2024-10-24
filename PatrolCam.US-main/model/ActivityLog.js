@@ -15,7 +15,7 @@ const activityLogSchema = new Schema({
         required: true
     },
     performedBy: {
-        type: String, //The User who performed the action
+        type: Schema.Types.Mixed, //The User who performed the action
         required: true
     },
     organizationId: {
@@ -31,6 +31,9 @@ const activityLogSchema = new Schema({
     },
     newData: {
         type: Schema.Types.Mixed //The updated data(after the change), if applicable
+    },
+    removedData: { //The removed(deleted) data, if applicable
+        type: Schema.Types.Mixed
     }
 })
 

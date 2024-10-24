@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login to PatrolCam</title>
     <link rel="stylesheet" href="./login.css">
+    <script src="../FrontEndJavaScript/loginSubmission.js" defer></script>
 </head>
 <body>
-    <form class="container" action="/login/login" method="post">
+    <form id="loginForm" class="container">
         <div class="left-section">
             <h1>Welcome back!</h1>
             <p class="enter-credentials">Enter your credentials to access your account</p>
 
             <p>Email address</p>
-            <input type="text" placeholder="Enter your email" name="username">
+            <input type="text" placeholder="Enter your email" name="username" id="username">
 
             <div class="password-group">
                 <div class="password-label">
                     <p>Password</p>
                     <p class="forgot-password">Forgot password?</p>
                 </div>
-                <input type="text" name="password" placeholder="Enter your password">
+                <input type="text" name="password" placeholder="Enter your password" id="password">
             </div>
             
 

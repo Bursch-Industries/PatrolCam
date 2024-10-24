@@ -1,3 +1,5 @@
+// Checks if user is logged in. Differs from sessionController in that it returns next() instead of a 200 status.
+
 function requireAuth(req, res, next) {
 
     if (req.session.user) {

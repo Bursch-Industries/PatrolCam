@@ -19,16 +19,12 @@ router.get('/test', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'test.html'))
 })
 
+router.get('/logged-out', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', 'logged-out.html'))
+})
+
 router.get('/org-settings', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'org-settings.html'));
-})
-
-router.get('/org-settings.js', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'org-settings.js'));
-})
-
-router.get('/camera-grid.js', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'FrontEndJavaScript', 'camera-grid.js'));
 })
 
 router.get('/login', (req, res) => {
@@ -37,10 +33,6 @@ router.get('/login', (req, res) => {
 
 router.get('/cameras', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'camera_page.html'))
-});
-
-router.get('/test-contact', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'test-contact.html'))
 });
 
 router.get('/logIndex', (req, res) => {

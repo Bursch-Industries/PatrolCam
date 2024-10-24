@@ -27,21 +27,19 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        default: null
     },
     phone: {
         type: String,
-        required: false,
-        default: null
     },
     rank: {
         type: String,
     },
     refreshToken: String,
 
-    organization: {
-        type: Schema.Types.ObjectId, //Which organization the user is in
-        ref: 'Organization'
+    organization: { //Which organization the user is in
+        type: Schema.Types.Mixed, 
+        ref: 'Organization',
+        required: true
     },
 
     lastLoggedIn: {
@@ -55,9 +53,8 @@ const userSchema = new Schema({
     },
 
     createdBy: {
-        type:Schema.Types.ObjectId,
-        ref:'User',
-        default: null
+        type:Schema.Types.Mixed,
+        default: "System"
     },
 
     status: {

@@ -1,4 +1,7 @@
 /* Dynamic Wording */
+html {
+    scroll-behavior: smooth;
+}
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
@@ -315,10 +318,10 @@ header {
     padding: 1.875rem;
     background-color: #B1D4E0;
     align-items: center;
-    margin-left: 20rem;
-    margin-top: 2rem;
-    margin-bottom: 10rem;
-    border-radius: 0.9375rem;
+    margin: 0 auto;
+    /* margin-left: 25rem;
+    margin-top: 10rem;
+    margin-bottom: 10rem; */
 }
 
 .form-container h1 {
@@ -345,8 +348,9 @@ header {
     padding-left: 0.125rem;
     margin-bottom: 0.9375rem;
     border: none;
-    border-bottom: 0.0625rem solid #ccc;
-    font-size: 1rem;
+    border-radius: 5px;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
     outline: none;
     transition: border-color 0.3s;
 }
@@ -389,8 +393,8 @@ header {
 
 /* Footer CSS */
 .footer {
-    padding: 1.5625rem;
-    font-size: 1.875rem;
+    padding: 1px;
+    font-size: 30px;
     background-color: black;
     opacity: 90%;
     text-align: center;
