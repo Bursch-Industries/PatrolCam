@@ -37,8 +37,9 @@ const userSchema = new Schema({
     refreshToken: String,
 
     organization: { //Which organization the user is in
-        type: Schema.Types.ObjectId, 
-        ref: 'Organization'
+        type: Schema.Types.Mixed, 
+        ref: 'Organization',
+        required: true
     },
 
     lastLoggedIn: {
