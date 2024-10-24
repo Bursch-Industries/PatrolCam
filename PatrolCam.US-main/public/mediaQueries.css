@@ -47,7 +47,7 @@
     }
 
     .image-section img {
-        height: 1.6875rem;
+        height: 40rem;
         margin-left: 3.125rem; 
     }
     
@@ -64,18 +64,16 @@
 
     /* Surveillance Queries */
     .image-surveillance img {
-        height: 25rem; 
-        width: 28.125rem;
-        padding-left: 0rem;
-        margin-left: 7.5rem;
+        width: 37rem;
+        height: 30rem;
+        margin-left: 9rem;
     }
 
     .text-surveillance {
         height: 31.25rem; 
-        width: 31.25rem; 
+        width: 37rem; 
         max-width: 100%;
-        margin-left: 0.625rem; 
-        margin-right: 4.6875rem; 
+        margin-right: 9rem; 
         padding-right: 1.25rem; 
         margin-top: 1.25rem; 
         margin-bottom: 1.25rem; 
@@ -88,31 +86,30 @@
     }
     
     .text-surveillance h1 {
-        font-size: 2.5rem; 
+        font-size: 3rem; 
         padding-left: 1.875rem; 
     }
     
     .text-surveillance p {
-        font-size: 1.875rem; 
+        font-size: 2.3rem; 
         padding-top: none;
         text-align: center;
     }
 
     /* Text Vehicle Tracking Queries */
     .image-vehicleTracking img {
-        height: 25rem; 
-        width: 28.125rem; 
-        margin-right: 5.625rem; 
+        height: 30rem; 
+        width: 37rem; 
+        margin-right: 8.2rem; 
         padding-right: 1.875rem; 
     }
 
     .text-vehicleTracking {
         height: 31.25rem; 
-        width: 31.25rem; 
-        max-width: 100%;
-        margin-left: 5.625rem; 
-        margin-top: 0.625rem; 
-        margin-bottom: 0.625rem;    
+        width: 37rem; 
+        margin-left: 9rem; 
+        margin-top: 1.25rem; 
+        margin-bottom: 1.25rem;    
     }
 
     .text-vehicleTracking img {
@@ -133,17 +130,17 @@
 
     /* Easy Ping Queries */
     .image-ping img {
-        height: 25rem; 
-        width: 28.125rem; 
-        padding-left: 0.46875rem;
+        height: 30rem; 
+        width: 37rem; 
+        margin-left: 2.25rem;
+        padding-left: none;
     }
 
     .text-ping {
         height: 31.25rem; 
-        width: 31.25rem; 
-        max-width: 100%;
-        margin-left: 0.625rem; 
-        margin-right: 4.6875rem; 
+        width: 37rem; 
+        max-width: 100%; 
+        margin-right: 9rem; 
         padding-right: 1.25rem;
         margin-top: 0.625rem; 
         margin-bottom: 0.625rem; 
@@ -183,7 +180,7 @@
         height: 37.5rem;         
         width: 43.75rem; 
         border-radius: 0.9375rem; 
-        margin-top: 0.125rem; 
+        margin-top: 2rem; 
         padding: 1.875rem;
         align-items: center;
     }
