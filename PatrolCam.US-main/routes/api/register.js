@@ -12,7 +12,8 @@ router.post('/resetpwd', registerController.handlePasswordReset)
 router.delete('/delUser', registerController.deleteOrganizationUser)
 
 router.get('/getCams', registerController.getCameraDetails)
-router.get('/getOrgUserData', registerController.getOrgUserData)
-router.get('/getUserLastLogin', registerController.getUserLastLogin)
+router.get('/getOrgUsers', registerController.getOrgUserData)
+router.get('/getUsersLastLogin', registerController.getUserLastLogin)
+router.get('/getOrg', registerController.getOrganizationDetails)
 
 module.exports = router;
