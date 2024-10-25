@@ -64,50 +64,55 @@
     opacity: 90%;
 }
 
-/* LOG OUT MODAL */
+/* Logout Modal Overlay */
 #logout-modal {
     position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    background: rgba(0,0,0,0.6);
+    top: 10%; /* Align slightly below the top */
+    right: 20px; /* Align with the profile picture on the right */
+    background: rgba(0, 0, 0, 0.6);
     z-index: 100;
     display: none;
-    margin-left:63rem;
-    margin-top: 5vh;
-    margin-bottom: 100vh;
+    width: 200px; /* Make the modal narrower */
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add some shadow for depth */
 }
 
+/* Logout Modal Content */
 .out-modal {
     background-color: #B1D4E0;
     border-radius: 10px;
-    width: 100px;
+    padding: 10px;
     text-align: center;
 }
 
+/* Top Section with Close Button */
 .top-out-form {
-    display:flex;
+    display: flex;
     justify-content: flex-end;
+    padding: 5px;
 }
 
 .top-out-form .close-out-modal {
     cursor: pointer;
-    padding: 0px 20px;
+    padding: 0 10px;
     font-size: 20px;
+    color: #145DA0;
 }
 
-.logout-form form input {
-    width: 75%;
-    margin-bottom: 20px;
-    padding: 12px 12px;
-    box-sizing: border-box;
-    border: 1px solid #d0d5d8;
-    border-radius: 3px;
+/* Logout Button Styling */
+.logout-form a {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 80%;
+    background-color: #145DA0;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-
-.logout-form button:hover {
+.logout-form a:hover {
     opacity: 90%;
 }
+
