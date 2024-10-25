@@ -27,6 +27,10 @@ router.get('/org-settings', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'org-settings.html'));
 })
 
+router.get('/logDemo', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', 'logDemo.html'))
+})
+
 router.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'login.html'))
 });

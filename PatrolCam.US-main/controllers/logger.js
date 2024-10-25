@@ -10,7 +10,9 @@ async function logActivity({
     newData = null,
     removedData = null,
     session = null //Added session for transaction
+
 }) {
+
     try{
         const log = new ActivityLog({
             action,

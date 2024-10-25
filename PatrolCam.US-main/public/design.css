@@ -90,6 +90,7 @@ header {
 .demo-text {
     background-color: #145DA0;
     padding-top: 3vh;
+    padding-left: 3vh;
 }
 
 .demo-cta {
@@ -97,7 +98,6 @@ header {
     margin-right: 100px;
     display: flex;
     justify-content: end;
-    
 }
 
 .demo-frame {
@@ -105,7 +105,7 @@ header {
     border-radius: 10px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     width: 80%;
-    height: 600px;
+    height: calc(100vh - 10rem);
 }
 .demo-frame-container {
     display: flex;
@@ -141,6 +141,7 @@ header {
     border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 10px;
 }
+
 .demo-text:hover {
     color: #ffbf00;
     transition: color 0.3s ease;

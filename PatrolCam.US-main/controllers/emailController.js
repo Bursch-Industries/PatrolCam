@@ -7,8 +7,9 @@ const sendContactFormEmail = async (req, res) => {
     const { name, org, ext, phone, email, productInterest } = req.body;
 
     // REPLACE with client-side js validation ? 
-    if (!name || !email || !org) return res.status(400).json({ 'message': 'Please fill in all required fields.' });
-
+    if (!name || !email || !org || !phone || !productInterest) {
+        return res.sendStatus(400);
+    }
     try {
 
         // Creat nodemailer transport (connection to SMTP server)

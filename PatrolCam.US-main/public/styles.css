@@ -1,9 +1,15 @@
 /* Dynamic Wording */
+html {
+    scroll-behavior: smooth;
+}
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     color: white;
     text-align: center;
+}
+.wrapper-main {
+    max-width: 80%;
 }
 
 /* Header CSS */
@@ -16,6 +22,7 @@ header {
     align-items: center;
     background-color: #0C2D48;
     opacity: 90%;
+    height: 6rem; /* Adjust height if needed */
 }
 
 .logo {
@@ -24,32 +31,33 @@ header {
 }
 
 .logo img {
-    height: 200px;
-    margin-right: 10px;
+    height: 6rem;
+    margin-right: 1.25rem;
+    margin-left: 0.625rem;
 }
 
 .logo span {
-    font-size: 28px;
+    font-size: 1.75rem;
     color: yellow;
     font-weight: bold;
 }
 
 .navbar {
     display: flex;
-    gap: 20px;
+    gap: 0rem;
     background-color: black;
-    border-radius: 10px;
+    border-radius: 0.625rem;
 }
 
 .navbar a {
     color: white;
-    font-size: 30px;
+    font-size: 1.25rem;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     background-color: black;
-    border-radius: 5px;
-    width: 250px;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 0.3125rem;
+    width: 6.25rem;
+    box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
 }
 
 .navbar a:hover {
@@ -57,27 +65,30 @@ header {
 }
 
 #loginButton {
-    background-color: #FFD700; /* Yellow */
+    background-color: #FFD700;
     color: black;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.3125rem;
     text-decoration: none;
     font-weight: bold;
-    font-size: x-large;
-    height: 30px;
-    width: 100px;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-    margin-right: 20px;
+    font-size: 1.5rem;
+    height: 1.875rem;
+    width: 6.25rem;
+    box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0,0,0,0.3);
+    margin-right: 1.25rem;
     line-height: normal;
 }
 
-#loginButton {
-    opacity: 90%;
+#login-show {
+    margin-right: 1.875rem;
+    width: 4.6875rem;
+    height: 3.125rem;
+    cursor: pointer;
 }
 
 /* Hero Introduction */
 .container {
-    padding: 50px;
+    padding: 3.125rem;
     text-align: center;
     background-image: url('hero-background.jpg');
     background-size: cover;
@@ -91,29 +102,30 @@ header {
 .text-section {
     flex: 1;
     text-align: left;
-    padding-right: 20px;
-    padding-left: 100px;
-    font-size: 50px;
+    padding-right: 1.25rem;
+    padding-left: 6.25rem;
+    font-size: 1.5625rem;
 }
 .image-section {
+    display: flex;
+    width: 100%;
     flex: 1;
-
 }
 .image-section img {
-    max-width: 100%;
-    height: 50rem; 
-  
+    height: 27rem;
+    margin-left: 3.125rem;
 }
 .btn {
     background-color: #FFD700; /* Yellow button */
     color: black;
-    padding: 15px 30px;
+    padding: 0.9375rem 1.875rem;
     font-weight: bold;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     display: inline-block;
-    margin-top: 20px;
-    box-shadow: 15px 15px 15px  rgba(0, 0, 0, 0.3);
+    margin-top: 1.25rem;
+    margin-right: 5.3125rem;
+    box-shadow: 0.9375rem 0.9375rem 0.9375rem rgba(0, 0, 0, 0.3);
 }
 .btn:hover {
     opacity: 90%;
@@ -123,8 +135,8 @@ header {
 
 .features-intro {
     background-color: #5C9BD1;
-    padding: 20px;
-    font-size: 80px;
+    padding: 1.25rem;
+    font-size: 2.5rem;
 }
 
 /* Surveillance Features Section */
@@ -136,34 +148,44 @@ header {
     justify-content: space-between;
 }
 .image-surveillance img {
-    padding-left: 8rem;
-    padding-top: 1rem;
-    height: 55rem;
-    width: 60rem;
+    padding-left: 0rem;
+    margin-left: 7.5rem;
+    padding-top: 0.0625rem;
+    height: 25rem;
+    width: 28.125rem;
 }
 
 .text-surveillance {
     background-color: #B1D4E0;
-    border-radius: 20px;
-    margin-right: 15rem;
-    margin-left:100px;
-    height: 50rem;
-    width: 55rem;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    border-radius: 1.25rem;
+    margin-right: 4.6875rem;
+    margin-left: 0.625rem;
+    padding-right: 1.25rem;
+    height: 31.25rem;
+    width: 31.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    max-width: 100%;
+}
+
+.text-surveillance img{
+    padding-left: 1.5625rem;
+    height: 4.375rem;
+    width: 4.6875rem;
 }
 
 .text-surveillance h1 {
     color: black;
-    font-size: 60px;
-    padding-top:14px;
+    font-size: 2.5rem;
+    padding-top: 0.875rem;
+    padding-left: 1.875rem;
 }
 
 .text-surveillance p {
     color: black;
-    font-size: 50px;
-    text-align: left;
-    padding-left: 50px;
+    font-size: 1.875rem;
+    text-align: center;
+    padding-left: 3.125rem;
 }
 
 /* Vehicle Tracking Features Section */
@@ -176,31 +198,39 @@ header {
 }
 
 .image-vehicleTracking img{
-    padding-right: 21.5rem;
-    height: 50rem;
+    padding-right: 1.875rem;
+    height: 25rem;
+    width: 28.125rem;
+    margin-right: 5.625rem;
 }
 
 .text-vehicleTracking {
     background-color: #B1D4E0;
-    border-radius: 20px;
-    margin-left:10rem;
-    height: 50rem;
-    width: 55rem;
-    margin-top:30px;
-    margin-bottom:30px;
+    border-radius: 1.25rem;
+    margin-left: 5.625rem;
+    height: 31.25rem;
+    width: 31.25rem;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+}
+
+.text-vehicleTracking img {
+    height: 6.25rem;
+    width: 6.25rem;
 }
 
 .text-vehicleTracking h1 {
     color: black;
-    font-size: 60px;
-    padding-top:14px;
+    font-size: 2.1875rem;
+    padding-top: 0.875rem;
 }
 
 .text-vehicleTracking p {
     color: black;
-    font-size: 50px;
-    text-align: left;
-    padding-left: 50px;
+    font-size: 1.625rem;
+    text-align: center;
+    padding-left: 3.125rem;
+    padding-right: 1.875rem;
 }
 
 /* Easy Ping Features Section */
@@ -213,48 +243,58 @@ header {
 }
 
 .image-ping img {
-    padding-left: 8rem;
-    padding-top: 1rem;
-    width: 60rem;
+    padding-left: 7rem;
+    padding-top: 0.0625rem;
+    width: 28.125rem;
+    height: 25rem;
 }
 
 .text-ping {
     background-color: #B1D4E0;
-    border-radius: 20px;
-    margin-right: 15rem;
-    margin-left:100px;
-    height: 50rem;
-    width: 55rem;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    border-radius: 1.25rem;
+    margin-right: 4.6875rem;
+    margin-left: 0.625rem;
+    height: 31.25rem;
+    width: 31.25rem;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+    max-width: 100%;
+}
+
+.text-ping img {
+    height: 6.25rem;
+    width: 6.25rem;
+    margin-left: 1.25rem;
 }
 
 .text-ping h1 {
     color: black;
-    font-size: 60px;
-    padding-top:14px;
+    font-size: 2.5rem;
+    padding-top: 0.875rem;
+    padding-left: 1.875rem;
 }
 
 .text-ping p {
     color: black;
-    font-size: 50px;
-    text-align: left;
-    padding-left: 50px;
+    font-size: 1.625rem;
+    text-align: center;
+    padding-left: 2.5rem;
+    margin-right: 1rem;
 }
 
 .features-gs-button {
     background-color: #4553FF;
     color: white;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     text-decoration: none;
     font-weight: bold;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
     display: inline-block;
-    height: 30px;
-    width: 150px;
-    padding: 15px;
-    font-size: x-large;
-
+    height: 1.875rem;
+    width: 4.6875rem;
+    padding: 0.9375rem;
+    font-size: 0.875rem;
+    margin-left: 1.25rem;
 }
 
 .features-gs-button:hover {
@@ -265,25 +305,26 @@ header {
 
 .contact-section {
     display: flex;
-    height: 100vh;
-    position: relative; 
+    height: 46.875rem;
+    position: relative;
     justify-content: space-between;
     background-color: #0C2D48;
 }
 
 /* Left side for the form */
 .form-container {
-    width: calc(100% - 975px); 
-    padding: 40px;
+    border-radius: 1.3rem;
+    height: 37.5rem;
+    width: 43.75rem;
+    padding: 1.875rem;
     background-color: #B1D4E0;
     align-items: center;
-    margin-left: 25rem;
-    margin-top: 10rem;
-    margin-bottom: 10rem;
+    margin: 0 auto;
+    margin-top: 1.5rem;
 }
 
 .form-container h1 {
-    font-size: 36px;
+    font-size: 2.25rem;
     font-weight: bold;
     color: #3650FF;
 }
@@ -293,19 +334,20 @@ header {
 }
 
 .form-container p {
-    font-size: 30px;
+    font-size: 1.5625rem;
     color: black;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 }
 
 .contact-form input,
 .contact-form textarea,
 .contact-form select {
     width: 100%;
-    padding: 10px 0;
-    padding-left: 2px;
-    margin-bottom: 15px;
+    padding: 0.625rem 0;
+    padding-left: 0.125rem;
+    margin-bottom: 0.9375rem;
     border: none;
+    border-radius: 5px;
     border-bottom: 1px solid #ccc;
     font-size: 16px;
     outline: none;
@@ -315,13 +357,12 @@ header {
 .contact-form input:focus,
 .contact-form textarea:focus,
 .contact-form select:focus {
-    border-bottom: 1px solid #3650FF;
+    border-bottom: 0.0625rem solid #3650FF;
 }
-
 
 .contact-form label {
     color: black;
-    font-size:30px;
+    font-size: 1.5625rem;
 }
 
 .city-postcode {
@@ -335,35 +376,28 @@ header {
 
 .contact-form button {
     width: 100%;
-    padding: 10px;
+    padding: 0.625rem;
     background-color: #3650FF;
     color: white;
     border: none;
-    font-size: 18px;
+    font-size: 1.125rem;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 0.5rem;
 }
 
 /* Map container */
 .map-container {
-    width: 556px;
-    height: 809px;
-    background-color: white;
-    position: relative;
-    z-index: 1;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    margin-right:10rem;
-    margin-top:15rem;
+    display: none;
 }
 
 /* Footer CSS */
 .footer {
-    padding: 25px;
+    padding: 1px;
     font-size: 30px;
     background-color: black;
     opacity: 90%;
     text-align: center;
     position: relative;
 }
+
 
