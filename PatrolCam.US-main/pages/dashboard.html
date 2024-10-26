@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo</title>
-    <link rel="stylesheet" href="design.css">
+    <title>Home</title>
+    <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="login-modal.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap" rel="stylesheet">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+    <!--This is where the header is coded-->
     <header>
         <div class="logo">
             <img src="PatrolCamLogo.png" alt="PatrolCam Logo">
@@ -51,23 +51,25 @@
             });
         </script> 
     </header>
-    <h1 class="demo-text">Simple, Powerful and Affordable</h1>
-    
-    <div class="demo-frame-container">
-        <iframe class="demo-frame" 
-        src="https://www.youtube.com/embed/MtN1YnoL46Q" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-        </iframe>
-    </div>
 
-</body>
-
-    <!-- CopyRight Footer-->
-    <footer>
-        <div class="footer">
-            <p>&copy; 2024 PatrolCam. All rights reserved.</p>
+    <div class="dashboard-container">
+        <h1>Welcome Back, Officer</h1>
+        <div class="services-tab">
+            <span>Services</span>
         </div>
+        <nav class="menu-options">
+            <a href="/404" class="menu-item" id="chat">Chat.AI</a>
+            <a href="/cameras" class="menu-item" id="surveillance">Surveillance</a>
+            <a href="/404" class="menu-item">Something</a>
+        </nav>
+        <div class="notifications">
+            <span>Notifications</span>
+            <button>&#9660;</button>
+        </div>
+    </div>
+</body>
+    <footer class="footer">
+        PatrolCam. All Rights Reserved.
     </footer>
+
 </html>

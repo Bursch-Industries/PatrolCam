@@ -34,7 +34,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             return; // Stop further execution
         }
         console.log('Login successful:');
-        window.location.href = '/protected'; // Adjust the URL as necessary
+        window.location.href = '/dashboard'; // Adjust the URL as necessary
         
         
     } catch (error) {
