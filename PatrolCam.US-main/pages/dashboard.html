@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="login-modal.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <!--This is where the header is coded-->
+    <header>
+        <div class="logo">
+            <img src="PatrolCamLogo.png" alt="PatrolCam Logo">
+        </div>
+        <nav class="navbar">
+            <a href="/dashboard">Home</a>
+            <a href="/logDemo">Demo</a>
+            <a href="/logIndex#contact-section">Contact Us</a>
+            <a href="/cameras">Surveillance</a>
+        </nav>
+
+        <img src="placeholderOfficer.png" id="login-show">
+
+        <div id="login-modal">
+            <div class="modal">
+                <div class="top-form">
+                    <div class="close-modal">
+                        &#10006;
+                    </div>
+                </div>
+                <div class="login-form">
+                    <a href="/org-settings">Settings</a>
+                    <form action="/login/logout" method="post" id="logoutForm">
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(function() {
+                $('#login-show').click(function(){
+                    $('#login-modal').fadeIn();
+                });
+
+                $('.close-modal').click(function(){
+                    $('#login-modal').fadeOut();
+                });
+            });
+        </script> 
+    </header>
+
+    <div class="dashboard-container">
+        <h1>Welcome Back, Officer</h1>
+        <div class="services-tab">
+            <span>Services</span>
+        </div>
+        <nav class="menu-options">
+            <a href="/404" class="menu-item" id="chat">Chat.AI</a>
+            <a href="/cameras" class="menu-item" id="surveillance">Surveillance</a>
+            <a href="/404" class="menu-item">Something</a>
+        </nav>
+        <div class="notifications">
+            <span>Notifications</span>
+            <button>&#9660;</button>
+        </div>
+    </div>
+</body>
+    <footer class="footer">
+        PatrolCam. All Rights Reserved.
+    </footer>
+
+</html>
