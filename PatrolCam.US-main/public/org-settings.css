@@ -117,16 +117,24 @@ header {
 .tab-btn {
     display: block;
     width: 100%;
-    padding: 10px;
+    /* padding: 10px; */
     margin: 5px 0;
     margin-left: 10px;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
     background-color: #0C2D48;
     color: white;
     border: none;
     cursor: pointer;
     text-align: left;
     font-size: 1.25rem;
+}
+
+.divider {
+    border: none;
+    height: 1px;
+    background-color: #e2e0e0;
+    margin: 10px 0;
+    margin-bottom: 40px;
 }
 
 .tab-btn:hover {
@@ -170,7 +178,7 @@ header {
 .form-group input {
     width: 100%;
     padding: 10px 0;
-    margin-left: 10px;
+    /* margin-left: 10px; */
     border: none;
     background: transparent;
     outline: none;

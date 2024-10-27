@@ -6,9 +6,9 @@
     <title>Surveillance</title>
     <link rel="stylesheet" href="camera_page.css">
     <link rel="stylesheet" href="/login-modal.css">
+    <script src="../FrontEndJavaScript/camera-grid.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="/camera-grid.js" defer></script>
-
+    
 </head>
 <body>
     <header>
@@ -23,7 +23,11 @@
         </nav>
         <img id="grid-icon" src="grid_icon.svg" alt="Grid Icon" class="grid-icon">
 
-        <img src="placeholderOfficer.png" id="logout-show">
+        <!-- <img src="placeholderOfficer.png" id="logout-show"> -->
+        <a href="#" id="logout-show" class="profile-picture">
+            <img src="./officer_placeholder_1.jpg" id="login-show" alt="Profile Picture">
+        </a>
+
         <div id="logout-modal">
             <div class="out-modal">
                 <div class="top-out-form">

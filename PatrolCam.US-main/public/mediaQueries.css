@@ -256,12 +256,14 @@
         width: 100px;
     }
 
-    #login-show{
+    /* #login-show{
         margin-right:30px;
         width:75px;
         height: 50px;
         cursor: pointer;
-    }
+    } */
+
+    
     
     /* Hero Queries */
 
@@ -279,6 +281,7 @@
         /* width: 50rem; */
         margin-left: 50px;
     }
+
     .btn {
         padding: 15px 30px;
         margin-top: 20px;

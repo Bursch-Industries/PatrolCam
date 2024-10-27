@@ -22,9 +22,12 @@
             <a href="/cameras">Surveillance</a>
         </nav>
 
-        <img src="placeholderOfficer.png" id="login-show">
+        <!-- <img src="placeholderOfficer.png" id="login-show"> -->
+        <a href="#" id="logout-show" class="profile-picture">
+            <img src="./officer_placeholder_1.jpg" id="login-show" alt="Profile Picture">
+        </a>
 
-        <div id="login-modal">
+        <!-- <div id="login-modal">
             <div class="modal">
                 <div class="top-form">
                     <div class="close-modal">
@@ -38,9 +41,23 @@
                     </form>
                 </div>
             </div>
+        </div> -->
+
+        <div id="logout-modal">
+            <div class="out-modal">
+                <div class="top-out-form">
+                    <div class="close-out-modal">
+                        &#10006;
+                    </div>
+                </div>
+                <div class="logout-form">
+                    <a href="/org-settings">Settings</a>
+                    <a href="/">Logout</a>
+                </div>
+            </div>
         </div>
 
-        <script type="text/javascript">
+        <!-- <script type="text/javascript">
             $(function() {
                 $('#login-show').click(function(){
                     $('#login-modal').fadeIn();
@@ -50,7 +67,19 @@
                     $('#login-modal').fadeOut();
                 });
             });
-        </script> 
+        </script>  -->
+
+        <script type="text/javascript">
+            $(function() {
+                $('#logout-show').click(function(){
+                    $('#logout-modal').fadeIn();
+                });
+
+                $('.close-out-modal').click(function(){
+                    $('#logout-modal').fadeOut();
+                });
+            });
+        </script>
     </header>
     <!-- The first actual part of the website users will see-->
     <div class="container">
