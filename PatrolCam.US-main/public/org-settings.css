@@ -168,6 +168,21 @@ header {
 
 }
 
+.edit-icon {
+    cursor: pointer;
+    font-size: 1.5rem;
+    float: right;
+    margin-top: -40px;
+    margin-right: 10px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+    color: #666;
+}
+
+
 .form-group {
     position: relative;
     border-bottom: 2px solid #ddd;

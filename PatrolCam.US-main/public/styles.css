@@ -79,13 +79,6 @@ header {
     line-height: normal;
 }
 
-#login-show {
-    margin-right: 1.875rem;
-    width: 4.6875rem;
-    height: 3.125rem;
-    cursor: pointer;
-}
-
 /* Profile Picture */
 
 .profile-picture img {
@@ -94,6 +87,7 @@ header {
     border-radius: 50%;
     margin-right: 25px;
 }
+
 
 /* Hero Introduction */
 .container {
