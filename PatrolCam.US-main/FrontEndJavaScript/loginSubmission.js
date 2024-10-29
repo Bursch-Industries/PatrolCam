@@ -11,8 +11,22 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     // Clear previous error messages
     //errorMessage.textContent = '';
 
+    if (username === '' || password === '') {
+        
+        usernameInput.style.border = '2px solid red';
+        passwordInput.style.border = '2px solid red';
+        console.log('missing username or password')
+        return;
+    } 
+    
+    if (password != "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$") {
+        usernameInput.style.border = '2px solid red';
+        passwordInput.style.border = '2px solid red';
+        console.log('password must contain one uppercase, one lowercase, one special character, etc...');
+        return;
+    }
+
     try {
-        console.log('entering try block')
         const response = await fetch('/login/login', {
             method: 'POST',
             headers: {
