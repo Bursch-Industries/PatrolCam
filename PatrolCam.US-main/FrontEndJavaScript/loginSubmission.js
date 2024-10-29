@@ -11,8 +11,22 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     // Clear previous error messages
     //errorMessage.textContent = '';
 
+    if (username === '' || password === '') {
+        
+        usernameInput.style.border = '2px solid red';
+        passwordInput.style.border = '2px solid red';
+        console.log('missing username or password')
+        return;
+    } 
+    
+    if (password != "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$") {
+        usernameInput.style.border = '2px solid red';
+        passwordInput.style.border = '2px solid red';
+        console.log('password must contain one uppercase, one lowercase, one special character, etc...');
+        return;
+    }
+
     try {
-        console.log('entering try block')
         const response = await fetch('/login/login', {
             method: 'POST',
             headers: {
@@ -20,10 +34,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             },
             body: JSON.stringify({ username, password }),
         });
-        console.log('After fetch')
         if (!response.ok) {
             const data = await response.json();
-            console.log('response ' + data.message);
            // errorMessage.textContent = data.message; // Display error message
 
             if (data.message.includes('invalid-credentials')) {
@@ -40,7 +52,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         
         
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error:', error.message);
         //errorMessage.textContent = 'An unexpected error occurred.';
     }
 });

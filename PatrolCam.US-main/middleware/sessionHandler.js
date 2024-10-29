@@ -10,6 +10,7 @@ const store = new MongoDBStore({
 });
 
 const sessionMiddleware = session({
+  
   secret: 'your-secret-key', // Replace with a strong secret
   resave: false,              // False = Don't save session if unmodified
   saveUninitialized: false,   // False = Don't save uninitialized sessions

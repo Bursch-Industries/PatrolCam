@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="mediaQueries.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../FrontEndJavaScript/contactFormSubmission.js" defer></script>
 </head>
 <body>
     <!--This is where the header is coded-->
@@ -90,17 +91,17 @@
             <h1>Get In <span>Touch</span></h1>
             <p>Let us know what you are interested in</p>
             
-            <form class="contact-form"  action="/contact" method="post">
-                <input type="text" placeholder="  Contact Name" name="name">
-                <input type="text" placeholder="  Organization" name="org">
+            <form id="contactForm" class="contact-form"  action="/contact" method="post">
+                <input id="name" type="text" placeholder="  Contact Name" name="name">
+                <input id="organization" type="text" placeholder="  Organization" name="org">
                 <div class="city-postcode">
-                    <input type="text" placeholder="  Extension (optional)" name="ext">
-                    <input type="text" placeholder="  Phone Number" name="phone">
+                    <input id="extenstion" type="text" placeholder="  Extension (optional)" name="ext">
+                    <input id="phoneNumber" type="text" placeholder="  Phone Number" name="phone">
                 </div>
-                <input type="email" placeholder="  E-mail" name="email">
+                <input id="email" type="email" placeholder="  E-mail" name="email">
                 <!-- <textarea placeholder="Let’s talk about your idea"></textarea> -->
                 <label for="product-interest">What product are you interested in?</label>
-                <select id="product-interest" name="productInterest">
+                <select id="productInterest" name="productInterest">
                   <option value="option-1"> Surveillance Cameras</option>
                   <option value="option-2"> Option 2</option>
                   <option value="option-3"> Option 3</option>

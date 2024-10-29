@@ -8,32 +8,36 @@ const activityLogSchema = new Schema({
     },
     collectionName: {
         type: String, //The name of the collection being modified
-        required: true
+        required: false
     },
     documentId: {
         type: Schema.Types.ObjectId, //The ID of the document being changed
-        required: true
+        required: false
     },
     performedBy: {
         type: Schema.Types.Mixed, //The User who performed the action
-        required: true
+        required: false
     },
     organizationId: {
         type: Schema.Types.ObjectId,
-        ref: "Organization"
+        ref: "Organization", 
+        required: false
     },
     timestamp: {
         type: Date,
         default: Date.now //When the action was performed
     },
     originalData: {
-        type: Schema.Types.Mixed //The original data(before the change), if applicable
+        type: Schema.Types.Mixed,//The original data(before the change), if applicable
+        required: false
     },
     newData: {
-        type: Schema.Types.Mixed //The updated data(after the change), if applicable
+        type: Schema.Types.Mixed, //The updated data(after the change), if applicable
+        required: false
     },
     removedData: { //The removed(deleted) data, if applicable
-        type: Schema.Types.Mixed
+        type: Schema.Types.Mixed,
+        required: false
     }
 })
 
