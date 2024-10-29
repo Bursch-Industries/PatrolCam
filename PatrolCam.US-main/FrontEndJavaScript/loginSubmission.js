@@ -32,10 +32,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const username = usernameInput.value;
     const password = passwordInput.value;
 
-
-    console.log('username: ' + username);
-    console.log('password: ' + password);
-
     // Clear previous error messages
     //errorMessage.textContent = '';
 
@@ -59,7 +55,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     } */
 
     try {
-        console.log('entering try block')
+
         // If username and password exist, POST to server API
         const response = await fetch('/login/login', {
             method: 'POST',

@@ -62,10 +62,11 @@ document.getElementById('contactForm').addEventListener('submit', async function
     // Create an array of all inputs that are being validated
     const inputs = [
         {element: document.getElementById('name'), name: 'name'},
-        {element: document.getElementById('organization'), name: 'organization'},
+        {element: document.getElementById('extension'), name: 'ext'},
+        {element: document.getElementById('organization'), name: 'org'},
         {element: document.getElementById('email'), name: 'email'},
-        {element: document.getElementById('productInterest'), name: 'product'},
-        {element: document.getElementById('phoneNumber'), name: 'phoneNumber'},
+        {element: document.getElementById('productInterest'), name: 'productInterest'},
+        {element: document.getElementById('phoneNumber'), name: 'phone'},
     ]
    
     // Clear previous styling
@@ -89,9 +90,38 @@ document.getElementById('contactForm').addEventListener('submit', async function
     // If any input is invalid, return stops redirect
     if(isInvalid) {
         return;
+    } else {
+        try {
+
+            // Parse inputs into a request body to send to API
+            let requestBody = {};
+            inputs.forEach(input => {
+                requestBody[input.name] = input.element.value.trim();
+            });
+
+            console.log(JSON.stringify(requestBody));
+            // POST to server API
+            const response = await fetch('/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            });
+            console.log(response.status);
+            if (!response.ok) {
+                const data = await response.json();
+               // errorMessage.textContent = data.message; // Display error message  
+                return; // Stop further execution
+            }
+            } catch (error) {
+                console.error('Error:', error.message);
+                //errorMessage.textContent = 'An unexpected error occurred.';
+            }
+            console.log('Contact Form Sent');
+            window.location.href = '/'; // Adjust the URL as necessary
     }
 
-        console.log('Contact Form Sent');
-        window.location.href = '/'; // Adjust the URL as necessary
+       
    
 });
