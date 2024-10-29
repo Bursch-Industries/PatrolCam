@@ -28,7 +28,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
             if (data.message.includes('invalid-credentials')) {
                 usernameInput.style.border = '2px solid red';
+                document.getElementById('username-error').style.display = 'block';
                 passwordInput.style.border = '2px solid red';
+                document.getElementById('passworde-error').style.display = 'block';
             }   
 
             return; // Stop further execution
