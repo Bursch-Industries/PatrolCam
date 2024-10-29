@@ -1,3 +1,20 @@
+const toggleVisible = (event) => {
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+    }
+    else {
+        password.type = 'password';
+    }
+}
+
+
+const passwordInput = document.getElementById('password');
+const toggleButton = document.getElementById('toggleButton');
+toggleButton.addEventListener('click', toggleVisible);
+
+
+
+
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent the default form submission
 
@@ -39,7 +56,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             },
             body: JSON.stringify({ username, password }),
         });
-        
+
         if (!response.ok) {
             const data = await response.json();
            // errorMessage.textContent = data.message; // Display error message
