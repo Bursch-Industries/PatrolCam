@@ -1,73 +1,39 @@
 document.getElementById('contactForm').addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent the default form submission
 
-    const nameInput = document.getElementById('name');
-    const organizationInput = document.getElementById('organization');
-    const emailInput = document.getElementById('email');
-    const productInput = document.getElementById('productInterest');
-    const phoneNumberInput = document.getElementById('phoneNumber');
-    
-    // Get the values from the input fields
-    const name = nameInput.value;
-    const organization = organizationInput.value;
-    const email = emailInput.value;
-    const product = productInput.value;
-    const phoneNumber = phoneNumberInput.value;
 
+    // Create an array of all inputs that are being validated
+    const inputs = [
+        {element: document.getElementById('name'), name: 'name'},
+        {element: document.getElementById('organization'), name: 'organization'},
+        {element: document.getElementById('email'), name: 'email'},
+        {element: document.getElementById('productInterest'), name: 'product'},
+        {element: document.getElementById('phoneNumber'), name: 'phoneNumber'},
+    ]
+   
+    // Clear previous styling
+    inputs.forEach(input => {
+        input.element.style.border = ''; // REPLACE with default border
+    });
 
+    let isInvalid = false;
 
-    // Clear previous error messages
-    //errorMessage.textContent = '';
+    // Loop through array of inputs, check for empty fields. Empty fields are marked with red border. 
+    inputs.forEach(input => {
+        if (input.element.value.trim() === '') {
+            input.element.style.border = '2px solid red';
+            console.log(`missing ${input.name}`);
+            isInvalid = true;
+        } else {
+            input.element.style.border = '2px solid green';
+        }
+    });
 
-    if (name === '' || organization === '' || phoneNumber === '' || email === '' || product === '') {
-
-    if (name === '') {
-        
-        nameInput.style.border = '2px solid red';
-
-        console.log('missing name')
-    } else {
-        nameInput.style.border = '2px solid green';
+    // If any input is invalid, return stops redirect
+    if(isInvalid) {
+        return;
     }
 
-    if (organization === '') {
-        
-        organizationInput.style.border = '2px solid red';
-
-        console.log('missing organization')
-    } else {
-        organizationInput.style.border = '2px solid green';
-    }
-
-    if (phoneNumber === '') {
-        
-        phoneNumberInput.style.border = '2px solid red';
-
-        console.log('missing organization')
-    } else {
-        phoneNumberInput.style.border = '2px solid green';
-    }
-
-    if (email === '') {
-        
-        emailInput.style.border = '2px solid red';
-
-        console.log('missing email')
-    } else {
-        emailInput.style.border = '2px solid green';
-    }
-
-    if (product === '') {
-        
-        productInput.style.border = '2px solid red';
-
-        console.log('missing product')
-    } else {
-        productInput.style.border = '2px solid green';
-    }
-    return;
-    }
-    
         console.log('Contact Form Sent');
         window.location.href = '/'; // Adjust the URL as necessary
    

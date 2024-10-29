@@ -11,6 +11,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     // Clear previous error messages
     //errorMessage.textContent = '';
 
+
+    // Check input for empty fields
     if (username === '' || password === '') {
         
         usernameInput.style.border = '2px solid red';
@@ -18,7 +20,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         console.log('missing username or password')
         return;
     } 
-    
+
+
+    // Check password regex (8 characters, one upper, one lower, one special)
     if (password != "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$") {
         usernameInput.style.border = '2px solid red';
         passwordInput.style.border = '2px solid red';
@@ -27,6 +31,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
 
     try {
+        // If username and password exist, POST to server API
         const response = await fetch('/login/login', {
             method: 'POST',
             headers: {
@@ -34,10 +39,12 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             },
             body: JSON.stringify({ username, password }),
         });
+        
         if (!response.ok) {
             const data = await response.json();
            // errorMessage.textContent = data.message; // Display error message
 
+           // If *either* the username or password are invalid, BOTH input borders go red
             if (data.message.includes('invalid-credentials')) {
                 usernameInput.style.border = '2px solid red';
                 passwordInput.style.border = '2px solid red';
@@ -45,6 +52,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
             return; // Stop further execution
         }
+
         console.log('Login successful:');
         window.location.href = '/protected'; // Adjust the URL as necessary
         
