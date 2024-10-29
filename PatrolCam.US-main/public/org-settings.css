@@ -34,23 +34,6 @@ header {
     margin-left: 20px;
 }
 
-/* #loginButton{
-    background-color: #FFD700;
-    color: black;
-    padding: 10px 20px;
-    text-align: center;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.25rem ;
-    height: 40px;
-    width: 100px;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-    margin-right: 20px;
-    line-height: normal;
-    opacity: 90%;
-} */
-
 .profile-picture {
     width: 50px;
     height: 50px;
@@ -158,6 +141,15 @@ header {
 }
 
 /* Account Info Section */
+input {
+    pointer-events: auto; /* Remove !important to avoid conflicts */
+}
+
+input[readonly] {
+    pointer-events: none; 
+    background-color: #f1f1f1; 
+}
+
 
 .account-info-form {
     display: flex;
@@ -168,20 +160,53 @@ header {
 
 }
 
+form select {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    background: transparent;
+    font-size: 1.1rem;
+    color: #1d1d1d;
+    cursor: pointer;
+    outline: none;
+}
+
+form select:disabled {
+    pointer-events: none;
+    background-color: #2E8BC0; 
+}
+
+form select.editable {
+    background-color: white;
+    border-bottom: 2px solid #2E8BC0;
+}
+
+
 .edit-icon {
     cursor: pointer;
-    font-size: 1.5rem;
-    float: right;
-    margin-top: -40px;
-    margin-right: 10px;
+    font-size: 2rem;
+    position: absolute;
+    right: 500px; 
+    top: 0px; 
     color: #333;
     transition: color 0.3s ease;
+    z-index: 10;
 }
 
 .edit-icon:hover {
     color: #666;
 }
 
+/* Ensures the parent section has relative positioning */
+#account-info {
+    position: relative;
+}
+
+
+.editable {
+    background-color: #fff;
+    border-bottom: 2px solid #2E8BC0;
+}
 
 .form-group {
     position: relative;
@@ -410,7 +435,6 @@ header {
 .save-btn:hover {
     background-color: #666;
 }
-
 
 
 /* Privacy Tab Section */

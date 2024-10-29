@@ -90,36 +90,38 @@
 
                 <section id="account-info" class="tab-content active">
                     <h2 class="account-info-text">Account Info</h2>
+                    <i class="edit-icon">&#9998;</i> <!-- Single Pencil Icon -->
                 
                     <form class="account-info-form">
-                        <div class="form-group">
-                            
-                            <input type="text" placeholder="Organization Name" required>
+                        <div class="form-group">    
+                            <input type="text" placeholder="Organization Name" value="Organization Name" readonly>
+                        </div>
+                
+                        <div class="form-group">  
+                            <input type="email" placeholder="Email Address" value="organization@email.com" readonly>
                         </div>
                 
                         <div class="form-group">
-                            
-                            <input type="email" placeholder="Email Address" required>
+                            <input type="tel" placeholder="Phone Number" value="123-456-7890" readonly>
                         </div>
                 
                         <div class="form-group">
-                            
-                            <input type="tel" placeholder="Phone Number" required>
+                            <input type="text" placeholder="Address" value="123 Street Name, MN, Minnesota 56001" readonly>
                         </div>
                 
                         <div class="form-group">
-                            
-                            <input type="text" placeholder="Address" required>
+                            <select id="subscription-plan" name="subscription" disabled>
+                                <option value="premium" selected>Premium</option>
+                                <option value="gold">Gold</option>
+                                <option value="silver">Silver</option>
+                            </select>
                         </div>
                 
-                        <div class="form-group">
-                            
-                            <input type="text" placeholder="Subscription Plan" required>
-                        </div>
-                
-                        <button type="submit" class="submit-btn">Update Info</button>
+                        <button type="submit" class="submit-btn" disabled>Update Info</button>
                     </form>
                 </section>
+                
+                
                 
                 <!-- Camera Tab -->
 
