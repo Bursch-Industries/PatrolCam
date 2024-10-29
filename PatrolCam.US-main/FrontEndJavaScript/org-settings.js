@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeOfficerToggle();
 });
 
+
 // Tab Initialization
 function initializeTabs() {
     const tabButtons = document.querySelectorAll(".tab-btn");
@@ -92,3 +93,4 @@ function saveCameraChanges(cameraId) {
     const payload = { name, location, status };
     saveChanges("camera", cameraId, payload);
 }
+
