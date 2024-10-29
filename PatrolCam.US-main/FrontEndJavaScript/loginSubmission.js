@@ -3,14 +3,14 @@ const toggleVisible = (event) => {
         passwordInput.type = 'text';
     }
     else {
-        password.type = 'password';
+        passwordInput.type = 'password';
     }
 }
 
 const passwordInput = document.getElementById('password');
 const toggleButton = document.getElementById('toggleButton');
 const rememberMe = document.getElementById('remember');
-//toggleButton.addEventListener('click', toggleVisible);
+toggleButton.addEventListener('click', toggleVisible);
 
 window.onload = function() {
     const savedPassword = localStorage.getItem('password');
@@ -32,6 +32,10 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const username = usernameInput.value;
     const password = passwordInput.value;
 
+
+    console.log('username: ' + username);
+    console.log('password: ' + password);
+
     // Clear previous error messages
     //errorMessage.textContent = '';
 
@@ -41,7 +45,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         
         usernameInput.style.border = '2px solid red';
         passwordInput.style.border = '2px solid red';
-        console.log('missing username or password')
+        document.getElementById('missing-info-error').style.display = 'block';
         return;
     } 
 
@@ -55,7 +59,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     } */
 
     try {
-
         // If username and password exist, POST to server API
         const response = await fetch('/login/login', {
             method: 'POST',
@@ -72,7 +75,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
            // If *either* the username or password are invalid, BOTH input borders go red
             if (data.message.includes('invalid-credentials')) {
                 usernameInput.style.border = '2px solid red';
+                document.getElementById('username-error').style.display = 'block';
                 passwordInput.style.border = '2px solid red';
+                document.getElementById('password-error').style.display = 'block';
             }   
 
             return; // Stop further execution

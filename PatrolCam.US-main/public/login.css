@@ -52,6 +52,33 @@ input[type="email"], input[type="password"], input[type="text"]{
     font-size: 16px;
 }
 
+.password-input-container {
+    position: relative;
+
+}
+
+.fa-eye {
+    position: absolute;
+    top: 28%;
+    right: 4%;
+    cursor: pointer;
+    color: lightgray;
+}
+
+.fa-eye-slash{
+    position:absolute;
+    top: 29%;
+    right: 4%;
+    cursor: pointer;
+    color: lightgray;
+}
+
+.error-message {
+    color: red;
+    font-size: 1em;
+    display: none;
+}
+
 button {
     width: 100%;
     padding: 15px;
