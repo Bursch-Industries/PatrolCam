@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeTabs();
     initializeStatusDropdowns();
     initializeOfficerToggle();
+    initializeAccountEdit();
 });
 
 
@@ -48,7 +49,7 @@ function initializeStatusDropdowns() {
             event.target.style.color = color;
         });
 
-        dropdown.dispatchEvent(new Event("change")); // Set initial color
+        dropdown.dispatchEvent(new Event("change"));
     });
 }
 
@@ -93,4 +94,43 @@ function saveCameraChanges(cameraId) {
     const payload = { name, location, status };
     saveChanges("camera", cameraId, payload);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    initializeTabs();
+    initializeStatusDropdowns();
+    initializeOfficerToggle();
+    initializeAccountEdit();
+});
+
+// Editable Pencil Icon
+
+function initializeAccountEdit() {
+    const editIcon = document.querySelector("#account-info .edit-icon");
+    const inputFields = document.querySelectorAll("#account-info input");
+    const subscriptionDropdown = document.getElementById("subscription-plan");
+    const submitButton = document.querySelector(".submit-btn");
+
+    let isEditable = false;
+
+    editIcon.addEventListener("click", () => {
+        isEditable = !isEditable;
+
+        inputFields.forEach((input) => {
+            input.readOnly = !isEditable; // Toggle readonly
+            input.classList.toggle("editable", isEditable); // Apply editable style
+        });
+
+        if (isEditable) {
+            subscriptionDropdown.removeAttribute("disabled"); // Enable dropdown
+            subscriptionDropdown.classList.add("editable");
+        } else {
+            subscriptionDropdown.setAttribute("disabled", ""); // Disable dropdown
+            subscriptionDropdown.classList.remove("editable");
+        }
+
+        submitButton.disabled = !isEditable; // Enable or disable submit button
+    });
+}
+
+
 
