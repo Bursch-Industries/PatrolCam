@@ -48,8 +48,36 @@ input[type="email"], input[type="password"], input[type="text"]{
     padding: 15px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 16px;
+}
+
+.password-input-container {
+    position: relative;
+
+}
+
+.fa-eye {
+    position: absolute;
+    top: 28%;
+    right: 4%;
+    cursor: pointer;
+    color: lightgray;
+}
+
+.fa-eye-slash{
+    position:absolute;
+    top: 29%;
+    right: 4%;
+    cursor: pointer;
+    color: lightgray;
+}
+
+.error-message {
+    color: red;
+    font-size: 1em;
+    margin-bottom: 10px;
+    display: none;
 }
 
 button {

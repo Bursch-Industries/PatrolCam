@@ -27,6 +27,10 @@ router.get('/org-settings', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'org-settings.html'));
 })
 
+router.get('/userSettings', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'pages', 'userSettings.html'))
+});
+
 router.get('/logDemo', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'logDemo.html'))
 })
@@ -45,6 +49,10 @@ router.get('/logIndex', (req, res) => {
 
 router.get('/401', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', '401.html'))
+});
+
+router.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'pages', 'dashboard.html'))
 });
 
 module.exports = router

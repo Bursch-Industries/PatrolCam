@@ -41,11 +41,13 @@ app.use('/login', require('../routes/api/loginAPI'));
 // Query API
 app.use('/api/user', require('../routes/api/userAPI'));
 
-// Refresh session on server action
-app.use(sessionMiddleware.sessionRefresh);
 
 // Protected Routers
 app.use('/protected', require('../routes/protected/protectedRoute'));
+
+
+// Refresh session on server action
+app.use(sessionMiddleware.sessionRefresh);
 
 // Universal 404 Catch
 app.use((req, res, next) => {

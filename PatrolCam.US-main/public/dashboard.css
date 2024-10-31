@@ -1,0 +1,170 @@
+html {
+    scroll-behavior: smooth;
+}
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    text-align: center;
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.wrapper-main {
+    max-width: 80%;
+}
+
+/* Header CSS */
+header {
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0C2D48;
+    opacity: 90%;
+    height: 6rem; /* Adjust height if needed */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 6rem;
+    margin-right: 1.25rem;
+    margin-left: 0.625rem;
+}
+
+.logo span {
+    font-size: 1.75rem;
+    color: yellow;
+    font-weight: bold;
+}
+
+.navbar {
+    display: flex;
+    gap: 0rem;
+    background-color: black;
+    border-radius: 0.625rem;
+}
+
+.navbar a {
+    color: white;
+    font-size: 1.25rem;
+    text-decoration: none;
+    padding: 0.625rem 1.25rem;
+    background-color: black;
+    border-radius: 0.3125rem;
+    width: 6.25rem;
+    box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
+}
+
+.navbar a:hover {
+    background-color: #333;
+}
+
+.profile-picture img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 25px;
+}
+
+
+/* Home Intro */
+
+.dashboard-container {
+    text-align: center;
+    color: white;
+    padding-top: 1rem;
+    background-color: #2E8BC0;
+    flex: 1;
+    padding-bottom: 4vh;
+}
+
+.dashboard-container h1 {
+    font-size: 2rem;
+    color: #ffffff;
+    text-align: left;
+    margin-left: 3rem;
+}
+
+.services-tab {
+    background-color: white;
+    color: black;
+    padding: .5rem;
+    font-size: 4vh;
+    display: inline-block;
+    margin-top: 1rem;
+    width: 15rem;
+}
+
+.menu-options {
+    display: flex;
+    gap: 0rem;
+    background-color: #145DA0;
+    border-radius: 0.625rem;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-right:10rem;
+    margin-left: 10rem;
+    padding: 3vh;
+    border: 2px solid black;
+}
+
+.menu-options a {
+    color: white;
+    font-size: 2rem;
+    text-decoration: none;
+    padding: 1rem;
+    padding-right: 5rem;
+    border-radius: 0.3125rem;
+    width: 6.25rem;
+}
+
+#chat {
+    padding: 1rem;
+}
+
+#surveillance {
+    margin-left:4rem;
+}
+.menu-options a:hover {
+    background-color: #0C2D48;
+}
+
+.notifications {
+    background-color: #f8e442;
+    padding: 1rem;
+    margin-top: 5vh;
+    font-size: 1.5rem;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 13rem;
+    margin-right: 13rem;
+    border-radius: 10px;
+}
+
+.notifications button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: black;
+}
+
+.footer {
+    padding: 1.5rem;
+    font-size: 1rem;
+    background-color: black;
+    color: white;
+    text-align: center;
+    opacity: 90%;
+    position: relative;
+}

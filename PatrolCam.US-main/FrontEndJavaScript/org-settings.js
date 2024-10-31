@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeTabs();
     initializeStatusDropdowns();
     initializeOfficerToggle();
+    initializeAccountEdit();
 });
 
 // Tab Initialization
@@ -22,20 +23,6 @@ function initializeTabs() {
     });
 }
 
-// Officer Toggle Logic
-function initializeOfficerToggle() {
-    const officerCards = document.querySelectorAll(".officer-card");
-
-    officerCards.forEach((card) => {
-        const header = card.querySelector(".officer-header");
-        header.addEventListener("click", () => toggleOfficerDetails(card));
-    });
-}
-
-function toggleOfficerDetails(card) {
-    card.classList.toggle("active");
-    card.classList.toggle("collapsed");
-}
 
 // Status Dropdown Logic
 function initializeStatusDropdowns() {
@@ -47,7 +34,7 @@ function initializeStatusDropdowns() {
             event.target.style.color = color;
         });
 
-        dropdown.dispatchEvent(new Event("change")); // Set initial color
+        dropdown.dispatchEvent(new Event("change"));
     });
 }
 
@@ -92,3 +79,55 @@ function saveCameraChanges(cameraId) {
     const payload = { name, location, status };
     saveChanges("camera", cameraId, payload);
 }
+
+// Editable Pencil Icon
+
+function initializeAccountEdit() {
+    const editIcon = document.querySelector("#account-info .edit-icon");
+    const inputFields = document.querySelectorAll("#account-info input");
+    const subscriptionDropdown = document.getElementById("subscription-plan");
+    const submitButton = document.querySelector(".submit-btn");
+
+    let isEditable = false;
+
+    editIcon.addEventListener("click", () => {
+        isEditable = !isEditable;
+
+        inputFields.forEach((input) => {
+            input.readOnly = !isEditable; // Toggle readonly
+            input.classList.toggle("editable", isEditable); // Apply editable style
+        });
+
+        if (isEditable) {
+            subscriptionDropdown.removeAttribute("disabled"); // Enable dropdown
+            subscriptionDropdown.classList.add("editable");
+        } else {
+            subscriptionDropdown.setAttribute("disabled", ""); // Disable dropdown
+            subscriptionDropdown.classList.remove("editable");
+        }
+
+        submitButton.disabled = !isEditable; // Enable or disable submit button
+    });
+}
+
+
+function initializeOfficerToggle() {
+    const officerCards = document.querySelectorAll(".officer-card");
+
+    officerCards.forEach((card) => {
+        const header = card.querySelector(".officer-header");
+        header.addEventListener("click", () => toggleOfficerDetails(card));
+    });
+}
+
+function toggleOfficerDetails(card) {
+    console.log("Toggling card:", card);  // Debugging output
+    card.classList.toggle("active");
+}
+
+
+
+
+
+
+
