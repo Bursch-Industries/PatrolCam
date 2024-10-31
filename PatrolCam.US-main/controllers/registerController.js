@@ -602,11 +602,11 @@ async function findUser(username){
 }
 
 async function getCameraDetails(req, res) {
-    const { username } = req.body;
-
-    if(!username){
-        return res.status(400).json({"Error occured while getting camera details": "All fields are required"})
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
     }
+    
+    const username = req.session.user.username
 
     try{
         const user = await findUser(username)
@@ -620,12 +620,11 @@ async function getCameraDetails(req, res) {
             select: 'camera_Name location status -_id'
         }).exec();
 
-        if(!organization || !organization.cameras || !organization.cameras.length === 0){
+        if(!organization || !organization.cameras || organization.cameras.length === 0){
             return res.sendStatus(404)
         }
 
         return res.status(200).json({
-            message: `Cameras found for user ${username}`,
             cameras: organization.cameras
         })
     } catch (error) {
@@ -649,12 +648,15 @@ async function getCameraDetails(req, res) {
 }
 
 async function getOrgUserData(req, res) {
-    const { username } = req.body
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
+    
+    const user = req.session.user.username
 
     try{
-        const orgUserArray = await getUserFields(username, ['firstname', 'lastname', '-_id']) 
+        const orgUserArray = await getUserFields(user, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id']) 
         return res.status(200).json({
-            message: `Users found for user ${username}`,
             users: orgUserArray.users
         })
     } catch (error) {
@@ -733,12 +735,15 @@ async function getUserFields(username, fields = []) {
 }
 
 async function getOrganizationDetails(req, res){
-    const { username } = req.body
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
+
+    const username = req.session.user.username
 
     try{
         const orgDetails = await getOrganizationFields(username)
         return res.status(200).json({
-            message: 'Organization detials retrieved successfully',
             organization: orgDetails
         })
     } catch (error) {
@@ -784,7 +789,7 @@ async function getOrganizationFields(username){
     if(!orgFields) {
         throw new Error("404")
     }
-
+    
     return orgFields
 }
 
