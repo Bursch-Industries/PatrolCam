@@ -14,13 +14,17 @@ router.get('/', (req, res) => {
     }
 })
 
+router.get('/demo', (req, res) => {
+    if(loggedIn(req)) {
+        res.sendFile(path.join(__dirname, '..', 'pages', 'logDemo.html'));
+    } else {
+        res.sendFile(path.join(__dirname, '..', 'pages', 'demo.html'));
+    }
+})
+
 
 // --- Pages that differ based on role --- 
 router.get('/dashboard', requireAuth, (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'pages', `${req.session.user.role}`, 'dashboard.html'));
-});
-
-router.get('/demo', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'pages', `${req.session.user.role}`, 'dashboard.html'));
 });
 
