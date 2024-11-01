@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeAccountEdit();
 });
 
-
 // Tab Initialization
 function initializeTabs() {
     const tabButtons = document.querySelectorAll(".tab-btn");
@@ -24,20 +23,6 @@ function initializeTabs() {
     });
 }
 
-// Officer Toggle Logic
-function initializeOfficerToggle() {
-    const officerCards = document.querySelectorAll(".officer-card");
-
-    officerCards.forEach((card) => {
-        const header = card.querySelector(".officer-header");
-        header.addEventListener("click", () => toggleOfficerDetails(card));
-    });
-}
-
-function toggleOfficerDetails(card) {
-    card.classList.toggle("active");
-    card.classList.toggle("collapsed");
-}
 
 // Status Dropdown Logic
 function initializeStatusDropdowns() {
@@ -95,13 +80,6 @@ function saveCameraChanges(cameraId) {
     saveChanges("camera", cameraId, payload);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    initializeTabs();
-    initializeStatusDropdowns();
-    initializeOfficerToggle();
-    initializeAccountEdit();
-});
-
 // Editable Pencil Icon
 
 function initializeAccountEdit() {
@@ -131,6 +109,25 @@ function initializeAccountEdit() {
         submitButton.disabled = !isEditable; // Enable or disable submit button
     });
 }
+
+
+function initializeOfficerToggle() {
+    const officerCards = document.querySelectorAll(".officer-card");
+
+    officerCards.forEach((card) => {
+        const header = card.querySelector(".officer-header");
+        header.addEventListener("click", () => toggleOfficerDetails(card));
+    });
+}
+
+function toggleOfficerDetails(card) {
+    console.log("Toggling card:", card);  // Debugging output
+    card.classList.toggle("active");
+}
+
+
+
+
 
 
 

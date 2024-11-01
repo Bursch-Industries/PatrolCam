@@ -391,6 +391,9 @@ form select.editable {
     font-size: 1.5rem;
     transition: transform 0.3s ease;
 }
+.officer-card, .officer-header {
+    pointer-events: auto;
+}
 
 /* Rotate arrow when expanded */
 .officer-card.active .dropdown-arrow {
