@@ -3,7 +3,7 @@ const whitelist = ['https://www.patrolcam.com', 'http://agile-crow-usoj23gwgmlex
 const corsOptions = {  
     origin: (origin, callback) => {
         console.log('origin: ' + origin);
-        if (whitelist.indexOf(origin) !== -1) { 
+        if (whitelist.indexOf(origin) !== -1 || !origin) { 
             callback(null, true)
         } 
         else {
