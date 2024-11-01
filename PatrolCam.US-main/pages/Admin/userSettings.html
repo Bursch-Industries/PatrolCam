@@ -35,17 +35,27 @@
 
         <!-- Login/Logout Modal -->
 
-        <div id="logout-modal" style="display: none;">
+        <div id="logout-modal">
             <div class="out-modal">
                 <div class="top-out-form">
-                    <button class="close-out-modal">&#10006;</button>
+                    <div class="close-out-modal">
+                        &#10006;
+                    </div>
                 </div>
                 <div class="logout-form">
-                    <a href="/">Logout</a>
+                    <!-- Form for Settings -->
+                    <form action="/org-settings" method="GET">
+                        <button type="submit">Settings</button>
+                    </form>
+        
+                    <!-- Form for Logout -->
+                    <form action="login/logout" method="POST">
+                        <button type="submit">Logout</button>
+                    </form>
                 </div>
             </div>
         </div>
-    </header>
+
 
     <!-- JavaScript for Modal -->
     <script type="text/javascript">

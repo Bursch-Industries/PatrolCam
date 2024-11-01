@@ -29,11 +29,15 @@ router.get('/dashboard', requireAuth, (req, res) => {
 });
 
 router.get('/cameras', requireAuth, (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'pages', `${req.session.user.role}`, 'camera_page.html'));
+    res.sendFile(path.join(__dirname, '..', 'pages', `${req.session.user.role}`, 'cameras.html'));
 });
 
 router.get('/org-settings', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', `${req.session.user.role}`, 'org-settings.html'));
+})
+
+router.get('/userSettings', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', `${req.session.user.role}`, 'userSettings.html'));
 })
 
 // --- Pages that do not differ based on role or require authentication ---

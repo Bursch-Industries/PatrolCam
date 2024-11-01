@@ -8,7 +8,7 @@ function requireAuth(req, res, next) {
 
         // Dynamically generate the file to search for based on the user role and the intended page being requested
         const filePath = `./pages/${req.session.user.role}${req.path}.html`;
-
+        console.log('Filepath: ' + filePath)
         fs.stat(filePath, (err, stats) => {
             if (err) {
                 // If the file does not exist, send a 404 response
