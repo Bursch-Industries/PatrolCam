@@ -7,7 +7,7 @@ const loggedIn = require('../middleware/loggedIn');
 
 // --- Pages that differ based on being logged in ---
 router.get('/', (req, res) => {
-    if(loggedIn) {
+    if(loggedIn(req)) {
         res.sendFile(path.join(__dirname, '..', 'pages', 'logIndex.html'));
     } else {
         res.sendFile(path.join(__dirname, '..', 'pages', 'index.html'));
