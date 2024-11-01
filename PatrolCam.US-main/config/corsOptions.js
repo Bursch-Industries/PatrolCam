@@ -2,14 +2,13 @@ const whitelist = ['https://www.patrolcam.com', 'http://agile-crow-usoj23gwgmlex
 // Checks for domains in the above list. 
 const corsOptions = {  
     origin: (origin, callback) => {
-        if (whitelist.indexOf(origin) !== -1 || !origin) { //Take out - || !origin - for prod
-            callback(null, true)
-        } 
-        else {
-            callback(new Error ('Error: Not allowed by CORS'))
+        if (whitelist.some(allowedOrigin => origin.startsWith(allowedOrigin))) {
+            callback(null, true);
+        } else {
+            callback(new Error('Error: Not allowed by CORS'));
         } 
     },
     optionsSuccessStatus: 200
-}
+};
 
 module.exports = corsOptions
