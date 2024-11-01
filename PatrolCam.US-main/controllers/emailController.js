@@ -6,7 +6,6 @@ const  { logActivity }  = require('./logger');
 const sendContactFormEmail = async (req, res) => {
     const { name, org, ext, phone, email, productInterest } = req.body;
 
-    // REPLACE with client-side js validation ? 
     if (!name || !email || !org || !phone || !productInterest) {
         return res.sendStatus(400);
     }
@@ -56,7 +55,7 @@ const sendContactFormEmail = async (req, res) => {
         });
 
         // REPLACE this with client-side js to show confirmation of successful email sent ? 
-        res.status(200).json({ 'message': 'Thank you for your interest in Patrol Cam products and services, we will get back to you shortly' });
+        return res.sendStatus(200);
 
     } catch (err) {
 
@@ -73,7 +72,7 @@ const sendContactFormEmail = async (req, res) => {
             });
 
         });
-        res.status(500).json({ 'message': err.message });
+        return res.sendStatus(500);
     }
 }
 

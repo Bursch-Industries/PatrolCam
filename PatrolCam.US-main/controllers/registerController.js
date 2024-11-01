@@ -12,7 +12,7 @@ async function handleNewUser (req, res) {
 
     //Check missing request fields
     if (!user || !password || !userFirstname || !userLastname || !userEmail){
-        // REPLACE with client-side js validation ?
+        
         return res.status(400).json({ 'Error while creating new user': 'All required fields must be filled.' });
     }
 
@@ -80,7 +80,6 @@ async function handleNewOrganization (req, res) {
 
     //Check missing request fields
     if (!orgName || !orgPhone || !orgAddress || !user || !password || !orgEmail || !userFirstname || !userLastname || !userEmail) {
-        // REPLACE with client-side js for validation ?
         return res.status(400).json({ 
             'Error occured while creating new organization' : 'All required fields must be filled.'
         });
@@ -176,7 +175,6 @@ async function deleteOrganizationUser (req, res) {
     const { username, admin } = req.body;
 
     //Check missing request fields
-    // REPLACE with client-side js validation ?
     if (!username || !admin) return res.status(400).json({
         "Error occured while deleting user" : "All required fields must be filled."
     });
@@ -262,7 +260,6 @@ async function handlePasswordReset (req, res) {
     const { username, newPwd } = req.body;
 
     //check missing request fields
-    // REPLACE with client-side js validation ?
     if (!username || !newPwd) {
         return res.status(400).json({"Password Reset error" : "All required fields must be filled."});
     }
@@ -326,7 +323,6 @@ async function handleAddNewOrgUser (req, res) {
     const {creator, user, userPassword, userFirstname, userLastname, userEmail } = req.body;
 
     //Check missing request fields
-    // REPLACE with client-side js validation ?
     if(!creator || !user || !userPassword || !userFirstname || !userLastname || !userEmail) {
         return res.status(400).json({"Error occured while adding user to organization" : "All required fields must be filled."});
     }
@@ -433,7 +429,6 @@ async function addCameraToOrganization(req, res) {
     const {camName, username, camModel, camLocation} = req.body;
 
     //Check missing request fields
-    // REPLACE with client-side js validation ?
     if (!camName || !username || !camModel || !camLocation){
         return res.status(400).json({"Error occured while adding camera to organization":"All required fields must be filled."})
     } 

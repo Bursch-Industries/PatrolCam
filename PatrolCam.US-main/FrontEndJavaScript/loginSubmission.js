@@ -12,6 +12,8 @@ const toggleButton = document.getElementById('toggleButton');
 const rememberMe = document.getElementById('remember');
 toggleButton.addEventListener('click', toggleVisible);
 
+
+
 window.onload = function() {
     const savedPassword = localStorage.getItem('password');
     if(savedPassword){
@@ -27,16 +29,14 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
 
-
     // Get the values from the input fields
     const username = usernameInput.value;
     const password = passwordInput.value;
 
-
-    console.log('username: ' + username);
-    console.log('password: ' + password);
-
     // Clear previous error messages
+    document.getElementById('missing-info-error').style.display = 'none';
+    document.getElementById('username-error').style.display = 'none';
+    document.getElementById('password-error').style.display = 'none';
     //errorMessage.textContent = '';
 
 
@@ -59,7 +59,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     } */
 
     try {
-        console.log('entering try block')
         // If username and password exist, POST to server API
         const response = await fetch('/login/login', {
             method: 'POST',
@@ -83,11 +82,12 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
             return; // Stop further execution
         }
-        console.log('rememberMe: ' + rememberMe);
+        
+        // If the user has checked the "Remember Password" box, store the password in the browser Local Storage. 
         if(document.getElementById('remember').checked) {
             localStorage.setItem('password', password)
         } else {
-            localStorage.removeItem('password')
+            localStorage.removeItem('password') // Remove the password from Local Storage if the form is submitted without the box checked
         }
         
         console.log('Login successful:');

@@ -26,7 +26,7 @@ const userLogin = async (req, res) => {
         if (validatePassword) {
 
             // Set session information here
-            req.session.user = { id: user._id };
+            req.session.user = { id: user._id, username: user.username, role: user.roles };
             return res.sendStatus(200);
         } 
         else {    
@@ -58,9 +58,10 @@ const userLogin = async (req, res) => {
 // Logout Function to Destroy Session
 const userLogout = async (req, res) => {
     
+    
     try {
         req.session.destroy()
-        res.redirect(301, '/')
+        res.redirect(301, '/login')
 
     } catch (err) {
 

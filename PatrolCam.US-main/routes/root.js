@@ -1,58 +1,60 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const requireAuth = require('../middleware/authMiddleware');
+const isSessionExpired = require('../controllers/sessionController');
+const loggedIn = require('../middleware/loggedIn');
 
-
+// --- Pages that differ based on being logged in ---
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'index.html'));
+    if(loggedIn(req)) {
+        res.sendFile(path.join(__dirname, '..', 'pages', 'logIndex.html'));
+    } else {
+        res.sendFile(path.join(__dirname, '..', 'pages', 'index.html'));
+    }
 })
 
-router.get('/sign-up', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'sign-up.html'));
+
+// --- Pages that differ based on role --- 
+router.get('/dashboard', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'pages', `${req.session.user.role}`, 'dashboard.html'));
+});
+
+router.get('/demo', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'pages', `${req.session.user.role}`, 'dashboard.html'));
+});
+
+router.get('/cameras', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'pages', `${req.session.user.role}`, 'camera_page.html'));
+});
+
+router.get('/org-settings', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', `${req.session.user.role}`, 'org-settings.html'));
 })
 
-router.get('/demo', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'demo.html'));
-})
-
-router.get('/test', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'test.html'))
-})
-
+// --- Pages that do not differ based on role or require authentication ---
 router.get('/logged-out', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'logged-out.html'))
-})
-
-router.get('/org-settings', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'org-settings.html'));
 })
 
 router.get('/userSettings', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'pages', 'userSettings.html'))
 });
 
-router.get('/logDemo', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'logDemo.html'))
-})
-
 router.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'login.html'))
-});
-
-router.get('/cameras', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'camera_page.html'))
-});
-
-router.get('/logIndex', (req, res) => {
-    res.sendFile(path.join(__dirname,'..', 'pages', 'logIndex.html'))
 });
 
 router.get('/401', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', '401.html'))
 });
 
-router.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'pages', 'dashboard.html'))
+router.get('/404', (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', '404.html'))
 });
+
+// Check for session expiration
+router.get('/checkSession', isSessionExpired);
+
 
 module.exports = router
