@@ -5,8 +5,8 @@ const cors = require('cors');
 const corsOptions = require('../config/corsOptions')
 const sessionMiddleware = require('../middleware/sessionHandler');
 
-function createServer() {
 
+function createServer() {
 
 const app = express();
 
@@ -41,11 +41,6 @@ app.use('/login', require('../routes/api/loginAPI'));
 // Query API
 app.use('/api/user', require('../routes/api/userAPI'));
 
-
-// Protected Routers
-app.use('/protected', require('../routes/protected/protectedRoute'));
-
-
 // Refresh session on server action
 app.use(sessionMiddleware.sessionRefresh);
 
@@ -53,7 +48,6 @@ app.use(sessionMiddleware.sessionRefresh);
 app.use((req, res, next) => {
     res.status(404).json({ error: 'Not Found' });
 });
-
 
 
 return app;

@@ -34,10 +34,10 @@
                         &#10006;
                     </div>
                 </div>
-                <div class="logout-form">
-                    <a href="/org-settings">Settings</a>
-                    <a href="/">Logout</a>
-                </div>
+                <form class="logout-form" action="/login/logout" method="POST">
+                    <button type="button" onclick="window.location.href='/org-settings'">Settings</button>
+                    <button type="submit">Logout</button>
+                </form>
             </div>
         </div>
 

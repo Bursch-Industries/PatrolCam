@@ -6,9 +6,7 @@ const  { logActivity }  = require('./logger');
 const sendContactFormEmail = async (req, res) => {
     const { name, org, ext, phone, email, productInterest } = req.body;
 
-    // REPLACE with client-side js validation ? 
     if (!name || !email || !org || !phone || !productInterest) {
-        console.log('missing fields');
         return res.sendStatus(400);
     }
     try {

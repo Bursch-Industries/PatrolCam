@@ -14,7 +14,7 @@ beforeAll(async () => {
   await model.deleteMany({username: 'Bob McGee'});
   const password = 'PleaseDoNotHackMe123';
   const fakepwd = await bcrypt.hash(password, 10);
-  const tester = new model({username: 'Bob McGee', password: fakepwd, firstname: "Bob", lastname: "McGee", email: 'someemail@email.com'});
+  const tester = new model({username: 'Bob McGee', password: fakepwd, firstname: "Bob", lastname: "McGee", email: 'someemail@email.com', roles: 'User', organization: 'Test Org'});
   await tester.save();
 });
 
