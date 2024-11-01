@@ -2,6 +2,7 @@ const whitelist = ['https://www.patrolcam.com', 'http://agile-crow-usoj23gwgmlex
 // Checks for domains in the above list. 
 const corsOptions = {  
     origin: (origin, callback) => {
+        console.log('origin: ' + origin);
         if (whitelist.indexOf(origin) !== -1) { 
             callback(null, true)
         } 
