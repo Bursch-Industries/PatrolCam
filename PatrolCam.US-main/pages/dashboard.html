@@ -25,7 +25,7 @@
             <img src="./officer_placeholder_1.jpg" id="login-show" alt="Profile Picture">
         </a>
 
-        <div id="logout-modal">
+        <!-- <div id="logout-modal">
             <div class="out-modal">
                 <div class="top-out-form">
                     <div class="close-out-modal">
@@ -37,7 +37,28 @@
                     <a href="/">Logout</a>
                 </div>
             </div>
+        </div> -->
+        <div id="logout-modal">
+            <div class="out-modal">
+                <div class="top-out-form">
+                    <div class="close-out-modal">
+                        &#10006;
+                    </div>
+                </div>
+                <div class="logout-form">
+                    <!-- Form for Settings -->
+                    <form action="/org-settings" method="GET">
+                        <button type="submit">Settings</button>
+                    </form>
+        
+                    <!-- Form for Logout -->
+                    <form action="/logout" method="POST">
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
         </div>
+        
 
         <script type="text/javascript">
             $(function() {

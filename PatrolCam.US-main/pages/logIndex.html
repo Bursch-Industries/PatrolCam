@@ -35,8 +35,15 @@
                     </div>
                 </div>
                 <div class="logout-form">
-                    <a href="/org-settings">Settings</a>
-                    <a href="/">Logout</a>
+                    <!-- Form for Settings -->
+                    <form action="/org-settings" method="GET">
+                        <button type="submit">Settings</button>
+                    </form>
+        
+                    <!-- Form for Logout -->
+                    <form action="/logout" method="POST">
+                        <button type="submit">Logout</button>
+                    </form>
                 </div>
             </div>
         </div>

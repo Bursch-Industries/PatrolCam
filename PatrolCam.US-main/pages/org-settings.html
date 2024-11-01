@@ -35,7 +35,7 @@
 
             <!-- Login/Logout Modal -->
 
-            <div id="logout-modal" style="display: none;">
+            <!-- <div id="logout-modal" style="display: none;">
                 <div class="out-modal">
                     <div class="top-out-form">
                         <button class="close-out-modal">&#10006;</button>
@@ -44,7 +44,20 @@
                         <a href="/">Logout</a>
                     </div>
                 </div>
+            </div> -->
+            <div id="logout-modal" style="display: none;">
+                <div class="out-modal">
+                    <div class="top-out-form">
+                        <button class="close-out-modal">&#10006;</button>
+                    </div>
+                    <div class="logout-form">
+                        <form action="/logout" method="POST">
+                            <button type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
             </div>
+            
         </header>
 
         <!-- JavaScript for Modal -->

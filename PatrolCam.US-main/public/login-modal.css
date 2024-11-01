@@ -100,19 +100,20 @@
 }
 
 /* Logout Button Styling */
-.logout-form a {
+.logout-form button {
     display: block;
     margin: 10px auto;
     padding: 10px;
     width: 80%;
     background-color: #145DA0;
     color: white;
-    text-decoration: none;
+    text-decoration: none; /* This isn't necessary for buttons but can be left for consistency */
+    border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.logout-form a:hover {
+.logout-form button:hover {
     opacity: 90%;
 }
 
