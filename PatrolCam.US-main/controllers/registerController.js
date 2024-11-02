@@ -8,7 +8,7 @@ const { withTransaction } = require('./transactionHandler') //Handles Database t
 
 //Handles new user creation
 async function handleNewUser (req, res) {
-    const { user, password, userFirstname, userLastname, userEmail, phone, rank } = req.body;
+    const { user, password, userFirstname, userLastname, userEmail, phone, rank, role } = req.body;
 
     //Check missing request fields
     if (!user || !password || !userFirstname || !userLastname || !userEmail){
@@ -36,7 +36,8 @@ async function handleNewUser (req, res) {
                 email: userEmail,
                 organization: "Individual",
                 phone: phone || 'N/A', //Optional
-                rank: rank || 'N/A' //Optional
+                rank: rank || 'N/A', //Optional
+                roles: role
             });
             await newUser.save({ session });
 

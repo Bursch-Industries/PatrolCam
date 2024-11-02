@@ -15,7 +15,6 @@ const userLogin = async (req, res) => {
         const user = await User.findOne({ username: username}).exec();
 
         if(!user) {
-            console.log('user not found in db')
             return res.status(401).json({ message: 'invalid-credentials' });
         }
 

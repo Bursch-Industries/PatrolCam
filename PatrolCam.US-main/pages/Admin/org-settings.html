@@ -15,65 +15,7 @@
 
         <!-- Header Section -->
 
-        <header>
-            <div class="logo">
-                <a href="/#index.html"><img src="PatrolCamLogo.png" alt="PatrolCam Logo"></a>
-            </div>
-            <nav class="navbar">
-                <a href="/dashboard">Home</a>
-                <a href="/logDemo">Demo</a>
-                <a href="/#contact-section">Contact Us</a>
-                <a href="/cameras">Surveillance</a>
-            </nav>
-            <!-- <a href="/login" id="loginButton">Login</a> -->
-
-            <!-- Profile Picture -->
-
-            <a href="#" id="logout-show" class="profile-picture">
-                <img src="./officer_placeholder_1.jpg" alt="Profile Picture">
-            </a>
-
-            <!-- Login/Logout Modal -->
-
-            <!-- <div id="logout-modal" style="display: none;">
-                <div class="out-modal">
-                    <div class="top-out-form">
-                        <button class="close-out-modal">&#10006;</button>
-                    </div>
-                    <div class="logout-form">
-                        <a href="/">Logout</a>
-                    </div>
-                </div>
-            </div> -->
-            <div id="logout-modal" style="display: none;">
-                <div class="out-modal">
-                    <div class="top-out-form">
-                        <button class="close-out-modal">&#10006;</button>
-                    </div>
-                    <div class="logout-form">
-                        <form action="login/logout" method="POST">
-                            <button type="submit">Logout</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-        </header>
-
-        <!-- JavaScript for Modal -->
-        <script type="text/javascript">
-            $(function() {
-                // Show modal on click
-                $('#logout-show').click(function() {
-                    $('#logout-modal').fadeIn();
-                });
-
-                // Hide modal on close button click
-                $('.close-out-modal').click(function() {
-                    $('#logout-modal').fadeOut();
-                });
-            });
-        </script>
+        <header id="navbar"></header>
 
 
         <!-- Settings Section -->

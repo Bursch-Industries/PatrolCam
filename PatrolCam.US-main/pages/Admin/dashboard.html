@@ -7,58 +7,12 @@
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="login-modal.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../FrontEndJavaScript/fetchNavbar.js" defer></script>
+    <script src="../FrontEndJavaScript/profileIconModal.js" defer></script>
 </head>
 <body>
     <!--This is where the header is coded-->
-    <header>
-        <div class="logo">
-            <a href="/dashboard"><img src="PatrolCamLogo.png" alt="PatrolCam Logo"></a>
-        </div>
-        <nav class="navbar">
-            <a href="/dashboard">Home</a>
-            <a href="/logDemo">Demo</a>
-            <a href="/logIndex#contact-section">Contact Us</a>
-            <a href="/cameras">Surveillance</a>
-        </nav>
-
-        <a href="#" id="logout-show" class="profile-picture">
-            <img src="./officer_placeholder_1.jpg" id="login-show" alt="Profile Picture">
-        </a>
-
-        <div id="logout-modal">
-            <div class="out-modal">
-                <div class="top-out-form">
-                    <div class="close-out-modal">
-                        &#10006;
-                    </div>
-                </div>
-                <div class="logout-form">
-                    <!-- Form for Settings -->
-                    <form action="/org-settings" method="GET">
-                        <button type="submit">Settings</button>
-                    </form>
-        
-                    <!-- Form for Logout -->
-                    <form action="login/logout" method="POST">
-                        <button type="submit">Logout</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-
-        <script type="text/javascript">
-            $(function() {
-                $('#logout-show').click(function(){
-                    $('#logout-modal').fadeIn();
-                });
-
-                $('.close-out-modal').click(function(){
-                    $('#logout-modal').fadeOut();
-                });
-            });
-        </script>
-    </header>
+    <header id="navbar"></header>
 
     <div class="dashboard-container">
         <h1>Welcome Back, Admin from the Admin pages Directory</h1>
