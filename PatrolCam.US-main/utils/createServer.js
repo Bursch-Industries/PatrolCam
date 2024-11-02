@@ -46,7 +46,7 @@ app.use(sessionMiddleware.sessionRefresh);
 
 // Universal 404 Catch
 app.use((req, res, next) => {
-    res.status(404).json({ error: 'Not Found' });
+    res.redirect('/404');
 });
 
 
