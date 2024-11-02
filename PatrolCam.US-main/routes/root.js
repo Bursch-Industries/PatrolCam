@@ -40,6 +40,10 @@ router.get('/userSettings', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', `${req.session.user.role}`, 'userSettings.html'));
 })
 
+router.get('/orgList', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', `${req.session.user.role}`, 'orgList.html'));
+})
+
 // --- Pages that do not differ based on role or require authentication ---
 router.get('/logged-out', (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', 'logged-out.html'))

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrganizationList</title>
+    <link rel="stylesheet" href="orgList.css">
+    <link rel="stylesheet" href="login-modal.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../FrontEndJavaScript/fetchNavbar.js" defer></script>
+    <script src="../FrontEndJavaScript/profileIconModal.js" defer></script>
+</head>
+<body>
+    <!--This is where the header is coded-->
+    <header id="navbar"></header>
+
+    <div class="filters-section"> 
+        <form class="searchContainer"> 
+            <p>Search:</p>
+            <input id="searchbar">
+        </form>
+        <button class="filterButton">Filter</button>
+        <button class="addButton">+</button>
+    </div>
+
+    <div class="org-table-section">
+        <div class="tableOrg">
+            <div class="tableNav">
+                <h3>Org Name</h3>
+                <button class="userToggle"># of Users</button>
+                <button class="camToggle"># of Cameras</button>
+                <h3>More Details</h3>
+            </div>
+
+
+            <div class="orgList">
+
+            </div>
+
+            <div class="tableFooter">
+                <button class="backPage"><</button>
+                <p>Pg.<input class="pageNumber" placeholder="#"></p>
+                <button class="forwardPage"> > </button>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <footer class="footer">
+        PatrolCam. All Rights Reserved.
+    </footer>
+</body>
+
+</html>

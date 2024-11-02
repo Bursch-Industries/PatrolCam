@@ -1,7 +1,7 @@
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
-const sessionMaxAge = 1000 * 60 * 5 // Time in ms
+const sessionMaxAge = 1000 * 60 * 500 // Time in ms
 
 // Session Auth Middleware
 const store = new MongoDBStore({
