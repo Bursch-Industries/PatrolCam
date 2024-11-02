@@ -88,7 +88,7 @@ async function handleNewOrganization (req, res) {
 
     //Check for duplicate usernames in the database
     const organizationDuplicate = await Organization.findOne({ organizationName: orgName}).exec();
-    const userDuplicate = await findUser(user)
+    const userDuplicate = await findUser(user);
 
     if (organizationDuplicate || userDuplicate) {
         return res.sendStatus(409) //Duplicate conflict
@@ -103,7 +103,7 @@ async function handleNewOrganization (req, res) {
             const owner = new User({
                 username: user,
                 password: hashedPassword,
-                roles: 'Creator',
+                roles: 'Admin',
                 firstname: userFirstname,
                 lastname: userLastname,
                 email: userEmail,

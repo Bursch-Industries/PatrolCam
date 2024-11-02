@@ -40,6 +40,7 @@ app.use('/login', require('../routes/api/loginAPI'));
 
 // Query API
 app.use('/api/user', require('../routes/api/userAPI'));
+app.use('/api/org', require('../routes/api/orgAPI'));
 
 // Refresh session on server action
 app.use(sessionMiddleware.sessionRefresh);

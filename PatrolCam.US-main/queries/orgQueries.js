@@ -1,7 +1,7 @@
-const user = require("../model/User");
+const user = require("../model/Organization");
 var ObjectId = require('mongodb').ObjectId;
 
-const getAllUsers = async (req, res) => {
+const getAllOrgs = async (req, res) => {
     
 
     try {
@@ -13,7 +13,7 @@ const getAllUsers = async (req, res) => {
 }
 
 
-const getUserByID = async (req, res) => {
+const getOrgByID = async (req, res) => {
     
     const userID = req.params.id;
     const o_id = new ObjectId(userID);
@@ -26,7 +26,7 @@ const getUserByID = async (req, res) => {
     }
 }
 
-const getUserPage = async (req, res) => {
+const getOrgPage = async (req, res) => {
 
     console.log('entering getUserPage');
 
@@ -55,4 +55,4 @@ const getUserPage = async (req, res) => {
 }
 
 
-module.exports = { getAllUsers, getUserByID, getUserPage }
+module.exports = { getAllOrgs, getOrgByID, getOrgPage }
