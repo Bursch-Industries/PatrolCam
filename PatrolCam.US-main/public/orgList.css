@@ -1,0 +1,149 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    text-align: center;
+    height: calc(100vh - 10vh);
+}
+
+
+/* Header CSS */
+header {
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0C2D48;
+    opacity: 90%;
+    height: 6rem; /* Adjust height if needed */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 6rem;
+    margin-right: 1.25rem;
+    margin-left: 0.625rem;
+}
+
+.logo span {
+    font-size: 1.75rem;
+    color: yellow;
+    font-weight: bold;
+}
+
+.navbar {
+    display: flex;
+    gap: 0rem;
+    background-color: black;
+    border-radius: 0.625rem;
+}
+
+.navbar a {
+    color: white;
+    font-size: 1.25rem;
+    text-decoration: none;
+    padding: 0.625rem 1.25rem;
+    background-color: black;
+    border-radius: 0.3125rem;
+    width: 6.25rem;
+    box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
+}
+
+.navbar a:hover {
+    background-color: #333;
+}
+
+.profile-picture img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 25px;
+}
+
+
+.filters-section {
+    display: flex;
+    background-color: #2E8BC0;
+    justify-content: space-between;
+    padding-left:10rem;
+    padding-right:10rem;
+}
+.searchContainer {
+    display: flex;
+}
+.searchContainer p{
+    color:black;
+    font-size: 1rem;
+}
+
+.filterButton {
+    background-color: yellow;
+    color:black;
+    font-size: 3rem;
+}
+
+.addButton {
+    background-color: yellow;
+    color:black;
+    font-size: 3rem;
+    width: 4rem;
+}
+
+
+.org-table-section {
+    background-color: #0C2D48;
+}
+
+.tableNav {
+    display: flex;
+    justify-content: space-between;
+    background-color: #0C2D48;
+    padding: 2rem;
+    padding-left: 10rem;
+    padding-right:10rem;
+    border: 2px solid black;
+}
+
+.tableNav h3 {
+    color: white;
+    font-size: 2rem;
+}
+
+.userToggle {
+    font-size: 2rem;
+    color: white;
+    background-color: #0C2D48
+}
+
+.camToggle {
+    font-size: 2rem;
+    color:white;
+    background-color: #0C2D48;
+}
+
+.tableFooter {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tableFooter input {
+    width: 1rem;
+}
+
+.footer {
+    padding: 1px;
+    font-size: 30px;
+    background-color: black;
+    opacity: 90%;
+    text-align: center;
+    position: relative;
+}

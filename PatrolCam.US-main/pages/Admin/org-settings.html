@@ -12,13 +12,29 @@
         <script src="../FrontEndJavaScript/fetchNavbar.js" defer></script>
         <script src="../FrontEndJavaScript/profileIconModal.js" defer></script>
 
-    </head>
-    <body>
+    <!-- Bootstrap CSS -->
+    <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet"
+    >
+</head>
+<body>
 
-        <!-- Header Section -->
+    <!-- Header Section -->
 
-        <header id="navbar"></header>
+    <header>
+        <div class="logo">
+            <a href="/#index.html"><img src="PatrolCamLogo.png" alt="PatrolCam Logo"></a>
+        </div>
+        <nav class="navbar">
+            <a href="/dashboard">Home</a>
+            <a href="/logDemo">Demo</a>
+            <a href="/#contact-section">Contact Us</a>
+            <a href="/cameras">Surveillance</a>
+        </nav>
+        <!-- <a href="/login" id="loginButton">Login</a> -->
 
+<<<<<<< HEAD
      <!-- Settings Section -->
 
      <div class="settings-container">
@@ -84,6 +100,122 @@
                     <div class="account-content">
                         <i class="edit-icon" onclick="enableEditMode()">&#9998;</i> <!-- Single Pencil Icon -->
 
+=======
+        <!-- Profile Picture -->
+
+        <a href="#" id="logout-show" class="profile-picture">
+            <img src="./officer_placeholder_1.jpg" alt="Profile Picture">
+        </a>
+
+        <!-- Login/Logout Modal
+
+            <!-- <div id="logout-modal" style="display: none;">
+                <div class="out-modal">
+                    <div class="top-out-form">
+                        <button class="close-out-modal">&#10006;</button>
+                    </div>
+                    <div class="logout-form">
+                        <a href="/">Logout</a>
+                    </div>
+                </div>
+            </div> -->
+            <div id="logout-modal" style="display: none;">
+                <div class="out-modal">
+                    <div class="top-out-form">
+                        <button class="close-out-modal">&#10006;</button>
+                    </div>
+                    <div class="logout-form">
+                        <form action="/logout" method="POST">
+                            <button type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </header>
+
+    <!-- JavaScript for Modal -->
+    <script type="text/javascript">
+        $(function() {
+            // Show modal on click
+            $('#logout-show').click(function() {
+                $('#logout-modal').fadeIn();
+            });
+
+            // Hide modal on close button click
+            $('.close-out-modal').click(function() {
+                $('#logout-modal').fadeOut();
+            });
+        });
+    </script>
+
+
+    <!-- Settings Section -->
+
+    <div class="settings-container">
+        <aside class="sidebar">
+        <h1 class="settings-text">Settings</h1>
+
+        <button class="tab-btn" data-tab="account-info">Account Info</button>
+        <hr class="divider">
+
+        <button class="tab-btn" data-tab="cameras" id="camera-btn">Cameras</button>
+        <hr class="divider">
+
+        <button class="tab-btn" data-tab="officers" id="officers-btn">Officers</button>
+        <hr class="divider">
+
+        <button class="tab-btn" data-tab="privacy">Privacy</button>
+        <hr class="divider">
+        
+        </aside>
+
+        <!-- Content Section -->
+        <main class="content-area">
+
+            <!-- Account Info Tab -->
+
+            <section id="account-info" class="tab-content active">
+                <h2 class="account-info-text">Account Info</h2>
+                
+                <div id = "account-info-form" class="account-info-form bg-white p-3 rounded placeholder-glow">
+                    <div class="form-group">
+                        <label class="placeholder col-4"></label>
+                        <span class="placeholder col-4"></span>
+                    </div>
+            
+                    <div class="form-group">
+                        <label class="placeholder col-2"></label>
+                        <span class="placeholder col-6"></span>
+                    </div>
+            
+                    <div class="form-group">
+                        <label class="placeholder col-6"></label>
+                        <span class="placeholder col-2"></span>
+                    </div>
+            
+                    <div class="form-group">
+                        <label class="placeholder col-3"></label>
+                        <span class="placeholder col-5"></span>
+                    </div>
+            
+                    <div class="form-group">
+                        <label class="placeholder col-6"></label>
+                        <span class="placeholder col-2"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="placeholder col-5"></label>
+                        <span class="placeholder col-3"></span>
+                    </div>
+            
+                </div>
+
+                <div id = "loaded-content" class="loaded-content bg-white p-3 rounded d-none">
+                    <div class="account-content">
+                        <i class="edit-icon" onclick="enableEditMode()">&#9998;</i> <!-- Single Pencil Icon -->
+
+>>>>>>> origin/Ethan_Off_Midterm
                         <div class="form-group">
                             <label>Organization Name:</label>
                             <span id="org-name" data-field="organizationName"></span>
@@ -304,5 +436,5 @@
         </div>
     </footer>
 
-    </body>
-    </html>
+</body>
+</html>
