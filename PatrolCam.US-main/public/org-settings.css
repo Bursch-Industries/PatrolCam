@@ -140,24 +140,22 @@ header {
     display: block;
 }
 
-/* Account Info Section */
-input {
-    pointer-events: auto; /* Remove !important to avoid conflicts */
-}
-
-input[readonly] {
-    pointer-events: none; 
-    background-color: #f1f1f1; 
-}
-
-
-.account-info-form {
+.account-info-form,
+.loaded-content{
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 500px;
+    width: 50vw;
+    padding: 200px
+}
 
+.account-content{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.hidden{
+    display: none;
 }
 
 form select {
@@ -185,12 +183,11 @@ form select.editable {
 .edit-icon {
     cursor: pointer;
     font-size: 2rem;
+    right: 2vw;
     position: absolute;
-    right: 500px; 
-    top: 0px; 
     color: #333;
     transition: color 0.3s ease;
-    z-index: 10;
+    z-index: 1;
 }
 
 .edit-icon:hover {
@@ -209,16 +206,13 @@ form select.editable {
 }
 
 .form-group {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
     position: relative;
-    border-bottom: 2px solid #ddd;
-    margin-bottom: 10px;
-    margin-top: 30px;
-}
-
-.form-group input {
     width: 100%;
+    gap:1rem;
     padding: 10px 0;
-    /* margin-left: 10px; */
     border: none;
     background: transparent;
     outline: none;
@@ -227,29 +221,9 @@ form select.editable {
     
 }
 
-.form-group input:focus {
-    background-color: white;
-    border-radius: 5px;
-}
-
-::placeholder {
-    color: #aaa;
-    font-style: italic;
-}
-
-.submit-btn {
-    padding: 15px;
-    background-color: #444;
-    color: white;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.submit-btn:hover {
-    background-color: #666;
+.form-group label {
+    text-align: end;
+    color: black;
 }
 
 /* Camera Grid Layout */
@@ -345,15 +319,23 @@ form select.editable {
     }
 }
 
-
+.no-cameras-message{
+    font-size: 2rem;
+    color:white;
+}
 
 /* Officers Tab */
+.placeholder-icon{
+    width: 2vw;
+    height: 2vw;
+    border:1px black solid
+}
 
 .officer-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 20px;
+    gap: 1.5rem;
+    padding: 0 2rem;
 }
 
 .officer-card {
