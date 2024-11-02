@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="orgList.css">
     <link rel="stylesheet" href="login-modal.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../FrontEndJavaScript/fetchNavbar.js" defer></script>
-    <script src="../FrontEndJavaScript/profileIconModal.js" defer></script>
+    <script src="../../FrontEndJavaScript/fetchNavbar.js" defer></script>
+    <script src="../../FrontEndJavaScript/profileIconModal.js" defer></script>
+    <script src="../../FrontEndJavaScript/addOrgFormModal.js" defer></script>
+    <script src="../../FrontEndJavaScript/fetchOrgPage.js" defer></script>
 </head>
 <body>
     <!--This is where the header is coded-->
@@ -18,10 +20,47 @@
         <form class="searchContainer"> 
             <p>Search:</p>
             <input id="searchbar">
+            <button class="filterButton">Filter</button>
+            
         </form>
-        <button class="filterButton">Filter</button>
-        <button class="addButton">+</button>
+        <button id="orgFormButton" class="addButton">+</button>
     </div>
+
+    <div id="orgFormContainer" class = "orgFormContainer">
+        <form  method="POST" action="/register/newOrg">
+            <h2>Organization Details</h2>
+            <label for="orgName">Organization Name:</label>
+            <input type="text" id="orgName" name="orgName" placeholder="Enter organization name" required>
+    
+            <label for="orgEmail">Organization Email:</label>
+            <input type="email" id="orgEmail" name="orgEmail" placeholder="Enter organization email" required>
+    
+            <label for="orgPhone">Organization Phone:</label>
+            <input type="tel" id="orgPhone" name="orgPhone" placeholder="Enter organization phone number" required>
+    
+            <label for="orgAddress">Organization Address:</label>
+            <input type="text" id="orgAddress" name="orgAddress" placeholder="Enter organization address" required>
+    
+            <h2>User Details</h2>
+            <label for="userFirstname">First Name:</label>
+            <input type="text" id="userFirstname" name="userFirstname" placeholder="Enter your first name" required>
+    
+            <label for="userLastname">Last Name:</label>
+            <input type="text" id="userLastname" name="userLastname" placeholder="Enter your last name" required>
+    
+            <label for="userEmail">User Email:</label>
+            <input type="email" id="userEmail" name="userEmail" placeholder="Enter your email" required>
+    
+            <label for="user">Username:</label>
+            <input type="text" id="user" name="user" placeholder="Enter a username" required>
+    
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+    
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
 
     <div class="org-table-section">
         <div class="tableOrg">
@@ -33,7 +72,7 @@
             </div>
 
 
-            <div class="orgList">
+            <div id="orgList" class="orgList">
 
             </div>
 
