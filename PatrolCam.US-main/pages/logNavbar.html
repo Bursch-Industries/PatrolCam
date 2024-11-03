@@ -8,27 +8,16 @@
     <a href="/cameras">Surveillance</a>
 </nav>
 
-<a href="javascript:void(0);" id="logout-show" class="profile-picture">
+<button id="profileIcon" class="profile-picture">
     <img src="./officer_placeholder_1.jpg" id="login-show" alt="Profile Picture">
-</a>
+</button>
 
-<div id="logout-modal">
-    <div class="out-modal">
-        <div class="top-out-form">
-            <div class="close-out-modal">
-                &#10006;
-            </div>
-        </div>
-        <div class="logout-form">
-            <!-- Form for Settings -->
-            <form action="/org-settings" method="GET">
-                <button type="submit">Settings</button>
-            </form>
-
-            <!-- Form for Logout -->
-            <form action="login/logout" method="POST">
-                <button type="submit">Logout</button>
-            </form>
+<div id="profile-modal" class="modal">
+    <div class="modal-content">
+        <button class="close-button" aria-label="Close modal">&times;</button>
+        <div class="button-container">
+            <button action="./userSettings" method="GET" class="modal-button" id="settingsButton">Settings</button>
+            <button action="./login/logout" method="POST" class="modal-button" id="logoutButton">Logout</button>
         </div>
     </div>
 </div>

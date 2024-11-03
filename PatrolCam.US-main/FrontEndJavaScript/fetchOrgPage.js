@@ -1,7 +1,5 @@
 async function fetchOrgPage() {
 
-
-
     try {
         const response = await fetch('/api/org/');
         const orgs = await response.json();

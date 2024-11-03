@@ -73,6 +73,13 @@ header {
     margin-right: 25px;
 }
 
+.profile-picture {
+    border: none;
+    background: transparent; 
+    cursor: pointer; 
+    padding: 0;
+}
+
 
 /* Home Intro */
 

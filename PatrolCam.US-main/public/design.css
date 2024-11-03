@@ -77,6 +77,12 @@ header {
 }
 
 /* Profile Picture */
+.profile-picture {
+    border: none;
+    background: transparent; 
+    cursor: pointer; 
+    padding: 0;
+}
 
 .profile-picture img {
     width: 50px;
