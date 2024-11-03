@@ -1,3 +1,5 @@
+// Script to show/hide form that is used to add a new organization
+
 document.getElementById('orgFormButton').addEventListener('click', function() {
     const formContainer = document.getElementById('orgFormContainer');
     // Toggle visibility
