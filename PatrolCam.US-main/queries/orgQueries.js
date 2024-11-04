@@ -28,6 +28,7 @@ const getOrgByID = async (req, res) => {
 
 const getOrgPage = async (req, res) => {
 
+    
     try {
         // If no page in URL, default to 1
         const page = parseInt(req.query.page) || 1;
@@ -35,7 +36,21 @@ const getOrgPage = async (req, res) => {
         const limit = parseInt(req.query.limit) || 2;
         const skip = (page - 1) * limit;
 
-        const orgs = await org.find().skip(skip).limit(limit);
+        let sortCriteria = {};
+        let orgs; 
+
+        // skip and page should always be first two params. If more than 2 params are sent, slice the first two off to act as sort() arguments
+        if(Object.keys(req.query).length > 2) {
+            sortCriteria = Object.fromEntries(Object.entries(req.query).slice(2))
+        }
+       
+        // If there are arguments for sort(), use dynamic query, else default to sending only skip and page
+        if(Object.keys(sortCriteria).length > 0){
+            orgs = await org.find().sort(sortCriteria).skip(skip).limit(limit);
+            
+        } else {
+            orgs = await org.find().sort('asc').skip(skip).limit(limit);
+        }
         const totalOrgs = await org.countDocuments();
 
         const totalPages = Math.ceil(totalOrgs / limit);
@@ -48,6 +63,7 @@ const getOrgPage = async (req, res) => {
         })
 
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ message: error.message });
     }
 
