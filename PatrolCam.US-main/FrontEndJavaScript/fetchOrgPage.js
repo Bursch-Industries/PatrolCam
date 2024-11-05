@@ -25,7 +25,10 @@ async function fetchOrgPage(filter) {
             const orgDiv = document.createElement('div');
             orgDiv.className = 'user';
             orgDiv.innerHTML = `
-                <span class="name">${org.organizationName}</span><br>
+                <span class="orgName">${org.organizationName}</span>
+            <span class="userCount">${org.users.length} Users</span>
+            <span class="cameraCount">${org.cameras.length} Cameras</span>
+            <button class="detailsButton">More Details</button>
             `;
             orgContainer.appendChild(orgDiv);
         });

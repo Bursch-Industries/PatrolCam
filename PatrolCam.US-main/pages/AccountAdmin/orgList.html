@@ -19,9 +19,10 @@
         <form class="searchContainer"> 
             <p>Search:</p>
             <input id="searchbar">
-            <button class="filterButton">Filter</button>
+            
             
         </form>
+        <button class="filterButton">Filter</button>
         <button id="orgFormButton" class="addButton">+</button>
     </div>
 
@@ -76,9 +77,12 @@
             </div>
 
             <div class="tableFooter">
-                <button id="previousPage" class="backPage"><</button>
-                <p>Pg.<input id="pageNumber" class="pageNumber" placeholder="#"></input> / <p id="maxPages"></p></p>
-                <button id="nextPage" class="forwardPage"> > </button>
+                <button id="previousPage" class="backPage">&lt;</button>
+                <p class="page-info">
+                    Pg. <input id="pageNumber" class="pageNumber" placeholder="#" aria-label="Page Number" />
+                    / <span id="maxPages"></span>
+                </p>
+                <button id="nextPage" class="forwardPage">&gt;</button>
             </div>
         </div>
 

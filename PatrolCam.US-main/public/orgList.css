@@ -110,6 +110,13 @@ header {
     background-color: #0C2D48;
 }
 
+.tableOrg {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensures rounded corners are maintained */
+}
+
 .tableNav {
     display: flex;
     justify-content: space-between;
@@ -179,7 +186,7 @@ input[type="password"]:focus {
     width: 100%;
             max-width: 600px;
             padding: 20px;
-            background-color: white;
+            background-color: blue;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             position: absolute; /* Set to absolute positioning */
@@ -192,5 +199,81 @@ input[type="password"]:focus {
 
 .name {
     font-weight: bold;
+    color: blue;
+}
+
+
+.user {
+    background-color: #0056b3;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex; /* Use flex to arrange contents in a row */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space out the items */
+    
+}
+
+.orgName, .userCount, .cameraCount {
+    flex: 1; /* Each item takes equal space */
+    text-align: center; /* Center align text */
+}
+
+.tableFooter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #ddd;
+}
+
+.backPage, .forwardPage {
+    background-color: #007BFF;
     color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.backPage:hover, .forwardPage:hover {
+    background-color: #0056b3;
+}
+
+.page-info {
+    margin: 0 15px;
+    font-size: 16px;
+    color: #333;
+}
+
+.pageNumber {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.orgList {
+    display: flex;
+    flex-direction: column; /* Stack each organization vertically */
+    gap: 15px; /* Space between items */
+    padding: 15px; /* Optional padding for the container */
+}
+
+.detailsButton {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.detailsButton:hover {
+    background-color: #0056b3;
 }

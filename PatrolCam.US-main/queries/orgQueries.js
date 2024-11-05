@@ -55,6 +55,8 @@ const getOrgPage = async (req, res) => {
 
         const totalPages = Math.ceil(totalOrgs / limit);
 
+        console.log(orgs);
+
         res.json({
             page, 
             totalPages, 
