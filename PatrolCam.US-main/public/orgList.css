@@ -277,3 +277,14 @@ input[type="password"]:focus {
 .detailsButton:hover {
     background-color: #0056b3;
 }
+
+.noResults {
+    color: #999; /* Gray color for the message */
+    font-size: 16px; /* Adjust font size */
+    text-align: center; /* Center the text */
+    padding: 20px; /* Add some padding around the message */
+    border: 1px solid #ccc; /* Optional: add a border */
+    border-radius: 5px; /* Optional: rounded corners */
+    margin-top: 20px; /* Space above the message */
+    background-color: #f9f9f9; /* Light background */
+}

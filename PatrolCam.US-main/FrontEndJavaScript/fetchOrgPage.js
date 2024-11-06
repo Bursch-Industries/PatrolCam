@@ -9,6 +9,7 @@ async function fetchOrgPage(filter) {
         if(filter){
             // Convert json into URL Search format (string=x&page=y&etc...)
             const params = new URLSearchParams(filter).toString();
+            console.log('page to fetch: ' + `/api/org/page?${params}`)
             response = await fetch(`/api/org/page?${params}`)
         } else {
             response = await fetch('/api/org/page');
@@ -20,19 +21,28 @@ async function fetchOrgPage(filter) {
         // Reset the table every time the next db page is fetched
         orgContainer.innerHTML = '';
         
-        // Generate new divs to hold organization info
-        orgs.orgs.forEach(org => {
-            const orgDiv = document.createElement('div');
-            orgDiv.className = 'user';
-            orgDiv.innerHTML = `
-            <span class="orgName">${org.organizationName}</span>
-            <span class="userCount">${org.users.length}</span>
-            <span class="cameraCount">${org.cameras.length}</span>
-            <button class="detailsButton">More Details</button>
-            `;
-            orgContainer.appendChild(orgDiv);
-        });
+        console.log('fetchOrgPage # of orgs: ' + orgs.orgs.length)
 
+        if(orgs.orgs.length > 0) {
+            // Generate new divs to hold organization info
+            orgs.orgs.forEach(org => {
+                const orgDiv = document.createElement('div');
+                orgDiv.className = 'user';
+                orgDiv.innerHTML = `
+                <span class="orgName">${org.organizationName}</span>
+                <span class="userCount">${org.users.length}</span>
+                <span class="cameraCount">${org.cameras.length}</span>
+                <button class="detailsButton">More Details</button>
+                `;
+                orgContainer.appendChild(orgDiv);
+            });
+        } else {
+            const noResultsDiv = document.createElement('div');
+            noResultsDiv.className = 'noResults';
+            noResultsDiv.textContent = 'No results found';
+            orgContainer.appendChild(noResultsDiv);
+        }
+        
         // Update current page
         document.getElementById('pageNumber').value = orgs.page;
 
@@ -177,6 +187,26 @@ document.getElementById('filterNumCameras').addEventListener("click", function()
     fetchOrgPage(filter);
 
 })
+
+document.getElementById('searchForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the default form submission
+
+    const searchInput = document.getElementById('searchbar').value.trim();
+    if (searchInput) {
+        let filter = {};
+        console.log('searchInput: ' + searchInput);
+        filter.page = 1;
+        filter.skip = 2;
+        filter.organizationName = searchInput;
+
+        console.log(filter);
+        fetchOrgPage(filter);
+
+        // Optionally clear the input or set it to a new value
+        // document.getElementById('searchbar').value = ''; // Clear input
+        // document.getElementById('searchbar').value = 'New Value'; // Set to a specific value
+    }
+});
 
 // Fetch orgs when the page loads
 window.onload = fetchOrgPage();
