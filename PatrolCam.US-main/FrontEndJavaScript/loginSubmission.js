@@ -26,11 +26,11 @@ window.onload = function() {
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent the default form submission
 
-    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('loginEmail');
     const passwordInput = document.getElementById('password');
 
     // Get the values from the input fields
-    const username = usernameInput.value;
+    const email = emailInput.value;
     const password = passwordInput.value;
 
     // Clear previous error messages
@@ -41,9 +41,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
 
     // Check input for empty fields
-    if (username === '' || password === '') {
+    if (email === '' || password === '') {
         
-        usernameInput.style.border = '2px solid red';
+        emailInput.style.border = '2px solid red';
         passwordInput.style.border = '2px solid red';
         document.getElementById('missing-info-error').style.display = 'block';
         return;
@@ -65,7 +65,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ email, password }),
         });
 
         if (!response.ok) {
@@ -74,7 +74,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
            // If *either* the username or password are invalid, BOTH input borders go red
             if (data.message.includes('invalid-credentials')) {
-                usernameInput.style.border = '2px solid red';
+                emailInput.style.border = '2px solid red';
                 document.getElementById('username-error').style.display = 'block';
                 passwordInput.style.border = '2px solid red';
                 document.getElementById('password-error').style.display = 'block';

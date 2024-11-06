@@ -7,12 +7,12 @@ const { logError } = require('./errorLogger');
 
 const userLogin = async (req, res) => {
 
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
 
         // Check for user in the database
-        const user = await User.findOne({ username: username}).exec();
+        const user = await User.findOne({ email: email}).exec();
 
         if(!user) {
             return res.status(401).json({ message: 'invalid-credentials' });
