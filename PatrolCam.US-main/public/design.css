@@ -162,7 +162,7 @@ header {
 }
 
 /* Demo Footer Section */
-/* Footer CSS */
+/* 
 .footer {
     padding: 25px;
     font-size: 15px;
@@ -170,4 +170,14 @@ header {
     opacity: 90%;
     text-align: center;
     position: relative;
+} */
+
+.footer {
+    padding: 1px;
+    font-size: 1.25rem;
+    background-color: black;
+    opacity: 90%;
+    text-align: center;
+    position: relative;
 }
+

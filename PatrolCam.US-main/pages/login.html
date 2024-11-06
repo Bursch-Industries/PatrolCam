@@ -13,10 +13,15 @@
         <div class="left-section">
             <h1>Welcome back!</h1>
             <p class="enter-credentials">Enter your credentials to access your account</p>
-            <span id="missing-info-error" class="error-message">Missing Username or Password</span>
+            <!-- <span id="missing-info-error" class="error-message">Missing Username or Password</span> -->
             <p>Email address</p>
+<<<<<<< Updated upstream
             <input type="text" placeholder="Enter your email" name="username" id="loginEmail">
             <span id="username-error" class="error-message">Invalid Username</span>
+=======
+            <input type="text" placeholder="Enter your email" name="username" id="username">
+            <!-- <span id="username-error" class="error-message">Invalid Username</span> -->
+>>>>>>> Stashed changes
             <div class="password-group">
                 <div class="password-label">
                     <p>Password</p>
@@ -26,7 +31,7 @@
                     <input type="password" name="password" placeholder="Enter your password" id="password">
                     <i class="fa-solid fa-eye" id="toggleButton"></i>
                 </div>
-                <span id="password-error" class="error-message">Invalid Password</span>
+                <!-- <span id="password-error" class="error-message">Invalid Password</span> -->
             </div>
             
 
@@ -34,6 +39,10 @@
                 <input type="checkbox" id="remember">
                 <label for="remember">Remember password</label>
             </div>
+
+            <!-- Error box for displaying dynamic error messages -->
+            <div id="error-box" class="error-box"></div>
+
             
             <button type="submit">Login</button>
 
