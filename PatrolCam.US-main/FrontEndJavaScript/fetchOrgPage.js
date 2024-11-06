@@ -1,7 +1,7 @@
 
 async function fetchOrgPage(filter) {
 
-    console.log('Filter: ' + JSON.stringify(filter))
+    
     try {
         let response;
 
@@ -25,9 +25,9 @@ async function fetchOrgPage(filter) {
             const orgDiv = document.createElement('div');
             orgDiv.className = 'user';
             orgDiv.innerHTML = `
-                <span class="orgName">${org.organizationName}</span>
-            <span class="userCount">${org.users.length} Users</span>
-            <span class="cameraCount">${org.cameras.length} Cameras</span>
+            <span class="orgName">${org.organizationName}</span>
+            <span class="userCount">${org.users.length}</span>
+            <span class="cameraCount">${org.cameras.length}</span>
             <button class="detailsButton">More Details</button>
             `;
             orgContainer.appendChild(orgDiv);
@@ -38,6 +38,8 @@ async function fetchOrgPage(filter) {
 
         // Update total pages
         document.getElementById('maxPages').textContent = orgs.totalPages;
+
+
 
     } catch (error) {
         console.error('Error fetching orgs:', error);
@@ -50,13 +52,21 @@ document.getElementById('nextPage').addEventListener("click", function() {
 
     // Get the current page
     const currentPage = parseInt(document.getElementById("pageNumber").value);
+
+    // Get the current sort
+    const currentSort = localStorage.getItem('currentSort')
+
+    // Get the current order
+    const currentOrder = localStorage.getItem('currentOrder');
+    
     
     // Current page must be less than the total pages in order to get next page.
     const totalPages = parseInt(document.getElementById('maxPages').textContent);
     if(currentPage < totalPages){
         filter.page = currentPage + 1;
         filter.skip = 2;
-        filter.organizationName = document.getElementById("filterOrgName").value;
+        filter.sort_ = currentSort;
+        filter.order_ = currentOrder;
         fetchOrgPage(filter);
     } else {
         return;
@@ -71,11 +81,18 @@ document.getElementById('previousPage').addEventListener("click", function() {
     // Get the current page
     const currentPage = parseInt(document.getElementById("pageNumber").value);
 
+     // Get the current sort
+     const currentSort = localStorage.getItem('currentSort')
+
+     // Get the current order
+     const currentOrder = localStorage.getItem('currentOrder');
+
     // Current page must be greater than 1 in order to go a previous page
     if(currentPage > 1){
         filter.page = currentPage - 1;
         filter.skip = 2;
-        filter.organizationName = document.getElementById("filterOrgName").value;
+        filter.sort_ = currentSort;
+        filter.order_ = currentOrder;
         fetchOrgPage(filter);
     } else {
         return;
@@ -84,21 +101,82 @@ document.getElementById('previousPage').addEventListener("click", function() {
 
 document.getElementById('filterOrgName').addEventListener("click", function(){
 
-    console.log("button value: " + document.getElementById("filterOrgName").value)
     let filter = {};
+
     // Get the current page 
     const currentPage = parseInt(document.getElementById("pageNumber").value);
-    const currentValue = document.getElementById("filterOrgName").value;
 
-    document.getElementById("filterOrgName").value = currentValue === 'asc' ? 'desc' : 'asc';
+    // Set the current sort
+    const currentSort = "organizationName";
+    localStorage.setItem('currentSort', currentSort);
+
+    // Get the current order 
+    const currentOrder = localStorage.getItem('currentOrder');
+
+    // Toggle current order
+    const updatedOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+    localStorage.setItem('currentOrder', updatedOrder)
 
     filter.page = currentPage;
     filter.skip = 2;
-    filter.organizationName = document.getElementById("filterOrgName").value;
+    filter.sort_ = currentSort;
+    filter.order_= updatedOrder;
     fetchOrgPage(filter);
 
 })
 
+
+document.getElementById('filterNumUsers').addEventListener("click", function(){
+
+    let filter = {};
+
+    // Get the current page 
+    const currentPage = parseInt(document.getElementById("pageNumber").value);
+
+    // Set the current sort
+    const currentSort = "numberOfUsers";
+    localStorage.setItem('currentSort', currentSort);
+
+    // Get the current order 
+    const currentOrder = localStorage.getItem('currentOrder');
+
+    // Toggle current order
+    const updatedOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+    localStorage.setItem('currentOrder', updatedOrder)
+
+    filter.page = currentPage;
+    filter.skip = 2;
+    filter.sort_ = currentSort;
+    filter.order_= updatedOrder;
+    fetchOrgPage(filter);
+
+})
+
+document.getElementById('filterNumCameras').addEventListener("click", function(){
+
+    let filter = {};
+
+    // Get the current page 
+    const currentPage = parseInt(document.getElementById("pageNumber").value);
+
+    // Set the current sort
+    const currentSort = "numberOfCameras";
+    localStorage.setItem('currentSort', currentSort);
+
+    // Get the current order 
+    const currentOrder = localStorage.getItem('currentOrder');
+
+    // Toggle current order
+    const updatedOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+    localStorage.setItem('currentOrder', updatedOrder)
+
+    filter.page = currentPage;
+    filter.skip = 2;
+    filter.sort_ = currentSort;
+    filter.order_= updatedOrder;
+    fetchOrgPage(filter);
+
+})
 
 // Fetch orgs when the page loads
 window.onload = fetchOrgPage();

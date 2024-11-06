@@ -36,33 +36,59 @@ const getOrgPage = async (req, res) => {
         const limit = parseInt(req.query.limit) || 2;
         const skip = (page - 1) * limit;
 
-        let sortCriteria = {};
-        let orgs; 
 
-        // skip and page should always be first two params. If more than 2 params are sent, slice the first two off to act as sort() arguments
-        if(Object.keys(req.query).length > 2) {
-            sortCriteria = Object.fromEntries(Object.entries(req.query).slice(2))
+        let sortCriteria;
+        let orderCriteria
+        let filterCriteria = {};
+        let orgs;
+
+         // Extract sorting criteria and filter criteria
+         if (Object.keys(req.query).length > 2) {
+            // First two parameters are page and limit, slice the rest for sorting
+            const queryEntries = Object.entries(req.query).slice(2);
+            for (const [key, value] of queryEntries) {
+                if (key.startsWith('sort_')) { // Extract the column that is being toggled
+                    sortCriteria = value; 
+                } else if(key.startsWith('order_')){ // Extract the order in which to sort the column
+                    orderCriteria = value;
+                } else {
+                    filterCriteria[key] = value; // Handle other filters
+                }
+            }
+        }
+        
+        if (sortCriteria === 'numberOfUsers' || sortCriteria === 'numberOfCameras') {
+
+            // Parse the sortCriteria to match an attribute in the Mongo table, of which to get the length of
+            const arrayField = sortCriteria === 'numberOfUsers' ? 'users' : 'cameras';
+
+            orgs = await org.aggregate([
+                { $match: filterCriteria }, // Match filters
+                { $addFields: { length: { $size: `$${arrayField}` } } }, // Add length field
+                { $sort: { length: orderCriteria === 'asc' ? 1 : -1 } }, // Sort by length
+                { $skip: skip },
+                { $limit: limit }
+            ]);
+        } else if (orderCriteria && sortCriteria) {
+            const sort = { [sortCriteria]: orderCriteria };
+            orgs = await org.find(filterCriteria).sort(sort).skip(skip).limit(limit);
+        } else {
+            orgs = await org.find(filterCriteria).skip(skip).limit(limit);
         }
        
-        // If there are arguments for sort(), use dynamic query, else default to sending only skip and page
-        if(Object.keys(sortCriteria).length > 0){
-            orgs = await org.find().sort(sortCriteria).skip(skip).limit(limit);
-            
-        } else {
-            orgs = await org.find().sort('asc').skip(skip).limit(limit);
-        }
+        
         const totalOrgs = await org.countDocuments();
 
         const totalPages = Math.ceil(totalOrgs / limit);
 
-        console.log(orgs);
-
         res.json({
-            page, 
-            totalPages, 
+            page,
+            totalPages,
             totalOrgs,
-            orgs
-        })
+            orgs,
+            filters: filterCriteria,
+            sort: sortCriteria
+        });
 
     } catch (error) {
         console.log(error.message)
