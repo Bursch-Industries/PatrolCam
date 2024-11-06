@@ -8,10 +8,10 @@ const { withTransaction } = require('./transactionHandler') //Handles Database t
 
 //Handles new user creation
 async function handleNewUser (req, res) {
-    const { user, password, userFirstname, userLastname, userEmail, phone, rank, role } = req.body;
+    const { password, userFirstname, userLastname, userEmail, phone, rank, role } = req.body;
 
     //Check missing request fields
-    if (!user || !password || !userFirstname || !userLastname || !userEmail){
+    if (!password || !userFirstname || !userLastname || !userEmail){
         
         return res.status(400).json({ 'Error while creating new user': 'All required fields must be filled.' });
     }
@@ -29,7 +29,6 @@ async function handleNewUser (req, res) {
             
             //Create and store the new user
             const newUser = new User({
-                username: user,
                 password: hashedPassword,
                 firstname: userFirstname,
                 lastname: userLastname,
@@ -80,7 +79,7 @@ async function handleNewOrganization (req, res) {
     const { orgName, orgEmail, orgPhone, orgAddress, user, password, userFirstname, userLastname, userEmail } = req.body;
 
     //Check missing request fields
-    if (!orgName || !orgPhone || !orgAddress || !user || !password || !orgEmail || !userFirstname || !userLastname || !userEmail) {
+    if (!orgName || !orgPhone || !orgAddress || !password || !orgEmail || !userFirstname || !userLastname || !userEmail) {
         return res.status(400).json({ 
             'Error occured while creating new organization' : 'All required fields must be filled.'
         });
@@ -88,9 +87,8 @@ async function handleNewOrganization (req, res) {
 
     //Check for duplicate usernames in the database
     const organizationDuplicate = await Organization.findOne({ organizationName: orgName}).exec();
-    const userDuplicate = await findUser(user);
 
-    if (organizationDuplicate || userDuplicate) {
+    if (organizationDuplicate) {
         return res.sendStatus(409) //Duplicate conflict
     } 
 
@@ -101,7 +99,6 @@ async function handleNewOrganization (req, res) {
 
             //Create and store the owner of organization
             const owner = new User({
-                username: user,
                 password: hashedPassword,
                 roles: 'Admin',
                 firstname: userFirstname,
@@ -173,23 +170,23 @@ async function handleNewOrganization (req, res) {
 
 //Deletes user using username
 async function deleteOrganizationUser (req, res) {
-    const { username, admin } = req.body;
+    const { userId } = req.body;
 
     //Check missing request fields
-    if (!username || !admin) return res.status(400).json({
+    if (!userId) return res.status(400).json({
         "Error occured while deleting user" : "All required fields must be filled."
     });
 
-    const deletedBy = await findUser(admin)
-    const user = await findUser(username)
+    const deletedBy = await User.findById(req.session.user.id);
+    const userToDelete = await User.findById(userId);
 
     //Check if user or deletedBy is undefined
-    if(!deletedBy || !user){
+    if(!deletedBy || !userToDelete){
         return res.sendStatus(404) //User not found
     }
 
     //Check if both users are from the same organization and action performers role is set to creator
-    if(!deletedBy.organization.equals(user.organization) || !checkUserRole(deletedBy)){
+    if(!deletedBy.organization.equals(userToDelete.organization) || (deletedBy.roles != "Admin" && deletedBy.roles != "AccountAdmin")){
         return res.sendStatus(403) //Access denied
     }
 
@@ -199,21 +196,21 @@ async function deleteOrganizationUser (req, res) {
             //Remove user from organization
             const newData = await Organization.findByIdAndUpdate(
                 deletedBy.organization,
-                { $pull: {users: user._id}},
+                { $pull: {users: userToDelete._id}},
                 { new: true},
                 session
             )
 
-            await User.deleteOne({username}, {session})//locate username and delete
+            await User.deleteOne({userToDelete}, {session})//locate username and delete
 
             //Log user deletion
             await logActivity({
                 action: 'delete',
                 collectionName: 'User',
-                documentId: user._id,
+                documentId: userToDelete._id,
                 performedBy: deletedBy._id,
-                organizationId: user.organization,
-                removedData: user,
+                organizationId: userToDelete.organization,
+                removedData: userToDelete,
                 session
             });
 
@@ -221,7 +218,7 @@ async function deleteOrganizationUser (req, res) {
             await logActivity({
                 action: 'update',
                 collectionName: 'Organization',
-                documentId: user.organization,
+                documentId: userToDelete.organization,
                 performedBy: deletedBy._id,
                 originalData: {
                     originalUsers: originalData.users
@@ -234,7 +231,7 @@ async function deleteOrganizationUser (req, res) {
         });
 
         //Deletion success
-        return res.status(200).json({"Deletion Confirmation" : `User ${username} deleted Successfully!`})
+        return res.status(200).json({"Deletion Confirmation" : `User ${userToDelete._id} deleted Successfully!`})
 
     } catch (error){
 
@@ -244,7 +241,7 @@ async function deleteOrganizationUser (req, res) {
                 level: 'ERROR',
                 desc: 'Failed to delete User',
                 source: 'registerController - deleteOrganizationUser',
-                userId: deletedBy,
+                userId: deletedBy._id,
                 code: '500',
                 meta: { message: error.message, stack: error.stack },
                 session
@@ -258,14 +255,14 @@ async function deleteOrganizationUser (req, res) {
 
 //User password reset
 async function handlePasswordReset (req, res) {
-    const { username, newPwd } = req.body;
+    const { userId, newPwd } = req.body;
 
     //check missing request fields
-    if (!username || !newPwd) {
+    if (!userId || !newPwd) {
         return res.status(400).json({"Password Reset error" : "All required fields must be filled."});
     }
 
-    const user = await findUser(username);//Find user by username
+    const user = await User.findById(userId);
 
     if(!user){
         return res.sendStatus(404)
@@ -275,7 +272,7 @@ async function handlePasswordReset (req, res) {
             const newHashedPwd = await hashPassword(newPwd);//Hash new password
 
             await User.findOneAndUpdate( //Update new password over in database
-                {username},
+                {_id: userId},
                 {password : newHashedPwd},
                 {session}
             )
@@ -321,21 +318,15 @@ async function handlePasswordReset (req, res) {
 
 //Adding new user into organization
 async function handleAddNewOrgUser (req, res) {
-    const {creator, user, userPassword, userFirstname, userLastname, userEmail } = req.body;
+    const {userPassword, userFirstname, userLastname, userEmail } = req.body;
 
     //Check missing request fields
-    if(!creator || !user || !userPassword || !userFirstname || !userLastname || !userEmail) {
+    if(!userPassword || !userFirstname || !userLastname || !userEmail) {
         return res.status(400).json({"Error occured while adding user to organization" : "All required fields must be filled."});
     }
-
-    //Check for duplicate usernames in the db
-    const duplicate = await User.findOne({ username: user }).exec();
-    if (duplicate) {
-        return res.sendStatus(409) //Duplicate conflict 
-    } 
-
-    //Find and store organization and user data based on username
-    const {organizationData, userData, error} = await findOrganizationForAdmin(creator);
+ 
+    const creator = await User.findById(req.session.user.id);
+    const organizationData = await Organization.findById(creator.organization);
 
     //If user wasn't found or access was denied
     if(error) {
@@ -349,13 +340,12 @@ async function handleAddNewOrgUser (req, res) {
 
             //Create and store the subuser of organization
             const subUser = new User({
-                username: user,
                 password: hashedPassword,
                 firstname: userFirstname,
                 lastname: userLastname,
                 email: userEmail,
                 organization: organizationData._id,
-                createdBy: userData._id
+                createdBy: creator._id
             });
 
             await subUser.save({ session })
@@ -363,7 +353,7 @@ async function handleAddNewOrgUser (req, res) {
             //Add the new sub user into the organization user list
             const updatedOrganization = await Organization.findByIdAndUpdate(
                 organizationData._id,
-                { $push:{ users: subUser.id}},
+                { $push:{ users: subUser._id}},
                 { new: true, session}
             )
             await updatedOrganization.save({session})
@@ -378,7 +368,7 @@ async function handleAddNewOrgUser (req, res) {
                 action: 'create',
                 collectionName: 'User',
                 documentId: subUser._id,
-                performedBy: userData._id,
+                performedBy: creator._id,
                 organizationId: organizationData._id,
                 newData: subUser,
                 session
@@ -389,7 +379,7 @@ async function handleAddNewOrgUser (req, res) {
                 action: 'update',
                 collectionName: 'Organization',
                 documentId: organizationData._id,
-                performedBy: userData._id,
+                performedBy: creator._id,
                 originalData: {
                     originalUsers: organizationData.users
                 },
@@ -427,15 +417,18 @@ async function handleAddNewOrgUser (req, res) {
 
 //Handles adding camera to organization
 async function addCameraToOrganization(req, res) {
-    const {camName, username, camModel, camLocation} = req.body;
+    const {camName, camModel, camLocation} = req.body;
 
     //Check missing request fields
-    if (!camName || !username || !camModel || !camLocation){
+    if (!camName || !camModel || !camLocation){
         return res.status(400).json({"Error occured while adding camera to organization":"All required fields must be filled."})
     } 
 
     //Find and store organization and user data based on username
-    const {organizationData, userData, error} = await findOrganizationForAdmin(username)
+    //const {organizationData, userData, error} = await findOrganizationForAdmin(userId)
+
+    const user = await User.findById(req.session.user.id);
+    const organizationData = await Organization.findById(user.organization);
 
     //If user wasn't found or access was denied
     if(error) {
@@ -447,24 +440,24 @@ async function addCameraToOrganization(req, res) {
             //Create and store camera in database
             const newCamera = new Camera({
                 camera_Name: camName,
-                model:camModel,
+                model: camModel,
                 owner: organizationData._id,
                 location: camLocation,
-                users: [userData._id]
+                users: [req.session.user.id]
             });
             await newCamera.save({session});
 
             //Update the camera list in organization
             const updatedData = await Organization.findByIdAndUpdate(
                 organizationData._id,
-                { $push:{ cameras: newCamera.id}},
+                { $push:{ cameras: newCamera._id}},
                 { new: true}
             )
             await updatedData.save({session});
 
             //Check if the camera was added successfully
             if(!newCamera) {
-                throw new Error(`Couldnot add camera to organization ${organizationData.organizationName}`)
+                throw new Error(`Could not add camera to organization ${organizationData.organizationName}`)
             }
             //Log new camera creation
             await logActivity({
@@ -472,7 +465,7 @@ async function addCameraToOrganization(req, res) {
                 collectionName: 'Camera',
                 documentId: newCamera._id,
                 organizationId: organizationData._id,
-                performedBy: userData._id,
+                performedBy: req.session.user.id,
                 newData: newCamera,
                 session
             })
@@ -482,7 +475,7 @@ async function addCameraToOrganization(req, res) {
                 action: 'update',
                 collectionName: 'Organization',
                 documentId: organizationData._id,
-                performedBy: userData._id,
+                performedBy: req.session.user.id,
                 originalData: {
                     originalCameras: organizationData.cameras
                 },
@@ -504,7 +497,7 @@ async function addCameraToOrganization(req, res) {
                 level: 'ERROR',
                 desc: 'Failed to create new Camera',
                 source: 'registerController - addCameraToOrganization',
-                userId: userData.username,
+                userId: req.sesison.user.id,
                 code: '500',
                 meta: { message: error.message, stack: error.stack },
                 session
@@ -516,17 +509,16 @@ async function addCameraToOrganization(req, res) {
     }
 }
 
-async function findOrganizationForAdmin(username) {
+async function findOrganizationForAdmin() {
     try {
         //Find the creator user
-        const user = await findUser(username);
+        const user = await findById(req.session.user.id);
         if(!user){
             return {error: 'User not found'}
         }
 
         //Check if user has "Creator" role
-        const isAdmin = checkUserRole(user) //Checks user authorization
-        if (!isAdmin) {
+        if (user.roles != "Admin" && user.roles != "AccountAdmin") {
             return {error: 'Access Denied'} //Throw access denied error if user isn't authorized
         } 
 
@@ -580,32 +572,14 @@ async function hashPassword (password) {
     }
 }
 
-//Check if the user role is "Creator"
-function checkUserRole(user){
-    if (!user || !user.roles) {
-        return false //Return false if user or roles are not defined
-    }
-
-    //Case insensitive check for string roles
-    return user.roles.toLowerCase() === "creator" || user.roles.toLowerCase() === "admin"
-}
-
-//Finds user using username
-async function findUser(username){
-    const user = await User.findOne({username:username}) //Locate user
-    if(!user) return false
-    return user //Return result
-}
 
 async function getCameraDetails(req, res) {
     if(!req.session || !req.session.user){
         return res.sendStatus(401);
     }
-    
-    const username = req.session.user.username
 
     try{
-        const user = await findUser(username)
+        const user = await findById(req.session.user.id);
         
         if(!user){
             return res.sendStatus(404)
@@ -648,7 +622,7 @@ async function getOrgUserData(req, res) {
         return res.sendStatus(401);
     }
     
-    const user = req.session.user.username
+    const user = await User.findById(req.session.user.id);
 
     try{
         const orgUserArray = await getUserFields(user, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id']) 
@@ -676,10 +650,11 @@ async function getOrgUserData(req, res) {
 }
 
 async function getUserLastLogin(req, res) {
-    const { username } = req.body
+
+    const { userId } = req.body
 
     try{
-        const lastLoginArray = await getUserFields(username, ["firstname", "lastname", "lastLoggedIn", "-_id"])
+        const lastLoginArray = await getUserFields(userId, ["firstname", "lastname", "lastLoggedIn", "-_id"])
         return res.status(200).json({
             message: 'Login history found',
             users: lastLoginArray.users
@@ -704,11 +679,12 @@ async function getUserLastLogin(req, res) {
     }
 }
 
-async function getUserFields(username, fields = []) {
-    if(!username){
+async function getUserFields(userId, fields = []) {
+
+    if(!userId){
         throw new Error("All fields are required")
     }
-    const {organizationData, error} = await findOrganizationForAdmin(username)
+    const {organizationData, error} = await findOrganizationForAdmin()
 
     if(error){
         throw new Error(error === "User not found" ? "404" : "403")
@@ -738,7 +714,7 @@ async function getOrganizationDetails(req, res){
     const username = req.session.user.username
 
     try{
-        const orgDetails = await getOrganizationFields(username)
+        const orgDetails = await getOrganizationFields()
         return res.status(200).json({
             organization: orgDetails
         })
@@ -762,11 +738,10 @@ async function getOrganizationDetails(req, res){
     }
 }
 
-async function getOrganizationFields(username){
-    if(!username){
-        throw new Error("All fields are required")
-    }
-    const {organizationData, error} = await findOrganizationForAdmin(username)
+async function getOrganizationFields(){
+
+    
+    const {organizationData, error} = await findOrganizationForAdmin()
 
     if(error){
         throw new Error(error === "User not found" ? "404" : "403")
