@@ -1,3 +1,4 @@
+// Function to fetch a list of organizations from database in paginated form, based on front-end specified filter(s)
 
 async function fetchOrgPage(filter) {
 
@@ -12,7 +13,7 @@ async function fetchOrgPage(filter) {
             console.log('page to fetch: ' + `/api/org/page?${params}`)
             response = await fetch(`/api/org/page?${params}`)
         } else {
-            response = await fetch('/api/org/page');
+            response = await fetch('/api/org/page'); // Default to fetching first x org results in alphabetical order
         }
 
         const orgs = await response.json();
@@ -91,10 +92,16 @@ document.getElementById('previousPage').addEventListener("click", function() {
     // Get the current page
     const currentPage = parseInt(document.getElementById("pageNumber").value);
 
-     // Get the current sort
+     // Get the current sort, using organizationName as a default
+     if(!localStorage.getItem('currentSort')) {
+        localStorage.setItem('currentSort', 'organizationName');
+     }
      const currentSort = localStorage.getItem('currentSort')
 
-     // Get the current order
+     // Get the current order, using 'asc' as a default
+     if(!localStorage.getItem('currentOrder')) {
+        localStorage.setItem('currentOrder', 'asc');
+     }
      const currentOrder = localStorage.getItem('currentOrder');
 
     // Current page must be greater than 1 in order to go a previous page
@@ -191,8 +198,13 @@ document.getElementById('filterNumCameras').addEventListener("click", function()
 document.getElementById('searchForm').addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent the default form submission
 
-    const searchInput = document.getElementById('searchbar').value.trim();
-    if (searchInput) {
+    const searchInput = document.getElementById('searchbar').value;
+
+
+    if (searchInput === '') {
+        fetchOrgPage();
+    }
+    else {
         let filter = {};
         console.log('searchInput: ' + searchInput);
         filter.page = 1;
@@ -201,10 +213,6 @@ document.getElementById('searchForm').addEventListener('submit', (event) => {
 
         console.log(filter);
         fetchOrgPage(filter);
-
-        // Optionally clear the input or set it to a new value
-        // document.getElementById('searchbar').value = ''; // Clear input
-        // document.getElementById('searchbar').value = 'New Value'; // Set to a specific value
     }
 });
 
