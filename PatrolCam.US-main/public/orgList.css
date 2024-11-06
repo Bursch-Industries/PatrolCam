@@ -7,7 +7,9 @@ body {
     font-family: 'Roboto', sans-serif;
     color: white;
     text-align: center;
-    height: calc(100vh - 10vh);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -76,6 +78,12 @@ header {
     margin-right: 25px;
 }
 
+/* Main Content */
+
+.main-content {
+    flex: 1;
+}
+
 
 .filters-section {
     display: flex;
@@ -118,13 +126,14 @@ header {
 }
 
 .tableNav {
-    display: flex;
-    justify-content: space-between;
     background-color: #0C2D48;
-    padding: 2rem;
-    padding-left: 10rem;
-    padding-right:10rem;
     border: 2px solid black;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex; /* Use flex to arrange contents in a row */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space out the items */
+
 }
 
 .tableNav h3 {
@@ -195,6 +204,7 @@ input[type="password"]:focus {
             transform: translate(-50%, -50%); /* Adjust position */
             display: none; /* Initially hidden */
             z-index: 1000; /* Make sure it is on top of other content */
+            height: 100%;
 }
 
 .name {

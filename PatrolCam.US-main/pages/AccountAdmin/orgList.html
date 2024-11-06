@@ -15,77 +15,77 @@
     <!--This is where the header is coded-->
     <header id="navbar"></header>
 
-    <div class="filters-section"> 
-        <form id="searchForm" class="searchContainer"> 
-            <p>Search:</p>
-            <input type="text" id="searchbar">      
-        </form>
-        <button class="filterButton">Filter</button>
-        <button id="orgFormButton" class="addButton">+</button>
-    </div>
-
-    <div id="orgFormContainer" class = "orgFormContainer">
-        <form  method="POST" action="/register/newOrg">
-            <h2>Organization Details</h2>
-            <label for="orgName">Organization Name:</label>
-            <input type="text" id="orgName" name="orgName" placeholder="Enter organization name" required>
-    
-            <label for="orgEmail">Organization Email:</label>
-            <input type="email" id="orgEmail" name="orgEmail" placeholder="Enter organization email" required>
-    
-            <label for="orgPhone">Organization Phone:</label>
-            <input type="tel" id="orgPhone" name="orgPhone" placeholder="Enter organization phone number" required>
-    
-            <label for="orgAddress">Organization Address:</label>
-            <input type="text" id="orgAddress" name="orgAddress" placeholder="Enter organization address" required>
-    
-            <h2>User Details</h2>
-            <label for="userFirstname">First Name:</label>
-            <input type="text" id="userFirstname" name="userFirstname" placeholder="Enter your first name" required>
-    
-            <label for="userLastname">Last Name:</label>
-            <input type="text" id="userLastname" name="userLastname" placeholder="Enter your last name" required>
-    
-            <label for="userEmail">User Email:</label>
-            <input type="email" id="userEmail" name="userEmail" placeholder="Enter your email" required>
-    
-            <label for="user">Username:</label>
-            <input type="text" id="user" name="user" placeholder="Enter a username" required>
-    
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-    
-            <button type="submit">Register</button>
-        </form>
-    </div>
-
-
-    <div class="org-table-section">
-        <div class="tableOrg">
-            <div class="tableNav">
-                <button id="filterOrgName" class="userToggle">Org Name</button>
-                <button id="filterNumUsers" class="userToggle"># of Users</button>
-                <button id="filterNumCameras" class="camToggle"># of Cameras</button>
-                <h3>More Details</h3>
-            </div>
-
-
-            <div id="orgList" class="orgList">
-
-            </div>
-
-            <div class="tableFooter">
-                <button id="previousPage" class="backPage">&lt;</button>
-                <p class="page-info">
-                    Pg. <input id="pageNumber" class="pageNumber" placeholder="#" aria-label="Page Number" />
-                    / <span id="maxPages"></span>
-                </p>
-                <button id="nextPage" class="forwardPage">&gt;</button>
-            </div>
+    <div class="main-content">
+        <div class="filters-section"> 
+            <form id="searchForm" class="searchContainer"> 
+                <p>Search:</p>
+                <input type="text" id="searchbar">      
+            </form>
+            <button class="filterButton">Filter</button>
+            <button id="orgFormButton" class="addButton">+</button>
         </div>
 
-    </div>
+        <div id="orgFormContainer" class = "orgFormContainer">
+            <form  method="POST" action="/register/newOrg">
+                <h2>Organization Details</h2>
+                <label for="orgName">Organization Name:</label>
+                <input type="text" id="orgName" name="orgName" placeholder="Enter organization name" required>
+        
+                <label for="orgEmail">Organization Email:</label>
+                <input type="email" id="orgEmail" name="orgEmail" placeholder="Enter organization email" required>
+        
+                <label for="orgPhone">Organization Phone:</label>
+                <input type="tel" id="orgPhone" name="orgPhone" placeholder="Enter organization phone number" required>
+        
+                <label for="orgAddress">Organization Address:</label>
+                <input type="text" id="orgAddress" name="orgAddress" placeholder="Enter organization address" required>
+        
+                <h2>User Details</h2>
+                <label for="userFirstname">First Name:</label>
+                <input type="text" id="userFirstname" name="userFirstname" placeholder="Enter your first name" required>
+        
+                <label for="userLastname">Last Name:</label>
+                <input type="text" id="userLastname" name="userLastname" placeholder="Enter your last name" required>
+        
+                <label for="userEmail">User Email:</label>
+                <input type="email" id="userEmail" name="userEmail" placeholder="Enter your email" required>
+        
+                <label for="user">Username:</label>
+                <input type="text" id="user" name="user" placeholder="Enter a username" required>
+        
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        
+                <button type="submit">Register</button>
+            </form>
+        </div>
 
+
+        <div class="org-table-section">
+            <div class="tableOrg">
+                <div class="tableNav">
+                    <button id="filterOrgName" class="userToggle">Org Name</button>
+                    <button id="filterNumUsers" class="userToggle"># of Users</button>
+                    <button id="filterNumCameras" class="camToggle"># of Cameras</button>
+                    <h3>More Details</h3>
+                </div>
+
+
+                <div id="orgList" class="orgList">
+
+                </div>
+
+                <div class="tableFooter">
+                    <button id="previousPage" class="backPage">&lt;</button>
+                    <p class="page-info">
+                        Pg. <input id="pageNumber" class="pageNumber" placeholder="#" aria-label="Page Number" />
+                        / <span id="maxPages"></span>
+                    </p>
+                    <button id="nextPage" class="forwardPage">&gt;</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="footer">
         PatrolCam. All Rights Reserved.
     </footer>
