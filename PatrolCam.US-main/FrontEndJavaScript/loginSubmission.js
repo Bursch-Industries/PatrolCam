@@ -38,20 +38,11 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     if (!email) {
         errors.push("Please enter your email address.");
         emailInput.style.border = '2px solid red';
-    } else if (!isValidEmail(email)) {
-        errors.push("Invalid email format.");
-        emailInput.style.border = '2px solid red';
-    }
 
+    } 
+    
     if (!password) {
         errors.push("Please enter your password.");
-        passwordInput.style.border = '2px solid red';
-    }
-
-    // Check password strength (minimum 8 characters, includes letters, numbers, special characters)
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-    if (password && !passwordRegex.test(password)) {
-        errors.push("Password must be at least 8 characters and include one letter, one number, and one special character.");
         passwordInput.style.border = '2px solid red';
     }
 
@@ -106,8 +97,3 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
 });
 
-// Utility function to validate email format
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
