@@ -3,7 +3,7 @@ const passwordInput = document.getElementById('password');
 const toggleButton = document.getElementById('toggleButton');
 const rememberMe = document.getElementById('remember');
 const errorBox = document.getElementById('error-box');
-const usernameInput = document.getElementById('username');
+const emailInput = document.getElementById('loginEmail'); // Updated to match HTML
 
 // Toggle Password Visibility
 const toggleVisible = () => {
@@ -11,12 +11,7 @@ const toggleVisible = () => {
 };
 toggleButton.addEventListener('click', toggleVisible);
 
-<<<<<<< Updated upstream
-
-
-=======
 // Load saved password if "Remember Me" is checked
->>>>>>> Stashed changes
 window.onload = function() {
     const savedPassword = localStorage.getItem('password');
     if (savedPassword) {
@@ -29,50 +24,23 @@ window.onload = function() {
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent the default form submission
 
-<<<<<<< Updated upstream
-    const emailInput = document.getElementById('loginEmail');
-    const passwordInput = document.getElementById('password');
-=======
     // Clear previous error messages
     errorBox.style.display = 'none';
-    usernameInput.style.border = '';
+    emailInput.style.border = '';
     passwordInput.style.border = '';
->>>>>>> Stashed changes
 
     // Get the values from the input fields
     const email = emailInput.value;
     const password = passwordInput.value;
     let errors = [];
 
-<<<<<<< Updated upstream
-    // Clear previous error messages
-    document.getElementById('missing-info-error').style.display = 'none';
-    document.getElementById('username-error').style.display = 'none';
-    document.getElementById('password-error').style.display = 'none';
-    //errorMessage.textContent = '';
-
-
-    // Check input for empty fields
-    if (email === '' || password === '') {
-        
-        emailInput.style.border = '2px solid red';
-        passwordInput.style.border = '2px solid red';
-        document.getElementById('missing-info-error').style.display = 'block';
-        return;
-    } 
-
-
-    // Check password regex (8 characters, one upper, one lower, one special)
-    /* if (password != "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$") {
-=======
     // Check for empty fields
-    if (!username) {
+    if (!email) {
         errors.push("Please enter your email address.");
-        usernameInput.style.border = '2px solid red';
-    } else if (!isValidEmail(username)) {
+        emailInput.style.border = '2px solid red';
+    } else if (!isValidEmail(email)) {
         errors.push("Invalid email format.");
->>>>>>> Stashed changes
-        usernameInput.style.border = '2px solid red';
+        emailInput.style.border = '2px solid red';
     }
 
     if (!password) {
@@ -80,7 +48,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         passwordInput.style.border = '2px solid red';
     }
 
-    // Check password strength (minimum 8 characters and specific character requirements)
+    // Check password strength (minimum 8 characters, includes letters, numbers, special characters)
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
     if (password && !passwordRegex.test(password)) {
         errors.push("Password must be at least 8 characters and include one letter, one number, and one special character.");
@@ -96,10 +64,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     // Send login request to the server
     try {
-<<<<<<< Updated upstream
-        // If username and password exist, POST to server API
-=======
->>>>>>> Stashed changes
         const response = await fetch('/login/login', {
             method: 'POST',
             headers: {
@@ -112,13 +76,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             const data = await response.json();
             
             if (data.message.includes('invalid-credentials')) {
-<<<<<<< Updated upstream
-                emailInput.style.border = '2px solid red';
-                document.getElementById('username-error').style.display = 'block';
-=======
                 errors.push("Username and password do not match our records.");
-                usernameInput.style.border = '2px solid red';
->>>>>>> Stashed changes
+                emailInput.style.border = '2px solid red';
                 passwordInput.style.border = '2px solid red';
             } else {
                 errors.push(data.message);
@@ -129,21 +88,12 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             errorBox.style.display = 'block';
             return;
         }
-<<<<<<< Updated upstream
-        
-        // If the user has checked the "Remember Password" box, store the password in the browser Local Storage. 
-        if(document.getElementById('remember').checked) {
-            localStorage.setItem('password', password)
-        } else {
-            localStorage.removeItem('password') // Remove the password from Local Storage if the form is submitted without the box checked
-=======
 
         // Handle "Remember Me" functionality
         if (rememberMe.checked) {
             localStorage.setItem('password', password);
         } else {
             localStorage.removeItem('password');
->>>>>>> Stashed changes
         }
 
         // Redirect to dashboard on successful login
