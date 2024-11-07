@@ -43,16 +43,10 @@ const getOrgPage = async (req, res) => {
         let orgs;
 
          // Extract sorting criteria and filter criteria
-
-         console.log('Pre-slice length: ' + Object.keys(req.query).length)
-
          if (Object.keys(req.query).length > 2) {
-            console.log('about to slice');
             // First two parameters are page and limit, slice the rest for sorting
             const queryEntries = Object.entries(req.query).slice(2);
-            console.log('Post Slice: ' + JSON.stringify(queryEntries))
             for (const [key, value] of queryEntries) {
-                console.log('key: ' + [key])
                 if (key.startsWith('sort_')) { // Extract the column that is being toggled
                     sortCriteria = value; 
                 } else if(key.startsWith('order_')){ // Extract the order in which to sort the column
@@ -79,14 +73,10 @@ const getOrgPage = async (req, res) => {
             const sort = { [sortCriteria]: orderCriteria };
             orgs = await org.find(filterCriteria).sort(sort).skip(skip).limit(limit);
         } else {
-            console.log('finding orgs with no sort: ' + JSON.stringify(filterCriteria))
             orgs = await org.find(filterCriteria).skip(skip).limit(limit);
         }
-       
-        console.log('orgs:' + orgs.length)
+    
         const totalOrgs = await org.countDocuments(filterCriteria);
-
-        console.log('total orgs: ' + totalOrgs)
 
         const totalPages = Math.ceil(totalOrgs / limit);
 

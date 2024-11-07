@@ -25,10 +25,10 @@ const userLogin = async (req, res) => {
         if (validatePassword) {
 
             // Update the lastLoggedIn field in the user record
-            await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: time.now()}})
+            await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}})
 
             // Set session information here
-            req.session.user = { id: user._id, username: user.username, role: user.roles };
+            req.session.user = { id: user._id, role: user.roles };
             return res.sendStatus(200);
         } 
         else {    
@@ -45,7 +45,7 @@ const userLogin = async (req, res) => {
                 level: 'ERROR',
                 desc: 'Login Failed',
                 source: 'loginController',
-                userId: username, 
+                userId: email, 
                 code: '500',
                 meta: { message: err.message, stack: err.stack },
                 session

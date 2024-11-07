@@ -735,10 +735,10 @@ async function getOrganizationDetails(req, res){
         return res.sendStatus(401);
     }
 
-    const username = req.session.user.username
+    const user = await User.findById(req.session.user.id);
 
     try{
-        const orgDetails = await getOrganizationFields(username)
+        const orgDetails = await Organization.findById(user.organization);
         return res.status(200).json({
             organization: orgDetails
         })

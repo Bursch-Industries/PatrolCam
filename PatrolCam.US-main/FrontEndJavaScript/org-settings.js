@@ -188,6 +188,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 //Load the organization data from database
 async function populateOrgData(){
     try{
+
+        console.log()
         //API to fetch organization data
         const response = await fetch('/register/getOrg',{ 
             method: 'GET',
