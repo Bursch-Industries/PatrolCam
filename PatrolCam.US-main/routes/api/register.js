@@ -15,5 +15,6 @@ router.get('/getCams', registerController.getCameraDetails)
 router.get('/getOrgUsers', registerController.getOrgUserData)
 router.get('/getUsersLastLogin', registerController.getUserLastLogin)
 router.get('/getOrg', registerController.getOrganizationDetails)
+router.get('getOrgList', registerController.getOrganizationList)
 
 module.exports = router;
