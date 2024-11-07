@@ -579,7 +579,7 @@ async function hashPassword (password) {
         throw new Error("Error occured while hashing password" + error.message)
     }
 }
-
+//TODO: Remove function
 //Check if the user role is "Creator"
 function checkUserRole(user){
     if (!user || !user.roles) {
@@ -703,7 +703,7 @@ async function getUserLastLogin(req, res) {
         return res.status(500).json({'Error occured while getting user from organization' : error.message})
     }
 }
-
+//TODO: Make use of only this function and send fields from frontend side
 async function getUserFields(username, fields = []) {
     if(!username){
         throw new Error("All fields are required")
@@ -762,6 +762,7 @@ async function getOrganizationDetails(req, res){
     }
 }
 
+//TODO: Make use of only this function and send fields from frontend side
 async function getOrganizationFields(username){
     if(!username){
         throw new Error("All fields are required")
@@ -789,6 +790,54 @@ async function getOrganizationFields(username){
     return orgFields
 }
 
+//TODO: Test function and make sure it works
+async function getOrganizationList(req, res){
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
+
+    const username = req.session.user
+
+    const user = await findUser(username)
+    if(!user){
+        return res.sendStatus(404)
+    }
+
+    try{
+        const orgList = getAllOrganizations(user)
+        return res.json(orgList) //Send the organization list as JSON
+
+    } catch (error) {
+        if(error.message === "403") return res.sendStatus(403)
+
+        await withTransaction(async (session) => {  
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to retrieve organization list',
+                source: 'registerController - getOrganizationList',
+                userId: 'System',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+        });
+    
+        return res.status(500).json({'Error occured while getting organization list' : error.message})
+    }
+}
+
+async function getAllOrganizations(user){
+    if((user.roles).toLowerCase() !== 'master'){
+        throw new Error("403") //Throw error if user is not authorized
+    }
+
+    const organizations = await Organization.find({})
+    return organizations
+}
+
+
+//TODO: Create update function to organization data
+
 module.exports = { 
     handleNewUser, 
     handleNewOrganization, 
@@ -799,5 +848,6 @@ module.exports = {
     getCameraDetails,
     getOrgUserData,
     getUserLastLogin,
-    getOrganizationDetails
+    getOrganizationDetails,
+    getOrganizationList
 };
