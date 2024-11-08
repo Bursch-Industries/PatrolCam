@@ -1,10 +1,12 @@
+// Function to fetch a list of organizations from database in paginated form, based on front-end specified filter(s)
 
 async function fetchOrgPage(filter) {
 
     
     try {
         let response;
-
+        console.log('entered try block')
+        console.log('filter' + JSON.stringify(filter))
         // If there are no params, fetch the first page with default number of results
         if(filter){
             // Convert json into URL Search format (string=x&page=y&etc...)
@@ -12,20 +14,23 @@ async function fetchOrgPage(filter) {
             console.log('page to fetch: ' + `/api/org/page?${params}`)
             response = await fetch(`/api/org/page?${params}`)
         } else {
-            response = await fetch('/api/org/page');
+            response = await fetch('/api/org/page'); // Default to fetching first x org results in alphabetical order
         }
 
         const orgs = await response.json();
-        const orgContainer = document.getElementById('orgList');
+        const orgList = document.getElementById('orgList');
+
+        console.log(JSON.stringify(orgs.orgs))
+        console.log(orgs.orgs.length)
 
         // Reset the table every time the next db page is fetched
-        orgContainer.innerHTML = '';
-        
-        console.log('fetchOrgPage # of orgs: ' + orgs.orgs.length)
+        orgList.innerHTML = '';
+        console.log('orgContainer should be reset')
 
         if(orgs.orgs.length > 0) {
             // Generate new divs to hold organization info
             orgs.orgs.forEach(org => {
+                console.log('appending ' + org.organizationName)
                 const orgDiv = document.createElement('div');
                 orgDiv.className = 'user';
                 orgDiv.innerHTML = `
@@ -34,20 +39,26 @@ async function fetchOrgPage(filter) {
                 <span class="cameraCount">${org.cameras.length}</span>
                 <button class="detailsButton">More Details</button>
                 `;
-                orgContainer.appendChild(orgDiv);
+                orgList.appendChild(orgDiv);
             });
+            console.log('orgList fully appended')
         } else {
             const noResultsDiv = document.createElement('div');
             noResultsDiv.className = 'noResults';
             noResultsDiv.textContent = 'No results found';
-            orgContainer.appendChild(noResultsDiv);
+            orgList.appendChild(noResultsDiv);
         }
         
         // Update current page
         document.getElementById('pageNumber').value = orgs.page;
 
         // Update total pages
-        document.getElementById('maxPages').textContent = orgs.totalPages;
+        if(orgs.totalPages < 1) {
+            document.getElementById('maxPages').textContent = 1;
+        } else {
+            document.getElementById('maxPages').textContent = orgs.totalPages;
+        }
+        
 
 
 
@@ -57,7 +68,7 @@ async function fetchOrgPage(filter) {
 }
 
 document.getElementById('nextPage').addEventListener("click", function() {
-
+    
     let filter = {};
 
     // Get the current page
@@ -91,10 +102,16 @@ document.getElementById('previousPage').addEventListener("click", function() {
     // Get the current page
     const currentPage = parseInt(document.getElementById("pageNumber").value);
 
-     // Get the current sort
+     // Get the current sort, using organizationName as a default
+     if(!localStorage.getItem('currentSort')) {
+        localStorage.setItem('currentSort', 'organizationName');
+     }
      const currentSort = localStorage.getItem('currentSort')
 
-     // Get the current order
+     // Get the current order, using 'asc' as a default
+     if(!localStorage.getItem('currentOrder')) {
+        localStorage.setItem('currentOrder', 'asc');
+     }
      const currentOrder = localStorage.getItem('currentOrder');
 
     // Current page must be greater than 1 in order to go a previous page
@@ -191,8 +208,13 @@ document.getElementById('filterNumCameras').addEventListener("click", function()
 document.getElementById('searchForm').addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent the default form submission
 
-    const searchInput = document.getElementById('searchbar').value.trim();
-    if (searchInput) {
+    const searchInput = document.getElementById('searchbar').value;
+
+
+    if (searchInput === '') {
+        fetchOrgPage();
+    }
+    else {
         let filter = {};
         console.log('searchInput: ' + searchInput);
         filter.page = 1;
@@ -201,12 +223,31 @@ document.getElementById('searchForm').addEventListener('submit', (event) => {
 
         console.log(filter);
         fetchOrgPage(filter);
-
-        // Optionally clear the input or set it to a new value
-        // document.getElementById('searchbar').value = ''; // Clear input
-        // document.getElementById('searchbar').value = 'New Value'; // Set to a specific value
     }
 });
+
+document.getElementById('advancedFilterSubmit').addEventListener('click', function(){
+    event.preventDefault();
+
+    const filter = {};
+    const currentPage = document.getElementById('pageNumber').value;
+    const maxVal = document.getElementById('maxValue').value;
+    const minVal = document.getElementById('minValue').value;
+    const category = document.getElementById('category').value;
+
+
+    filter.page = currentPage;
+    filter.skip = 2;
+    filter.sort_= category;
+    filter.minVal_ = minVal;
+    filter.maxVal_ = maxVal;
+    
+    
+    console.log('fetching filter: ' + JSON.stringify(filter));
+
+    fetchOrgPage(filter);
+
+})
 
 // Fetch orgs when the page loads
 window.onload = fetchOrgPage();

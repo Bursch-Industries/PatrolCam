@@ -11,3 +11,15 @@ document.getElementById('orgFormButton').addEventListener('click', function() {
         this.textContent = '+'; // Reset button text
     }
 });
+
+document.getElementById('filterFormToggle').addEventListener('click', function() {
+    console.log('filter button clicked')
+    const formContainer = document.getElementById('filterContainer');
+    console.log(formContainer.style.display)
+    // Toggle visibility
+    if (formContainer.style.display === 'none' || formContainer.style.display === '') {
+        formContainer.style.display = 'flex';
+    } else {
+        formContainer.style.display = 'none';
+    }
+});

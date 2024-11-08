@@ -5,8 +5,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Settings</title>
-        <link rel="stylesheet" href="/org-settings.css">
-        <link rel="stylesheet" href="/login-modal.css">
+        <link rel="stylesheet" href="org-settings.css">
+        <link rel="stylesheet" href="login-modal.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="../FrontEndJavaScript/org-settings.js" defer></script>
         <script src="../FrontEndJavaScript/fetchNavbar.js" defer></script>
@@ -20,17 +20,7 @@
 
     <!-- Header Section -->
 
-    <header>
-        <div class="logo">
-            <a href="/#index.html"><img src="PatrolCamLogo.png" alt="PatrolCam Logo"></a>
-        </div>
-        <nav class="navbar">
-            <a href="/dashboard">Home</a>
-            <a href="/logDemo">Demo</a>
-            <a href="/#contact-section">Contact Us</a>
-            <a href="/cameras">Surveillance</a>
-        </nav>
-        <!-- <a href="/login" id="loginButton">Login</a> -->
+    <header id="navbar"></header>
 
      <!-- Settings Section -->
 
@@ -93,34 +83,42 @@
             
                 </div>
 
-                <div id = "loaded-content" class="loaded-content bg-white p-3 rounded d-none">
+                <div id = "loaded-content" class="loaded-content bg-white p-3 rounded">
                     <div class="account-content">
-                        <i class="edit-icon" onclick="enableEditMode()">&#9998;</i> <!-- Single Pencil Icon -->
+                        <i id = "edit-icon" class="edit-icon" onclick="enableAccountEditMode()">&#9998;</i> <!-- Single Pencil Icon -->
 
                         <div class="form-group">
                             <label>Organization Name:</label>
-                            <span id="org-name" data-field="organizationName"></span>
+                            <input id="org-name" name="orgName" type="text" title="name" disabled/>
                         </div>
                 
                         <div class="form-group">
                             <label>Email Address:</label>
-                            <span id="email-address" data-field="emailAddress"></span>
+                            <input id="email-address" name="emailAddress" type="text" title="email" disabled/>
                         </div>
                 
                         <div class="form-group">
                             <label>Phone Number:</label>
-                            <span id="phone-number" data-field="phoneNumber"></span>
+                            <input id="phone-number" name="phoneNumber" type="text" title="phone" disabled/>
                         </div>
                 
                         <div class="form-group">
                             <label>Organization Address:</label>
-                            <span id="org-address" data-field="organizationAddress"></span>
+                            <input id="org-address" name="orgAddress" type="text" title="address" disabled/>
                         </div>
                 
                         <div class="form-group">
                             <label>Subscription:</label>
-                            <span id="org-subscription" data-field="organizationSubscription"></span>
+                            <select id="org-subscription" name="subscription" type="text" title="org" disabled>
+                                <option value="premium">Premium</option>
+                                <option value="gold">Gold</option>
+                                <option value="silver">Silver</option>
+                            </select>
                         </div>
+                    </div>
+                    <div id="form-btns" class="form-btns">
+                        <button class="btn btn-secondary" type="reset" onclick="disableAccountEditMode()">Cancel</button>
+                        <button class="btn btn-primary" type="submit" onclick="updateAccountInfo()">Update</button>
                     </div>
                 </div>
             </section>

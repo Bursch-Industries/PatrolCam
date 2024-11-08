@@ -84,37 +84,6 @@ function saveCameraChanges(cameraId) {
     saveChanges("camera", cameraId, payload);
 }
 
-// Editable Pencil Icon
-
-// function initializeAccountEdit() {
-//     const editIcon = document.querySelector("#account-info .edit-icon");
-//     const inputFields = document.querySelectorAll("#account-info input");
-//     const subscriptionDropdown = document.getElementById("subscription-plan");
-//     const submitButton = document.querySelector(".submit-btn");
-
-//     let isEditable = false;
-
-//     editIcon.addEventListener("click", () => {
-//         isEditable = !isEditable;
-
-//         inputFields.forEach((input) => {
-//             input.readOnly = !isEditable; // Toggle readonly
-//             input.classList.toggle("editable", isEditable); // Apply editable style
-//         });
-
-//         if (isEditable) {
-//             subscriptionDropdown.removeAttribute("disabled"); // Enable dropdown
-//             subscriptionDropdown.classList.add("editable");
-//         } else {
-//             subscriptionDropdown.setAttribute("disabled", ""); // Disable dropdown
-//             subscriptionDropdown.classList.remove("editable");
-//         }
-
-//         submitButton.disabled = !isEditable; // Enable or disable submit button
-//     });
-// }
-
-
 function initializeOfficerToggle() {
     const officerCards = document.querySelectorAll(".officer-card");
 
@@ -129,48 +98,67 @@ function toggleOfficerDetails(card) {
     card.classList.toggle("active");
 }
 
-function enableEditMode(){
+//Enables input elements so that we can changed
+function enableAccountEditMode(){
     const loadedContent = document.getElementById('loaded-content')
-    const fields = loadedContent.querySelectorAll("span[data-field]")
+    const fields = loadedContent.querySelectorAll("input , select") 
+
     fields.forEach(field => {
-        
-        const fieldName = field.getAttribute('data-field')
-        const fieldValue = field.textContent
-
-        if(fieldName === "organizationSubscription"){
-            const select = document.createElement('select')
-            select.id = fieldName
-            select.classList.add('form-control')
-
-            const options = [
-                { value: 'premium', text: 'Premium'},
-                { value: 'gold', text: 'Gold'},
-                {value: 'silver', text: 'Silver'}
-            ]
-
-            options.forEach(option => {
-                const optionElement = document.createElement('option')
-                optionElement.value = option.value
-                optionElement.textContent = option.text
-                if(option.text.toLowerCase() === fieldValue.toLowerCase()){
-                    optionElement.selected = true
-                }
-
-                select.appendChild(optionElement)
-            })
-
-            field.replaceWith(select)
-        }
-        else{
-            const input = document.createElement('input')
-            input.type = "text"
-            input.value = fieldValue
-            input.classList.add('form-control')
-            input.id = fieldName
-
-            field.replaceWith(input)
-        }
+        const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
+        field.setAttribute('data-original-value', originalValue) 
+        field.removeAttribute("disabled")
     })
+
+    const editIcon = document.getElementById("edit-icon")
+    editIcon.style.display = "none"
+
+    const formBtns = document.getElementById("form-btns")
+    formBtns.style.display = "flex"
+}
+
+//Will remove existing input elements and revert any changes made
+function disableAccountEditMode(){
+    const loadedContent = document.getElementById('loaded-content')
+    const fields = loadedContent.querySelectorAll('input, select')
+
+    fields.forEach(field => {
+        if (field.tagName === "SELECT"){
+            const originalOption = field.getAttribute('data-original-value')
+            for (let i = 0; i < field.options.length; i++){
+                const option = field.options[i]
+                if(option.text.toLowerCase() === originalOption.toLowerCase()){
+                    option.selected = true;
+                    break;
+                }
+            }
+        } else {
+            field.value = field.getAttribute('data-original-value')    
+        }
+        field.setAttribute("disabled", "")
+    })
+
+    const editIcon = document.getElementById("edit-icon")
+    editIcon.style.display = "flex"
+    
+    const formBtns = document.getElementById("form-btns")
+    formBtns.style.display = "none"
+}
+
+//TODO: Create update function to connect with backend
+//Collects information on data to update account information
+function updateAccountInfo(){
+    const loadedContent = document.getElementById('loaded-content')
+    const fields = loadedContent.querySelectorAll('input, select')
+
+    const updatedData = {}
+
+    fields.forEach(field => {
+        if (field.tagName === "SELECT"){
+            updatedData[field.name] = field.options[field.selectedIndex].text
+        } else {
+            updatedData[field.name] = field.value  
+        }
+    }) 
 }
 
 
@@ -188,6 +176,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 //Load the organization data from database
 async function populateOrgData(){
     try{
+
+        console.log()
         //API to fetch organization data
         const response = await fetch('/register/getOrg',{ 
             method: 'GET',
@@ -211,15 +201,24 @@ async function populateOrgData(){
         const data = await response.json();
 
         //Update UI elements
-        document.getElementById('org-name').textContent = data.organization.organizationName
-        document.getElementById('email-address').textContent = data.organization.organizationEmail
-        document.getElementById('phone-number').textContent = data.organization.organizationPhone
-        document.getElementById('org-address').textContent = data.organization.organizationAddress 
-        document.getElementById('org-subscription').textContent = "Coming soon..."
+        document.getElementById('org-name').value = data.organization.organizationName
+        document.getElementById('email-address').value = data.organization.organizationEmail
+        document.getElementById('phone-number').value = data.organization.organizationPhone
+        document.getElementById('org-address').value = data.organization.organizationAddress 
+        
+        const orgSubscription = document.getElementById('org-subscription')
+        const databaseValue = "Silver"
+        for (let i = 0; i < orgSubscription.options.length; i++){
+            const option = orgSubscription.options[i]
+            if(option.text.toLowerCase() === databaseValue.toLowerCase()){
+                option.selected = true;
+                break;
+            }
+        }
 
         //Hide placeholder and show loaded content
-        document.getElementById('account-info-form').classList.toggle('hidden'); 
-        document.getElementById('loaded-content').classList.remove('d-none')
+        document.getElementById('account-info-form').style.display = "none"
+        document.getElementById('loaded-content').style.display = "flex"
 
     } catch (error) {
         console.error('Error fetching user data:', error)
@@ -407,6 +406,98 @@ function renderOrgUsers(users){
 
 
 //For Master role (Nate only)
-//TODO: Add function to fetch organization name and password
-//TODO: Add function to post new organization
-//TODO: Add function to post new user
+async function createNewOrganization(orgName, orgEmail, orgPhone, orgAddress, user, password, userFirstname, userLastname, userEmail){
+    try{
+        const response = await fetch('register/newOrg', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                orgName,
+                orgEmail,
+                orgPhone,
+                orgAddress,
+                user,
+                password,
+                userFirstname,
+                userLastname,
+                userEmail
+            })
+        })
+
+        if(!response.ok){
+            throw new Error(`HTTP error! Status ${response.status}`)
+        }
+
+        const result = await response.json()
+        console.log('Response received: ', result)
+        return result
+    } catch (error) {
+        console.error('Error posting data:', error)
+    }
+}
+
+async function createNewUser(user, password, userFirstname, userLastname, userEmail, phone, rank){
+    try{
+        const response = await fetch('register/newUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user,
+                password,
+                userFirstname,
+                userLastname,
+                userEmail,
+                phone,
+                rank
+            })
+        })
+
+        if(!response.ok){
+            throw new Error(`HTTP error! Status ${response.status}`)
+        }
+
+        const result = await response.json()
+        console.log('Response received: ', result)
+        return result
+    } catch (error) {
+        console.error('Error posting data:', error)
+    }
+}
+
+async function getOrgList(){
+    try{
+        const response = await fetch('/register/getOrgList', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        //If unauthorized to make the request sends back to login page
+        if(response.status === 401){
+            console.log('Session expired or unauthorized. Redirecting to login...')
+            window.location.href = '/login'
+            return
+        }
+
+        if(response.status === 403){
+            console.log('User doesnot have permission to use this function')
+            return
+        }
+        
+        if(!response.ok){
+            throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+
+        data = response.json()
+        console.log(data)
+
+    } catch(error) {
+        console.error('Error posting data:', error)
+
+    }
+}

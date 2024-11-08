@@ -6,9 +6,8 @@
     <title>OrganizationList</title>
     <link rel="stylesheet" href="orgList.css">
     <link rel="stylesheet" href="login-modal.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../../FrontEndJavaScript/fetchNavbar.js" defer></script>
-    <script src="../../FrontEndJavaScript/addOrgFormModal.js" defer></script>
+    <script src="../../FrontEndJavaScript/orgListModals.js" defer></script>
     <script src="../../FrontEndJavaScript/fetchOrgPage.js" defer></script>
 </head>
 <body>
@@ -21,45 +20,108 @@
                 <p>Search:</p>
                 <input type="text" id="searchbar">      
             </form>
-            <button class="filterButton">Filter</button>
+            <button id="filterFormToggle" class="filterButton">Filter</button>
             <button id="orgFormButton" class="addButton">+</button>
         </div>
 
+        <!-- Modal Form to create a new organization -->
         <div id="orgFormContainer" class = "orgFormContainer">
-            <form  method="POST" action="/register/newOrg">
+
+            <form method="POST" action="/register/newOrg">
+
                 <h2>Organization Details</h2>
-                <label for="orgName">Organization Name:</label>
-                <input type="text" id="orgName" name="orgName" placeholder="Enter organization name" required>
-        
-                <label for="orgEmail">Organization Email:</label>
-                <input type="email" id="orgEmail" name="orgEmail" placeholder="Enter organization email" required>
-        
-                <label for="orgPhone">Organization Phone:</label>
-                <input type="tel" id="orgPhone" name="orgPhone" placeholder="Enter organization phone number" required>
-        
-                <label for="orgAddress">Organization Address:</label>
-                <input type="text" id="orgAddress" name="orgAddress" placeholder="Enter organization address" required>
-        
-                <h2>User Details</h2>
-                <label for="userFirstname">First Name:</label>
-                <input type="text" id="userFirstname" name="userFirstname" placeholder="Enter your first name" required>
-        
-                <label for="userLastname">Last Name:</label>
-                <input type="text" id="userLastname" name="userLastname" placeholder="Enter your last name" required>
-        
-                <label for="userEmail">User Email:</label>
-                <input type="email" id="userEmail" name="userEmail" placeholder="Enter your email" required>
-        
-                <label for="user">Username:</label>
-                <input type="text" id="user" name="user" placeholder="Enter a username" required>
-        
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
-        
-                <button type="submit">Register</button>
+                <div class="inputColumns">
+
+                    <div class="inputBox">
+                        <label for="orgName">Organization Name:</label>
+                        <input type="text" id="orgName" name="orgName" placeholder="Enter organization name" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="orgEmail">Organization Email:</label>
+                        <input type="email" id="orgEmail" name="orgEmail" placeholder="Enter organization email" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="orgPhone">Organization Phone:</label>
+                        <input type="tel" id="orgPhone" name="orgPhone" placeholder="Phone number" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="orgAddress">Organization Address:</label>
+                        <input type="text" id="orgAddress" name="orgAddress" placeholder="Street Address" required>
+                    </div>
+
+                    <div class="addressBox">
+
+                        <div class="cityBox">
+                            <label for="orgCity">City:</label>
+                            <input type="text" id="orgAddress" name="orgcity" placeholder="City" required>
+                        </div>
+
+                        <div class="stateBox">
+                            <label for="orgState">State:</label>
+                            <input type="text" id="orgAddress" name="orgState" placeholder="State" required>
+                        </div>
+
+                        <div class="zipBox">
+                            <label for="orgZipCode">Zip Code:</label>
+                            <input type="text" id="orgAddress" name="orgAddress" placeholder="Zip Code" required>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <h2>New Admin Details</h2>
+
+                <div class="inputColumns">
+
+                    <div class="inputBox">
+                        <label for="userFirstname">First Name:</label>
+                        <input type="text" id="userFirstname" name="userFirstname" placeholder="Enter first name" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="userLastname">Last Name:</label>
+                        <input type="text" id="userLastname" name="userLastname" placeholder="Enter last name" required>
+                    </div>
+                    
+                    <div class="inputBox">
+                        <label for="userEmail">User Email:</label>
+                        <input type="email" id="userEmail" name="userEmail" placeholder="Enter email" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
+                    </div>
+                </div>
+
+                <button class="registerButton" type="submit">Create</button>
+
             </form>
         </div>
 
+        <!-- Form for advanced filtering of org list -->
+         <div id="filterContainer" class="filterContainer">
+            <form id="filterForm" class="filter-form">
+                <h2>Filter Results</h2>
+               
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="">-- Select a Category --</option>
+                    <option value="numberOfUsers">Number of Users</option>
+                    <option value="numberOfCameras">Number of Cameras</option>
+                </select>
+            
+                <label for="value-range">Value Range:</label>
+                <input type="text" id="minValue" name="min-value" placeholder="Min Value">
+                <input type="text" id="maxValue" name="max-value" placeholder="Max Value">
+            
+                <button id="advancedFilterSubmit">Apply Filters</button>
+            </form>
+        </div>
 
         <div class="org-table-section">
             <div class="tableOrg">
@@ -70,10 +132,8 @@
                     <h3>More Details</h3>
                 </div>
 
-
-                <div id="orgList" class="orgList">
-
-                </div>
+                <!-- div where organizations are populated -->
+                <div id="orgList" class="orgList"></div>
 
                 <div class="tableFooter">
                     <button id="previousPage" class="backPage">&lt;</button>
@@ -86,6 +146,7 @@
             </div>
         </div>
     </div>
+
     <footer class="footer">
         PatrolCam. All Rights Reserved.
     </footer>
