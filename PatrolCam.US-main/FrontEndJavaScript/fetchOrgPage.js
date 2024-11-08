@@ -5,7 +5,8 @@ async function fetchOrgPage(filter) {
     
     try {
         let response;
-
+        console.log('entered try block')
+        console.log('filter' + JSON.stringify(filter))
         // If there are no params, fetch the first page with default number of results
         if(filter){
             // Convert json into URL Search format (string=x&page=y&etc...)
@@ -17,16 +18,19 @@ async function fetchOrgPage(filter) {
         }
 
         const orgs = await response.json();
-        const orgContainer = document.getElementById('orgList');
+        const orgList = document.getElementById('orgList');
+
+        console.log(JSON.stringify(orgs.orgs))
+        console.log(orgs.orgs.length)
 
         // Reset the table every time the next db page is fetched
-        orgContainer.innerHTML = '';
-        
-        console.log('fetchOrgPage # of orgs: ' + orgs.orgs.length)
+        orgList.innerHTML = '';
+        console.log('orgContainer should be reset')
 
         if(orgs.orgs.length > 0) {
             // Generate new divs to hold organization info
             orgs.orgs.forEach(org => {
+                console.log('appending ' + org.organizationName)
                 const orgDiv = document.createElement('div');
                 orgDiv.className = 'user';
                 orgDiv.innerHTML = `
@@ -35,20 +39,26 @@ async function fetchOrgPage(filter) {
                 <span class="cameraCount">${org.cameras.length}</span>
                 <button class="detailsButton">More Details</button>
                 `;
-                orgContainer.appendChild(orgDiv);
+                orgList.appendChild(orgDiv);
             });
+            console.log('orgList fully appended')
         } else {
             const noResultsDiv = document.createElement('div');
             noResultsDiv.className = 'noResults';
             noResultsDiv.textContent = 'No results found';
-            orgContainer.appendChild(noResultsDiv);
+            orgList.appendChild(noResultsDiv);
         }
         
         // Update current page
         document.getElementById('pageNumber').value = orgs.page;
 
         // Update total pages
-        document.getElementById('maxPages').textContent = orgs.totalPages;
+        if(orgs.totalPages < 1) {
+            document.getElementById('maxPages').textContent = 1;
+        } else {
+            document.getElementById('maxPages').textContent = orgs.totalPages;
+        }
+        
 
 
 
@@ -58,7 +68,7 @@ async function fetchOrgPage(filter) {
 }
 
 document.getElementById('nextPage').addEventListener("click", function() {
-
+    
     let filter = {};
 
     // Get the current page
@@ -215,6 +225,29 @@ document.getElementById('searchForm').addEventListener('submit', (event) => {
         fetchOrgPage(filter);
     }
 });
+
+document.getElementById('advancedFilterSubmit').addEventListener('click', function(){
+    event.preventDefault();
+
+    const filter = {};
+    const currentPage = document.getElementById('pageNumber').value;
+    const maxVal = document.getElementById('maxValue').value;
+    const minVal = document.getElementById('minValue').value;
+    const category = document.getElementById('category').value;
+
+
+    filter.page = currentPage;
+    filter.skip = 2;
+    filter.sort_= category;
+    filter.minVal_ = minVal;
+    filter.maxVal_ = maxVal;
+    
+    
+    console.log('fetching filter: ' + JSON.stringify(filter));
+
+    fetchOrgPage(filter);
+
+})
 
 // Fetch orgs when the page loads
 window.onload = fetchOrgPage();

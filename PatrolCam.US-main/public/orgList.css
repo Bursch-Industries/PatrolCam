@@ -234,9 +234,43 @@ label {
     flex-direction: column;
     height: 80px;
     width: 40%;
-    padding: 10px;
-    margin: 10px;
+    padding: 5px;
 
+}
+
+.addressBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 5px;
+}
+
+.cityBox {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.stateBox {
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+}
+
+.zipBox {
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+}
+
+.registerButton {
+    margin-top: auto;
+    background-color: #0C2D48;
+    margin-top: 15%;
+    width: 50%;
+    height: 50px;
+    color: white;
 }
 
 .inputColumns {
@@ -336,4 +370,50 @@ label {
 }
 
 
+/* Advanced Filter Form */
 
+.filterContainer {
+    display: none;
+    justify-content: center;
+}
+
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-form h2 {
+    margin-bottom: 20px;
+}
+
+.filter-form label {
+    margin-top: 10px;
+}
+
+.filter-form input,
+.filter-form select {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.submit-button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007BFF; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-button:hover {
+    background-color: #0056b3; /* Darken button on hover */
+}
