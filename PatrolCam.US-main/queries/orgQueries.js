@@ -15,11 +15,10 @@ const getAllOrgs = async (req, res) => {
 
 const getOrgByID = async (req, res) => {
     
-    const orgID = req.params.id;
-    const o_id = new ObjectId(orgID);
+    const orgId = req.params.id;
 
     try {
-        const oneOrg = await org.find({"_id" : o_id}); 
+        const oneOrg = await org.findById(orgId); 
         res.status(200).json(oneOrg)
     } catch (error) {
         res.status(500).json({ message: error.message });

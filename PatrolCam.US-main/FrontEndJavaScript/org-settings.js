@@ -167,8 +167,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     //Set timeout of 1sec to load itmes
     setTimeout(()=>{
         if(window.location.pathname === '/org-settings'){
-            populateOrgData()
-        } 
+            
+            if(window.location.search != ''){
+                console.log('params found')
+                const params = new URLSearchParams(window.location.search);
+                params.forEach((value, key) => {
+                    console.log(`${key}: ${value}`);
+                });
+                const orgId = params.get('id');
+                populateOrgDataAccountAdmin(orgId);
+            } else{
+                populateOrgData()
+            }
+            
+        }
     }, 1000)
     
 })
@@ -501,3 +513,73 @@ async function getOrgList(){
 
     }
 }
+
+
+//Load the organization data from database
+async function populateOrgDataAccountAdmin(orgId){
+
+    console.log('id to fetch: ' + orgId)
+
+    try{
+        //API to fetch organization data
+
+        console.log('fetching url: ' + `/api/org/${orgId}` )
+
+        const response = await fetch(`/api/org/${orgId}`,{ 
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        
+
+        //If unauthorized to make request
+        if(response.status === 401){
+            console.log('Session expired or unauthorized. Redirecting to login...')
+            window.location.href = '/login'
+            return
+        }
+
+        //Server error
+        if(!response.ok){
+            throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+
+        const data = await response.json();
+
+        console.log('response: ' + JSON.stringify(data))
+
+        //Update UI elements
+        document.getElementById('org-name').value = data.organizationName
+        document.getElementById('email-address').value = data.organizationEmail
+        document.getElementById('phone-number').value = data.organizationPhone
+        document.getElementById('org-address').value = data.organizationAddress 
+        
+        const orgSubscription = document.getElementById('org-subscription')
+        const databaseValue = "Silver"
+        for (let i = 0; i < orgSubscription.options.length; i++){
+            const option = orgSubscription.options[i]
+            if(option.text.toLowerCase() === databaseValue.toLowerCase()){
+                option.selected = true;
+                break;
+            }
+        }
+
+        //Hide placeholder and show loaded content
+        document.getElementById('account-info-form').style.display = "none"
+        document.getElementById('loaded-content').style.display = "flex"
+
+    } catch (error) {
+        console.error('Error fetching user data:', error)
+    }
+}
+
+
+//--------Fetching organization cameras----------
+document.getElementById('camera-btn').addEventListener('click',(async()=>{
+    //Set timeout of 1sec to load itmes
+    setTimeout(()=>{
+        populateCamData()
+    }, 1000)
+}))

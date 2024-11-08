@@ -37,7 +37,7 @@ async function fetchOrgPage(filter) {
                 <span class="orgName">${org.organizationName}</span>
                 <span class="userCount">${org.users.length}</span>
                 <span class="cameraCount">${org.cameras.length}</span>
-                <button class="detailsButton">More Details</button>
+                <a href="org-settings?id=${org._id}"class="detailsButton">More Details</a>
                 `;
                 orgList.appendChild(orgDiv);
             });
