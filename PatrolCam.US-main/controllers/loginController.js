@@ -1,5 +1,6 @@
 
 const User = require('../model/User'); 
+const Org = require("../model/Organization");
 const bcrypt = require('bcryptjs');
 const { withTransaction } = require('./transactionHandler');
 const { logError } = require('./errorLogger'); 
@@ -18,6 +19,22 @@ const userLogin = async (req, res) => {
             return res.status(401).json({ message: 'invalid-credentials' });
         }
 
+        // Check if the user is active
+        if(user.status != "Active") {
+            return res.status(401).json({ message: 'This account is not active'})
+        }
+
+        /*
+        // Fetch the organization that the user is from
+        const userOrg = await Org.findById(user.organization);
+
+        // Check if the organization is active
+        if(userOrg.status != "Active") {
+            return res.status(401).json({ message: 'This organization is not active'})
+        }
+        */
+
+
         // Check for password in the database and compare
         const validatePassword = await bcrypt.compare(password, user.password);
 
@@ -31,7 +48,6 @@ const userLogin = async (req, res) => {
             return res.sendStatus(200);
         } 
         else {    
-            console.log('invalid password')
             return res.status(401).json({ message: 'invalid-credentials' });
         }
         
