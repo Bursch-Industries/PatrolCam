@@ -6,7 +6,7 @@ async function fetchOrgPage(filter) {
     try {
         let response;
         console.log('entered try block')
-        console.log('filter' + JSON.stringify(filter))
+        console.log('filter ' + JSON.stringify(filter))
         // If there are no params, fetch the first page with default number of results
         if(filter){
             // Convert json into URL Search format (string=x&page=y&etc...)
@@ -36,7 +36,6 @@ async function fetchOrgPage(filter) {
                 orgDiv.innerHTML = `
                 <span class="orgName">${org.organizationName}</span>
                 <span class="userCount">${org.users.length}</span>
-                <span class="cameraCount">${org.cameras.length}</span>
                 <a href="org-settings?id=${org._id}"class="detailsButton">More Details</a>
                 `;
                 orgList.appendChild(orgDiv);
@@ -88,6 +87,9 @@ document.getElementById('nextPage').addEventListener("click", function() {
         filter.skip = 2;
         filter.sort_ = currentSort;
         filter.order_ = currentOrder;
+        if(document.getElementById('searchbar').value != '') {
+            filter.organizationName = getElementById('searchInput').value
+        }
         fetchOrgPage(filter);
     } else {
         return;
@@ -120,6 +122,9 @@ document.getElementById('previousPage').addEventListener("click", function() {
         filter.skip = 2;
         filter.sort_ = currentSort;
         filter.order_ = currentOrder;
+        if(document.getElementById('searchbar').value != '') {
+            filter.organizationName = getElementById('searchInput').value
+        }
         fetchOrgPage(filter);
     } else {
         return;
@@ -179,36 +184,13 @@ document.getElementById('filterNumUsers').addEventListener("click", function(){
 
 })
 
-document.getElementById('filterNumCameras').addEventListener("click", function(){
-
-    let filter = {};
-
-    // Get the current page 
-    const currentPage = parseInt(document.getElementById("pageNumber").value);
-
-    // Set the current sort
-    const currentSort = "numberOfCameras";
-    localStorage.setItem('currentSort', currentSort);
-
-    // Get the current order 
-    const currentOrder = localStorage.getItem('currentOrder');
-
-    // Toggle current order
-    const updatedOrder = currentOrder === 'asc' ? 'desc' : 'asc';
-    localStorage.setItem('currentOrder', updatedOrder)
-
-    filter.page = currentPage;
-    filter.skip = 2;
-    filter.sort_ = currentSort;
-    filter.order_= updatedOrder;
-    fetchOrgPage(filter);
-
-})
 
 document.getElementById('searchForm').addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent the default form submission
 
     const searchInput = document.getElementById('searchbar').value;
+    // Get the current order 
+    const currentOrder = localStorage.getItem('currentOrder');
 
 
     if (searchInput === '') {
@@ -219,6 +201,8 @@ document.getElementById('searchForm').addEventListener('submit', (event) => {
         console.log('searchInput: ' + searchInput);
         filter.page = 1;
         filter.skip = 2;
+        filter.sort_ = currentOrder;
+        filter.order_ = 'asc';
         filter.organizationName = searchInput;
 
         console.log(filter);
@@ -230,6 +214,7 @@ document.getElementById('advancedFilterSubmit').addEventListener('click', functi
     event.preventDefault();
 
     const filter = {};
+    
     const currentPage = document.getElementById('pageNumber').value;
     const maxVal = document.getElementById('maxValue').value;
     const minVal = document.getElementById('minValue').value;

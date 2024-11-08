@@ -20,7 +20,6 @@ const userLogin = async (req, res) => {
 
         // Check for password in the database and compare
         const validatePassword = await bcrypt.compare(password, user.password);
-        console.log('validatePassword: ' + validatePassword)
 
         if (validatePassword) {
 
