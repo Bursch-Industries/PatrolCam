@@ -5,7 +5,6 @@ async function fetchOrgPage(filter) {
     
     try {
         let response;
-        console.log('entered try block')
         console.log('filter ' + JSON.stringify(filter))
         // If there are no params, fetch the first page with default number of results
         if(filter){
@@ -20,17 +19,12 @@ async function fetchOrgPage(filter) {
         const orgs = await response.json();
         const orgList = document.getElementById('orgList');
 
-        console.log(JSON.stringify(orgs.orgs))
-        console.log(orgs.orgs.length)
-
         // Reset the table every time the next db page is fetched
         orgList.innerHTML = '';
-        console.log('orgContainer should be reset')
 
         if(orgs.orgs.length > 0) {
             // Generate new divs to hold organization info
             orgs.orgs.forEach(org => {
-                console.log('appending ' + org.organizationName)
                 const orgDiv = document.createElement('div');
                 orgDiv.className = 'user';
                 orgDiv.innerHTML = `
@@ -40,7 +34,6 @@ async function fetchOrgPage(filter) {
                 `;
                 orgList.appendChild(orgDiv);
             });
-            console.log('orgList fully appended')
         } else {
             const noResultsDiv = document.createElement('div');
             noResultsDiv.className = 'noResults';
@@ -73,23 +66,30 @@ document.getElementById('nextPage').addEventListener("click", function() {
     // Get the current page
     const currentPage = parseInt(document.getElementById("pageNumber").value);
 
-    // Get the current sort
-    const currentSort = localStorage.getItem('currentSort')
+     // Get the current sort, using organizationName as a default
+     if(!localStorage.getItem('currentSort')) {
+        localStorage.setItem('currentSort', 'organizationName');
+     }
+     const currentSort = localStorage.getItem('currentSort')
 
-    // Get the current order
-    const currentOrder = localStorage.getItem('currentOrder');
+     // Get the current order, using 'asc' as a default
+     if(!localStorage.getItem('currentOrder')) {
+        localStorage.setItem('currentOrder', 'asc');
+     }
+     const currentOrder = localStorage.getItem('currentOrder');
     
     
     // Current page must be less than the total pages in order to get next page.
     const totalPages = parseInt(document.getElementById('maxPages').textContent);
     if(currentPage < totalPages){
         filter.page = currentPage + 1;
-        filter.skip = 2;
+        filter.skip = 10;
         filter.sort_ = currentSort;
         filter.order_ = currentOrder;
-        if(document.getElementById('searchbar').value != '') {
-            filter.organizationName = getElementById('searchInput').value
-        }
+        if(localStorage.getItem('currentSearch')) {
+            const currentSearch = localStorage.getItem('currentSearch')
+            filter.organizationName = currentSearch;
+         }
         fetchOrgPage(filter);
     } else {
         return;
@@ -116,15 +116,18 @@ document.getElementById('previousPage').addEventListener("click", function() {
      }
      const currentOrder = localStorage.getItem('currentOrder');
 
+     
+
     // Current page must be greater than 1 in order to go a previous page
     if(currentPage > 1){
         filter.page = currentPage - 1;
-        filter.skip = 2;
+        filter.skip = 10;
         filter.sort_ = currentSort;
         filter.order_ = currentOrder;
-        if(document.getElementById('searchbar').value != '') {
-            filter.organizationName = getElementById('searchInput').value
-        }
+        if(localStorage.getItem('currentSearch')) {
+            const currentSearch = localStorage.getItem('currentSearch')
+            filter.organizationName = currentSearch;
+         }
         fetchOrgPage(filter);
     } else {
         return;
@@ -150,9 +153,14 @@ document.getElementById('filterOrgName').addEventListener("click", function(){
     localStorage.setItem('currentOrder', updatedOrder)
 
     filter.page = currentPage;
-    filter.skip = 2;
+    filter.skip = 10;
     filter.sort_ = currentSort;
     filter.order_= updatedOrder;
+    if(localStorage.getItem('currentSearch')) {
+        console.log('found current serach')
+        const currentSearch = localStorage.getItem('currentSearch')
+        filter.organizationName = currentSearch;
+     }
     fetchOrgPage(filter);
 
 })
@@ -177,9 +185,14 @@ document.getElementById('filterNumUsers').addEventListener("click", function(){
     localStorage.setItem('currentOrder', updatedOrder)
 
     filter.page = currentPage;
-    filter.skip = 2;
+    filter.skip = 10;
     filter.sort_ = currentSort;
     filter.order_= updatedOrder;
+    if(localStorage.getItem('currentSearch')) {
+        console.log('found current serach')
+        const currentSearch = localStorage.getItem('currentSearch')
+        filter.organizationName = currentSearch;
+     }
     fetchOrgPage(filter);
 
 })
@@ -189,9 +202,18 @@ document.getElementById('searchForm').addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent the default form submission
 
     const searchInput = document.getElementById('searchbar').value;
-    // Get the current order 
-    const currentOrder = localStorage.getItem('currentOrder');
 
+    // Get the current sort, using organizationName as a default
+    if(!localStorage.getItem('currentSort')) {
+        localStorage.setItem('currentSort', 'organizationName');
+     }
+     const currentSort = localStorage.getItem('currentSort')
+
+    // Set currentOrder back to ascending 
+    localStorage.setItem('currentOrder', 'asc');
+    
+    // Set currentSearch
+    localStorage.setItem('currentSearch', searchInput);
 
     if (searchInput === '') {
         fetchOrgPage();
@@ -200,8 +222,8 @@ document.getElementById('searchForm').addEventListener('submit', (event) => {
         let filter = {};
         console.log('searchInput: ' + searchInput);
         filter.page = 1;
-        filter.skip = 2;
-        filter.sort_ = currentOrder;
+        filter.skip = 10;
+        filter.sort_ = currentSort;
         filter.order_ = 'asc';
         filter.organizationName = searchInput;
 
@@ -222,7 +244,7 @@ document.getElementById('advancedFilterSubmit').addEventListener('click', functi
 
 
     filter.page = currentPage;
-    filter.skip = 2;
+    filter.skip = 10;
     filter.sort_= category;
     filter.minVal_ = minVal;
     filter.maxVal_ = maxVal;

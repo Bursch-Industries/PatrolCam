@@ -33,7 +33,7 @@ const getOrgPage = async (req, res) => {
         // If no page in URL, default to 1
         const page = parseInt(req.query.page) || 1;
         // If no limit in URL, default to 2
-        const limit = parseInt(req.query.limit) || 2;
+        const limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1) * limit;
 
         console.log('Query Sent: ' + JSON.stringify(req.query))
@@ -103,6 +103,7 @@ const getOrgPage = async (req, res) => {
             console.log('both sort and order criteria found')
             const sort = { [sortCriteria]: orderCriteria };
             console.log('filterCriteria: ' + JSON.stringify(filterCriteria))
+            console.log('sort param: ' + JSON.stringify(sort))
             orgs = await org.find(filterCriteria).sort(sort).skip(skip).limit(limit);
 
         } else {

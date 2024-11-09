@@ -1,6 +1,6 @@
 
 const User = require('../model/User'); 
-const Org = require("../model/Organization");
+// const Org = require("../model/Organization");
 const bcrypt = require('bcryptjs');
 const { withTransaction } = require('./transactionHandler');
 const { logError } = require('./errorLogger'); 
