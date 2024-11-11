@@ -34,6 +34,10 @@ async function fetchOrgPage(filter) {
                 const orgDiv = document.createElement('div');
                 orgDiv.className = 'user';
                 orgDiv.innerHTML = `
+                <select id="status" name="status">
+                    <option value='Active'>Active</option>
+                    <option value='Inactive'> Inactive</option>
+                </select>
                 <span class="orgName">${org.organizationName}</span>
                 <span class="userCount">${org.users.length}</span>
                 <span class="cameraCount">${org.cameras.length}</span>
