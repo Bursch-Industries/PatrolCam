@@ -1,34 +1,44 @@
 // Get elements
-const gridIcon = document.getElementById('grid-icon');
 const gridContainer = document.getElementById('grid-container');
 const iframes = gridContainer.querySelectorAll('iframe');
 
-let currentIndex = 0; // To keep track of current displayed iframe
-
-// Function to update iframe display
-function updateIframeDisplay() {
-    // Reset the grid to show all iframes after the 4th one
-    if (currentIndex >= iframes.length) {
+// Function to show specific camera view or all cameras
+function showCameraView(cameraId) {
+    if (cameraId === "all") {
+        // Show all cameras in 2x2 grid layout
+        gridContainer.classList.remove("single-camera-view");
+        gridContainer.style.gridTemplateColumns = "1fr 1fr";
         iframes.forEach((iframe) => {
-            iframe.style.display = 'block'; // Show all frames
-            iframe.style.width = '100%'; // Reset width
-            iframe.style.height = '300px'; // Reset height
+            iframe.style.display = "block"; 
+            iframe.classList.remove("single-camera-frame"); 
+            iframe.style.width = ""; 
+            iframe.style.height = "";
         });
-        currentIndex = 0; // Reset index
     } else {
-        // Hide all frames except the current one
+        // Show only the selected camera in a centered view
+        gridContainer.classList.add("single-camera-view");
+        gridContainer.style.gridTemplateColumns = "1fr"; // Single-column layout
+
         iframes.forEach((iframe, index) => {
-            if (index === currentIndex) {
-                iframe.style.display = 'block';
-                iframe.style.width = '100%'; // Full width
-                iframe.style.height = '600px'; 
+            if (index + 1 === parseInt(cameraId)) {
+                iframe.style.display = "block";
+                iframe.classList.add("single-camera-frame"); 
+                iframe.style.width = ""; 
+                iframe.style.height = ""; 
             } else {
-                iframe.style.display = 'none'; // Hide other frames
+                iframe.style.display = "none";
             }
         });
-        currentIndex++; // Move to next iframe
     }
 }
 
-// Add event listener to the grid icon
-gridIcon.addEventListener('click', updateIframeDisplay);
+// Event listener for dropdown selection in camera_pages.html
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll(".dropdown-content a").forEach(link => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            const selectedCamera = event.target.dataset.camera;
+            showCameraView(selectedCamera); // Call function based on selection
+        });
+    });
+});
