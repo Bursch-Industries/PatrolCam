@@ -173,11 +173,8 @@ header {
 } */
 
 .footer {
-    padding: 1px;
+    padding: 25px;
     font-size: 1.25rem;
-    background-color: black;
-    opacity: 90%;
-    text-align: center;
     position: relative;
 }
 
