@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OrganizationList</title>
+    <link rel="icon" type="image/png" href="PatrolCamLogo.png">
     <link rel="stylesheet" href="orgList.css">
     <link rel="stylesheet" href="login-modal.css">
     <script src="../../FrontEndJavaScript/fetchNavbar.js" defer></script>
@@ -125,13 +126,14 @@
 
         <div class="org-table-section">
             <div class="tableOrg">
-                <div class="tableNav">
-                    <button id="filterOrgName" class="userToggle">Org Name</button>
-                    <button id="filterNumUsers" class="userToggle"># of Users</button>
-                    <button id="filterNumCameras" class="camToggle"># of Cameras</button>
-                    <h3>More Details</h3>
+                <div class="tableBackground">
+                    <div class="tableNav">
+                        <button id="filterOrgName" class="userToggle">Org Name</button>
+                        <button id="filterNumUsers" class="userToggle"># of Users</button>
+                        <button id="filterNumCameras" class="camToggle"># of Cameras</button>
+                        <h3>More Details</h3>
+                    </div>
                 </div>
-
                 <!-- div where organizations are populated -->
                 <div id="orgList" class="orgList"></div>
 
