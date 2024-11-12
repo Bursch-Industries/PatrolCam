@@ -15,11 +15,10 @@ const getAllOrgs = async (req, res) => {
 
 const getOrgByID = async (req, res) => {
     
-    const orgID = req.params.id;
-    const o_id = new ObjectId(orgID);
+    const orgId = req.params.id;
 
     try {
-        const oneOrg = await org.find({"_id" : o_id}); 
+        const oneOrg = await org.findById(orgId); 
         res.status(200).json(oneOrg)
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -28,65 +27,92 @@ const getOrgByID = async (req, res) => {
 
 const getOrgPage = async (req, res) => {
 
+    console.log('entering getOrgPage')
     
     try {
         // If no page in URL, default to 1
         const page = parseInt(req.query.page) || 1;
         // If no limit in URL, default to 2
-        const limit = parseInt(req.query.limit) || 2;
+        const limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1) * limit;
 
-
+        console.log('Query Sent: ' + JSON.stringify(req.query))
         let sortCriteria;
         let orderCriteria
         let filterCriteria = {};
+        const advFilterCriteria = {};
         let orgs;
 
          // Extract sorting criteria and filter criteria
-
-         console.log('Pre-slice length: ' + Object.keys(req.query).length)
-
          if (Object.keys(req.query).length > 2) {
-            console.log('about to slice');
             // First two parameters are page and limit, slice the rest for sorting
             const queryEntries = Object.entries(req.query).slice(2);
-            console.log('Post Slice: ' + JSON.stringify(queryEntries))
             for (const [key, value] of queryEntries) {
-                console.log('key: ' + [key])
                 if (key.startsWith('sort_')) { // Extract the column that is being toggled
+                    console.log('sort criteria found')
                     sortCriteria = value; 
+                    console.log(JSON.stringify(sortCriteria))
                 } else if(key.startsWith('order_')){ // Extract the order in which to sort the column
                     orderCriteria = value;
+                } else if(key.startsWith('minVal_')) {
+                    advFilterCriteria.$gte = parseInt(req.query.minVal_);
+                } else if(key.startsWith('maxVal_')) {
+                    advFilterCriteria.$lte = parseInt(req.query.maxVal_);
                 } else {
-                    filterCriteria[key] = value; // Handle other filters
+                    filterCriteria[key] = { $regex: value }; // Handle other filters
                 }
             }
         }
         
-        if (sortCriteria === 'numberOfUsers' || sortCriteria === 'numberOfCameras') {
+        if(Object.keys(advFilterCriteria).length > 0) {
 
-            // Parse the sortCriteria to match an attribute in the Mongo table, of which to get the length of
+            console.log('Advanced Filters Found')
+
             const arrayField = sortCriteria === 'numberOfUsers' ? 'users' : 'cameras';
+            const advFilterMatch = Object.keys(advFilterCriteria).length > 0 ? { length: advFilterCriteria } : {};
+
+            console.log('filterCriteria: ' + JSON.stringify(filterCriteria));
+            console.log('advFilterMatch: ' + JSON.stringify(advFilterMatch))
+
 
             orgs = await org.aggregate([
                 { $match: filterCriteria }, // Match filters
                 { $addFields: { length: { $size: `$${arrayField}` } } }, // Add length field
+                { $match: advFilterMatch},
                 { $sort: { length: orderCriteria === 'asc' ? 1 : -1 } }, // Sort by length
                 { $skip: skip },
                 { $limit: limit }
             ]);
-        } else if (orderCriteria && sortCriteria) {
-            const sort = { [sortCriteria]: orderCriteria };
-            orgs = await org.find(filterCriteria).sort(sort).skip(skip).limit(limit);
-        } else {
-            console.log('finding orgs with no sort: ' + JSON.stringify(filterCriteria))
-            orgs = await org.find(filterCriteria).skip(skip).limit(limit);
-        }
-       
-        console.log('orgs:' + orgs.length)
-        const totalOrgs = await org.countDocuments(filterCriteria);
+        } else if (sortCriteria === 'numberOfUsers') {
 
-        console.log('total orgs: ' + totalOrgs)
+            console.log('Sort and Order w/o Advanced Filters Found')
+            console.log('filterCriteria: ' + JSON.stringify(filterCriteria));
+
+            // Parse the sortCriteria to match an attribute in the Mongo table, of which to get the length of
+            const arrayField = sortCriteria === 'numberOfUsers' ? 'users' : 'cameras';
+                orgs = await org.aggregate([
+                    { $match: filterCriteria }, // Match filters
+                    { $addFields: { length: { $size: `$${arrayField}` } } }, // Add length field
+                    { $sort: { length: orderCriteria === 'asc' ? 1 : -1 } }, // Sort by length
+                    { $skip: skip },
+                    { $limit: limit }
+                ]);
+          
+        } else if (orderCriteria && sortCriteria) {
+
+            console.log('both sort and order criteria found')
+            const sort = { [sortCriteria]: orderCriteria };
+            console.log('filterCriteria: ' + JSON.stringify(filterCriteria))
+            console.log('sort param: ' + JSON.stringify(sort))
+            orgs = await org.find(filterCriteria).sort(sort).skip(skip).limit(limit);
+
+        } else {
+
+            console.log('no order criteria found')
+            orgs = await org.find(filterCriteria).sort({organizationName: 'asc'}).skip(skip).limit(limit);
+        }
+    
+        const totalOrgs = await org.countDocuments(filterCriteria);
 
         const totalPages = Math.ceil(totalOrgs / limit);
 

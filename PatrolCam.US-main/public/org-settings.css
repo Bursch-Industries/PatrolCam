@@ -67,7 +67,7 @@ header {
     padding: 10px 20px;
     background-color: black;
     border-radius: 5px;
-    width: 150px;
+    width: 100px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
     justify-content: center;
 }
@@ -139,12 +139,18 @@ header {
     display: block;
 }
 
-.account-info-form,
-.loaded-content{
+.account-info-form{
     display: flex;
     flex-direction: column;
     width: 50vw;
-    padding: 200px
+    padding: 20vw
+}
+
+.loaded-content{
+    display: none;
+    flex-direction: column;
+    width: 50vw;
+    padding: 20vw
 }
 
 .account-content{
@@ -157,29 +163,8 @@ header {
     display: none;
 }
 
-form select {
-    width: 100%;
-    padding: 10px 0;
-    border: none;
-    background: transparent;
-    font-size: 1.1rem;
-    color: #1d1d1d;
-    cursor: pointer;
-    outline: none;
-}
-
-form select:disabled {
-    pointer-events: none;
-    background-color: #2E8BC0; 
-}
-
-form select.editable {
-    background-color: white;
-    border-bottom: 2px solid #2E8BC0;
-}
-
-
 .edit-icon {
+    display: block;
     cursor: pointer;
     font-size: 2rem;
     right: 2vw;
@@ -225,6 +210,19 @@ form select.editable {
     color: black;
 }
 
+.form-group input, select{
+    max-width: 60%;
+    height: 2rem;
+    background-color: transparent;
+    border: none;
+}
+
+.form-btns{
+    display: none;
+    position: relative;
+    justify-content: right;  
+    gap:1rem
+}
 /* Camera Grid Layout */
 
 .camera-grid {

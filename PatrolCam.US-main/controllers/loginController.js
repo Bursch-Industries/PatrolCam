@@ -1,5 +1,6 @@
 
 const User = require('../model/User'); 
+// const Org = require("../model/Organization");
 const bcrypt = require('bcryptjs');
 const { withTransaction } = require('./transactionHandler');
 const { logError } = require('./errorLogger'); 
@@ -18,21 +19,35 @@ const userLogin = async (req, res) => {
             return res.status(401).json({ message: 'invalid-credentials' });
         }
 
+        // Check if the user is active
+        if(user.status != "Active") {
+            return res.status(401).json({ message: 'This account is not active'})
+        }
+
+        /*
+        // Fetch the organization that the user is from
+        const userOrg = await Org.findById(user.organization);
+
+        // Check if the organization is active
+        if(userOrg.status != "Active") {
+            return res.status(401).json({ message: 'This organization is not active'})
+        }
+        */
+
+
         // Check for password in the database and compare
         const validatePassword = await bcrypt.compare(password, user.password);
-        console.log('validatePassword: ' + validatePassword)
 
         if (validatePassword) {
 
             // Update the lastLoggedIn field in the user record
-            await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: time.now()}})
+            await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}})
 
             // Set session information here
-            req.session.user = { id: user._id, username: user.username, role: user.roles };
+            req.session.user = { id: user._id, role: user.roles };
             return res.sendStatus(200);
         } 
         else {    
-            console.log('invalid password')
             return res.status(401).json({ message: 'invalid-credentials' });
         }
         
@@ -45,7 +60,7 @@ const userLogin = async (req, res) => {
                 level: 'ERROR',
                 desc: 'Login Failed',
                 source: 'loginController',
-                userId: username, 
+                userId: email, 
                 code: '500',
                 meta: { message: err.message, stack: err.stack },
                 session
