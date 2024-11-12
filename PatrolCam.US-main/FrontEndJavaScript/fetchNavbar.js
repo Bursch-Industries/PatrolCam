@@ -9,6 +9,9 @@ fetch('/navbar')
     // The page calling this script will have a header with id = 'navbar'. Put the just-served HTML text in that header element
     .then(data => {
         document.getElementById('navbar').innerHTML = data;
+        
+        // Custom Event to notify the navbar is loaded
+        document.dispatchEvent(new Event('navbarLoaded'));
 
         // Adds a listener to the modal button that redirects to the userSettings page
         document.getElementById("settingsButton").addEventListener("click", function() {
