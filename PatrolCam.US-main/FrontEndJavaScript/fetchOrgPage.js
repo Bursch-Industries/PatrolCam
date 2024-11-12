@@ -13,6 +13,10 @@ async function fetchOrgPage(filter) {
             console.log('page to fetch: ' + `/api/org/page?${params}`)
             response = await fetch(`/api/org/page?${params}`)
         } else {
+            // Clear any current search data when the user (re)loads the page
+            if(localStorage.getItem('currentSearch')) {
+                localStorage.removeItem('currentSearch');
+            }
             response = await fetch('/api/org/page'); // Default to fetching first x org results in alphabetical order
         }
 
