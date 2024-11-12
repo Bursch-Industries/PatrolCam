@@ -82,7 +82,7 @@ header {
 .grid-icon-btn {
     background-color: transparent;
     color: white;
-    font-size: 28px; 
+    font-size: 36px; 
     border: none;
     cursor: pointer;
     margin-right: 10px; 
@@ -108,7 +108,7 @@ header {
 }
 
 .dropdown-content a:hover {
-    background-color: #f1f1f1;
+    background-color:lightyellow;
 }
 
 .dropdown:hover .dropdown-content {
