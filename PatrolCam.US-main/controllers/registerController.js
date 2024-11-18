@@ -841,6 +841,42 @@ async function getAllOrganizations(user){
 
 
 //TODO: Create update function to organization data
+async function updateOrganizationInfo(req, res){
+
+    if(!req.session.user){
+        return res.sendStatus(401)
+    }
+
+    try{
+        const updatedData = req.body
+
+        await withTransaction(async (session) => {
+            await Organization.findByIdAndUpdate(
+                req.session.user.organizationId,
+                {$set: updatedData},
+                {new: true, session}
+            )
+        })
+
+        return res.status(200).json({message: 'Organization information updated successfully'})
+
+    } catch (error){
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'error',
+                desc: 'Failed to update organization information',
+                source: 'updateOrganizationInfo',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: 'ORG_UPDATE_ERROR',
+                meta: {error: error.message},
+                session
+            });
+        });
+
+        res.status(500).json({message: 'Failed to update organization information', error: error.message})
+    }
+    
+}
 
 module.exports = { 
     handleNewUser, 
@@ -853,5 +889,6 @@ module.exports = {
     getOrgUserData,
     getUserLastLogin,
     getOrganizationDetails,
-    getOrganizationList
+    getOrganizationList,
+    updateOrganizationInfo
 };
