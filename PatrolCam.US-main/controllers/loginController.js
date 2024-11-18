@@ -3,6 +3,7 @@ const User = require('../model/User');
 const bcrypt = require('bcryptjs');
 const { withTransaction } = require('./transactionHandler');
 const { logError } = require('./errorLogger'); 
+const Organization = require('../model/Organization');
 
 
 const userLogin = async (req, res) => {
@@ -26,7 +27,7 @@ const userLogin = async (req, res) => {
         if (validatePassword) {
 
             // Set session information here
-            req.session.user = { id: user._id };
+            req.session.user = { id: user._id, username: user.username, email: user.email, organizationId: user.organization };
             return res.sendStatus(200);
         } 
         else {    
