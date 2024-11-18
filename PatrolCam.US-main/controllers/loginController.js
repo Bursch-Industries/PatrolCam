@@ -91,8 +91,28 @@ const userLogin = async (req, res) => {
     
                 // Set session information here
                 req.session.user = { id: user._id, role: user.roles };
-                return res.sendStatus(200);
+                return res.status(200).json({ message: `${rememberMeValue}`});
             } else {    
+
+                // If the user is remembered and still enters their password, log them in via password and update rememberMe value in db
+                if(password && password != "••••••••••••"){
+                    console.log('password value not null: ' + password);
+
+                    // Verify login via password
+                    const validatePassword = await bcrypt.compare(password, user.password); 
+
+                    if(validatePassword){
+                        console.log('password validated')
+                        const newVal = generateRandomString();
+                        await User.updateOne({_id: user._id}, {$set: {rememberMe: newVal}});
+                        await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}});
+    
+                        // Set session information here
+                        req.session.user = { id: user._id, role: user.roles };
+                        return res.status(200).json({message: `${newVal}`});
+                    }
+                }
+                console.log('rememberMe value did not match db value')
                 return res.status(401).json({ message: 'invalid-credentials' });
             }
         } else { // User has not selected to be remembered
@@ -123,7 +143,7 @@ const userLogin = async (req, res) => {
                 console.log('user was previously remembered')
                 console.log('user.rememberMe: ' + JSON.stringify(user));
     
-                if (password == user.rememberMe) {
+                if (rememberMeValue == user.rememberMe) {
                     
                     console.log('user rememberMe matched');
                     // Update the lastLoggedIn field in the user record
@@ -132,10 +152,30 @@ const userLogin = async (req, res) => {
     
                     // Set session information here
                     req.session.user = { id: user._id, role: user.roles };
-                    return res.sendStatus(200);
+                    return res.status(200);
                 } 
                 else {    
+                    if(password && password != "••••••••••••"){
+                        console.log('password value not null: ' + password);
+    
+                        // Verify login via password
+                        const validatePassword = await bcrypt.compare(password, user.password); 
+    
+                        if(validatePassword){
+                            console.log('password validated')
+                            await User.updateOne({_id: user._id}, {$set: {rememberMe: ""}});
+                            await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}});
+        
+                            // Set session information here
+                            req.session.user = { id: user._id, role: user.roles };
+                            return res.status(200);
+                        }
+                    }
                     console.log('rememberMe value did not match')
+                    if(user.rememberMe == "") {
+                        console.log('db value null')
+                        return res.status(401).json({ message: 'db-value-null'})
+                    }
                     return res.status(401).json({ message: 'invalid-credentials' });
             }
             }
