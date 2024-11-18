@@ -32,7 +32,7 @@ async function fetchOrgPage(filter) {
                 const orgDiv = document.createElement('div');
                 orgDiv.className = 'user';
                 orgDiv.innerHTML = `
-                <select id="status" name="status">
+                <select id="orgStatus-${org._id}" name="status">
                     <option value='Active'>Active</option>
                     <option value='Inactive'> Inactive</option>
                 </select>
@@ -41,6 +41,25 @@ async function fetchOrgPage(filter) {
                 <a href="org-settings?id=${org._id}"class="detailsButton">More Details</a>
                 `;
                 orgList.appendChild(orgDiv);
+
+                // Event listener for the status selector
+
+                const changeStatus = orgDiv.querySelector(`#orgStatus-${org._id}`);
+                changeStatus.addEventListener('change', async (event) => {
+                    const newStatus = event.target.value;
+                    try {
+                        const response = await fetch(`/register/updateOrgStatus`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ status: newStatus, orgId: org._id }),
+                        });
+                        const result = await response.json();
+                    } catch(error) {
+                        console.error('Failed to update status:', error);
+                    }
+                })
             });
         } else {
             const noResultsDiv = document.createElement('div');
