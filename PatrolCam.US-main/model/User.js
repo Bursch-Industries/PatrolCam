@@ -52,6 +52,10 @@ const userSchema = new Schema({
         default: "System"
     },
 
+    rememberMe: {
+        type: String
+    },
+
     status: {
         type: String,
         default: "Active"

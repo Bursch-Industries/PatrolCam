@@ -76,7 +76,7 @@ async function handleNewUser (req, res) {
 
 //Handles new organization creation
 async function handleNewOrganization (req, res) {
-    const { orgName, orgEmail, orgPhone, orgAddress, user, password, userFirstname, userLastname, userEmail } = req.body;
+    const { orgName, orgEmail, orgPhone, orgAddress, orgCity, orgState, orgZip, password, userFirstname, userLastname, userEmail } = req.body;
 
     //Check missing request fields
     if (!orgName || !orgPhone || !orgAddress || !password || !orgEmail || !userFirstname || !userLastname || !userEmail) {
@@ -113,7 +113,7 @@ async function handleNewOrganization (req, res) {
                 organizationName : orgName,
                 owner: owner._id, //Attach owner id to keep track of creator
                 organizationPhone: orgPhone,
-                organizationAddress: orgAddress,
+                organizationAddress: {Address1: orgAddress, City: orgCity, State: orgState, ZipCode: orgZip}, 
                 users: [owner._id], 
                 organizationEmail: orgEmail,
             });
@@ -571,9 +571,6 @@ async function hashPassword (password) {
         throw new Error("Error occured while hashing password" + error.message)
     }
 }
-<<<<<<< HEAD
-
-=======
 //TODO: Remove function
 //Check if the user role is "Creator"
 function checkUserRole(user){
@@ -591,7 +588,6 @@ async function findUser(username){
     if(!user) return false
     return user //Return result
 }
->>>>>>> skeeter_midterm
 
 async function getCameraDetails(req, res) {
     if(!req.session || !req.session.user){
@@ -698,16 +694,10 @@ async function getUserLastLogin(req, res) {
         return res.status(500).json({'Error occured while getting user from organization' : error.message})
     }
 }
-<<<<<<< HEAD
 
 async function getUserFields(userId, fields = []) {
 
     if(!userId){
-=======
-//TODO: Make use of only this function and send fields from frontend side
-async function getUserFields(username, fields = []) {
-    if(!username){
->>>>>>> skeeter_midterm
         throw new Error("All fields are required")
     }
     const {organizationData, error} = await findOrganizationForAdmin()
@@ -740,11 +730,7 @@ async function getOrganizationDetails(req, res){
     const user = await User.findById(req.session.user.id);
 
     try{
-<<<<<<< HEAD
-        const orgDetails = await getOrganizationFields()
-=======
         const orgDetails = await Organization.findById(user.organization);
->>>>>>> skeeter_midterm
         return res.status(200).json({
             organization: orgDetails
         })
@@ -768,19 +754,9 @@ async function getOrganizationDetails(req, res){
     }
 }
 
-<<<<<<< HEAD
 async function getOrganizationFields(){
-
     
     const {organizationData, error} = await findOrganizationForAdmin()
-=======
-//TODO: Make use of only this function and send fields from frontend side
-async function getOrganizationFields(username){
-    if(!username){
-        throw new Error("All fields are required")
-    }
-    const {organizationData, error} = await findOrganizationForAdmin(username)
->>>>>>> skeeter_midterm
 
     if(error){
         throw new Error(error === "User not found" ? "404" : "403")

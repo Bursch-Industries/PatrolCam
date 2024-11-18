@@ -13,7 +13,7 @@ toggleButton.addEventListener('click', toggleVisible);
 
 // Load saved password if "Remember Me" is checked
 window.onload = function() {
-    const savedPassword = localStorage.getItem('password');
+    const savedPassword = localStorage.getItem('rememberMe');
     if (savedPassword) {
         passwordInput.value = savedPassword;
         rememberMe.checked = true;
@@ -32,6 +32,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     // Get the values from the input fields
     const email = emailInput.value;
     const password = passwordInput.value;
+
+    let rememberMeBool = false;
+    let rememberMeValue = '';
     let errors = [];
 
     // Check for empty fields
@@ -53,6 +56,14 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         return;
     }
 
+    if(localStorage.getItem('rememberMe')){
+        rememberMeValue = localStorage.getItem('rememberMe');
+    }
+
+    if (rememberMe.checked) {
+        rememberMeBool = true; 
+    } 
+
     // Send login request to the server
     try {
         const response = await fetch('/login/login', {
@@ -60,7 +71,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password, rememberMeBool, rememberMeValue }),
         });
 
         if (!response.ok) {
@@ -80,11 +91,15 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             return;
         }
 
+        const data = await response.json();
+
+        console.log('response received')
+
         // Handle "Remember Me" functionality
-        if (rememberMe.checked) {
-            localStorage.setItem('password', password);
+        if (rememberMe.checked && JSON.stringify(data.message)) {
+            localStorage.setItem('rememberMe', data.message);
         } else {
-            localStorage.removeItem('password');
+            localStorage.removeItem('rememberMe');
         }
 
         // Redirect to dashboard on successful login

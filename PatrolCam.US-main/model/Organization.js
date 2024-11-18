@@ -45,7 +45,12 @@ const organizationSchema = new Schema({
     cameras: [{
         type: Schema.Types.ObjectId, //Collection of cameras owned by organization
         ref: 'Camera'
-    }]
+    }],
+    
+    status: {
+        type: String,
+        default: "Active"
+    }
 });
 
 module.exports = mongoose.model('Organization', organizationSchema);
