@@ -159,10 +159,6 @@ header {
     position: relative;
 }
 
-.hidden{
-    display: none;
-}
-
 .edit-icon {
     display: block;
     cursor: pointer;
@@ -212,11 +208,23 @@ header {
 
 .form-group input, select{
     max-width: 60%;
-    height: 2rem;
+    height: 2.5rem;
     background-color: transparent;
     border: none;
+    padding: 0.5rem;
 }
 
+.form-group input:enabled, select:enabled{
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    background-color: rgb(222, 222, 222);
+    border:2px rgb(172, 172, 172) solid
+}
+
+.form-group input:focus{
+    box-shadow: -3px 2px 10px #2E8BC0, 2px -3px 10px #2E8BC0;
+    outline: none;
+}
 .form-btns{
     display: none;
     position: relative;

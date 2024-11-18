@@ -4,6 +4,7 @@ const Org = require("../model/Organization");
 const bcrypt = require('bcryptjs');
 const { withTransaction } = require('./transactionHandler');
 const { logError } = require('./errorLogger'); 
+const Organization = require('../model/Organization');
 
 
 function generateRandomString() {
@@ -46,6 +47,7 @@ const userLogin = async (req, res) => {
 
         console.log('user is active');
 
+<<<<<<< HEAD
         // Check if user is part of an organization. If they are, make sure it is active.
         if(user.organization != 'Individual') {
             // Fetch the organization that the user is from
@@ -180,6 +182,14 @@ const userLogin = async (req, res) => {
             }
             }
             
+=======
+            // Set session information here
+            req.session.user = { id: user._id, username: user.username, email: user.email, organizationId: user.organization };
+            return res.sendStatus(200);
+        } 
+        else {    
+            return res.status(401).json({ message: 'invalid-credentials' });
+>>>>>>> origin/Bereket-backend-features
         }
         
     } catch (err) {

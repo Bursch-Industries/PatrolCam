@@ -134,7 +134,7 @@ function disableAccountEditMode(){
         } else {
             field.value = field.getAttribute('data-original-value')    
         }
-        field.setAttribute("disabled", "")
+        field.setAttribute("disabled", "enabled")
     })
 
     const editIcon = document.getElementById("edit-icon")
@@ -144,21 +144,54 @@ function disableAccountEditMode(){
     formBtns.style.display = "none"
 }
 
-//TODO: Create update function to connect with backend
 //Collects information on data to update account information
-function updateAccountInfo(){
+async function updateAccountInfo(){
+
     const loadedContent = document.getElementById('loaded-content')
     const fields = loadedContent.querySelectorAll('input, select')
+    const updateBtn = document.getElementById('updateBtn')
+
+    updateBtn.textContent = "Updating..."
 
     const updatedData = {}
 
     fields.forEach(field => {
+        const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
+        field.setAttribute('data-original-value', originalValue) 
+
         if (field.tagName === "SELECT"){
             updatedData[field.name] = field.options[field.selectedIndex].text
         } else {
             updatedData[field.name] = field.value  
         }
-    }) 
+    }); 
+
+    try{
+        const response = await fetch('/register/updateOrg', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData)
+        });
+
+        const data = response.json()
+
+        if(response.ok){
+            alert(data.message || 'Organization information updated successfully!');
+        } else {
+            alert(data.message || 'Update failed. Please try again.')
+        }
+
+        updateBtn.textContent = "Update"
+        disableAccountEditMode()
+
+    } catch (error){
+        console.error('Error:', error);
+        alert('Failed to update organization information')
+        updateBtn.textContent = "Update"
+    }
+
 }
 
 
@@ -304,6 +337,7 @@ function renderCameras(cameras){
             <img src="./security_camera_placeholder_${(index % 2) + 1}.jpg" alt="${camera.name}">
                         
             <div class="camera-info">
+                <i id = "edit-icon" class="edit-icon" onclick="enableAccountEditMode()">&#9998;</i> <!-- Single Pencil Icon -->
                 <label>
                     <strong>Camera Name:</strong>
                     <span>${camera.camera_Name}</span>

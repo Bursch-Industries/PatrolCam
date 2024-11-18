@@ -17,4 +17,6 @@ router.get('/getUsersLastLogin', registerController.getUserLastLogin)
 router.get('/getOrg', registerController.getOrganizationDetails)
 router.get('getOrgList', registerController.getOrganizationList)
 
+router.put('/updateOrg', registerController.updateOrganizationInfo)
+
 module.exports = router;
