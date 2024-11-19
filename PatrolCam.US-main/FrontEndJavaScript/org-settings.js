@@ -195,22 +195,21 @@ async function updateAccountInfo(){
 }
 
 
-//-----Fetching account info details-------
+//-----Fetching account info details------- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! <- TODO: I'm blind, remove later
 document.addEventListener('DOMContentLoaded', async () => {
     //Set timeout of 1sec to load itmes
     setTimeout(()=>{
-        if(window.location.pathname === '/org-settings'){
-            
-            if(window.location.search != ''){
+        if(window.location.pathname === '/org-settings'){ // Check url for path
+            if(window.location.search != ''){ // Check the url for params
                 console.log('params found')
-                const params = new URLSearchParams(window.location.search);
+                const params = new URLSearchParams(window.location.search); // Params are sent by pages accessible to Account Admin (should only be an org id)
                 params.forEach((value, key) => {
                     console.log(`${key}: ${value}`);
                 });
                 const orgId = params.get('id');
                 populateOrgDataAccountAdmin(orgId);
             } else{
-                populateOrgData()
+                populateOrgData();
             }
             
         }
@@ -220,6 +219,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 //Load the organization data from database
 async function populateOrgData(){
+
     try{
 
         console.log()
@@ -275,7 +275,21 @@ async function populateOrgData(){
 document.getElementById('camera-btn').addEventListener('click',(async()=>{
     //Set timeout of 1sec to load itmes
     setTimeout(()=>{
-        populateCamData()
+        if(window.location.pathname === '/org-settings'){ // Check url for path
+            if(window.location.search != ''){ // Check the url for params
+                console.log('params found')
+                const params = new URLSearchParams(window.location.search); // Params are sent by pages accessible to Account Admin (should only be an org id)
+                params.forEach((value, key) => {
+                    console.log(`${key}: ${value}`);
+                });
+                const orgId = params.get('id');
+                populateCamDataAccountAdmin(orgId);
+            } else{
+                console.log('fetching cam data with params')
+                populateCamData();
+            }
+            
+        }
     }, 1000)
 }))
 
@@ -365,7 +379,20 @@ function renderCameras(cameras){
 document.getElementById('officers-btn').addEventListener('click',(async()=>{
     //Set timeout of 1sec to load itmes
     setTimeout(()=>{
-        populateOrgUserData()
+        if(window.location.pathname === '/org-settings'){ // Check url for path
+            if(window.location.search != ''){ // Check the url for params
+                console.log('params found')
+                const params = new URLSearchParams(window.location.search); // Params are sent by pages accessible to Account Admin (should only be an org id)
+                params.forEach((value, key) => {
+                    console.log(`${key}: ${value}`);
+                });
+                const orgId = params.get('id');
+                populateOrgUserDataAccountAdmin(orgId);
+            } else{
+                populateOrgUserData();
+            }
+            
+        }
     }, 1000)
 }))
 
@@ -451,7 +478,7 @@ function renderOrgUsers(users){
 
 
 
-//For Master role (Nate only)
+//For Account Admin role (Nate only)
 async function createNewOrganization(orgName, orgEmail, orgPhone, orgAddress, user, password, userFirstname, userLastname, userEmail){
     try{
         const response = await fetch('register/newOrg', {
@@ -549,7 +576,7 @@ async function getOrgList(){
 }
 
 
-//Load the organization data from database
+// Load the organization data from database
 async function populateOrgDataAccountAdmin(orgId){
 
     console.log('id to fetch: ' + orgId)
@@ -609,6 +636,85 @@ async function populateOrgDataAccountAdmin(orgId){
     }
 }
 
+async function populateCamDataAccountAdmin(orgId){
+    try{
+        //API to fetch camera data
+        console.log('fetching url: ' + `/api/org/${orgId}/cameraData` )
+
+        const response = await fetch(`/api/org/${orgId}/cameraData`,{ 
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        //Server error
+        if(!response.ok){
+            throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+
+        console.log('response is ok: ' + response.status)
+        //If unauthorized to make the request sends back to login page
+        if(response.status === 401){
+            console.log('Session expired or unauthorized. Redirecting to login...')
+            window.location.href = '/login'
+            return
+        }
+
+        //If no cameras found
+        if(response.status === 204){
+            const cameraGrid = document.getElementById('camera-grid')
+            //Adding no camera found message to UI
+            cameraGrid.innerHTML = `<p class=no-cameras-message>No Cameras available.</p>`
+            return
+        }
+
+        const data = await response.json();
+        console.log(data)
+        renderCameras(data)
+
+    } catch (error) {
+        const cameraGrid = document.getElementById('camera-grid')
+        cameraGrid.innerHTML = `<p class = "error-message">Error occured while getting camera details</p>`
+        cameraGrid.classList.remove('placeholder-glow');
+        console.error('Error fetching camera data:', error)
+    }
+}
+
+async function populateOrgUserDataAccountAdmin(orgId){
+    try{
+        //API to fetch camera data
+        console.log('fetching url: ' + `/api/org/${orgId}/userData` )
+
+        const response = await fetch(`/api/org/${orgId}/userData`,{ 
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        //If unauthorized to make the request sends back to login page
+        if(response.status === 401){
+            console.log('Session expired or unauthorized. Redirecting to login...')
+            window.location.href = '/login'
+            return
+        }
+        
+        //Server error
+        if(!response.ok){
+            throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+
+        const data = await response.json();
+        console.log('User Data: ' + JSON.stringify(data))
+        renderOrgUsers(data)
+
+    } catch (error) {
+        console.error('Error fetching org user data:', error)
+    }
+}
+
+/* redundant ? 
 
 //--------Fetching organization cameras----------
 document.getElementById('camera-btn').addEventListener('click',(async()=>{
@@ -617,3 +723,5 @@ document.getElementById('camera-btn').addEventListener('click',(async()=>{
         populateCamData()
     }, 1000)
 }))
+
+*/ 

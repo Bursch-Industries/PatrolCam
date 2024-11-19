@@ -12,8 +12,10 @@ const getAllOrgs = async (req, res) => {
     }
 }
 
-
+// Returns entire Organization structure based on ID sent in fetch call
 const getOrgByID = async (req, res) => {
+
+    console.log('entering orgQueries/getOrgByID')
     
     const orgId = req.params.id;
 
@@ -24,6 +26,73 @@ const getOrgByID = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+// Returns entire camera array of an organization ID that is specified in fetch param
+const getOrgCamData = async (req, res) => {
+    
+    console.log('entering orgQueries/getOrgCamData')
+
+    const orgId = req.params.id;
+
+    if(orgId) {
+        console.log('orgId found for Cam Data: ' + orgId);
+    }
+
+    try {
+        const oneOrg = await org.findById(orgId); 
+        const cameras = oneOrg.cameras;
+
+        if(cameras == '') {
+            console.log('No camera data for this organization');
+            return res.sendStatus(204)
+        } else {
+            console.log('cameras found: ' + cameras);
+            return res.status(200).json(cameras)
+        }
+        
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+// Returns entire user array of an organization ID that is specified in fetch param
+const getOrgUserData = async (req, res) => {
+    
+    console.log('entering orgQueries/getOrgUserData')
+
+    const orgId = req.params.id;
+    const fields =[];
+
+    if(orgId) {
+        console.log('orgId found for User Data: ' + orgId);
+    }
+
+    try {
+        const fieldSelection = fields.join(' ')
+        const orgUserData = await org.findById(orgId)
+            .populate({
+                path: "users",
+                select: fieldSelection
+            })
+            .lean()
+            .exec()
+
+        console.log('query completed for org users')
+        const users = orgUserData.users;
+
+        if(users == '') {
+            console.log('No user data for this organization');
+            return res.sendStatus(204)
+        } else {
+            console.log('users found: ' + users.length);
+            return res.status(200).json(users);
+        }
+        
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
 
 const getOrgPage = async (req, res) => {
 
@@ -134,4 +203,4 @@ const getOrgPage = async (req, res) => {
 }
 
 
-module.exports = { getAllOrgs, getOrgByID, getOrgPage }
+module.exports = { getAllOrgs, getOrgByID, getOrgCamData, getOrgUserData, getOrgPage }

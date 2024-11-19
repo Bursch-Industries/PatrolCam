@@ -61,7 +61,7 @@ async function fetchOrgPage(filter) {
                             body: JSON.stringify({ status: newStatus, orgId: org._id }),
                         });
                         const result = await response.json();
-                        const message = JSON.stringify(result.message);
+                        const message = result.message;
                         if(message.includes('Success')) {
                             alert("Organization Status Changed Successfully")
                         }
