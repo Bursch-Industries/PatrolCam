@@ -42,9 +42,14 @@ async function fetchOrgPage(filter) {
                 `;
                 orgList.appendChild(orgDiv);
 
-                // Event listener for the status selector
+                
 
                 const changeStatus = orgDiv.querySelector(`#orgStatus-${org._id}`);
+
+                // Set the current status of the org 
+                changeStatus.value = org.status;
+
+                // Event listener for the status selector
                 changeStatus.addEventListener('change', async (event) => {
                     const newStatus = event.target.value;
                     try {
@@ -56,6 +61,10 @@ async function fetchOrgPage(filter) {
                             body: JSON.stringify({ status: newStatus, orgId: org._id }),
                         });
                         const result = await response.json();
+                        const message = JSON.stringify(result.message);
+                        if(message.includes('Success')) {
+                            alert("Organization Status Changed Successfully")
+                        }
                     } catch(error) {
                         console.error('Failed to update status:', error);
                     }

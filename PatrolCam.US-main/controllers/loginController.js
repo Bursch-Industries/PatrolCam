@@ -79,6 +79,7 @@ const userLogin = async (req, res) => {
     
                     // Set session information here
                     req.session.user = { id: user._id, role: user.roles };
+                    req.session.org = {id: user.organization};
                     return res.status(200).json({message: `${newVal}`});
                 } else {    
                     return res.status(401).json({ message: 'invalid-credentials' });
@@ -110,6 +111,7 @@ const userLogin = async (req, res) => {
     
                         // Set session information here
                         req.session.user = { id: user._id, role: user.roles };
+                        req.session.org = {id: user.organization};
                         return res.status(200).json({message: `${newVal}`});
                     }
                 }
@@ -134,6 +136,7 @@ const userLogin = async (req, res) => {
     
                     // Set session information here
                     req.session.user = { id: user._id, role: user.roles };
+                    req.session.org = {id: user.organization};
                     return res.sendStatus(200);
                 } 
                 else {    
@@ -153,6 +156,7 @@ const userLogin = async (req, res) => {
     
                     // Set session information here
                     req.session.user = { id: user._id, role: user.roles };
+                    req.session.org = {id: user.organization};
                     return res.status(200);
                 } 
                 else {    
@@ -169,6 +173,7 @@ const userLogin = async (req, res) => {
         
                             // Set session information here
                             req.session.user = { id: user._id, role: user.roles };
+                            req.session.org = {id: user.organization};
                             return res.status(200);
                         }
                     }

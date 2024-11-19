@@ -2,6 +2,7 @@ const User = require('../model/User'); //User schema
 const Organization = require('../model/Organization'); //Organization schema
 const Camera = require('../model/Camera'); //Camera schema
 const bcrypt = require('bcrypt'); //For hashing passwords
+const mongoose = require('mongoose');
 const  { logActivity } = require('./logger'); //Used for logging activities
 const { logError } = require('./errorLogger'); //Used for logging errors
 const { withTransaction } = require('./transactionHandler') //Handles Database transaction
@@ -824,6 +825,34 @@ async function getAllOrganizations(user){
     return organizations
 }
 
+// Function to log out all users of an organization that are currently logged in
+async function deactivateOrg(req, orgId) {
+
+    // Allows access to sessions without making a dedicated model since we are using mongo-connect
+    let Session = mongoose.model('Session', new mongoose.Schema({}, { collection: 'sessions' }));
+    try {
+        let result = await Session.deleteMany({ organization: {id: orgId }}); // Delete all sessions for given org
+        console.log(`${result.deletedCount} documents were deleted.`);
+        await logActivity({
+            action: 'Organization Deactivation - ' + orgId,
+            collectionName: 'sessions',
+            performedBy: req.session.user.id
+        })
+    } catch (error) {
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'error',
+                desc: 'Failed to deactivate organization',
+                source: 'deactivateOrg',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: 'ORG_DEACTIVATE_ERROR',
+                meta: {error: error.message},
+                session
+            });
+        });
+        console.error('Error deleting documents:', error);
+    }
+}
 
 async function updateOrganizationStatus(req, res){
 
@@ -835,6 +864,7 @@ async function updateOrganizationStatus(req, res){
 
     const newStatus = req.body.status;
     const orgToUpdate = req.body.orgId;
+    const originalStatus = Organization.findById(orgToUpdate).status;
     try{
 
         await withTransaction(async (session) => {
@@ -842,10 +872,20 @@ async function updateOrganizationStatus(req, res){
                 orgToUpdate,
                 {$set: {status: newStatus}},
                 {new: true, session}
-            )
+            )         
+            if(newStatus == "Inactive") {
+                await deactivateOrg(req, orgToUpdate);
+            }
+            await logActivity({
+                action: 'Update Organization Status - ' + orgToUpdate,
+                collectionName: 'organizations',
+                originalData: originalStatus,
+                newData: newStatus,
+                performedBy: req.session.user.id
+            })
         })
 
-        return res.status(200).json({message: 'Organization status updated successfully'})
+        return res.status(200).json({message: 'Success'})
 
     } catch (error){
         await withTransaction(async (session) => {
