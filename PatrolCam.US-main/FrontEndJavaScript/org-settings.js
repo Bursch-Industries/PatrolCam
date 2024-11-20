@@ -611,11 +611,13 @@ async function populateOrgDataAccountAdmin(orgId){
 
         console.log('response: ' + JSON.stringify(data))
 
+        const addressString = (data.organizationAddress.Address1 + ', ' + data.organizationAddress.State + ' ' + data.organizationAddress.ZipCode);
+
         //Update UI elements
-        document.getElementById('org-name').value = data.organizationName
-        document.getElementById('email-address').value = data.organizationEmail
-        document.getElementById('phone-number').value = data.organizationPhone
-        document.getElementById('org-address').value = data.organizationAddress 
+        document.getElementById('org-name').value = data.organizationName;
+        document.getElementById('email-address').value = data.organizationEmail;
+        document.getElementById('phone-number').value = data.organizationPhone;
+        document.getElementById('org-address').value = addressString; 
         
         const orgSubscription = document.getElementById('org-subscription')
         const databaseValue = "Silver"

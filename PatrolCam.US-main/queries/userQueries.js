@@ -16,10 +16,9 @@ const getAllUsers = async (req, res) => {
 const getUserByID = async (req, res) => {
     
     const userID = req.params.id;
-    const o_id = new ObjectId(userID);
 
     try {
-        const oneUser = await user.find({"_id" : o_id}); 
+        const oneUser = await user.findById({userID}); 
         res.status(200).json(oneUser)
     } catch (error) {
         res.status(500).json({ message: error.message });
