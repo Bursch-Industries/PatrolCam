@@ -32,7 +32,7 @@ const userLogin = async (req, res) => {
     try {
 
         // Check for user in the database
-        const user = await User.findOne({ email: email}).exec();
+        const user = await User.findOne({ email: new RegExp(`^${email}$`, 'i') }).exec();
 
         if(!user) {
             return res.status(401).json({ message: 'invalid-credentials' });
