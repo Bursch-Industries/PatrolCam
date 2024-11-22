@@ -12,11 +12,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="../FrontEndJavaScript/org-settings.js" defer></script>
         <script src="../FrontEndJavaScript/fetchNavbar.js" defer></script>
+
     <!-- Bootstrap CSS -->
-    <link 
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet"
-    >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -91,22 +91,22 @@
 
                         <div class="form-group">
                             <label>Organization Name:</label>
-                            <input id="org-name" name="orgName" type="text" title="name" disabled/>
+                            <input id="org-name" name="organizationName" type="text" title="name" disabled/>
                         </div>
                 
                         <div class="form-group">
                             <label>Email Address:</label>
-                            <input id="email-address" name="emailAddress" type="text" title="email" disabled/>
+                            <input id="email-address" name="organizationEmail" type="text" title="email" disabled/>
                         </div>
                 
                         <div class="form-group">
                             <label>Phone Number:</label>
-                            <input id="phone-number" name="phoneNumber" type="text" title="phone" disabled/>
+                            <input id="phone-number" name="organizationPhone" type="text" title="phone" disabled/>
                         </div>
                 
                         <div class="form-group">
                             <label>Organization Address:</label>
-                            <input id="org-address" name="orgAddress" type="text" title="address" disabled/>
+                            <input id="org-address" name="organizationAddress" type="text" title="address" disabled/>
                         </div>
                 
                         <div class="form-group">
@@ -119,8 +119,8 @@
                         </div>
                     </div>
                     <div id="form-btns" class="form-btns">
-                        <button class="btn btn-secondary" type="reset" onclick="disableAccountEditMode()">Cancel</button>
-                        <button class="btn btn-primary" type="submit" onclick="updateAccountInfo()">Update</button>
+                        <button class="btn btn-secondary" id ="cancelBtn" type="reset" onclick="disableAccountEditMode()">Cancel</button>
+                        <button class="btn btn-primary" id = "updateBtn" type="submit" onclick="updateAccountInfo()">Update</button>
                     </div>
                 </div>
             </section>
@@ -130,7 +130,10 @@
             <section id="cameras" class="tab-content">
                 <div class="cam-nav d-flex" >
                     <h2 class="col-8">Cameras</h2>
-                    <button class="add-cam col-2">+</button>
+                    <button class="btn btn-dark col-3">
+                        <i class="bi bi-plus-square"></i>
+                        Add Camera
+                    </button>
                 </div>
                 
                 <div id="camera-grid" class="camera-grid placeholder-glow">
