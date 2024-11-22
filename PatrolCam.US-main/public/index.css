@@ -10,20 +10,7 @@ body {
 /* Header CSS */
 header {
     position: sticky;
-    /* top: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #0C2D48;
-    opacity: 90%;
-    height: 6rem;  */
 }
-
-/* .logo {
-    display: flex;
-    align-items: center;
-} */
 
 .logo img {
     height: 6rem;
