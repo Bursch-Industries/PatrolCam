@@ -1,11 +1,6 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    /*
-    background: linear-gradient(45deg,#145DA0, #2E8BC0);
-    background-size: 200% 200%;
-    animation: gradientAnimation 3s ease infinite;
-    */
     color: #FFF;
     min-height: 100vh;
 }
