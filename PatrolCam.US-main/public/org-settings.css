@@ -2,7 +2,6 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
   }
   
 body {
@@ -346,6 +345,16 @@ header {
 }
 
 /* Officers Tab */
+
+.officerHeader {
+    display:flex;
+}
+
+.officerHeader button {
+    flex: 1;
+    background-color: black;
+    font-size: xx-large;
+}
 .placeholder-icon{
     width: 2vw;
     height: 2vw;
