@@ -137,7 +137,14 @@ header {
 }
 
 #surveillance {
-    margin-left:4rem;
+    display: flex;
+    justify-content: center; /* Centers text horizontally */
+    align-items: center;    /* Centers text vertically */
+    height: 100%;           /* Ensure the container's height is defined */
+    text-align: center; 
+    margin-left: 9.1rem;
+    padding-left:4.8rem;
+    margin-right:5rem;
 }
 .menu-options a:hover {
     background-color: #0C2D48;
