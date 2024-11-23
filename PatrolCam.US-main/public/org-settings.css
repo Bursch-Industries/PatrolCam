@@ -2,7 +2,6 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
   }
   
@@ -14,6 +13,7 @@ body {
   
 /* Header CSS */
 header {
+    box-sizing: content-box;
     top: 0;
     z-index: 1000;
     display: flex;
@@ -144,7 +144,7 @@ header {
     display: flex;
     flex-direction: column;
     width: 50vw;
-    padding: 20vw
+    box-sizing: border-box;
 }
 
 .loaded-content{

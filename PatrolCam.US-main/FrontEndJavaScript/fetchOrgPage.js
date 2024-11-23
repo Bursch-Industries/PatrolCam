@@ -34,7 +34,7 @@ async function fetchOrgPage(filter) {
                 orgDiv.innerHTML = `
                 <select id="orgStatus-${org._id}" name="status">
                     <option value='Active'>Active</option>
-                    <option value='Inactive'> Inactive</option>
+                    <option value='inactive'>Inactive</option>
                 </select>
                 <span class="orgName">${org.organizationName}</span>
                 <span class="userCount">${org.users.length}</span>
