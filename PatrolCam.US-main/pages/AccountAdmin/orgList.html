@@ -19,12 +19,17 @@
 
     <div class="main-content">
         <div class="filters-section"> 
-            <form id="searchForm" class="searchContainer"> 
-                <p>Search:</p>
-                <input type="text" id="searchbar">      
-            </form>
-            <button id="filterFormToggle" class="filterButton">Filter</button>
-            <button id="orgFormButton" class="addButton">+</button>
+            <div class="left">
+                <form id="searchForm" class="searchContainer"> 
+                    <p>Search:</p>
+                    <input type="text" id="searchbar">      
+                </form>
+                <button id="filterFormToggle" class="filterButton">Filter</button>
+            </div>
+            <div class="right">
+                <button id="orgFormButton" class="addButton">+</button>
+                <button id="orgDelButton" class="delButton">Del Org</button>
+            </div>
         </div>
 
         <!-- Modal Form to create a new organization -->
@@ -127,11 +132,15 @@
 
         <div class="org-table-section">
             <div class="tableOrg">
-                <div class="tableNav">
-                    <button id="filterOrgName" class="userToggle">Org Name</button>
-                    <button id="filterNumUsers" class="userToggle"># of Users</button>
-                    <h3>More Details</h3>
+                <div class="tableBackground">
+                    <div class="tableNav">
+                        <h3 id="toggleActivity">Toggle</h3>
+                        <button id="filterOrgName" class="userToggle">Org Name</button>
+                        <button id="filterNumUsers" class="userToggle"># of Users</button>
+                        <h3 id="details">More Details</h3>
+                    </div>
                 </div>
+
                 <!-- div where organizations are populated -->
                 <div id="orgList" class="orgList"></div>
 
