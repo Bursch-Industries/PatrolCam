@@ -323,22 +323,35 @@ function renderCameras(cameras){
         //Update UI element
         cameraFrame.innerHTML = `
             <img src="./security_camera_placeholder_${(index % 2) + 1}.jpg" alt="${camera.name}">
-                        
-            <div class="camera-info">
-                <i id = "edit-icon" class="edit-icon" onclick="enableAccountEditMode()">&#9998;</i> <!-- Single Pencil Icon -->
-                <label>
-                    <strong>Camera Name:</strong>
-                    <span>${camera.camera_Name}</span>
-                </label>
-                <label>
-                    <strong>Location:</strong>
-                    <span>${camera.location}</span>
-                </label>
-                <label>
-                    <strong>Status:</strong>
-                    <span>${camera.status}</span>
-                </label>
+            <div class = "camera-element">
+                <div class = "camera-info">
+                    <div class="camera-name">
+                        <label class = "camera-form"> 
+                            <strong>Name:</strong>
+                            <span>${camera.camera_Name}</span>
+                        </label>
+                    </div>
+                    
+                    <div class = "camera-location">
+                        <label class = "camera-form">
+                            <strong>Location:</strong>
+                            <span>${camera.location}</span>
+                        </label>
+                    </div>
+
+                    <div class = "camera-status">
+                        <label class = "camera-form">
+                            <strong>Status:</strong>
+                            <span>${camera.status}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class = "camera-edit-icon">
+                        <i class="camera-edit-icon">&#9998;</i> <!-- Single Pencil Icon -->
+                </div>
             </div>
+
         `
         //Add element into camera grid
         cameraGrid.appendChild(cameraFrame)
