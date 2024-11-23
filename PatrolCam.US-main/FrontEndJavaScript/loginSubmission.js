@@ -7,15 +7,21 @@ const emailInput = document.getElementById('loginEmail'); // Updated to match HT
 
 // Toggle Password Visibility
 const toggleVisible = () => {
+
+    if(passwordInput.value === "••••••••••••") {
+        passwordInput.value = "";
+    } else if(passwordInput.value == "" && localStorage.getItem('rememberMe')) {
+        passwordInput.value = "••••••••••••";
+    }
     passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
 };
 toggleButton.addEventListener('click', toggleVisible);
 
 // Load saved password if "Remember Me" is checked
 window.onload = function() {
-    const savedPassword = localStorage.getItem('password');
-    if (savedPassword) {
-        passwordInput.value = savedPassword;
+    const rememberValue = localStorage.getItem('rememberMe');
+    if (rememberValue) {
+        passwordInput.value = "••••••••••••";
         rememberMe.checked = true;
     }
 };
@@ -32,6 +38,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     // Get the values from the input fields
     const email = emailInput.value;
     const password = passwordInput.value;
+
+    let rememberMeBool = false;
+    let rememberMeValue = '';
     let errors = [];
 
     // Check for empty fields
@@ -41,7 +50,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     } 
     
-    if (!password) {
+    if (!password && !localStorage.getItem('rememberMe')) { // Allow the user to log in with no password value if they have been remembered in the browser local storage
         errors.push("Please enter your password.");
         passwordInput.style.border = '2px solid red';
     }
@@ -53,6 +62,14 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         return;
     }
 
+    if(localStorage.getItem('rememberMe')){
+        rememberMeValue = localStorage.getItem('rememberMe');
+    }
+
+    if (rememberMe.checked) {
+        rememberMeBool = true; 
+    } 
+
     // Send login request to the server
     try {
         const response = await fetch('/login/login', {
@@ -60,7 +77,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password, rememberMeBool, rememberMeValue }),
         });
 
         if (!response.ok) {
@@ -70,7 +87,10 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
                 errors.push("Username and password do not match our records.");
                 emailInput.style.border = '2px solid red';
                 passwordInput.style.border = '2px solid red';
-            } else {
+            } else if(data.message.includes('db-value-null')){ // Error for when the local storage thinks the user is remembered and the db has no value
+                errors.push("User is no longer remembered. Please enter password to log in");
+                localStorage.removeItem('rememberMe');
+            } else{
                 errors.push(data.message);
             }
 
@@ -80,11 +100,18 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             return;
         }
 
-        // Handle "Remember Me" functionality
-        if (rememberMe.checked) {
-            localStorage.setItem('password', password);
-        } else {
-            localStorage.removeItem('password');
+
+        // Check if response header contains JSON 
+        const contentType = response.headers.get("Content-Type");
+    
+        if (contentType && contentType.includes("application/json")) {
+            const data = await response.json();
+            // Handle "Remember Me" functionality
+            if (rememberMe.checked && data.message) {
+                localStorage.setItem('rememberMe', data.message); // Set local storage when the response contains a string 
+            } else {
+                localStorage.removeItem('rememberMe'); // If the user does not want to be remembered or the db is empty, remove local storage
+            }
         }
 
         // Redirect to dashboard on successful login

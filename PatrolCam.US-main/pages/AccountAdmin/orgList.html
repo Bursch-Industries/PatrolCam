@@ -11,6 +11,7 @@
     <script src="../../FrontEndJavaScript/fetchNavbar.js" defer></script>
     <script src="../../FrontEndJavaScript/orgListModals.js" defer></script>
     <script src="../../FrontEndJavaScript/fetchOrgPage.js" defer></script>
+    <script src="../../FrontEndJavaScript/sessionTimeout.js" defer></script>
 </head>
 <body>
     <!--This is where the header is coded-->
@@ -63,12 +64,12 @@
 
                         <div class="stateBox">
                             <label for="orgState">State:</label>
-                            <input type="text" id="orgAddress" name="orgState" placeholder="State" required>
+                            <input type="text" id="orgState" name="orgState" placeholder="State" required>
                         </div>
 
                         <div class="zipBox">
                             <label for="orgZipCode">Zip Code:</label>
-                            <input type="text" id="orgAddress" name="orgAddress" placeholder="Zip Code" required>
+                            <input type="text" id="orgZip" name="orgZip" placeholder="Zip Code" required>
                         </div>
 
                     </div>
@@ -114,7 +115,6 @@
                 <select id="category" name="category">
                     <option value="">-- Select a Category --</option>
                     <option value="numberOfUsers">Number of Users</option>
-                    <option value="numberOfCameras">Number of Cameras</option>
                 </select>
             
                 <label for="value-range">Value Range:</label>
@@ -127,13 +127,10 @@
 
         <div class="org-table-section">
             <div class="tableOrg">
-                <div class="tableBackground">
-                    <div class="tableNav">
-                        <button id="filterOrgName" class="userToggle">Org Name</button>
-                        <button id="filterNumUsers" class="userToggle"># of Users</button>
-                        <button id="filterNumCameras" class="camToggle"># of Cameras</button>
-                        <h3>More Details</h3>
-                    </div>
+                <div class="tableNav">
+                    <button id="filterOrgName" class="userToggle">Org Name</button>
+                    <button id="filterNumUsers" class="userToggle"># of Users</button>
+                    <h3>More Details</h3>
                 </div>
                 <!-- div where organizations are populated -->
                 <div id="orgList" class="orgList"></div>

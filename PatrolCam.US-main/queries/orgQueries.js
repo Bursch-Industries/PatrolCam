@@ -12,19 +12,87 @@ const getAllOrgs = async (req, res) => {
     }
 }
 
-
+// Returns entire Organization structure based on ID sent in fetch call
 const getOrgByID = async (req, res) => {
+
+    console.log('entering orgQueries/getOrgByID')
     
-    const orgID = req.params.id;
-    const o_id = new ObjectId(orgID);
+    const orgId = req.params.id;
 
     try {
-        const oneOrg = await org.find({"_id" : o_id}); 
+        const oneOrg = await org.findById(orgId); 
         res.status(200).json(oneOrg)
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
+
+// Returns entire camera array of an organization ID that is specified in fetch param
+const getOrgCamData = async (req, res) => {
+    
+    console.log('entering orgQueries/getOrgCamData')
+
+    const orgId = req.params.id;
+
+    if(orgId) {
+        console.log('orgId found for Cam Data: ' + orgId);
+    }
+
+    try {
+        const oneOrg = await org.findById(orgId); 
+        const cameras = oneOrg.cameras;
+
+        if(cameras == '') {
+            console.log('No camera data for this organization');
+            return res.sendStatus(204)
+        } else {
+            console.log('cameras found: ' + cameras);
+            return res.status(200).json(cameras)
+        }
+        
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+// Returns entire user array of an organization ID that is specified in fetch param
+const getOrgUserData = async (req, res) => {
+    
+    console.log('entering orgQueries/getOrgUserData')
+
+    const orgId = req.params.id;
+    const fields =[];
+
+    if(orgId) {
+        console.log('orgId found for User Data: ' + orgId);
+    }
+
+    try {
+        const fieldSelection = fields.join(' ')
+        const orgUserData = await org.findById(orgId)
+            .populate({
+                path: "users",
+                select: fieldSelection
+            })
+            .lean()
+            .exec()
+
+        console.log('query completed for org users')
+        const users = orgUserData.users;
+
+        if(users == '') {
+            console.log('No user data for this organization');
+            return res.sendStatus(204)
+        } else {
+            console.log('users found: ' + users.length);
+            return res.status(200).json(users);
+        }
+        
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
 
 const getOrgPage = async (req, res) => {
 
@@ -34,7 +102,7 @@ const getOrgPage = async (req, res) => {
         // If no page in URL, default to 1
         const page = parseInt(req.query.page) || 1;
         // If no limit in URL, default to 2
-        const limit = parseInt(req.query.limit) || 2;
+        const limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1) * limit;
 
         console.log('Query Sent: ' + JSON.stringify(req.query))
@@ -50,7 +118,9 @@ const getOrgPage = async (req, res) => {
             const queryEntries = Object.entries(req.query).slice(2);
             for (const [key, value] of queryEntries) {
                 if (key.startsWith('sort_')) { // Extract the column that is being toggled
+                    console.log('sort criteria found')
                     sortCriteria = value; 
+                    console.log(JSON.stringify(sortCriteria))
                 } else if(key.startsWith('order_')){ // Extract the order in which to sort the column
                     orderCriteria = value;
                 } else if(key.startsWith('minVal_')) {
@@ -58,7 +128,7 @@ const getOrgPage = async (req, res) => {
                 } else if(key.startsWith('maxVal_')) {
                     advFilterCriteria.$lte = parseInt(req.query.maxVal_);
                 } else {
-                    filterCriteria[key] = value; // Handle other filters
+                    filterCriteria[key] = { $regex: value }; // Handle other filters
                 }
             }
         }
@@ -82,11 +152,7 @@ const getOrgPage = async (req, res) => {
                 { $skip: skip },
                 { $limit: limit }
             ]);
-
-            console.log('----- orgs found ------')
-            console.log(JSON.stringify(orgs))
-
-        } else if (sortCriteria === 'numberOfUsers' || sortCriteria === 'numberOfCameras') {
+        } else if (sortCriteria === 'numberOfUsers') {
 
             console.log('Sort and Order w/o Advanced Filters Found')
             console.log('filterCriteria: ' + JSON.stringify(filterCriteria));
@@ -105,12 +171,14 @@ const getOrgPage = async (req, res) => {
 
             console.log('both sort and order criteria found')
             const sort = { [sortCriteria]: orderCriteria };
+            console.log('filterCriteria: ' + JSON.stringify(filterCriteria))
+            console.log('sort param: ' + JSON.stringify(sort))
             orgs = await org.find(filterCriteria).sort(sort).skip(skip).limit(limit);
 
         } else {
 
-            console.log('no sort criteria found')
-            orgs = await org.find(filterCriteria).skip(skip).limit(limit);
+            console.log('no order criteria found')
+            orgs = await org.find(filterCriteria).sort({organizationName: 'asc'}).skip(skip).limit(limit);
         }
     
         const totalOrgs = await org.countDocuments(filterCriteria);
@@ -135,4 +203,4 @@ const getOrgPage = async (req, res) => {
 }
 
 
-module.exports = { getAllOrgs, getOrgByID, getOrgPage }
+module.exports = { getAllOrgs, getOrgByID, getOrgCamData, getOrgUserData, getOrgPage }
