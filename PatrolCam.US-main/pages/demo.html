@@ -4,31 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo</title>
+    <link rel="icon" type="image/png" href="PatrolCamLogo.png">
+    <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="design.css">
+    <link rel="stylesheet" href="login-modal.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap" rel="stylesheet">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../FrontEndJavaScript/fetchNavbar.js" defer></script>
+    <script src="../FrontEndJavaScript/profileIconModal.js" defer></script>
 </head>
 <body>
-     <header>
-        <div class="logo">
-            <a href="/#index.html"><img src="PatrolCamLogo.png" alt="PatrolCam Logo"></a>
-        </div>
-        <nav class="navbar">
-            <a href="/#features-intro">Home</a>
-            <a href="/logDemo">Demo</a>
-            <a href="/#contact-section">Contact Us</a>
-        </nav>
-        <a href="/login" id="loginButton">Login</a>
-    </header> 
+     <header id="navbar"></header> 
+
     <h1 class="demo-text">Simple, Powerful and Affordable</h1>
     
     <div class="demo-frame-container">
-        <iframe class="demo-frame" 
-        src="https://www.youtube.com/embed/MtN1YnoL46Q" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-        </iframe>
+        <video class="demo-frame" autoplay muted loop controls poster="PatrolCam_Thumbnail.png">
+            <source src="PatrolCam_Coming_Soon.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 
 </body>

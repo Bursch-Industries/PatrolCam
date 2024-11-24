@@ -1,118 +1,45 @@
-/* THIS IS FOR THE LOGIN MODAL //// LOG OUT MODAL IS BELOW */
-#login-modal {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 100;
-    display: none;
-    justify-content: right;
-    margin-bottom:28rem;
-    margin-left: 62rem;
-    margin-right:0rem;
-    border-radius: 10px;
-}
-
 .modal {
-    background-color: #B1D4E0;
-    padding: 10px 0px 20px 0;
-    border-radius: 10px;
-    width: 450px;
-    text-align: center;
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed to viewport */
+    z-index: 100; /* Sit on top */
+    right: 0px; /* Distance from the right edge */
+    top: 96px; /* Distance from the top edge */
+    width: 100px; /* Adjust as needed */
+    background-color: rgba(255, 255, 255, 1); /* White background */
+    border: 1px solid #888;
+    padding: 20px;
+    border: round;
 }
 
-.top-form {
-    display:flex;
-    justify-content: flex-end;
+.button-container {
+    display: flex; /* Use flexbox to stack buttons */
+    flex-direction: column; /* Stack buttons vertically */
+    margin-top: 25px; /* Space between close button and stacked buttons */
 }
 
-.top-form .close-modal {
-    cursor: pointer;
-    padding: 0 20px;
-    font-size: 30px;
-}
-
-.login-form h2 {
-    letter-spacing: 2px;
-    margin-top: 10px;
-    margin-bottom: 30px;
-}
-
-.login-form form input {
-    width: 75%;
-    margin-bottom: 20px;
-    padding: 12px 12px;
-    box-sizing: border-box;
-    border: 1px solid #d0d5d8;
-    border-radius: 3px;
-}
-
-.login-form button {
-    padding: 12px 0;
-    width: 75%;
-    background: #145DA0;
-    border: 0;
-    border-radius: 3px;
-    color: white;
-    margin: 10px auto;
-    cursor: pointer;
-}
-
-.login-form button:hover {
-    opacity: 90%;
-}
-
-/* Logout Modal Overlay */
-#logout-modal {
-    position: fixed;
-    top: 10%; /* Align slightly below the top */
-    right: 20px; /* Align with the profile picture on the right */
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 100;
-    display: none;
-    width: 200px; /* Make the modal narrower */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add some shadow for depth */
-}
-
-/* Logout Modal Content */
-.out-modal {
-    background-color: #B1D4E0;
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-}
-
-/* Top Section with Close Button */
-.top-out-form {
-    display: flex;
-    justify-content: flex-end;
-    padding: 5px;
-}
-
-.top-out-form .close-out-modal {
-    cursor: pointer;
-    padding: 0 10px;
-    font-size: 20px;
-    color: #145DA0;
-}
-
-/* Logout Button Styling */
-.logout-form a {
-    display: block;
-    margin: 10px auto;
-    padding: 10px;
-    width: 80%;
+.modal-button {
+    margin: 5px 0; /* Space between buttons */
+    padding: 10px 20px;
     background-color: #145DA0;
     color: white;
-    text-decoration: none;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px; /* Adjust font size */
 }
 
-.logout-form a:hover {
-    opacity: 90%;
+.modal-button:hover {
+    background-color: #0d4a7e;
 }
 
+
+.close-button {
+    background: transparent; /* Make background transparent */
+    border: none; /* Remove default button border */
+    font-size: 18px; /* Adjust font size for smaller modal */
+    cursor: pointer; /* Change cursor to pointer */
+    position: absolute; /* Position it in the corner */
+    top: 5px; /* Adjust for smaller modal */
+    right: 5px; /* Adjust for smaller modal */
+    color: #aaa; /* Default color */
+}

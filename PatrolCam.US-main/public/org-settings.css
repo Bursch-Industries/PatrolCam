@@ -2,8 +2,6 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
   }
   
 body {
@@ -12,8 +10,7 @@ body {
     min-height: 100vh;
 }
   
-/* Header */
-
+/* Header CSS */
 header {
     top: 0;
     z-index: 1000;
@@ -22,6 +19,7 @@ header {
     align-items: center;
     background-color: #0C2D48;
     opacity: 90%;
+    height: 6rem; /* Adjust height if needed */
 }
 
 .logo {
@@ -30,52 +28,64 @@ header {
 }
 
 .logo img {
-    height: 80px;
-    margin-left: 20px;
+    height: 6rem;
+    margin-right: 1.25rem;
+    margin-left: 0.625rem;
 }
 
-.profile-picture {
-    width: 50px;
-    height: 50px;
-    margin-right: 40px; 
-    border-radius: 50%; 
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ddd; 
-}
-      
-.profile-picture img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.logo span {
+    font-size: 1.75rem;
+    color: yellow;
+    font-weight: bold;
 }
 
 .navbar {
     display: flex;
-    gap: 0px;
+    gap: 0rem;
     background-color: black;
-    border-radius: 10px;
+    border-radius: 0.625rem;
 }
 
 .navbar a {
-    display: flex;
     color: white;
-    font-size: 20px;
+    font-size: 1.25rem;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     background-color: black;
-    border-radius: 5px;
-    width: 150px;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-    justify-content: center;
+    border-radius: 0.3125rem;
+    width: 6.25rem;
+    box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
 }
 
 .navbar a:hover {
     background-color: #333;
 }
 
+#home {
+    text-align: center;
+}
+
+#demo {
+    text-align: center;
+}
+
+#contact {
+    text-align: center;
+}
+
+.profile-picture img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 25px;
+}
+
+.profile-picture {
+    border: none;
+    background: transparent; 
+    cursor: pointer; 
+    padding: 0;
+}
 
 /* Settings Section */
 
@@ -144,7 +154,7 @@ header {
     display: flex;
     flex-direction: column;
     width: 50vw;
-    padding: 20vw
+    box-sizing: border-box;
 }
 
 .loaded-content{
@@ -366,6 +376,16 @@ header {
 }
 
 /* Officers Tab */
+
+.officerHeader {
+    display:flex;
+}
+
+.officerHeader button {
+    flex: 1;
+    background-color: black;
+    font-size: xx-large;
+}
 .placeholder-icon{
     width: 2vw;
     height: 2vw;

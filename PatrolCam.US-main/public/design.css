@@ -1,11 +1,6 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    /*
-    background: linear-gradient(45deg,#145DA0, #2E8BC0);
-    background-size: 200% 200%;
-    animation: gradientAnimation 3s ease infinite;
-    */
     color: #FFF;
     min-height: 100vh;
 }
@@ -60,7 +55,29 @@ header {
     background-color: #333;
 }
 
+#loginButton {
+    background-color: #FFD700;
+    color: black;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.3125rem;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    height: 1.875rem;
+    width: 6.25rem;
+    box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0,0,0,0.3);
+    margin-right: 1.25rem;
+    line-height: normal;
+}
+
 /* Profile Picture */
+.profile-picture {
+    border: none;
+    background: transparent; 
+    cursor: pointer; 
+    padding: 0;
+}
 
 .profile-picture img {
     width: 50px;
@@ -140,7 +157,7 @@ header {
 }
 
 /* Demo Footer Section */
-/* Footer CSS */
+/* 
 .footer {
     padding: 25px;
     font-size: 15px;
@@ -148,4 +165,11 @@ header {
     opacity: 90%;
     text-align: center;
     position: relative;
+} */
+
+.footer {
+    padding: 25px;
+    font-size: 1.25rem;
+    position: relative;
 }
+

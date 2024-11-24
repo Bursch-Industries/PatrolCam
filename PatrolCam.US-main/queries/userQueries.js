@@ -16,15 +16,42 @@ const getAllUsers = async (req, res) => {
 const getUserByID = async (req, res) => {
     
     const userID = req.params.id;
-    const o_id = new ObjectId(userID);
 
     try {
-        const oneUser = await user.find({"_id" : o_id}); 
+        const oneUser = await user.findById({userID}); 
         res.status(200).json(oneUser)
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
 
+const getUserPage = async (req, res) => {
 
-module.exports = { getAllUsers, getUserByID }
+    console.log('entering getUserPage');
+
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 2;
+        const skip = (page - 1) * limit;
+
+        const items = await user.find().skip(skip).limit(limit);
+        const totalItems = await user.countDocuments();
+
+        const totalPages = Math.ceil(totalItems / limit);
+
+        res.json({
+            page, 
+            totalPages, 
+            totalItems,
+            items
+        })
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+
+}
+
+
+module.exports = { getAllUsers, getUserByID, getUserPage }

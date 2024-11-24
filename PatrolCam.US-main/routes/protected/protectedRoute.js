@@ -7,8 +7,13 @@ const requireAuth = require('../../middleware/authMiddleware');
 const isSessionExpired = require('../../controllers/sessionController');
 
 
-protectedRouter.get('/', requireAuth, (req, res) => {
-    res.sendFile(path.join(__dirname,'..', '..', 'pages', 'protected', 'protection.html'));
+protectedRouter.get('/', (req, res) => {
+    if (requireAuth(req)) {
+        res.sendFile(path.join(__dirname,'..', '..', 'pages', 'logIndex.html'));
+    }
+    else {
+        res.sendFile(path.join(__dirname,'..', '..', 'pages', 'index.html'));
+    }
 });
 
 protectedRouter.get('/checkSession', isSessionExpired);
