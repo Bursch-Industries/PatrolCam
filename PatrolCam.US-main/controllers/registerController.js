@@ -604,7 +604,7 @@ async function getCameraDetails(req, res) {
 
         const organization = await Organization.findById(user.organization._id).populate({
             path: 'cameras',
-            select: 'camera_Name location status -_id'
+            select: '_id camera_Name location status'
         }).exec();
 
         if(!organization || !organization.cameras || organization.cameras.length === 0){
@@ -928,7 +928,7 @@ async function updateOrganizationInfo(req, res){
     } catch (error){
         await withTransaction(async (session) => {
             await logError(req, {
-                level: 'error',
+                level: 'ERROR',
                 desc: 'Failed to update organization information',
                 source: 'updateOrganizationInfo',
                 userId: req.session.user ? req.session.user.id: 'unknown',
@@ -939,8 +939,46 @@ async function updateOrganizationInfo(req, res){
         });
 
         res.status(500).json({message: 'Failed to update organization information', error: error.message})
+    } 
+}
+
+async function updateCameraInfo(req, res){
+
+    if(!req.session.user){
+        return res.sendStatus(401)
     }
-    
+
+    try{
+        const {updatedInfo, cameraInfo} = req.body
+
+        console.log(updatedInfo)
+        console.log(cameraInfo)
+
+        await withTransaction(async (session) => {
+            await Camera.findByIdAndUpdate(
+                cameraInfo,
+                {$set: updatedInfo},
+                {new: true, session}
+            )
+        })
+
+        return res.status(200).json({message: 'Camera information updated successfully'})
+
+    } catch (error){
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to update Camerea information',
+                source: 'updateCameraInfo',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: 'ORG_UPDATE_ERROR',
+                meta: {error: error.message},
+                session
+            });
+        });
+
+        res.status(500).json({message: 'Failed to update camera information', error: error.message})
+    } 
 }
 
 module.exports = { 
@@ -956,5 +994,6 @@ module.exports = {
     getOrganizationDetails,
     getOrganizationList,
     updateOrganizationInfo,
-    updateOrganizationStatus
+    updateOrganizationStatus,
+    updateCameraInfo
 };

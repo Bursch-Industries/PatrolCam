@@ -149,7 +149,7 @@ async function updateAccountInfo(){
 
     const loadedContent = document.getElementById('loaded-content')
     const fields = loadedContent.querySelectorAll('input, select')
-    const updateBtn = document.getElementById('updateBtn')
+    const updateBtn = document.getElementById('accountUpdateBtn')
 
     updateBtn.textContent = "Updating..."
 
@@ -325,7 +325,7 @@ async function populateCamData(){
         }
 
         const data = await response.json();
-        console.log(data.cameras)
+        console.log(data)
         renderCameras(data.cameras)
 
     } catch (error) {
@@ -349,32 +349,40 @@ function renderCameras(cameras){
         //Update UI element
         cameraFrame.innerHTML = `
             <img src="./security_camera_placeholder_${(index % 2) + 1}.jpg" alt="${camera.name}">
-            <div class = "camera-element">
+            <div class = "camera-element" data-index = ${index} data-id = ${camera._id}>
                 <div class = "camera-info">
-                    <div class="camera-name">
-                        <label class = "camera-form"> 
+                    <div class="camera-form camera-name">
+                        <label>
                             <strong>Name:</strong>
-                            <span>${camera.camera_Name}</span>
                         </label>
+                        <input value="${camera.camera_Name}" name = "camera_Name" disabled></input>
                     </div>
                     
-                    <div class = "camera-location">
-                        <label class = "camera-form">
+                    <div class = "camera-form camera-location">
+                        <label>
                             <strong>Location:</strong>
-                            <span>${camera.location}</span>
                         </label>
+                        <input value="${camera.location}" name = "location" disabled></input>
                     </div>
 
-                    <div class = "camera-status">
-                        <label class = "camera-form">
+                    <div class = "camera-form camera-status">
+                        <label>
                             <strong>Status:</strong>
-                            <span>${camera.status}</span>
                         </label>
+                        <select type="text" name = "status" disabled>
+                                <option value="active">Active</option>
+                                <option value="inactive" selected>Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="camera-form-btns">
+                        <button class="btn btn-secondary" id="cameraCancelBtn" type="reset" onclick="disableCameraEditMode(${index})">Cancel</button>
+                        <button class="btn btn-primary" id="cameraUpdateBtn" type="submit" onclick="udpateCameraInfo(${index})">Update</button>
                     </div>
                 </div>
 
                 <div class = "camera-edit-icon">
-                        <i class="camera-edit-icon">&#9998;</i> <!-- Single Pencil Icon -->
+                    <i onclick="enableCameraEditMode(${index})">&#9998;</i> <!-- Single Pencil Icon -->
                 </div>
             </div>
 
@@ -387,6 +395,103 @@ function renderCameras(cameras){
     cameraGrid.classList.remove('placeholder-glow')
 }
 
+function enableCameraEditMode(index){
+    const cameraElement = document.querySelector(`.camera-element[data-index= "${index}"]`)
+
+    const fields = cameraElement.querySelectorAll('.camera-form input, select')
+
+    fields.forEach(field => {
+        const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
+        field.setAttribute('data-original-value', originalValue)
+        field.style.color = "black" 
+        field.removeAttribute("disabled")
+    })
+
+    const editIcon = cameraElement.querySelector(".camera-edit-icon")
+    editIcon.style.display = "none"
+
+    const formBtns = cameraElement.querySelector(".camera-form-btns")
+    formBtns.style.display = "flex"
+}
+
+function disableCameraEditMode(index){
+    const cameraElement = document.querySelector(`.camera-element[data-index= "${index}"]`)
+
+    const fields = cameraElement.querySelectorAll('input, select')
+
+    fields.forEach(field => {
+        if (field.tagName === "SELECT"){
+            const originalOption = field.getAttribute('data-original-value')
+            for (let i = 0; i < field.options.length; i++){
+                const option = field.options[i]
+                if(option.text.toLowerCase() === originalOption.toLowerCase()){
+                    option.selected = true;
+                    break;
+                }
+            }
+        } else {
+            field.value = field.getAttribute('data-original-value')    
+        }
+
+        field.style.color = "white" 
+        field.setAttribute("disabled", "enabled")
+    })
+
+    const editIcon = cameraElement.querySelector(".camera-edit-icon")
+    editIcon.style.display = "flex"
+    
+    const formBtns = cameraElement.querySelector(".camera-form-btns")
+    formBtns.style.display = "none"
+}
+
+async function udpateCameraInfo(index){
+    const cameraElement = document.querySelector(`.camera-element[data-index= "${index}"]`)
+    const camId = cameraElement.dataset.id
+
+    const updateBtn = document.getElementById('cameraUpdateBtn')
+    updateBtn.textContent = "Updating..."
+
+    const updatedData = {}
+
+    const fields = cameraElement.querySelectorAll('input, select')
+    fields.forEach(field => {
+        const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
+        field.setAttribute('data-original-value', originalValue) 
+
+        if (field.tagName === "SELECT"){
+            updatedData[field.name] = field.options[field.selectedIndex].text
+        } else {
+            updatedData[field.name] = field.value  
+        }
+    });
+
+    try{
+        const response = await fetch('/register/updateOrgCam', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                updatedInfo: updatedData, 
+                cameraInfo: camId
+            })
+        });
+
+        const data = response.json()
+
+        if(response.ok){
+            alert(data.message || 'Organization information updated successfully!');
+        }
+
+        updateBtn.textContent = "Update"
+        disableCameraEditMode(index)
+
+    } catch (error){
+        console.error('Error:', error);
+        alert('Failed to update organization information')
+        updateBtn.textContent = "Update"
+    }
+}
 
 //--------Fetching organization users----------
 document.getElementById('officers-btn').addEventListener('click',(async()=>{
