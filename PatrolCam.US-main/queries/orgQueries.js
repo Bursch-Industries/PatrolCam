@@ -102,6 +102,49 @@ const getOrgUserData = async (req, res) => {
     }
 }
 
+const getOrgLoginData = async (req, res) => {
+    
+    console.log('entering orgQueries/getOrgLoginData')
+    let orgId;
+    const fields =[];
+
+    if(req.params.id){
+        console.log('req.params.id found')
+        orgId = req.params.id;
+    } else if( req.session.org && req.session.org.id) {
+        console.log('req.session.org.id found')
+        orgId = req.session.org.id;
+    } else {
+        return res.sendStatus(401);
+    }
+    
+    try {
+        const fieldSelection = fields.join(' ')
+        const orgUserData = await org.findById(orgId)
+            .populate({
+                path: "users",
+                select: fieldSelection,
+                options: { sort: { lastLoggedIn: -1 } }
+            })
+            .lean()
+            .exec()
+
+        console.log('query completed for login history')
+        const users = orgUserData.users;
+
+        if(users == '') {
+            console.log('No login data for this organization');
+            return res.sendStatus(204)
+        } else {
+            console.log('users found: ' + users.length);
+            return res.status(200).json(users);
+        }
+        
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
 
 const getOrgPage = async (req, res) => {
 
@@ -212,4 +255,4 @@ const getOrgPage = async (req, res) => {
 }
 
 
-module.exports = { getAllOrgs, getOrgByID, getOrgCamData, getOrgUserData, getOrgPage }
+module.exports = { getAllOrgs, getOrgByID, getOrgCamData, getOrgUserData, getOrgPage, getOrgLoginData }

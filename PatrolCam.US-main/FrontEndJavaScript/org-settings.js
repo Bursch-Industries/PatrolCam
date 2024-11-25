@@ -858,9 +858,9 @@ async function populateOrgPrivacyData() {
 
     try{
         //API to fetch user data to extract lastLogin from
-        console.log('fetching url: ' + `/api/org/userData` )
+        console.log('fetching url: ' + `/api/org/loginData` )
 
-        const response = await fetch(`/api/org/userData`,{ 
+        const response = await fetch(`/api/org/loginData`,{ 
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -891,9 +891,9 @@ async function populateOrgPrivacyDataAccountAdmin(orgId){
 
     try{
         //API to fetch user data to extract lastLogin from
-        console.log('fetching url: ' + `/api/org/${orgId}/userData` )
+        console.log('fetching url: ' + `/api/org/${orgId}/loginData` )
 
-        const response = await fetch(`/api/org/${orgId}/userData`,{ 
+        const response = await fetch(`/api/org/${orgId}/loginData`,{ 
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
