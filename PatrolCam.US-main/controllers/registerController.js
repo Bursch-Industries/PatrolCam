@@ -17,12 +17,6 @@ async function handleNewUser (req, res) {
         return res.status(400).json({ 'Error while creating new user': 'All required fields must be filled.' });
     }
 
-    //Check for duplicate usernames in the db
-    const duplicate = await findUser(user)
-    if (duplicate) {
-        return res.sendStatus(409) //Duplicate conflict 
-    }
-
     try {
         await withTransaction(async (session) => {
             //Encrypt the password
@@ -53,7 +47,7 @@ async function handleNewUser (req, res) {
         });
 
         //User creation success
-        res.status(201).json({ 'User creation success': `New user ${user} created!` });
+        res.status(201).json({ 'User creation success': `New user ${userFirstname} created!` });
     } catch (error) {
 
         await withTransaction(async (session) => {
@@ -638,9 +632,8 @@ async function getOrgUserData(req, res) {
     if(!req.session || !req.session.user){
         return res.sendStatus(401);
     }
-    
     const user = await User.findById(req.session.user.id);
-
+    
     try{
         const orgUserArray = await getUserFields(user, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id']) 
         return res.status(200).json({

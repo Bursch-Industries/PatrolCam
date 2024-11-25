@@ -59,10 +59,19 @@ const getOrgCamData = async (req, res) => {
 const getOrgUserData = async (req, res) => {
     
     console.log('entering orgQueries/getOrgUserData')
-
-    const orgId = req.params.id;
+    let orgId;
     const fields =[];
 
+    if(req.params.id){
+        console.log('req.params.id found')
+        orgId = req.params.id;
+    } else if( req.session.org && req.session.org.id) {
+        console.log('req.session.org.id found')
+        orgId = req.session.org.id;
+    } else {
+        return res.sendStatus(401);
+    }
+    
     if(orgId) {
         console.log('orgId found for User Data: ' + orgId);
     }

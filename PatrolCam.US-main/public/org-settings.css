@@ -510,7 +510,26 @@ header {
     color: #FFD700;
 }
 
+.login-record {
+    display: flex;
+    width: 50%;
+    background-color: white;
+    margin: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 1cm;
+    border-color: black;
+    border-width: 2px;
+}
+
+.dateTime {
+    font-weight: 600;
+    color: black;
+}
+
 /* Footer Section */
+
+
 
 .footer {
     padding: 25px;
@@ -521,3 +540,4 @@ header {
     text-align: center;
     position: relative;
 }
+
