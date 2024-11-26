@@ -245,11 +245,13 @@ async function populateOrgData(){
 
         const data = await response.json();
 
+        const addressString = (data.organization.organizationAddress.Address1 + ', ' + data.organization.organizationAddress.State + ' ' + data.organization.organizationAddress.ZipCode);
+
         //Update UI elements
         document.getElementById('org-name').value = data.organization.organizationName
         document.getElementById('email-address').value = data.organization.organizationEmail
         document.getElementById('phone-number').value = data.organization.organizationPhone
-        document.getElementById('org-address').value = data.organization.organizationAddress 
+        document.getElementById('org-address').value = addressString; 
         
         const orgSubscription = document.getElementById('org-subscription')
         const databaseValue = "Silver"
