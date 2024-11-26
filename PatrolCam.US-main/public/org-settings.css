@@ -379,13 +379,25 @@ header {
 
 .officerHeader {
     display:flex;
+    justify-content: space-between;
+    height: 80px;
 }
 
 .officerHeader button {
-    flex: 1;
     background-color: black;
-    font-size: xx-large;
+    font-size: large;
+    color: white;
+    width: 20%;
+    border-radius: 5px;
+    align-items: center;
+    height: 60%;
 }
+
+.officerHeader button:hover {
+    background-color: #444; /* A lighter shade of black/gray */
+    transform: scale(1.05);  /* Slightly enlarge the button */
+}
+
 .placeholder-icon{
     width: 2vw;
     height: 2vw;
