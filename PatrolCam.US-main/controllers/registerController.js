@@ -17,12 +17,6 @@ async function handleNewUser (req, res) {
         return res.status(400).json({ 'Error while creating new user': 'All required fields must be filled.' });
     }
 
-    //Check for duplicate usernames in the db
-    const duplicate = await findUser(user)
-    if (duplicate) {
-        return res.sendStatus(409) //Duplicate conflict 
-    }
-
     try {
         await withTransaction(async (session) => {
             //Encrypt the password
@@ -53,7 +47,7 @@ async function handleNewUser (req, res) {
         });
 
         //User creation success
-        res.status(201).json({ 'User creation success': `New user ${user} created!` });
+        res.status(201).json({ 'User creation success': `New user ${userFirstname} created!` });
     } catch (error) {
 
         await withTransaction(async (session) => {
@@ -420,37 +414,49 @@ async function handleAddNewOrgUser (req, res) {
 async function addCameraToOrganization(req, res) {
     const {camName, camModel, camLocation} = req.body;
 
+    console.log('entering addCameraToOrganization: ' + JSON.stringify(req.body))
+
     //Check missing request fields
     if (!camName || !camModel || !camLocation){
         return res.status(400).json({"Error occured while adding camera to organization":"All required fields must be filled."})
     } 
 
-    //Find and store organization and user data based on username
-    //const {organizationData, userData, error} = await findOrganizationForAdmin(userId)
+    let user;
+    let organizationData;
 
-    const user = await User.findById(req.session.user.id);
-    const organizationData = await Organization.findById(user.organization);
 
-    //If user wasn't found or access was denied
-    if(error) {
-        return res.sendStatus(error === "User not found" ? 404 : 403)
+    if(req.session && req.session.user && req.session.user.id) {
+        console.log('req.session.user.id found!!')
+        user = await User.findById(req.session.user.id);
+        console.log('user found: ' + user.organization)
+        organizationData = await Organization.findById(user.organization);
+        console.log('organization found: ' + JSON.stringify(organizationData._id));
+    } else { 
+        console.log('req.session.user.id NOT found');
+        return res.sendStatus(404);
     }
 
+    
+    const owner = organizationData._id;
+    const admin = user._id;
+    console.log('before try block ' + owner + ' ' + admin)
     try{
+
+        console.log('entering try block: ' + JSON.stringify(organizationData))
         await withTransaction(async (session) => {     
             //Create and store camera in database
             const newCamera = new Camera({
                 camera_Name: camName,
                 model: camModel,
-                owner: organizationData._id,
+                owner: owner,
                 location: camLocation,
-                users: [req.session.user.id]
+                users: [admin]
             });
             await newCamera.save({session});
 
             //Update the camera list in organization
             const updatedData = await Organization.findByIdAndUpdate(
-                organizationData._id,
+                owner,
                 { $push:{ cameras: newCamera._id}},
                 { new: true}
             )
@@ -465,8 +471,8 @@ async function addCameraToOrganization(req, res) {
                 action: 'create',
                 collectionName: 'Camera',
                 documentId: newCamera._id,
-                organizationId: organizationData._id,
-                performedBy: req.session.user.id,
+                organizationId: owner,
+                performedBy: admin,
                 newData: newCamera,
                 session
             })
@@ -475,8 +481,8 @@ async function addCameraToOrganization(req, res) {
             await logActivity({
                 action: 'update',
                 collectionName: 'Organization',
-                documentId: organizationData._id,
-                performedBy: req.session.user.id,
+                documentId: owner,
+                performedBy: admin,
                 originalData: {
                     originalCameras: organizationData.cameras
                 },
@@ -498,7 +504,7 @@ async function addCameraToOrganization(req, res) {
                 level: 'ERROR',
                 desc: 'Failed to create new Camera',
                 source: 'registerController - addCameraToOrganization',
-                userId: req.sesison.user.id,
+                userId: admin,
                 code: '500',
                 meta: { message: error.message, stack: error.stack },
                 session
@@ -572,31 +578,16 @@ async function hashPassword (password) {
         throw new Error("Error occured while hashing password" + error.message)
     }
 }
-//TODO: Remove function
-//Check if the user role is "Creator"
-function checkUserRole(user){
-    if (!user || !user.roles) {
-        return false //Return false if user or roles are not defined
-    }
-
-    //Case insensitive check for string roles
-    return user.roles.toLowerCase() === "creator" || user.roles.toLowerCase() === "admin"
-}
-
-//Finds user using username
-async function findUser(username){
-    const user = await User.findOne({username:username}) //Locate user
-    if(!user) return false
-    return user //Return result
-}
 
 async function getCameraDetails(req, res) {
+
     if(!req.session || !req.session.user){
         return res.sendStatus(401);
     }
 
     try{
-        const user = await findById(req.session.user.id);
+        
+        const user = await User.findById(req.session.user.id);
         
         if(!user){
             return res.sendStatus(404)
@@ -607,8 +598,12 @@ async function getCameraDetails(req, res) {
             select: '_id camera_Name location status'
         }).exec();
 
-        if(!organization || !organization.cameras || organization.cameras.length === 0){
-            return res.sendStatus(404)
+        if(!organization || !organization.cameras){
+            return res.sendStatus(500);
+        }
+
+        if(organization.cameras.length === 0){
+            return res.sendStatus(204)
         }
 
         return res.status(200).json({
@@ -635,18 +630,27 @@ async function getCameraDetails(req, res) {
 }
 
 async function getOrgUserData(req, res) {
+
+
     if(!req.session || !req.session.user){
+        console.log('req.session.user not found');
+        return res.sendStatus(401);
+    }
+
+    const user = await User.findById(req.session.user.id);
+
+    if(!user){
+        console.log('ERROR: user not found');
         return res.sendStatus(401);
     }
     
-    const user = await User.findById(req.session.user.id);
-
     try{
-        const orgUserArray = await getUserFields(user, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id']) 
+        const orgUserArray = await getUserFields(req.session.org.id, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id']) 
         return res.status(200).json({
             users: orgUserArray.users
         })
     } catch (error) {
+        console.log(error.message)
         if(error.message === "404") return res.sendStatus(404)
         if(error.message === "403") return res.sendStatus(403)
 
@@ -671,7 +675,7 @@ async function getUserLastLogin(req, res) {
     const { userId } = req.body
 
     try{
-        const lastLoginArray = await getUserFields(userId, ["firstname", "lastname", "lastLoggedIn", "-_id"])
+        const lastLoginArray = await getUserFields(req.session.org.id, ["firstname", "lastname", "lastLoggedIn", "-_id"])
         return res.status(200).json({
             message: 'Login history found',
             users: lastLoginArray.users
@@ -696,19 +700,10 @@ async function getUserLastLogin(req, res) {
     }
 }
 
-async function getUserFields(userId, fields = []) {
-
-    if(!userId){
-        throw new Error("All fields are required")
-    }
-    const {organizationData, error} = await findOrganizationForAdmin()
-
-    if(error){
-        throw new Error(error === "User not found" ? "404" : "403")
-    }
+async function getUserFields(orgId, fields = []) {
 
     const fieldSelection = fields.join(' ')
-    const orgUserData = await Organization.findById(organizationData._id)
+    const orgUserData = await Organization.findById(orgId)
         .populate({
             path: "users",
             select: fieldSelection

@@ -100,10 +100,10 @@ header {
 }
 
 .services-tab {
-    background-color: white;
-    color: black;
+    color: white;
     padding: .5rem;
-    font-size: 4vh;
+    font-size: 6vh;
+    font-weight: bold;
     display: inline-block;
     margin-top: 1rem;
     width: 15rem;
