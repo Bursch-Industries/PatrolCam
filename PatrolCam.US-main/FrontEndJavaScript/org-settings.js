@@ -346,6 +346,8 @@ function renderCameras(cameras){
         const cameraFrame = document.createElement('div')
         cameraFrame.className = 'camera-frame'
 
+        console.log('Camera ' + index + ' Status: ' + camera.status);
+
         //Update UI element
         cameraFrame.innerHTML = `
             <img src="./security_camera_placeholder_${(index % 2) + 1}.jpg" alt="${camera.name}">
@@ -370,8 +372,8 @@ function renderCameras(cameras){
                             <strong>Status:</strong>
                         </label>
                         <select type="text" name = "status" disabled>
-                                <option value="active">Active</option>
-                                <option value="inactive" selected>Inactive</option>
+                                <option value="Active" ${camera.status === 'Active' ? 'selected' : ''}>Active</option>
+                                <option value="Inactive" ${camera.status === 'Inactive' ? 'selected' : ''}>Inactive</option>
                         </select>
                     </div>
 

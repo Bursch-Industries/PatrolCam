@@ -42,8 +42,6 @@ async function fetchOrgPage(filter) {
                 `;
                 orgList.appendChild(orgDiv);
 
-                
-
                 const changeStatus = orgDiv.querySelector(`#orgStatus-${org._id}`);
 
                 // Set the current status of the org 
