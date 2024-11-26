@@ -139,18 +139,7 @@ header {
     margin-bottom: .625rem;
     box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
     margin-left:.5rem;
-}
-
-.delButton {
-    background-color: #000;
-    color:white;
-    opacity: 90%;
-    font-size: 2rem;
-    margin-top: .625rem;
-    margin-bottom: .625rem;
-    box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
-    margin-left: .5rem;
-    margin-right: 1rem;
+    margin-right:1rem;
 }
 
 

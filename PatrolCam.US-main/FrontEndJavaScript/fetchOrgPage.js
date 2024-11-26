@@ -52,22 +52,25 @@ async function fetchOrgPage(filter) {
                 // Event listener for the status selector
                 changeStatus.addEventListener('change', async (event) => {
                     const newStatus = event.target.value;
-                    try {
-                        const response = await fetch(`/register/updateOrgStatus`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ status: newStatus, orgId: org._id }),
-                        });
-                        const result = await response.json();
-                        const message = result.message;
-                        if(message.includes('Success')) {
-                            alert("Organization Status Changed Successfully")
+                    const response = confirm("This will change the Organizations Activity. Are you sure?")
+                    if(response) {
+                        try {
+                            const response = await fetch(`/register/updateOrgStatus`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ status: newStatus, orgId: org._id }),
+                            });
+                            const result = await response.json();
+                            const message = result.message;
+                            if(message.includes('Success')) {
+                                alert("Organization Status Changed Successfully")
+                            }
+                        } catch(error) {
+                            console.error('Failed to update status:', error);
                         }
-                    } catch(error) {
-                        console.error('Failed to update status:', error);
-                    }
+                    } 
                 })
             });
         } else {

@@ -831,7 +831,7 @@ async function deactivateOrg(req, orgId) {
     // Allows access to sessions without making a dedicated model since we are using mongo-connect
     let Session = mongoose.model('Session', new mongoose.Schema({}, { collection: 'sessions' }));
     try {
-        let result = await Session.deleteMany({ organization: {id: orgId }}); // Delete all sessions for given org
+        let result = await Session.deleteMany({ org: {id: orgId }}); // Delete all sessions for given org
         console.log(`${result.deletedCount} documents were deleted.`);
         await logActivity({
             action: 'Organization Deactivation - ' + orgId,
