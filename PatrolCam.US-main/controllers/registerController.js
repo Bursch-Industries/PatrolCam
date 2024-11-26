@@ -578,31 +578,16 @@ async function hashPassword (password) {
         throw new Error("Error occured while hashing password" + error.message)
     }
 }
-//TODO: Remove function
-//Check if the user role is "Creator"
-function checkUserRole(user){
-    if (!user || !user.roles) {
-        return false //Return false if user or roles are not defined
-    }
-
-    //Case insensitive check for string roles
-    return user.roles.toLowerCase() === "creator" || user.roles.toLowerCase() === "admin"
-}
-
-//Finds user using username
-async function findUser(username){
-    const user = await User.findOne({username:username}) //Locate user
-    if(!user) return false
-    return user //Return result
-}
 
 async function getCameraDetails(req, res) {
+
     if(!req.session || !req.session.user){
         return res.sendStatus(401);
     }
 
     try{
-        const user = await findById(req.session.user.id);
+        
+        const user = await User.findById(req.session.user.id);
         
         if(!user){
             return res.sendStatus(404)
@@ -613,8 +598,12 @@ async function getCameraDetails(req, res) {
             select: '_id camera_Name location status'
         }).exec();
 
-        if(!organization || !organization.cameras || organization.cameras.length === 0){
-            return res.sendStatus(404)
+        if(!organization || !organization.cameras){
+            return res.sendStatus(500);
+        }
+
+        if(organization.cameras.length === 0){
+            return res.sendStatus(204)
         }
 
         return res.status(200).json({

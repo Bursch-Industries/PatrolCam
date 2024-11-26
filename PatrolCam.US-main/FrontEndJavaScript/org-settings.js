@@ -285,7 +285,7 @@ document.getElementById('camera-btn').addEventListener('click',(async()=>{
                 const orgId = params.get('id');
                 populateCamDataAccountAdmin(orgId);
             } else{
-                console.log('fetching cam data with params')
+                console.log('fetching cam data without params')
                 populateCamData();
             }
             
@@ -312,7 +312,7 @@ async function populateCamData(){
         }
 
         //If no cameras found
-        if(response.status === 404){
+        if(response.status === 204){
             const cameraGrid = document.getElementById('camera-grid')
             //Adding no camera found message to UI
             cameraGrid.innerHTML = `<p class=no-cameras-message>No Cameras available.</p>`
