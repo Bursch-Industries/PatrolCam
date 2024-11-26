@@ -509,6 +509,7 @@ document.getElementById('officers-btn').addEventListener('click',(async()=>{
                 const orgId = params.get('id');
                 populateOrgUserDataAccountAdmin(orgId);
             } else{
+                console.log('fetching officer data, no params')
                 populateOrgUserData();
             }
             
@@ -939,8 +940,6 @@ function renderLastLogin(users){
     //Looping through all users and creating each element
     users.forEach((user, index) =>  {
         const userCard = document.createElement('div')
-        //userCard.className = 'officer-card collapsed'
-
         const loginDateTime = formatLoginDateTime(user.lastLoggedIn);
 
         //Update UI element

@@ -26,9 +26,15 @@ async function logError(req, {
 }) 
 
 {
+
+    console.log('entering error logger');
     // Check if session and user information are available, and use the session user ID if provided.
     if(req.session && req.session.user){
+        console.log('req.session.user found')
         userId = req.session.user.id
+    }else {
+        console.log('req.session.user NOT found')
+        userId = ''
     }
 
     try{

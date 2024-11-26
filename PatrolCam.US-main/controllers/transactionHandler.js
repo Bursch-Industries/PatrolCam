@@ -20,7 +20,7 @@ async function withTransaction(transactionalCallback){
         return result
     } catch (error) {
         await session.abortTransaction() //Rollback on error
-        console.log('ERROR: ' + error.message);
+        console.log('TRANSACTION ERROR: ' + error.message);
         throw new Error(`Transaction failed: ${error.message}`)
     } finally {
         session.endSession() //Close up session

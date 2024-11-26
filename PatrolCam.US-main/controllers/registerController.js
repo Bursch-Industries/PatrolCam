@@ -630,17 +630,27 @@ async function getCameraDetails(req, res) {
 }
 
 async function getOrgUserData(req, res) {
+
+
     if(!req.session || !req.session.user){
+        console.log('req.session.user not found');
         return res.sendStatus(401);
     }
+
     const user = await User.findById(req.session.user.id);
+
+    if(!user){
+        console.log('ERROR: user not found');
+        return res.sendStatus(401);
+    }
     
     try{
-        const orgUserArray = await getUserFields(user, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id']) 
+        const orgUserArray = await getUserFields(req.session.org.id, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id']) 
         return res.status(200).json({
             users: orgUserArray.users
         })
     } catch (error) {
+        console.log(error.message)
         if(error.message === "404") return res.sendStatus(404)
         if(error.message === "403") return res.sendStatus(403)
 
@@ -665,7 +675,7 @@ async function getUserLastLogin(req, res) {
     const { userId } = req.body
 
     try{
-        const lastLoginArray = await getUserFields(userId, ["firstname", "lastname", "lastLoggedIn", "-_id"])
+        const lastLoginArray = await getUserFields(req.session.org.id, ["firstname", "lastname", "lastLoggedIn", "-_id"])
         return res.status(200).json({
             message: 'Login history found',
             users: lastLoginArray.users
@@ -690,19 +700,10 @@ async function getUserLastLogin(req, res) {
     }
 }
 
-async function getUserFields(userId, fields = []) {
-
-    if(!userId){
-        throw new Error("All fields are required")
-    }
-    const {organizationData, error} = await findOrganizationForAdmin()
-
-    if(error){
-        throw new Error(error === "User not found" ? "404" : "403")
-    }
+async function getUserFields(orgId, fields = []) {
 
     const fieldSelection = fields.join(' ')
-    const orgUserData = await Organization.findById(organizationData._id)
+    const orgUserData = await Organization.findById(orgId)
         .populate({
             path: "users",
             select: fieldSelection
