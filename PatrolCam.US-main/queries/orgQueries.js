@@ -108,16 +108,20 @@ const getOrgLoginData = async (req, res) => {
     let orgId;
     const fields =[];
 
+    console.log('req.session: ' + JSON.stringify(req.session));
     if(req.params.id){
         console.log('req.params.id found')
         orgId = req.params.id;
-    } else if( req.session.org && req.session.org.id) {
+    } else if(req.session.org && req.session.org.id) {
         console.log('req.session.org.id found')
         orgId = req.session.org.id;
     } else {
         return res.sendStatus(401);
     }
     
+    console.log('req.session.user.id: ' + req.session.user.id);
+
+
     try {
         const fieldSelection = fields.join(' ')
         const orgUserData = await org.findById(orgId)

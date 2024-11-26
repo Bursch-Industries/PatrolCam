@@ -529,8 +529,6 @@ header {
 
 /* Footer Section */
 
-
-
 .footer {
     padding: 25px;
     font-size: 15px;
@@ -541,3 +539,11 @@ header {
     position: relative;
 }
 
+/* Cameras */ 
+
+.newCamContainer {
+    display: none;
+    padding: 5px;
+    background-color: white;
+    height: 150px;
+}

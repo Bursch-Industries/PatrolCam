@@ -414,37 +414,49 @@ async function handleAddNewOrgUser (req, res) {
 async function addCameraToOrganization(req, res) {
     const {camName, camModel, camLocation} = req.body;
 
+    console.log('entering addCameraToOrganization: ' + JSON.stringify(req.body))
+
     //Check missing request fields
     if (!camName || !camModel || !camLocation){
         return res.status(400).json({"Error occured while adding camera to organization":"All required fields must be filled."})
     } 
 
-    //Find and store organization and user data based on username
-    //const {organizationData, userData, error} = await findOrganizationForAdmin(userId)
+    let user;
+    let organizationData;
 
-    const user = await User.findById(req.session.user.id);
-    const organizationData = await Organization.findById(user.organization);
 
-    //If user wasn't found or access was denied
-    if(error) {
-        return res.sendStatus(error === "User not found" ? 404 : 403)
+    if(req.session && req.session.user && req.session.user.id) {
+        console.log('req.session.user.id found!!')
+        user = await User.findById(req.session.user.id);
+        console.log('user found: ' + user.organization)
+        organizationData = await Organization.findById(user.organization);
+        console.log('organization found: ' + JSON.stringify(organizationData._id));
+    } else { 
+        console.log('req.session.user.id NOT found');
+        return res.sendStatus(404);
     }
 
+    
+    const owner = organizationData._id;
+    const admin = user._id;
+    console.log('before try block ' + owner + ' ' + admin)
     try{
+
+        console.log('entering try block: ' + JSON.stringify(organizationData))
         await withTransaction(async (session) => {     
             //Create and store camera in database
             const newCamera = new Camera({
                 camera_Name: camName,
                 model: camModel,
-                owner: organizationData._id,
+                owner: owner,
                 location: camLocation,
-                users: [req.session.user.id]
+                users: [admin]
             });
             await newCamera.save({session});
 
             //Update the camera list in organization
             const updatedData = await Organization.findByIdAndUpdate(
-                organizationData._id,
+                owner,
                 { $push:{ cameras: newCamera._id}},
                 { new: true}
             )
@@ -459,8 +471,8 @@ async function addCameraToOrganization(req, res) {
                 action: 'create',
                 collectionName: 'Camera',
                 documentId: newCamera._id,
-                organizationId: organizationData._id,
-                performedBy: req.session.user.id,
+                organizationId: owner,
+                performedBy: admin,
                 newData: newCamera,
                 session
             })
@@ -469,8 +481,8 @@ async function addCameraToOrganization(req, res) {
             await logActivity({
                 action: 'update',
                 collectionName: 'Organization',
-                documentId: organizationData._id,
-                performedBy: req.session.user.id,
+                documentId: owner,
+                performedBy: admin,
                 originalData: {
                     originalCameras: organizationData.cameras
                 },
@@ -492,7 +504,7 @@ async function addCameraToOrganization(req, res) {
                 level: 'ERROR',
                 desc: 'Failed to create new Camera',
                 source: 'registerController - addCameraToOrganization',
-                userId: req.sesison.user.id,
+                userId: admin,
                 code: '500',
                 meta: { message: error.message, stack: error.stack },
                 session
