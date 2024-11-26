@@ -20,5 +20,6 @@ router.get('getOrgList', registerController.getOrganizationList)
 
 router.put('/updateOrg', registerController.updateOrganizationInfo)
 router.put('/updateOrgStatus', registerController.updateOrganizationStatus);
+router.put('/updateOrgCam', registerController.updateCameraInfo)
 
 module.exports = router;
