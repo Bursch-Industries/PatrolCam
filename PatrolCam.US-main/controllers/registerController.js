@@ -836,7 +836,7 @@ async function deactivateOrg(req, orgId) {
     } catch (error) {
         await withTransaction(async (session) => {
             await logError(req, {
-                level: 'error',
+                level: 'ERROR',
                 desc: 'Failed to deactivate organization',
                 source: 'deactivateOrg',
                 userId: req.session.user ? req.session.user.id: 'unknown',
@@ -885,7 +885,7 @@ async function updateOrganizationStatus(req, res){
     } catch (error){
         await withTransaction(async (session) => {
             await logError(req, {
-                level: 'error',
+                level: 'ERROR',
                 desc: 'Failed to update organization status',
                 source: 'updateOrganizationStatus',
                 userId: req.session.user ? req.session.user.id: 'unknown',
