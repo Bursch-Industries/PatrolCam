@@ -6,8 +6,8 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100vh;
     margin: 0;
+    min-height: 100vh;
 }
 
 header {
@@ -72,32 +72,32 @@ header {
 }
 
 
-/* Dropdown container */
+/* Dropdown for Header */
 .dropdown {
     position: relative;
     display: inline-block;
-    z-index: 1000; /* Ensures dropdown stays on top */
+    z-index: 1000;
 }
 
 .grid-icon-btn {
     background-color: transparent;
     color: white;
-    font-size: 36px; 
+    font-size: 24px;
     border: none;
     cursor: pointer;
-    margin-right: 10px; 
+    margin-right: 70px;
 }
 
 
 .dropdown-content {
     display: none;
     position: absolute;
-    top: 100%; /* Positions dropdown below the button */
+    top: 100%;
     left: 0;
-    background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    min-width: 160px;
-    z-index: 1001; /* Ensures dropdown is above other elements */
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    min-width: 120px;
 }
 
 .dropdown-content a {
@@ -115,36 +115,108 @@ header {
     display: block;
 }
 
-/* Grid container for displaying all cameras in 2x2 layout */
+/* Grid container */
 .grid-container {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 20px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
+    gap: 10px;
     width: 100%;
 }
-
-.single-camera-view {
+/* Individual camera frame */
+.camera-frame {
+    position: relative;
+    background: black;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Stack iframe and dropdown */
     align-items: center;
-    height: 100vh; 
-    background-color: #145DA0;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #333; /* Optional: for debugging */
 }
 
-.single-camera-frame {
-    width: 80%; 
-    height: 70vh !important; 
-    max-width: 900px;
-    max-height: 900px; 
-    border-radius: 10px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    background-color: #145DA0;
+
+/* Camera iframe */
+.camera-frame iframe {
+    width: 100%;
+    height: 200px;
 }
+
+/* Camera-specific dropdown */
+.camera-dropdown {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+.camera-icon-btn {
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.camera-dropdown-content {
+    display: none; /* Ensure it is hidden by default */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    gap: 10px; /* Space between columns */
+    padding: 10px; /* Add padding around the dropdown */
+}
+
+.camera-dropdown:hover .camera-dropdown-content {
+    display: flex; /* Show dropdown when parent is hovered */
+    flex-direction: row; /* Columns are side-by-side */
+}
+.camera-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.camera-dropdown-content a {
+    padding: 5px 10px;
+    text-decoration: none;
+    color: black;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.camera-dropdown-content a:hover {
+    background-color: lightyellow;
+}
+
+
 
 /* Adjust iframe when displaying all cameras */
+/* Default iframe styling for other grids */
 .grid-container iframe {
     width: 100%;
-    height: 300px;
+    height: 250px;
+}
+
+/* Specific iframe styling for 1x1 grid */
+.grid-1x1 iframe {
+    width: 80%; 
+    height: calc(100vh - 12rem); 
+    border-radius: 10px; 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+}
+
+/* Specific iframe styling for 1x2 grid */
+.grid-1x2 iframe {
+    width: 90%; 
+    height: 525px; 
+    border-radius: 10px; 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+}
+
+
+footer {
+    width: 100%;
 }
