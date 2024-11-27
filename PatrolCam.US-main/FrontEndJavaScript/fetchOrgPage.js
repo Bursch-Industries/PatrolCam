@@ -44,7 +44,7 @@ async function fetchOrgPage(filter) {
 
                 const changeStatus = orgDiv.querySelector(`#orgStatus-${org._id}`);
 
-                // Set the current status of the org 
+                // Set the current status of the org
                 changeStatus.value = org.status;
 
                 // Event listener for the status selector
@@ -68,7 +68,7 @@ async function fetchOrgPage(filter) {
                         } catch(error) {
                             console.error('Failed to update status:', error);
                         }
-                    } 
+                    }
                 })
             });
         } else {
