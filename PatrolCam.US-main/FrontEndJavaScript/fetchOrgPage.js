@@ -48,6 +48,11 @@ async function fetchOrgPage(filter) {
                 // Event listener for the status selector
                 changeStatus.addEventListener('change', async (event) => {
                     const newStatus = event.target.value;
+
+                    const response = confirm("This will change the Organizations Activity. Are you sure?")
+                    if(response) {
+
+                    
                     try {
                         const response = await fetch(`/register/updateOrgStatus`, {
                             method: 'PUT',
@@ -70,7 +75,10 @@ async function fetchOrgPage(filter) {
                         if(message.includes('Success')) {
                             alert("Organization Status Changed Successfully")
                         }
+                    } catch(error) {
+                        return
                     }
+                }
                 })
             });
         } else {
