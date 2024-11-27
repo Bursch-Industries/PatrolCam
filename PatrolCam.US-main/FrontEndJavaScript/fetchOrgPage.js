@@ -45,7 +45,6 @@ async function fetchOrgPage(filter) {
 
                 const changeStatus = orgDiv.querySelector(`#orgStatus-${org._id}`);
 
-<<<<<<< HEAD
                 // Event listener for the status selector
                 changeStatus.addEventListener('change', async (event) => {
                     const newStatus = event.target.value;
@@ -70,31 +69,6 @@ async function fetchOrgPage(filter) {
                         const message = result.message;
                         if(message.includes('Success')) {
                             alert("Organization Status Changed Successfully")
-=======
-                // Set the current status of the org
-                changeStatus.value = org.status;
-
-                // Event listener for the status selector
-                changeStatus.addEventListener('change', async (event) => {
-                    const newStatus = event.target.value;
-                    const response = confirm("This will change the Organizations Activity. Are you sure?")
-                    if(response) {
-                        try {
-                            const response = await fetch(`/register/updateOrgStatus`, {
-                                method: 'PUT',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ status: newStatus, orgId: org._id }),
-                            });
-                            const result = await response.json();
-                            const message = result.message;
-                            if(message.includes('Success')) {
-                                alert("Organization Status Changed Successfully")
-                            }
-                        } catch(error) {
-                            console.error('Failed to update status:', error);
->>>>>>> origin/Ethan_Off_Midterm
                         }
                     }
                 })
