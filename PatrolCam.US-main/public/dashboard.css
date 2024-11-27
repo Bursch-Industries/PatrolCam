@@ -172,13 +172,3 @@ header {
     cursor: pointer;
     color: black;
 }
-
-.footer {
-    padding: 1.5rem;
-    font-size: 1rem;
-    background-color: black;
-    color: white;
-    text-align: center;
-    opacity: 90%;
-    position: relative;
-}

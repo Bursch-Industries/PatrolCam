@@ -156,20 +156,6 @@ header {
     transition: color 0.3s ease;
 }
 
-/* Demo Footer Section */
-/* 
-.footer {
-    padding: 25px;
-    font-size: 15px;
-    background-color: black;
-    opacity: 90%;
-    text-align: center;
-    position: relative;
-} */
 
-.footer {
-    padding: 25px;
-    font-size: 1.25rem;
-    position: relative;
-}
+
 
