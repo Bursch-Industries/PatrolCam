@@ -13,7 +13,6 @@ beforeAll(async () => {
   app = startServer();
   agent = supertest.agent(app); // Use an agent to persist session between requests
   await mongoose.connect(process.env.MONGODB_DATABASE_URL);
-  await model.deleteMany({username: 'Bob McGee'});
   const password = 'PleaseDoNotHackMe123!';
   const fakepwd = await bcrypt.hash(password, 10);
   const tester = new model({password: fakepwd, firstname: "Bob", lastname: "McGee", email: 'someemail@email.com', roles: 'User', organization: '6744a177f2a8e8ed7b9aef98'});
@@ -31,12 +30,20 @@ describe("--Login API Test--", () => {
 
     describe("Check Test User Can Login", () => {
       
-      it("Should Log In Successfully (doesn't work because of sessions. It cannot write to req.session.user upon login)", async () => {
+      it("Should Log In Successfully", async () => {
 
         const response = await supertest(app)
         .post('/login/login')
         .send({ email: 'someemail@email.com', password: "PleaseDoNotHackMe123!", rememberMeBool: false, rememberMeValue: "" });
         expect(response.status).toBe(200);
+
+      });
+
+      it("Should Log Out Successfully and Destroy Session", async () => {
+
+        const response = await supertest(app)
+        .post('/login/logout');
+        expect(response.status).toBe(301);
 
       });
 

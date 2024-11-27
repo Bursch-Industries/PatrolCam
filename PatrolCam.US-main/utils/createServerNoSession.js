@@ -9,6 +9,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 function createServer() {
 
 
+
 // Session configuration
 const sessionMaxAge = 1000 * 60 * 30; // 30 minutes
 const store = new MongoDBStore({
@@ -25,8 +26,8 @@ const sessionMiddleware = session({
 });
 
 
-
 const app = express();
+
 // Apply the session middleware to the app
 app.use(sessionMiddleware);
 
@@ -57,6 +58,7 @@ app.use('/login', require('../routes/api/loginAPI'));
 
 // Query API
 app.use('/api/user', require('../routes/api/userAPI'));
+app.use('/api/org', require('../routes/api/orgAPI'));
 
 // Universal 404 Catch
 app.use((req, res, next) => {

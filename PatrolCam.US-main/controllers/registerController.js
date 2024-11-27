@@ -81,7 +81,7 @@ async function handleNewOrganization (req, res) {
     }
 
     //Check for duplicate usernames in the database
-    const organizationDuplicate = await Organization.findOne({ organizationName: orgName}).exec();
+    const organizationDuplicate = await Organization.findOne({ organizationName: orgName});
 
     if (organizationDuplicate) {
         return res.sendStatus(409) //Duplicate conflict
@@ -163,7 +163,7 @@ async function handleNewOrganization (req, res) {
     }
 }
 
-//Deletes user using username
+//Deletes user using user ID
 async function deleteOrganizationUser (req, res) {
     const { userId } = req.body;
 
@@ -180,7 +180,7 @@ async function deleteOrganizationUser (req, res) {
         return res.sendStatus(404) //User not found
     }
 
-    //Check if both users are from the same organization and action performers role is set to creator
+    //Check if both users are from the same organization and action performers role is Admin or AccountAdmin
     if(!deletedBy.organization.equals(userToDelete.organization) || (deletedBy.roles != "Admin" && deletedBy.roles != "AccountAdmin")){
         return res.sendStatus(403) //Access denied
     }
@@ -196,7 +196,7 @@ async function deleteOrganizationUser (req, res) {
                 session
             )
 
-            await User.deleteOne({userToDelete}, {session})//locate username and delete
+            await User.deleteOne({userToDelete}, {session})//locate user and delete
 
             //Log user deletion
             await logActivity({
@@ -325,7 +325,7 @@ async function handleAddNewOrgUser (req, res) {
 
     //If user wasn't found or access was denied
     if(error) {
-        return res.sendStatus(error === "User not found" ? 404 : 403)
+        return res.status(error === "User not found" ? 404 : 403)
     }
 
     try{
