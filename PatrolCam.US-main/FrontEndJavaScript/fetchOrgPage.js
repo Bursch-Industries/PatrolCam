@@ -50,35 +50,33 @@ async function fetchOrgPage(filter) {
                     const newStatus = event.target.value;
 
                     const response = confirm("This will change the Organizations Activity. Are you sure?")
-                    if(response) {
-
-                    
-                    try {
-                        const response = await fetch(`/register/updateOrgStatus`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ status: newStatus, orgId: org._id }),
-                        });
-                        // Set the current status of the org 
-                        changeStatus.value = newStatus;
-                        console.log('newStatus: ' + newStatus)
-                        if(newStatus === "Active"){
-                            event.target.style.color = "green";
-                        } else if(newStatus === "Inactive"){
-                            event.target.style.color = "red";
-                        }
-                        
-                        const result = await response.json();
-                        const message = result.message;
-                        if(message.includes('Success')) {
-                            alert("Organization Status Changed Successfully")
-                        }
-                    } catch(error) {
-                        return
+                    if(response) {               
+                        try {
+                            const response = await fetch(`/register/updateOrgStatus`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ status: newStatus, orgId: org._id }),
+                            });
+                            // Set the current status of the org 
+                            changeStatus.value = newStatus;
+                            console.log('newStatus: ' + newStatus)
+                            if(newStatus === "Active"){
+                                event.target.style.color = "green";
+                            } else if(newStatus === "Inactive"){
+                                event.target.style.color = "red";
+                            }
+                            
+                            const result = await response.json();
+                            const message = result.message;
+                            if(message.includes('Success')) {
+                                alert("Organization Status Changed Successfully")
+                            }
+                        } catch(error) {
+                            return
+                        } 
                     }
-                }
                 })
             });
         } else {
