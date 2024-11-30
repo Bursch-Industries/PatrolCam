@@ -89,6 +89,7 @@ header {
     border: none;
     cursor: pointer;
     margin-right: 70px;
+    margin-top: 150px;
 }
 
 
@@ -128,7 +129,7 @@ header {
 
 /* Grid container */
 .grid-container {
-    /* margin-top: 20px; */
+    margin-top: 50px;
     flex: 1;
     display: grid;
     gap: 10px;
