@@ -223,7 +223,7 @@ header {
 
 .form-group label {
     text-align: end;
-    color: white;
+    color: black;
 }
 
 .form-group input,
@@ -231,7 +231,7 @@ header {
     background-color: transparent;
     border: none;
     padding: 0.5rem;
-    color: white;
+    color: black;
 }
 
 .form-group input:enabled, 
@@ -425,6 +425,10 @@ header {
     padding: 0 2rem;
 }
 
+.officer-name {
+    width: 50%;
+    color: black;
+}
 
 .officer-header-container {
     display: flex;
