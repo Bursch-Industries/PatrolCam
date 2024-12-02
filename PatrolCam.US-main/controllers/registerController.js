@@ -94,11 +94,11 @@ async function handleNewOrganization (req, res) {
 
             //Create and store the owner of organization
             const owner = new User({
-                password: hashedPassword,
-                roles: 'Admin',
                 firstname: userFirstname,
                 lastname: userLastname,
+                password: hashedPassword,
                 email: userEmail,
+                roles: 'Admin',
                 organization: "N/A" //Null since we don't have organization id yet
             });
             await owner.save({ session });
@@ -516,40 +516,15 @@ async function addCameraToOrganization(req, res) {
     }
 }
 
-async function findOrganizationForAdmin() {
+async function findOrganizationForAdmin(userId) {
     try {
-        //Find the creator user
-        const user = await findById(req.session.user.id);
-        if(!user){
-            return {error: 'User not found'}
-        }
+        const userOrganization = await userId.populate('organization')
 
-        //Check if user has "Creator" role
-        if (user.roles != "Admin" && user.roles != "AccountAdmin") {
-            return {error: 'Access Denied'} //Throw access denied error if user isn't authorized
-        } 
-
-        const userOrganization = await user.populate('organization')
-
-        return {organizationData: userOrganization.organization, userData: user}
+        return {organizationData: userOrganization.organization, userData: userId};
 
     } catch (error) {
 
-        await withTransaction(async (session) => {
-                
-            await logError(req, {
-                level: 'ERROR',
-                desc: 'Failed to find Organization Creator',
-                source: 'registerController - findOrganizationCreator',
-                userId: 'System',
-                code: '500',
-                meta: { message: error.message, stack: error.stack },
-                session
-            });
-
-        });
-
-        return {error: `Error occured while searching for organization: ${error.message}`}
+        return {error: `Error occured while searching for organization: ${error.message}`};
     }
 };
 
@@ -649,6 +624,7 @@ async function getOrgUserData(req, res) {
         return res.status(200).json({
             users: orgUserArray.users
         })
+        
     } catch (error) {
         console.log(error.message)
         if(error.message === "404") return res.sendStatus(404)
@@ -750,9 +726,9 @@ async function getOrganizationDetails(req, res){
     }
 }
 
-async function getOrganizationFields(){
+async function getOrganizationFields(userId){
     
-    const {organizationData, error} = await findOrganizationForAdmin()
+    const {organizationData, error} = await findOrganizationForAdmin(userId)
 
     if(error){
         throw new Error(error === "User not found" ? "404" : "403")
@@ -812,7 +788,7 @@ async function getOrganizationList(req, res){
 }
 
 async function getAllOrganizations(user){
-    if((user.roles).toLowerCase() !== 'master'){
+    if((user.roles).toLowerCase() !== 'AccountAdmin'){
         throw new Error("403") //Throw error if user is not authorized
     }
 
@@ -966,7 +942,7 @@ async function updateCameraInfo(req, res){
                 desc: 'Failed to update Camerea information',
                 source: 'updateCameraInfo',
                 userId: req.session.user ? req.session.user.id: 'unknown',
-                code: 'ORG_UPDATE_ERROR',
+                code: 'CAMERA_UPDATE_ERROR',
                 meta: {error: error.message},
                 session
             });

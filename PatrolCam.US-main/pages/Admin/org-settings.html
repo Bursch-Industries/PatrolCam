@@ -13,10 +13,6 @@
         <script src="../../FrontEndJavaScript/org-settings.js" defer></script>
         <script src="../../FrontEndJavaScript/fetchNavbar.js" defer></script>
         <script src="../../FrontEndJavaScript/sessionTimeout.js" defer></script>
-        <script src="../../FrontEndJavaScript/newCameraForm.js" defer></script>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 </head>
 <body>
@@ -52,48 +48,75 @@
 
             <section id="account-info" class="tab-content active">
                 <h2 class="account-info-text">Account Info</h2>
-                
-                <div id = "account-info-form" class="account-info-form bg-white p-3 rounded placeholder-glow">
-                    <div class="form-group">
-                        <label class="placeholder col-4"></label>
-                        <span class="placeholder col-4"></span>
-                    </div>
-            
-                    <div class="form-group">
-                        <label class="placeholder col-2"></label>
-                        <span class="placeholder col-6"></span>
-                    </div>
-            
-                    <div class="form-group">
-                        <label class="placeholder col-6"></label>
-                        <span class="placeholder col-2"></span>
-                    </div>
-            
-                    <div class="form-group">
-                        <label class="placeholder col-3"></label>
-                        <span class="placeholder col-5"></span>
-                    </div>
-            
-                    <div class="form-group">
-                        <label class="placeholder col-6"></label>
-                        <span class="placeholder col-2"></span>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="placeholder col-5"></label>
-                        <span class="placeholder col-3"></span>
-                    </div>
-            
-                </div>
-
-                <div id = "loaded-content" class="loaded-content bg-white p-3 rounded">
-                    <div class="account-content">
-                        <i id = "edit-icon" class="edit-icon" onclick="enableAccountEditMode()">&#9998;</i> <!-- Single Pencil Icon -->
-
+                <div class="account-info-container">
+                    <div id = "account-info-form" class="account-info-form placeholder-glow">
                         <div class="form-group">
-                            <label>Organization Name:</label>
-                            <input id="org-name" name="organizationName" type="text" title="name" disabled/>
+                            <label class="placeholder"></label>
+                            <span class="placeholder"></span>
                         </div>
+                
+                        <div class="form-group">
+                            <label class="placeholder"></label>
+                            <span class="placeholder"></span>
+                        </div>
+                
+                        <div class="form-group">
+                            <label class="placeholder"></label>
+                            <span class="placeholder"></span>
+                        </div>
+                
+                        <div class="form-group">
+                            <label class="placeholder"></label>
+                            <span class="placeholder"></span>
+                        </div>
+                
+                        <div class="form-group">
+                            <label class="placeholder"></label>
+                            <span class="placeholder"></span>
+                        </div>
+    
+                        <div class="form-group">
+                            <label class="placeholder"></label>
+                            <span class="placeholder"></span>
+                        </div>
+                
+                    </div>
+    
+                    <div id = "loaded-content" class="loaded-content">
+                        <div class="account-content">
+                            <i id = "edit-icon" class="account-edit-icon" onclick="enableAccountEditMode()">&#9998;</i> <!-- Single Pencil Icon -->
+    
+                            <div class="form-group">
+                                <label>Organization Name:</label>
+                                <input id="org-name" name="organizationName" type="text" title="name" disabled/>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label>Email Address:</label>
+                                <input id="email-address" name="organizationEmail" type="text" title="email" disabled/>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label>Phone Number:</label>
+                                <input id="phone-number" name="organizationPhone" type="text" title="phone" disabled/>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label>Organization Address:</label>
+                                <input id="org-address" name="organizationAddress" type="text" title="address" disabled/>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label>Subscription:</label>
+                                <select id="org-subscription" name="subscription" type="text" title="org" disabled>
+                                    <option value="premium">Premium</option>
+                                    <option value="gold">Gold</option>
+                                    <option value="silver">Silver</option>
+                                </select>
+                            </div>
+                        </div>
+<<<<<<< HEAD
                 
                         <div class="form-group">
                             <label>Email Address:</label>
@@ -117,18 +140,20 @@
                                 <option value="gold">Gold</option>
                                 <option value="silver">Silver</option>
                             </select> 
+=======
+                        <div id="form-btns" class="form-btns">
+                            <button class="btn btn-warning" id="cancelBtn" type="reset" onclick="disableAccountEditMode()">Cancel</button>
+                            <button class="btn btn-secondary" id="accountUpdateBtn" type="submit" onclick="updateAccountInfo()">Update</button>
+>>>>>>> origin/Bereket-backend-features
                         </div>
                     </div>
-                    <div id="form-btns" class="form-btns">
-                        <button class="btn btn-secondary" id="cancelBtn" type="reset" onclick="disableAccountEditMode()">Cancel</button>
-                        <button class="btn btn-primary" id="accountUpdateBtn" type="submit" onclick="updateAccountInfo()">Update</button>
-                    </div>
-                </div>
+                </div>                
             </section>
            
             <!-- Camera Tab -->
                 
             <section id="cameras" class="tab-content">
+<<<<<<< HEAD
                 <div class="cam-nav d-flex" >
                     <h2 class="col-8">Cameras</h2>
                     <button id="newCamBtn" class="btn btn-dark col-3">
@@ -154,21 +179,25 @@
                     </form>
                 </div>
                 <div id="camera-grid" class="camera-grid placeholder-glow">
+=======
+                <div class="cam-nav" >
+                    <h2>Cameras</h2>
+                </div>
+                
+                <div id="camera-grid" class="camera-grid placeholder">
+>>>>>>> origin/Bereket-backend-features
                     <!-- Camera 1 -->
                     <div class="camera-frame">
                         <img class="placeholder" src="./security_camera_placeholder_1.jpg" alt="Loading Camera...">
                         
                             <div class="camera-info placeholder-wave">
                                 <label>
-                                    <strong class="placeholder">Camera Name:</strong>
                                     <span class="placeholder"></span>
                                 </label>
                                 <label>
-                                    <strong class="placeholder">Location:</strong>
                                     <span class="placeholder"></span>
                                 </label>
                                 <label>
-                                    <strong class="placeholder">Status:</strong>
                                     <span class="placeholder"></span>
                                 </label>
                             </div>
@@ -178,17 +207,14 @@
                     <div class="camera-frame">
                         <img class="placeholder" src="./security_camera_placeholder_2.jpg" alt="Loading Camera...">
                         
-                            <div class="camera-info placeholder-wave">
+                            <div class="camera-info placeholder">
                                 <label>
-                                    <strong class="placeholder">Camera Name:</strong>
                                     <span class="placeholder"></span>
                                 </label>
                                 <label>
-                                    <strong class="placeholder">Location:</strong>
                                     <span class="placeholder"></span>
                                 </label>
                                 <label>
-                                    <strong class="placeholder">Status:</strong>
                                     <span class="placeholder"></span>
                                 </label>
                             </div>
@@ -198,17 +224,14 @@
                     <div class="camera-frame">
                         <img class="placeholder" src="./security_camera_placeholder_2.jpg" alt="Loading Camera...">
                         
-                            <div class="camera-info placeholder-wave">
+                            <div class="camera-info placeholder">
                                 <label>
-                                    <strong class="placeholder">Camera Name:</strong>
                                     <span class="placeholder"></span>
                                 </label>
                                 <label>
-                                    <strong class="placeholder">Location:</strong>
                                     <span class="placeholder"></span>
                                 </label>
                                 <label>
-                                    <strong class="placeholder">Status:</strong>
                                     <span class="placeholder"></span>
                                 </label>
                             </div>
@@ -218,17 +241,14 @@
                     <div class="camera-frame">
                         <img class="placeholder" src="./security_camera_placeholder_1.jpg" alt="Loading Camera...">
                         
-                        <div class="camera-info placeholder-wave">
+                        <div class="camera-info placeholder">
                             <label>
-                                <strong class="placeholder">Camera Name:</strong>
                                 <span class="placeholder"></span>
                             </label>
                             <label>
-                                <strong class="placeholder">Location:</strong>
                                 <span class="placeholder"></span>
                             </label>
                             <label>
-                                <strong class="placeholder">Status:</strong>
                                 <span class="placeholder"></span>
                             </label>
                         </div>
@@ -241,84 +261,41 @@
 
             <section id="officers" class="tab-content">
                 
+<<<<<<< HEAD
                 <div class="officerHeader">
                     <h2>Officers</h2>
                     <button class="addOfficer">+ New Officer</button>
+=======
+                <div class="officer-header-container">
+                    <div class="officer-header">
+                        <h2>Officers</h2>
+                    </div>
+                    <div class="officer-header-button">
+                        <button type="button" class="btn-secondary addOfficer">Add +</button>
+                    </div>
+>>>>>>> origin/Bereket-backend-features
                 </div>
                 
-                <div id="officer-list" class="officer-list placeholder-wave">
+                <div id="officer-list" class="officer-list">
 
-                    <div class="officer-card placeholder">
-                        <div class="placeholder officer-header-placeholder d-flex align-items-center p-3">                            
-                            <div class="officer-info p-2 col-10">
-                                <p class="placeholder bg-white officer-name-holder border border-black col-12"></p>
-                                <p class="placeholder bg-white officer-info-holder border border-black col-6 mb-0"></p>
+                    <div class="officer-card-container placeholder">
+                        <div class="placeholder officer-header">                            
+                            <div class="officer-info">
+                                <p class="placeholder"></p>
                             </div>
                         </div>
                     </div>
             
-                    <div class="officer-card placeholder">
-                        <div class="placeholder officer-header-placeholder d-flex align-items-center p-3">                            
-                            <div class="officer-info p-2 col-10">
-                                <p class="placeholder bg-white officer-name-holder border border-black col-12"></p>
-                                <p class="placeholder bg-white officer-info-holder border border-black col-6 mb-0"></p>
+                    <div class="officer-card-container placeholder">
+                        <div class="placeholder officer-header">                            
+                            <div class="officer-info">
+                                <p class="placeholder"></p>
                             </div>
                         </div>
                     </div>
 
                 </div>
             </section>
-            
-            
-            <section id="officers" class="tab-content">
-                <h2>Officers</h2>
-            
-                <div class="officer-list">
-
-                    <!-- Officer 1 -->
-                    <div class="officer-card">
-                        <div class="officer-header">
-                            <img src="./officer_placeholder_1.jpg" alt="Officer 1">
-                            <p class="officer-name"><strong>Officer Brad Pitt</strong></p>
-                            <span class="dropdown-arrow">&#9662;</span>
-                        </div>
-                        <form class="officer-details" onsubmit="saveOfficerChanges('officer-1'); return false;">
-                            <label>
-                                <strong>Email:</strong>
-                                <input type="email" id="email-officer-1" value="brad.pitt@patrolcam.com">
-                            </label>
-                            <label>
-                                <strong>Password:</strong>
-                                <input type="password" id="password-officer-1" value="******">
-                            </label>
-                            <p><strong>Last Login:</strong> 2024-10-18</p>
-                            <button type="submit" class="save-btn">Save Changes</button>
-                        </form>
-                    </div>
-            
-                    <!-- Officer 2 -->
-                    <div class="officer-card">
-                        <div class="officer-header">
-                            <img src="./officer_placeholder_2.jpg" alt="Officer 2">
-                            <p class="officer-name"><strong>Officer Margot Robbie</strong></p>
-                            <span class="dropdown-arrow">&#9662;</span>
-                        </div>
-                        <form class="officer-details" onsubmit="saveOfficerChanges('officer-2'); return false;">
-                            <label>
-                                <strong>Email:</strong>
-                                <input type="email" id="email-officer-2" value="margot.robbie@patrolcam.com">
-                            </label>
-                            <label>
-                                <strong>Password:</strong>
-                                <input type="password" id="password-officer-2" value="******">
-                            </label>
-                            <p><strong>Last Login:</strong> 2024-10-19</p>
-                            <button type="submit" class="save-btn">Save Changes</button>
-                        </form>
-                    </div>
-                </div>
-            </section>
-                
                 
             <!-- Privacy Tab  -->
 

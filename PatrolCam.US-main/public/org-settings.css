@@ -1,7 +1,7 @@
 /* Universal */
 * {
-    margin: 0;
-    padding: 0;
+    margin: 0%;
+    padding: 0%;
   }
   
 body {
@@ -19,7 +19,7 @@ header {
     align-items: center;
     background-color: #0C2D48;
     opacity: 90%;
-    height: 6rem; /* Adjust height if needed */
+    height: auto; /* Adjust height if needed */
 }
 
 .logo {
@@ -37,28 +37,6 @@ header {
     font-size: 1.75rem;
     color: yellow;
     font-weight: bold;
-}
-
-.navbar {
-    display: flex;
-    gap: 0rem;
-    background-color: black;
-    border-radius: 0.625rem;
-}
-
-.navbar a {
-    color: white;
-    font-size: 1.25rem;
-    text-decoration: none;
-    padding: 0.625rem 1.25rem;
-    background-color: black;
-    border-radius: 0.3125rem;
-    width: 6.25rem;
-    box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
-}
-
-.navbar a:hover {
-    background-color: #333;
 }
 
 #home {
@@ -150,8 +128,42 @@ header {
     display: block;
 }
 
+.placeholder{
+    display: inline-block;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    height: 1.5rem;
+    width: 100%;
+    animation: glow 1.5s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0% {
+        background-color: #e0e0e0;
+    }
+    25% {
+        background-color: #b3b3b3;
+    }
+    50% {
+        background-color: #888888;
+    }
+    75% {
+        background-color: #b3b3b3;
+    }
+    100% {
+        background-color: #e0e0e0;
+    }
+}
+
+.account-info-container{
+    background-color: #1B3A57;
+    border-radius: 15px;
+    margin-top: 1rem;
+}
+
 .account-info-form{
     display: flex;
+    padding: 1rem;
     flex-direction: column;
     width: 50vw;
     box-sizing: border-box;
@@ -160,8 +172,7 @@ header {
 .loaded-content{
     display: none;
     flex-direction: column;
-    width: 50vw;
-    padding: 20vw
+    width: 80%;
 }
 
 .account-content{
@@ -170,19 +181,19 @@ header {
     position: relative;
 }
 
-.edit-icon {
+.account-edit-icon {
     display: block;
     cursor: pointer;
     font-size: 2rem;
     right: 2vw;
     position: absolute;
-    color: #333;
+    color: white;
     transition: color 0.3s ease;
     z-index: 1;
 }
 
-.edit-icon:hover {
-    color: #666;
+.account-edit-icon:hover {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 /* Ensures the parent section has relative positioning */
@@ -208,21 +219,19 @@ header {
     background: transparent;
     outline: none;
     font-size: 1.1rem;
-    color: #1d1d1d;  
 }
 
 .form-group label {
     text-align: end;
-    color: black;
+    color: white;
 }
 
 .form-group input,
 .form-group select{
-    max-width: 60%;
-    height: 2.5rem;
     background-color: transparent;
     border: none;
     padding: 0.5rem;
+    color: white;
 }
 
 .form-group input:enabled, 
@@ -233,14 +242,15 @@ header {
 }
 
 .form-group input:focus{
-    box-shadow: -3px 2px 10px #2E8BC0, 2px -3px 10px #2E8BC0;
+    box-shadow: -3px 2px 10px #88d3ff, 2px -3px 10px #88d3ff;
     outline: none;
 }
 .form-btns{
     display: none;
     position: relative;
     justify-content: right;  
-    gap:1rem
+    gap:1rem;
+    margin:1rem;
 }
 /* Camera Grid Layout */
 
@@ -310,8 +320,8 @@ header {
     background-color: transparent;
     color: rgb(255, 255, 255);
     border: none;
-    max-width: 80%;
     min-height: 2.5rem;
+    padding-left: 0.25rem;
 }
 
 .camera-form input:enabled, 
@@ -415,15 +425,8 @@ header {
     padding: 0 2rem;
 }
 
-.officer-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
 
-.officer-header {
+.officer-header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -431,26 +434,49 @@ header {
     cursor: pointer;
 }
 
+.officer-card-container{
+    background-color: #1B3A57;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    min-height: 5rem;
+}
+
+.officer-card{
+    display: flex;
+    padding:1rem;
+    justify-items: center;
+        
+}
+
 /* Profile Picture */
-.officer-header img {
+.officer-card img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     margin-right: 10px;
 }
 
-.officer-name {
+.officer-card-content {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     margin: 0;
+    gap: 0.5rem;
     font-size: 1.1rem;
+    cursor: pointer;
 }
 
 /* Dropdown Arrow */
-.dropdown-arrow {
+.dropdown-arrow {  
+    display: flex;
+    align-items: center;
     font-size: 1.5rem;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease-in-out;
 }
-.officer-card, .officer-header {
+.officer-card, 
+.officer-header {
     pointer-events: auto;
 }
 
@@ -462,24 +488,20 @@ header {
 /* Officer Details*/
 .officer-details {
     display: none;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-top: 1px solid #ddd;
+    padding: 1rem;
+    background-color: #0C2D48;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.5rem;
 }
 
-/* Show details when expanded */
-.officer-card.active .officer-details {
-    display: flex;
+.officer-details.visible{
+    display: block;
 }
 
 /* Input Fields */
 .officer-details input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
+    color:black;
+    background-color: #666;
     border-radius: 5px;
 }
 
