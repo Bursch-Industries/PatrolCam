@@ -2,7 +2,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     initializeTabs();
     initializeStatusDropdowns();
-    // initializeAccountEdit();
 });
 
 // Tab Initialization
@@ -20,12 +19,6 @@ function initializeTabs() {
             targetTab.classList.add("active");
         });
     });
-}
-
-//Toggles dropdown menu for officer card
-function toggleOfficerDetails(header) {
-    const officerCard = header.parentElement;
-    officerCard.classList.toggle('active')
 }
 
 // Status Dropdown Logic
@@ -84,20 +77,6 @@ function saveCameraChanges(cameraId) {
     saveChanges("camera", cameraId, payload);
 }
 
-function initializeOfficerToggle() {
-    const officerCards = document.querySelectorAll(".officer-card");
-
-    officerCards.forEach((card) => {
-        const header = card.querySelector(".officer-header");
-        header.addEventListener("click", () => toggleOfficerDetails(card));
-    });
-}
-
-function toggleOfficerDetails(card) {
-    console.log("Toggling card:", card);  // Debugging output
-    card.classList.toggle("active");
-}
-
 //Enables input elements so that we can changed
 function enableAccountEditMode(){
     const loadedContent = document.getElementById('loaded-content')
@@ -107,6 +86,7 @@ function enableAccountEditMode(){
         const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
         field.setAttribute('data-original-value', originalValue) 
         field.removeAttribute("disabled")
+        field.style.color = "black" 
     })
 
     const editIcon = document.getElementById("edit-icon")
@@ -123,6 +103,7 @@ function disableAccountEditMode(){
 
     fields.forEach(field => {
         if (field.tagName === "SELECT"){
+            field.style.color = "white" 
             const originalOption = field.getAttribute('data-original-value')
             for (let i = 0; i < field.options.length; i++){
                 const option = field.options[i]
@@ -132,7 +113,9 @@ function disableAccountEditMode(){
                 }
             }
         } else {
-            field.value = field.getAttribute('data-original-value')    
+            field.value = field.getAttribute('data-original-value')
+            field.style.color = "white" 
+
         }
         field.setAttribute("disabled", "enabled")
     })
@@ -376,8 +359,8 @@ function renderCameras(cameras){
                     </div>
 
                     <div class="camera-form-btns">
-                        <button class="btn btn-secondary" id="cameraCancelBtn" type="reset" onclick="disableCameraEditMode(${index})">Cancel</button>
-                        <button class="btn btn-primary" id="cameraUpdateBtn" type="submit" onclick="udpateCameraInfo(${index})">Update</button>
+                        <button class="btn btn-warning" id="cameraCancelBtn" type="reset" onclick="disableCameraEditMode(${index})">Cancel</button>
+                        <button class="btn btn-secondary" id="cameraUpdateBtn" type="submit" onclick="udpateCameraInfo(${index})">Update</button>
                     </div>
                 </div>
 
@@ -553,37 +536,45 @@ function renderOrgUsers(users){
     //Looping through all users and creating each element
     users.forEach((user, index) =>  {
         const userCard = document.createElement('div')
-        userCard.className = 'officer-card collapsed'
+        userCard.className = 'officer-card-container'
 
         //Update UI element
         userCard.innerHTML = `
-            <div class="officer-header" onclick="toggleOfficerDetails(this)">
+            <div class="officer-card" onclick="toggleOfficerDetails(this)">
+
                 <img src="./officer_placeholder_1.jpg" alt="Officer 1">
 
-                <p class="officer-name">
-                    <strong>Officer ${user.firstname} ${user.lastname}</strong>
-                </p>
+                <div class="officer-card-content">
+                    <p>
+                        <strong>Officer ${user.firstname} ${user.lastname}</strong>
+                    </p>
+
+                    <p>
+                        <strong>Last Login:</strong> ${user.lastLoggedIn}
+                    </p>
+                </div>
 
                 <span class="dropdown-arrow">&#9662;</span>
             </div>
 
             <form class="officer-details" onsubmit="saveOfficerChanges('officer-1'); return false;">
-                <label>
-                    <strong>Email:</strong>
-                    <input type="email" id="email-officer-${index}" value="${user.email}">
-                </label>
+                <div class="form-group">
+                    <label>
+                        <strong>Email:</strong>
+                        <input type="email" id="email-officer-${index}" value="${user.email}">
+                    </label>
+                </div>
 
-                <label>
-                    <strong>Password:</strong>
-                    <input type="password" id="password-officer-${index}" value="******">
-                </label>
+                <div class="form-group">
+                    <label>
+                        <strong>Password:</strong>
+                        <input type="password" id="password-officer-${index}" value="******" disabled>
+                    </label>
+                </div>
 
-                <p>
-                    <strong>Last Login:</strong> 
-                    ${user.lastLoggedIn}
-                </p>
-                
-                <button type="submit" class="save-btn">Save Changes</button>
+                <div>
+                    <button type="submit" class="save-btn">Save Changes</button>
+                <div>
             </form>
         `
         //Adding user card element
@@ -591,9 +582,22 @@ function renderOrgUsers(users){
     })
 
     //Removing placeholder animations
-    officerContainer.classList.remove('placeholder-wave')
+    officerContainer.classList.remove('placeholder')
 }
 
+function toggleOfficerDetails(card) {
+    card.classList.toggle("active");
+    const form = card.nextElementSibling;
+
+    if(form && form.classList.contains('officer-details')) {
+        
+        // form.style.display = form.style.display === "none" || form.style.display === '' ? "block" : 'none';
+        form.classList.toggle('visible')
+
+    } else {
+        console.error("Form not found or incorrect structure")
+    }
+}
 
 
 //For Account Admin role (Nate only)
