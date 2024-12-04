@@ -3,11 +3,33 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const corsOptions = require('../config/corsOptions')
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 function createServer() {
 
 
+
+// Session configuration
+const sessionMaxAge = 1000 * 60 * 30; // 30 minutes
+const store = new MongoDBStore({
+  uri: process.env.MONGODB_DATABASE_URL,
+  collection: 'sessions',
+});
+
+const sessionMiddleware = session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  store: store,
+  cookie: { secure: false, maxAge: sessionMaxAge }, // cookie setup
+});
+
+
 const app = express();
+
+// Apply the session middleware to the app
+app.use(sessionMiddleware);
 
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
@@ -36,6 +58,7 @@ app.use('/login', require('../routes/api/loginAPI'));
 
 // Query API
 app.use('/api/user', require('../routes/api/userAPI'));
+app.use('/api/org', require('../routes/api/orgAPI'));
 
 // Universal 404 Catch
 app.use((req, res, next) => {

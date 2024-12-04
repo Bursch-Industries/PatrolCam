@@ -339,7 +339,7 @@ header {
 .contact-form select {
     width: 100%;
     padding: 0.625rem 0;
-    padding-left: 0.125rem;
+    padding-left: 0.5rem;
     margin-bottom: 0.9375rem;
     border: none;
     border-radius: 5px;

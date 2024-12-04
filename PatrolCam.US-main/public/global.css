@@ -51,16 +51,18 @@ header {
     gap: 0rem;
     background-color: black;
     border-radius: 0.625rem;
+    padding:0 !important;
 }
 
 .navbar a {
+    text-align: center;
     color: white;
     font-size: 1.25rem;
     text-decoration: none;
     padding: 0.625rem 1.25rem;
     background-color: black;
     border-radius: 0.3125rem;
-    width: 6.25rem;
+    width: 10rem !important;
     box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
 }
 
@@ -95,6 +97,14 @@ button {
     background-color: #3c38cc;
 }
 
+.btn-warning{
+    background-color: red;
+    color:white
+}
+
+.btn-warning:hover{
+    background-color: rgba(255, 0, 0, 0.8);
+}
 /* Flex Layout Containers */
 .center-content {
     display: flex;

@@ -32,9 +32,10 @@ const userLogin = async (req, res) => {
     try {
 
         // Check for user in the database
-        const user = await User.findOne({ email: new RegExp(`^${email}$`, 'i') }).exec();
+        const user = await User.findOne({ email: new RegExp(`^${email}$`, 'i') });
 
         if(!user) {
+            console.log('user not found')
             return res.status(401).json({ message: 'invalid-credentials' });
         }
 
@@ -42,6 +43,7 @@ const userLogin = async (req, res) => {
 
         // Check if the user is active
         if(user.status != "Active") {
+            console.log('user is not active')
             return res.status(401).json({ message: 'This account is not active'})
         }
 

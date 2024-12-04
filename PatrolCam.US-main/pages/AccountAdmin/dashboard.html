@@ -11,13 +11,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../../FrontEndJavaScript/fetchNavbar.js" defer></script>
     <script src="../../FrontEndJavaScript/sessionTimeout.js" defer></script>
+    <script src="../../FrontEndJavaScript/dashboardFetchName.js" defer></script>
 </head>
 <body>
     <!--This is where the header is coded-->
     <header id="navbar"></header>
 
+    <!--Start Of Dashboard Section-->
+
     <div class="dashboard-container">
-        <h1>Welcome Back, Account Admin from the AccountAdmin pages Directory</h1>
+        <h1>Welcome Back<span id="nameTag"></span></h1>
         <div class="services-tab">
             <span>Services</span>
         </div>
@@ -26,6 +29,8 @@
             <a href="/orgList" class="menu-item" id="surveillance">Organizations</a>
             <a href="/orgset" class="menu-item">Something</a>
         </nav>
+
+    <!--Notifications-->
         <div class="notifications">
             <span>Notifications</span>
             <button>&#9660;</button>
@@ -33,7 +38,7 @@
     </div>
 </body>
     <footer class="footer">
-        PatrolCam. All Rights Reserved.
+        © 2024 PatrolCam. All rights reserved.
     </footer>
 
 </html>
