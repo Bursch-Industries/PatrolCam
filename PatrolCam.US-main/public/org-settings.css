@@ -172,7 +172,9 @@ header {
 .loaded-content{
     display: none;
     flex-direction: column;
-    width: 80%;
+    width: auto;
+    max-width: 90%;
+
 }
 
 .account-content{

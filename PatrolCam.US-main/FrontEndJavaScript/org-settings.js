@@ -227,14 +227,16 @@ async function populateOrgData(){
         }
 
         const data = await response.json();
-
-        const addressString = (data.organization.organizationAddress.Address1 + ', ' + data.organization.organizationAddress.State + ' ' + data.organization.organizationAddress.ZipCode);
-
+        console.log(data)
         //Update UI elements
         document.getElementById('org-name').value = data.organization.organizationName
         document.getElementById('email-address').value = data.organization.organizationEmail
         document.getElementById('phone-number').value = data.organization.organizationPhone
-        document.getElementById('org-address').value = addressString; 
+        document.getElementById('org-address').value = data.organization.organizationAddress.Address1
+        document.getElementById('org-city').value = data.organization.organizationAddress.City
+        document.getElementById('org-state').value = data.organization.organizationAddress.State
+        document.getElementById('org-zipcode').value = data.organization.organizationAddress.ZipCode
+
         
         const orgSubscription = document.getElementById('org-subscription')
         const databaseValue = "Silver"
@@ -316,7 +318,7 @@ async function populateCamData(){
     } catch (error) {
         const cameraGrid = document.getElementById('camera-grid')
         cameraGrid.innerHTML = `<p class = "error-message">Error occured while getting camera details</p>`
-        cameraGrid.classList.remove('placeholder-glow');
+        cameraGrid.classList.remove('placeholder');
         console.error('Error fetching camera data:', error)
     }
 }

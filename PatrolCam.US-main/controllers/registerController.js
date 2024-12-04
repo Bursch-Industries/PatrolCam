@@ -163,8 +163,9 @@ async function handleNewOrganization (req, res) {
     }
 }
 
-//Deletes user using user ID
+//Deletes user using userId
 async function deleteOrganizationUser (req, res) {
+    //Id of user being deleted
     const { userId } = req.body;
 
     //Check missing request fields
@@ -250,14 +251,14 @@ async function deleteOrganizationUser (req, res) {
 
 //User password reset
 async function handlePasswordReset (req, res) {
-    const { userId, newPwd } = req.body;
+    const { newPwd } = req.body;
 
     //check missing request fields
-    if (!userId || !newPwd) {
+    if (!req.session || !req.session.user || !newPwd) {
         return res.status(400).json({"Password Reset error" : "All required fields must be filled."});
     }
 
-    const user = await User.findById(userId);
+    const user = await User.findById(req.session.user.id);
 
     if(!user){
         return res.sendStatus(404)
@@ -267,7 +268,7 @@ async function handlePasswordReset (req, res) {
             const newHashedPwd = await hashPassword(newPwd);//Hash new password
 
             await User.findOneAndUpdate( //Update new password over in database
-                {_id: userId},
+                {_id: req.session.user.id},
                 {password : newHashedPwd},
                 {session}
             )
@@ -647,8 +648,9 @@ async function getOrgUserData(req, res) {
 }
 
 async function getUserLastLogin(req, res) {
-
-    const { userId } = req.body
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
 
     try{
         const lastLoginArray = await getUserFields(req.session.org.id, ["firstname", "lastname", "lastLoggedIn", "-_id"])
