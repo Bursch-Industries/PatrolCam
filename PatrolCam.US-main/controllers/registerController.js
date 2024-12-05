@@ -415,8 +415,6 @@ async function handleAddNewOrgUser (req, res) {
 async function addCameraToOrganization(req, res) {
     const {camName, camModel, camLocation} = req.body;
 
-    console.log('entering addCameraToOrganization: ' + JSON.stringify(req.body))
-
     //Check missing request fields
     if (!camName || !camModel || !camLocation){
         return res.status(400).json({"Error occured while adding camera to organization":"All required fields must be filled."})
@@ -427,23 +425,17 @@ async function addCameraToOrganization(req, res) {
 
 
     if(req.session && req.session.user && req.session.user.id) {
-        console.log('req.session.user.id found!!')
         user = await User.findById(req.session.user.id);
-        console.log('user found: ' + user.organization)
         organizationData = await Organization.findById(user.organization);
-        console.log('organization found: ' + JSON.stringify(organizationData._id));
     } else { 
-        console.log('req.session.user.id NOT found');
         return res.sendStatus(404);
     }
 
     
     const owner = organizationData._id;
     const admin = user._id;
-    console.log('before try block ' + owner + ' ' + admin)
-    try{
 
-        console.log('entering try block: ' + JSON.stringify(organizationData))
+    try{
         await withTransaction(async (session) => {     
             //Create and store camera in database
             const newCamera = new Camera({
@@ -609,14 +601,12 @@ async function getOrgUserData(req, res) {
 
 
     if(!req.session || !req.session.user){
-        console.log('req.session.user not found');
         return res.sendStatus(401);
     }
 
     const user = await User.findById(req.session.user.id);
 
     if(!user){
-        console.log('ERROR: user not found');
         return res.sendStatus(401);
     }
     
@@ -834,7 +824,6 @@ async function deactivateOrg(req, orgId) {
     let Session = mongoose.model('Session', new mongoose.Schema({}, { collection: 'sessions' }));
     try {
         let result = await Session.deleteMany({ org: {id: orgId }}); // Delete all sessions for given org
-        console.log(`${result.deletedCount} documents were deleted.`);
         await logActivity({
             action: 'Organization Deactivation - ' + orgId,
             collectionName: 'sessions',
@@ -857,8 +846,6 @@ async function deactivateOrg(req, orgId) {
 }
 
 async function updateOrganizationStatus(req, res){
-
-    console.log('entering update org status')
 
     if(!req.session.user){
         return res.sendStatus(401)
@@ -952,9 +939,6 @@ async function updateCameraInfo(req, res){
 
     try{
         const {updatedInfo, cameraInfo} = req.body
-
-        console.log(updatedInfo)
-        console.log(cameraInfo)
 
         await withTransaction(async (session) => {
             await Camera.findByIdAndUpdate(
