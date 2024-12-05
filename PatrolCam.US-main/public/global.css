@@ -1,0 +1,144 @@
+/* Global CSS */
+
+/* Universal Reset */
+* {
+    margin: 0;
+    padding: 0;
+    /* box-sizing: border-box; */
+}
+
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* text-align: center; */
+}
+
+
+/* Header Styling */
+header {
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0C2D48;
+    opacity: 90%;
+    height: 6rem; 
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 6rem;
+    margin: 0 1.25rem;
+}
+
+.navbar {
+    display: flex;
+    gap: 0rem;
+    background-color: black;
+    border-radius: 0.625rem;
+    padding:0 !important;
+}
+
+.navbar a {
+    text-align: center;
+    color: white;
+    font-size: 1.25rem;
+    text-decoration: none;
+    padding: 0.625rem 1.25rem;
+    background-color: black;
+    border-radius: 0.3125rem;
+    width: 10rem !important;
+    box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
+}
+
+.navbar a:hover {
+    background-color: #333;
+}
+
+/* Button Styling */
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #FFD700;
+    color: black;
+}
+
+.btn-primary:hover {
+    background-color: rgba(255, 215, 0, 0.8);
+}
+
+.btn-secondary {
+    background-color: #4e47ff;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #3c38cc;
+}
+
+.btn-warning{
+    background-color: red;
+    color:white
+}
+
+.btn-warning:hover{
+    background-color: rgba(255, 0, 0, 0.8);
+}
+/* Flex Layout Containers */
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.full-width {
+    width: 100%;
+}
+
+/* Footer Styling */
+.footer {
+    padding: 25px;
+    font-size: 1rem;
+    background-color: black;
+    opacity: 90%;
+    color: white;
+    text-align: center;
+}
+
+/* Media Queries */
+/* Laptop Screens */
+/* @media (min-width: 1440px) and (max-width: 2000px) {
+    .navbar a {
+        font-size: 1.25rem;
+        width: 100px;
+    }
+} */
+
+/* Large Desktops */
+/* @media (min-width: 2001px) {
+    .navbar a {
+        font-size: 2rem;
+        width: 10rem;
+    }
+} */

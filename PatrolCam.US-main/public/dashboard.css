@@ -73,6 +73,13 @@ header {
     margin-right: 25px;
 }
 
+.profile-picture {
+    border: none;
+    background: transparent; 
+    cursor: pointer; 
+    padding: 0;
+}
+
 
 /* Home Intro */
 
@@ -93,10 +100,10 @@ header {
 }
 
 .services-tab {
-    background-color: white;
-    color: black;
+    color: white;
     padding: .5rem;
-    font-size: 4vh;
+    font-size: 6vh;
+    font-weight: bold;
     display: inline-block;
     margin-top: 1rem;
     width: 15rem;
@@ -130,7 +137,14 @@ header {
 }
 
 #surveillance {
-    margin-left:4rem;
+    display: flex;
+    justify-content: center; /* Centers text horizontally */
+    align-items: center;    /* Centers text vertically */
+    height: 100%;           /* Ensure the container's height is defined */
+    text-align: center; 
+    margin-left: 9.1rem;
+    padding-left:4.8rem;
+    margin-right:5rem;
 }
 .menu-options a:hover {
     background-color: #0C2D48;
@@ -157,14 +171,4 @@ header {
     font-size: 1.5rem;
     cursor: pointer;
     color: black;
-}
-
-.footer {
-    padding: 1.5rem;
-    font-size: 1rem;
-    background-color: black;
-    color: white;
-    text-align: center;
-    opacity: 90%;
-    position: relative;
 }

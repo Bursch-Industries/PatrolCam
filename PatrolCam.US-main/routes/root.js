@@ -7,18 +7,18 @@ const loggedIn = require('../middleware/loggedIn');
 
 // --- Pages that differ based on being logged in ---
 router.get('/', (req, res) => {
-    if(loggedIn(req)) {
-        res.sendFile(path.join(__dirname, '..', 'pages', 'logIndex.html'));
-    } else {
         res.sendFile(path.join(__dirname, '..', 'pages', 'index.html'));
-    }
 })
 
 router.get('/demo', (req, res) => {
-    if(loggedIn(req)) {
-        res.sendFile(path.join(__dirname, '..', 'pages', 'logDemo.html'));
-    } else {
         res.sendFile(path.join(__dirname, '..', 'pages', 'demo.html'));
+})
+
+router.get('/navbar', (req, res) => {
+    if(loggedIn(req)) {
+        res.sendFile(path.join(__dirname, '..', 'pages', 'logNavbar.html'));
+    } else {
+        res.sendFile(path.join(__dirname, '..', 'pages', 'navbar.html'));
     }
 })
 
@@ -38,6 +38,10 @@ router.get('/org-settings', requireAuth, (req, res) => {
 
 router.get('/userSettings', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname,'..', 'pages', `${req.session.user.role}`, 'userSettings.html'));
+})
+
+router.get('/orgList', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname,'..', 'pages', `${req.session.user.role}`, 'orgList.html'));
 })
 
 // --- Pages that do not differ based on role or require authentication ---

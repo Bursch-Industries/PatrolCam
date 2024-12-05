@@ -39,7 +39,7 @@ p {
 }
 
 .enter-credentials {
-    margin-bottom: 60px;
+    margin-bottom: 40px;
     font-weight: bold;
 }
 
@@ -73,12 +73,23 @@ input[type="email"], input[type="password"], input[type="text"]{
     color: lightgray;
 }
 
-.error-message {
+/* .error-message {
     color: red;
     font-size: 1em;
     margin-bottom: 10px;
     display: none;
+} */
+
+.error-box {
+    display: none; /* Initially hidden */
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 0.9em;
 }
+
 
 button {
     width: 100%;

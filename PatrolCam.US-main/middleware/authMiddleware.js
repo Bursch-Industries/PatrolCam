@@ -20,6 +20,8 @@ function requireAuth(req, res, next) {
                 return next(); // If the file does exist, continue serving
             }
         })
-}}
+}
+    else return res.redirect('/login')
+}
 
 module.exports = requireAuth;

@@ -7,44 +7,43 @@ require('dotenv').config();
 
 
 let app;
+let agent;
 
 beforeAll(async () => {
   app = startServer();
+  agent = supertest.agent(app); // Use an agent to persist session between requests
   await mongoose.connect(process.env.MONGODB_DATABASE_URL);
-  await model.deleteMany({username: 'Bob McGee'});
-  const password = 'PleaseDoNotHackMe123';
+  const password = 'PleaseDoNotHackMe123!';
   const fakepwd = await bcrypt.hash(password, 10);
-  const tester = new model({username: 'Bob McGee', password: fakepwd, firstname: "Bob", lastname: "McGee", email: 'someemail@email.com', roles: 'User', organization: 'Test Org'});
+  const tester = new model({password: fakepwd, firstname: "Bob", lastname: "McGee", email: 'someemail@email.com', roles: 'User', organization: '6744a177f2a8e8ed7b9aef98'});
   await tester.save();
+  
 });
 
 afterAll(async () => {
-  await model.deleteMany({username: 'Bob McGee'});
+  await model.deleteMany({email: 'someemail@email.com'});
   await mongoose.disconnect();
-  
 });
 
 
 describe("--Login API Test--", () => {
 
-  describe("Create Test User", () => {
-
-    beforeEach(async () => {
-    })
-
-    afterEach(async () => {
-    });
-    
-
     describe("Check Test User Can Login", () => {
       
-      it("Should Log In Successfully (doesn't work because of sessions. It cannot write to req.session.user upon login)", async () => {
+      it("Should Log In Successfully", async () => {
 
         const response = await supertest(app)
         .post('/login/login')
-        .send({username: "Bob McGee", password: "PleaseDoNotHackMe123"});
+        .send({ email: 'someemail@email.com', password: "PleaseDoNotHackMe123!", rememberMeBool: false, rememberMeValue: "" });
         expect(response.status).toBe(200);
-        
+
+      });
+
+      it("Should Log Out Successfully and Destroy Session", async () => {
+
+        const response = await supertest(app)
+        .post('/login/logout');
+        expect(response.status).toBe(301);
 
       });
 
@@ -52,44 +51,38 @@ describe("--Login API Test--", () => {
 
         const response = await supertest(app)
         .post('/login/login')
-        .send({username: 'Bob McGee', password: ''});
+        .send({ email: 'someemail@email.com', password: '', rememberMeBool: false, rememberMeValue: "" });
         expect(response.status).toBe(401);
         
-
       });
 
-      it("Should Decline Input For Missing Username", async () => {
+      it("Should Decline Input For Missing Email", async () => {
 
         const response = await supertest(app)
         .post('/login/login')
-        .send({username: '', password: 'PleaseDoNotHackMe123'});
+        .send({ email: '', password: 'PleaseDoNotHackMe123!', rememberMeBool: false, rememberMeValue: "" });
         expect(response.status).toBe(401);
-        
 
       });
 
-      it("Should Deny Login for Incorrect Username", async () => {
+      it("Should Deny Login for Incorrect Email", async () => {
 
         const response = await supertest(app)
         .post('/login/login')
-        .send({username: "Bobathee McGee", password: "PleaseDoNotHackMe123"});
+        .send({ email: 'someotheremail@email.com', password: "PleaseDoNotHackMe123!", rememberMeBool: false, rememberMeValue: "" });
         expect(response.status).toBe(401);
         
-
       });
 
       it("Should Deny Login for Incorrect Password", async () => {
 
         const response = await supertest(app)
         .post('/login/login')
-        .send({username: "Bobathee McGee", password: "ImSoGoodAtHacking"});
+        .send({ email: "someemail@email.com", password: "ImSoGoodAtHacking", rememberMeBool: false, rememberMeValue: "" });
         expect(response.status).toBe(401);
         
-
       });
 
-
-    });
   });
 
 });

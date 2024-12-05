@@ -20,8 +20,18 @@ const organizationSchema = new Schema({
         required: true
     },
     organizationAddress: {
-        type: String,
-        required: true
+            Address1: {
+                type: String
+            },
+            City: {
+                type: String
+            },
+            State: {
+                type: String
+            },
+            ZipCode: {
+                type: String
+            }
     },
     users: [{ 
         type: Schema.Types.ObjectId, //Collection of users in organization
@@ -35,7 +45,12 @@ const organizationSchema = new Schema({
     cameras: [{
         type: Schema.Types.ObjectId, //Collection of cameras owned by organization
         ref: 'Camera'
-    }]
+    }],
+    
+    status: {
+        type: String,
+        default: "Active"
+    }
 });
 
 module.exports = mongoose.model('Organization', organizationSchema);

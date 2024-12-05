@@ -1,11 +1,6 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    /*
-    background: linear-gradient(45deg,#145DA0, #2E8BC0);
-    background-size: 200% 200%;
-    animation: gradientAnimation 3s ease infinite;
-    */
     color: #FFF;
     min-height: 100vh;
 }
@@ -77,6 +72,12 @@ header {
 }
 
 /* Profile Picture */
+.profile-picture {
+    border: none;
+    background: transparent; 
+    cursor: pointer; 
+    padding: 0;
+}
 
 .profile-picture img {
     width: 50px;
@@ -155,13 +156,6 @@ header {
     transition: color 0.3s ease;
 }
 
-/* Demo Footer Section */
-/* Footer CSS */
-.footer {
-    padding: 25px;
-    font-size: 15px;
-    background-color: black;
-    opacity: 90%;
-    text-align: center;
-    position: relative;
-}
+
+
+
