@@ -31,23 +31,17 @@ const userLogin = async (req, res) => {
 
     try {
 
-        // Check for user in the database
+        // Check for user in the database, case insensitive
         const user = await User.findOne({ email: new RegExp(`^${email}$`, 'i') });
 
         if(!user) {
-            console.log('user not found')
             return res.status(401).json({ message: 'invalid-credentials' });
         }
 
-        console.log('user found');
-
         // Check if the user is active
         if(user.status != "Active") {
-            console.log('user is not active')
             return res.status(401).json({ message: 'This account is not active'})
         }
-
-        console.log('user is active');
 
         // Check if user is part of an organization. If they are, make sure it is active.
         if(user.organization != 'Individual') {
@@ -59,27 +53,21 @@ const userLogin = async (req, res) => {
                 return res.status(401).json({ message: 'This organization is not active'});
             }
         }
-        
-        console.log('org is active');
 
+        // The following code will allow the user to be remembered on their browser. As is, only one device can be tracked at a time. Would recommend letting the browser handle this 
         if(rememberMeBool == true) { // User wants to be remembered
 
-            console.log('user wants to be remembered')
-
             if(rememberMeValue == '') { // User not previously remembered
-
-                console.log('user not previously remembered')
 
                 // Verify login via password
                 const validatePassword = await bcrypt.compare(password, user.password); 
 
                 if(validatePassword){
-                    console.log('password validated')
                     const newVal = generateRandomString();
                     await User.updateOne({_id: user._id}, {$set: {rememberMe: newVal}});
                     await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}});
     
-                    // Set session information here
+                    // Set session information
                     req.session.user = { id: user._id, role: user.roles };
                     req.session.org = {id: user.organization};
                     return res.status(200).json({message: `${newVal}`});
@@ -88,19 +76,17 @@ const userLogin = async (req, res) => {
                 }
             } else if (user.rememberMe === rememberMeValue) { // User was previously remembered
 
-                console.log('user was previously remembered')
-                
                 // Update the lastLoggedIn field in the user record
                 await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}});
     
-                // Set session information here
+                // Set session information
                 req.session.user = { id: user._id, role: user.roles };
+                req.session.org = {id: user.organization};
                 return res.status(200).json({ message: `${rememberMeValue}`});
             } else {    
 
-                // If the user is remembered and still enters their password, log them in via password and update rememberMe value in db
+                // If the user is remembered and still enters their password, log them in via password and update rememberMe value in database
                 if(password && password != "••••••••••••"){
-                    console.log('password value not null: ' + password);
 
                     // Verify login via password
                     const validatePassword = await bcrypt.compare(password, user.password); 
@@ -111,22 +97,17 @@ const userLogin = async (req, res) => {
                         await User.updateOne({_id: user._id}, {$set: {rememberMe: newVal}});
                         await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}});
     
-                        // Set session information here
+                        // Set session information
                         req.session.user = { id: user._id, role: user.roles };
                         req.session.org = {id: user.organization};
                         return res.status(200).json({message: `${newVal}`});
                     }
                 }
-                console.log('rememberMe value did not match db value')
                 return res.status(401).json({ message: 'invalid-credentials' });
             }
         } else { // User has not selected to be remembered
 
-            console.log('user does not want to be remembered')
-
             if(rememberMeValue == '') { // User was not previously remembered, verify with password
-
-                console.log('user was not previously remembered')
 
                 // Check for password in the database and compare
                 const validatePassword = await bcrypt.compare(password, user.password);
@@ -136,7 +117,7 @@ const userLogin = async (req, res) => {
                     // Update the lastLoggedIn field in the user record
                     await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}});
     
-                    // Set session information here
+                    // Set session information
                     req.session.user = { id: user._id, role: user.roles };
                     req.session.org = {id: user.organization};
                     return res.sendStatus(200);
@@ -145,13 +126,9 @@ const userLogin = async (req, res) => {
                     return res.status(401).json({ message: 'invalid-credentials' });
             }
             } else { // User was previously remembered, verify with rememberValue and reset
-
-                console.log('user was previously remembered')
-                console.log('user.rememberMe: ' + JSON.stringify(user));
     
                 if (rememberMeValue == user.rememberMe) {
                     
-                    console.log('user rememberMe matched');
                     // Update the lastLoggedIn field in the user record
                     await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}});
                     await User.updateOne({_id: user._id}, {$set: {rememberMe: ''}});
@@ -161,7 +138,7 @@ const userLogin = async (req, res) => {
                     req.session.org = {id: user.organization};
                     return res.status(200);
                 } 
-                else {    
+                else { // User was previously remembered, the local storage doesn't match, and they entered a password 
                     if(password && password != "••••••••••••"){
                         console.log('password value not null: ' + password);
     
@@ -179,9 +156,7 @@ const userLogin = async (req, res) => {
                             return res.status(200);
                         }
                     }
-                    console.log('rememberMe value did not match')
-                    if(user.rememberMe == "") {
-                        console.log('db value null')
+                    if(user.rememberMe == "") { // No rememberMe value found in database
                         return res.status(401).json({ message: 'db-value-null'})
                     }
                     return res.status(401).json({ message: 'invalid-credentials' });
@@ -206,15 +181,12 @@ const userLogin = async (req, res) => {
             });
 
         });
-
-        console.log(err.message)
         res.sendStatus(500);
     }
 }
 
 // Logout Function to Destroy Session
 const userLogout = async (req, res) => {
-    
     
     try {
         req.session.destroy()
