@@ -7,251 +7,211 @@
     <title>Settings</title>
     <link rel="icon" type="image/png" href="PatrolCamLogo.png">
     <link rel="stylesheet" href="/global.css">
-    <link rel="stylesheet" href="/org-settings.css">
-    <link rel="stylesheet" href="/login-modal.css">
+    <link rel="stylesheet" href="../../public/org-settings.css">
+    <link rel="stylesheet" href="../../public/login-modal.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../../FrontEndJavaScript/org-settings.js" defer></script>
     <script src="../../FrontEndJavaScript/fetchNavbar.js" defer></script>
     <script src="../../FrontEndJavaScript/sessionTimeout.js" defer></script>
+
 </head>
 <body>
 
-    <!-- Header Section -->
+<!-- Header Section -->
 
-    <header id="navbar"></header>
+<header id="navbar"></header>
 
-    <!-- Settings Section -->
+ <!-- Settings Section -->
 
-    <div class="settings-container">
-        <aside class="sidebar">
-        <h1 class="settings-text">Settings</h1>
+ <div class="settings-container">
+    <aside class="sidebar">
+    <h1 class="settings-text">Settings</h1>
 
-        <button class="tab-btn" data-tab="account-info">Account Info</button>
-        <hr class="divider">
+    <button class="tab-btn" data-tab="account-info">Account Info</button>
+    <hr class="divider">
 
-        <button class="tab-btn" data-tab="cameras">Cameras</button>
-        <hr class="divider">
+    <button class="tab-btn" data-tab="cameras" id="camera-btn">Cameras</button>
+    <hr class="divider">
 
-        <button class="tab-btn" data-tab="officers">Officers</button>
-        <hr class="divider">
+    <button class="tab-btn" data-tab="officers" id="officers-btn">Officers</button>
+    <hr class="divider">
 
-        <button class="tab-btn" data-tab="privacy">Privacy</button>
-        <hr class="divider">
+    <button class="tab-btn" data-tab="privacy">Privacy</button>
+    <hr class="divider">
+    
+    </aside>
+
+    <!-- Content Section -->
+    <main class="content-area">
+
+        <!-- Account Info Tab -->
+
+        <section id="account-info" class="tab-content active">
+            <h2 class="account-info-text">Account Info</h2>
+
+            <div class="account-info-container">
+                <div id = "account-info-form" class="account-info-form placeholder-glow">
+                    <div class="form-group">
+                        <label class="placeholder"></label>
+                        <span class="placeholder"></span>
+                    </div>
+            
+                    <div class="form-group">
+                        <label class="placeholder"></label>
+                        <span class="placeholder"></span>
+                    </div>
+            
+                    <div class="form-group">
+                        <label class="placeholder"></label>
+                        <span class="placeholder"></span>
+                    </div>
+            
+                    <div class="form-group">
+                        <label class="placeholder"></label>
+                        <span class="placeholder"></span>
+                    </div>
+            
+                    <div class="form-group">
+                        <label class="placeholder"></label>
+                        <span class="placeholder"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="placeholder"></label>
+                        <span class="placeholder"></span>
+                    </div>
+            
+                </div>
+
+                <div id = "loaded-content" class="loaded-content">
+                    <div class="account-content">
+                        <i id = "edit-icon" class="account-edit-icon" onclick="enableAccountEditMode()">&#9998;</i> <!-- Single Pencil Icon -->
+
+                        <div class="form-group">
+                            <label>First Name:</label>
+                            <input id="account-firstname" name="firstname" type="text" title="User FirstName" disabled/>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Last Name:</label>
+                            <input id="account-lastname" name="lastname" type="text" title="User LastName" disabled/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Address:</label>
+                            <input id="account-email-address" name="userEmail" type="text" title="User Email" disabled/>
+                        </div>
+                
+                        <div class="form-group">
+                            <label>Phone Number:</label>
+                            <input id="account-phone-number" name="userPhone" type="text" title="User Phone" disabled/>
+                        </div>
+                    </div>
+                    <div id="form-btns" class="form-btns">
+                        <button class="btn btn-warning" id="cancelBtn" type="reset" onclick="disableAccountEditMode()">Cancel</button>
+                        <button class="btn btn-secondary" id="accountUpdateBtn" type="submit" onclick="updateAccountInfo()">Update</button>
+                    </div>
+                </div>
+            </div>                
+        </section>
+       
+        <!-- Camera Tab -->
+            
+        <section id="cameras" class="tab-content">
+            <h2>Cameras</h2>
+            
+            <div id="camera-grid" class="camera-grid">
+                <!-- Camera 1 -->
+                <div class="camera-frame">
+                    <img class="placeholder" src="./security_camera_placeholder_1.jpg" alt="Loading Camera...">
+                    
+                        <div class="camera-info placeholder-wave">
+                            <label>
+                                <span class="placeholder"></span>
+                            </label>
+                            <label>
+                                <span class="placeholder"></span>
+                            </label>
+                            <label>
+                                <span class="placeholder"></span>
+                            </label>
+                        </div>
+                </div>
         
-        </aside>
-
-        <!-- Content Section -->
-        <main class="content-area">
-
-            <!-- Account Info Tab -->
-
-            <section id="account-info" class="tab-content active">
-                <h2 class="account-info-text">Account Info</h2>
-                <i class="edit-icon">&#9998;</i> <!-- Single Pencil Icon -->
-            
-                <form class="account-info-form">
-                    <div class="form-group">    
-                        <input type="text" placeholder="Officer Name" value="Officer Name" readonly>
-                    </div>
-            
-                    <div class="form-group">  
-                        <input type="email" placeholder="Email Address" value="user@email.com" readonly>
-                    </div>
-            
-                    <div class="form-group">
-                        <input type="tel" placeholder="Phone Number" value="123-456-7890" readonly>
-                    </div>
-            
-                    <div class="form-group">
-                        <input type="text" placeholder="Address" value="123 Street Name, MN, Minnesota 56001" readonly>
-                    </div>
-            
-                    <div class="form-group">
-                        <select id="subscription-plan" name="subscription" disabled>
-                            <option value="premium" selected>Premium</option>
-                            <option value="gold">Gold</option>
-                            <option value="silver">Silver</option>
-                        </select>
-                    </div>
-            
-                    <button type="submit" class="submit-btn" disabled>Update Info</button>
-                </form>
-            </section>
-            
-            
-            
-            <!-- Camera Tab -->
-
-            <section id="cameras" class="tab-content">
-                <h2>Cameras</h2>
-            
-                <div class="camera-grid">
-                    <!-- Camera 1 -->
-                    <div class="camera-frame">
-                        <img src="./security_camera_placeholder_1.jpg" alt="Camera 1">
-                            <div class="camera-info">
-                                <label>
-                                    <strong>Camera Name:</strong>
-                                    <input type="text" id="name-camera-1" value="Camera 1" readonly>
-                                </label>
-                                <label>
-                                    <strong>Location:</strong>
-                                    <input type="text" id="location-camera-1" value="North Side" readonly>
-                                </label>
-                                <label>
-                                    <strong>Status:</strong>
-                                    <select id="status-camera-1" class="status-dropdown">
-                                        <option value="active" selected>Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
-                                </label>
-                            </div>
-                    </div>
-            
-                    <!-- Camera 2 -->
-                    <div class="camera-frame">
-                        <img src="./security_camera_placeholder_2.jpg" alt="Camera 2">
-                            <div class="camera-info">
-                                <label>
-                                    <strong>Camera Name:</strong>
-                                    <input type="text" id="name-camera-2" value="Camera 2" readonly>
-                                </label>
-                                <label>
-                                    <strong>Location:</strong>
-                                    <input type="text" id="location-camera-2" value="East Side" readonly>
-                                </label>
-                                <label>
-                                    <strong>Status:</strong>
-                                    <select id="status-camera-2" class="status-dropdown">
-                                        <option value="active" selected>Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
-                                </label>
-                            </div>
-                    </div>
-            
-                    <!-- Camera 3 -->
-                    <div class="camera-frame">
-                        <img src="./security_camera_placeholder_2.jpg" alt="Camera 3">
-                            <div class="camera-info">
-                                <label>
-                                    <strong>Camera Name:</strong>
-                                    <input type="text" id="name-camera-3" value="Camera 3" readonly>
-                                </label>
-                                <label>
-                                    <strong>Location:</strong>
-                                    <input type="text" id="location-camera-3" value="South Side" readonly>
-                                </label>
-                                <label>
-                                    <strong>Status:</strong>
-                                    <select id="status-camera-3" class="status-dropdown">
-                                        <option value="active" selected>Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
-                                </label>
-                            </div>
-                    </div>
-            
-                    <!-- Camera 4 -->
-                    <div class="camera-frame">
-                        <img src="./security_camera_placeholder_1.jpg" alt="Camera 4">
-                        <form onsubmit="saveChanges('camera-4'); return false;">
-                            <div class="camera-info">
-                                <label>
-                                    <strong>Camera Name:</strong>
-                                    <input type="text" id="name-camera-4" value="Camera 4" readonly>
-                                </label>
-                                <label>
-                                    <strong>Location:</strong>
-                                    <input type="text" id="location-camera-4" value="West Side" readonly>
-                                </label>
-                                <label>
-                                    <strong>Status:</strong>
-                                    <select id="status-camera-4" class="status-dropdown">
-                                        <option value="active" selected>Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
-                                </label>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </section>
-            
-            
-            <!-- Officers Tab -->
-
-            <section id="officers" class="tab-content">
-                <h2>Officers</h2>
-            
-                <div class="officer-list">
-
-                    <!-- Officer 1 -->
-                    <div class="officer-card collapsed">
-                        <div class="officer-header" onclick="toggleOfficerDetails(this)">
-                            <img src="./officer_placeholder_1.jpg" alt="Officer 1">
-                            <p class="officer-name"><strong>Officer Brad Pitt</strong></p>
-                            <span class="dropdown-arrow">&#9662;</span>
+                <!-- Camera 2 -->
+                <div class="camera-frame">
+                    <img class="placeholder" src="./security_camera_placeholder_2.jpg" alt="Loading Camera...">
+                    
+                        <div class="camera-info placeholder">
+                            <label>
+                                <span class="placeholder"></span>
+                            </label>
+                            <label>
+                                <span class="placeholder"></span>
+                            </label>
+                            <label>
+                                <span class="placeholder"></span>
+                            </label>
                         </div>
-                        <form class="officer-details" onsubmit="saveOfficerChanges('officer-1'); return false;">
-                            <label>
-                                <strong>Email:</strong>
-                                <input type="email" id="email-officer-1" value="brad.pitt@patrolcam.com" readonly>
-                            </label>
-                            <label>
-                                <strong>Password:</strong>
-                                <input type="password" id="password-officer-1" value="******" readonly>
-                            </label>
-                            <p><strong>Last Login:</strong> 2024-10-18</p>
-                        </form>
-                    </div>
+                </div>            
+            </div>
+        </section>
+        
+        
+        <!-- Officers Tab -->
+
+        <section id="officers" class="tab-content">
             
-                    <!-- Officer 2 -->
-                    <div class="officer-card collapsed">
-                        <div class="officer-header" onclick="toggleOfficerDetails(this)">
-                            <img src="./officer_placeholder_2.jpg" alt="Officer 2">
-                            <p class="officer-name"><strong>Officer Margot Robbie</strong></p>
-                            <span class="dropdown-arrow">&#9662;</span>
+            <div class="officer-header-container">
+                <div class="officer-header">
+                    <h2>Officers</h2>
+                </div>
+                <div class="officer-header-button">
+                    <button type="button" class="btn-secondary addOfficer">Add +</button>
+                </div>
+            </div>
+            
+            <div id="officer-list" class="officer-list">
+
+                <div class="officer-card-container placeholder">
+                    <div class="placeholder officer-header">                            
+                        <div class="officer-info">
+                            <p class="placeholder"></p>
                         </div>
-                        <form class="officer-details" onsubmit="saveOfficerChanges('officer-2'); return false;">
-                            <label>
-                                <strong>Email:</strong>
-                                <input type="email" id="email-officer-2" value="margot.robbie@patrolcam.com" readonly>
-                            </label>
-                            <label>
-                                <strong>Password:</strong>
-                                <input type="password" id="password-officer-2" value="******" readonly>
-                            </label>
-                            <p><strong>Last Login:</strong> 2024-10-19</p>
-                            <button type="submit" class="save-btn">Save Changes</button>
-                        </form>
                     </div>
                 </div>
-            </section>
-            
-            
-
-            <!-- Privacy Tab  -->
-
-            <section id="privacy" class="tab-content">
-                <h2>Privacy</h2>
-            
-                <div class="privacy-options">
-                    <p class="privacy-option">Change Password</p>
-                    <p class="privacy-option">Two Factor Authorization (2FA)</p>
-                    <p class="privacy-option">Last Login</p>
+        
+                <div class="officer-card-container placeholder">
+                    <div class="placeholder officer-header">                            
+                        <div class="officer-info">
+                            <p class="placeholder"></p>
+                        </div>
+                    </div>
                 </div>
-            </section>
 
-        </main>
+            </div>
+        </section>
+            
+        <!-- Privacy Tab  -->
+
+        <section id="privacy" class="tab-content">
+            <h2>Privacy</h2>
+        
+            <div class="privacy-options">
+                <p class="privacy-option">Change Password</p>
+                <p class="privacy-option">Two Factor Authorization (2FA)</p>
+                <p class="privacy-option">Last Login</p>
+            </div>
+        </section>
+    </main>
 </div>
 
 <!-- Footer -->
-    <footer>
-        <div class="footer">
-            <p>&copy; 2024 PatrolCam. All rights reserved.</p>
-        </div>
-    </footer>
+<footer>
+    <div class="footer">
+        <p>&copy; 2024 PatrolCam. All rights reserved.</p>
+    </div>
+</footer>
 
 </body>
 </html>
