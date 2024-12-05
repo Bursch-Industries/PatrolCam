@@ -798,6 +798,35 @@ async function getAllOrganizations(user){
     return organizations
 }
 
+// Function used to get the name of the current user. Currently used to display name in the Dashboard html
+const getCurrentUserFirstName = async(req, res) => {
+
+    try{
+        if(req.session && req.session.user){  // Check for login
+            const userId = req.session.user.id; // Get ID from request object
+            const currentUser = await User.findById(userId); 
+            const nameString = ', ' + currentUser.firstname; // Add comma here, rather than in raw HTML, so if the name is not found the greeting will be "Welcome Back!"
+            res.json({ name: nameString });
+        } else{
+            res.json( { name: '!' } ) // If the user is logged in and the name isn't found, return generic greeting
+        }
+    } catch(error) {
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'TRACE',
+                desc: 'Failed to find name of current user',
+                source: 'getCurrentUserFirstName',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: '500',
+                meta: {error: error.message},
+                session
+            });
+        });
+        res.status(500).json({message: 'Failed to find name of current user', error: error.message})
+    }
+    
+}
+
 // Function to log out all users of an organization that are currently logged in
 async function deactivateOrg(req, orgId) {
 
@@ -954,6 +983,8 @@ async function updateCameraInfo(req, res){
     } 
 }
 
+
+
 module.exports = { 
     handleNewUser, 
     handleNewOrganization, 
@@ -966,6 +997,7 @@ module.exports = {
     getUserLastLogin,
     getOrganizationDetails,
     getOrganizationList,
+    getCurrentUserFirstName,
     updateOrganizationInfo,
     updateOrganizationStatus,
     updateCameraInfo

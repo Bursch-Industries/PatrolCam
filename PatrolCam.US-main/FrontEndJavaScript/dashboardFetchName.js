@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('/api/user/getCurrentUserFirstName', {
+        const response = await fetch('/register/getCurrentUserFirstName', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
