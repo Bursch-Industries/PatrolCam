@@ -799,7 +799,6 @@ async function populateOrgDataAccountAdmin(orgId){
         document.getElementById('org-name').value = data.organizationName;
         document.getElementById('email-address').value = data.organizationEmail;
         document.getElementById('phone-number').value = data.organizationPhone;
-        document.getElementById('org-address').value = addressString; 
         document.getElementById('org-address').value = data.organizationAddress.Address1
         document.getElementById('org-city').value = data.organizationAddress.City
         document.getElementById('org-state').value = data.organizationAddress.State
