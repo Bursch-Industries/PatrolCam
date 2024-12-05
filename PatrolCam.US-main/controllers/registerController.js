@@ -18,7 +18,7 @@ async function handleNewUser (req, res) {
     }
 
     //Check for duplicate usernames in the db
-    const duplicate = await findUser(user)
+    const duplicate = await User.findOne({email:userEmail}) //Locate user
     if (duplicate) {
         return res.sendStatus(409) //Duplicate conflict 
     }
@@ -53,7 +53,7 @@ async function handleNewUser (req, res) {
         });
 
         //User creation success
-        res.status(201).json({ 'User creation success': `New user ${user} created!` });
+        res.status(201).json({ 'User creation success': `New user ${userEmail} created!` });
     } catch (error) {
 
         await withTransaction(async (session) => {
@@ -559,12 +559,6 @@ function checkUserRole(user){
     return user.roles.toLowerCase() === "creator" || user.roles.toLowerCase() === "admin"
 }
 
-//Finds user using username
-async function findUser(username){
-    const user = await User.findOne({username:username}) //Locate user
-    if(!user) return false
-    return user //Return result
-}
 
 async function getCameraDetails(req, res) {
     if(!req.session || !req.session.user){
@@ -608,6 +602,39 @@ async function getCameraDetails(req, res) {
 
         return res.status(500).json({ error: `Error occured while getting camera details: ${error.message}`})
     }
+}
+
+async function getUserData(req, res){
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
+
+    try{
+        const userId = await User.findById(req.session.user.id)
+        const userData = await getUserFields(userId, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id'], true) 
+
+        return res.status(200).json({
+            user: userData
+        })
+        
+    } catch (error) {
+        if(error.message === "404") return res.sendStatus(404)
+        if(error.message === "403") return res.sendStatus(403)
+
+        await withTransaction(async (session) => {  
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to retrieve users data',
+                source: 'registerController - getUserData',
+                userId: 'System',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+        });
+
+        return res.status(500).json({'Error occured while getting user data' : error.message})
+    } 
 }
 
 async function getOrgUserData(req, res) {
@@ -675,31 +702,42 @@ async function getUserLastLogin(req, res) {
     }
 }
 
-async function getUserFields(userId, fields = []) {
-
+async function getUserFields(userId, fields = [], singleUserRequest = false) {
+    //Making sure userId is not null
     if(!userId){
-        throw new Error("All fields are required")
+        throw new Error("userId is required to retieve user data")
     }
-    const {organizationData, error} = await findOrganizationForAdmin(userId)
-
-    if(error){
-        throw new Error(error === "User not found" ? "404" : "403")
-    }
-
+    
+    //Join all selected fields
     const fieldSelection = fields.join(' ')
-    const orgUserData = await Organization.findById(organizationData._id)
+
+    //Case 1: If only a single user is requesting information about their own account
+    if(singleUserRequest) {
+        const targetUserData = await User.findById(userId)
+            .select(fieldSelection)
+            .lean()
+            .exec();
+
+        if (!targetUserData){
+            throw new Error("404"); //Specific user not found
+        }
+
+        return targetUserData; //Return specific user's data
+    }
+
+    //Case 2: Admin requesting all users within their organization
+    const orgUserListData = await Organization.findOne({users: userId})
         .populate({
             path: "users",
             select: fieldSelection
         })
         .lean()
-        .exec()
+        .exec();
     
-    if(!orgUserData || !orgUserData.users || !orgUserData.users.length === 0) {
+    if(!orgUserListData || !orgUserListData.users || !orgUserListData.users.length === 0) {
         throw new Error("404")
     }
-
-    return orgUserData
+    return orgUserListData
 }
 
 async function getOrganizationDetails(req, res){
@@ -765,9 +803,7 @@ async function getOrganizationList(req, res){
         return res.sendStatus(401);
     }
 
-    const username = req.session.user
-
-    const user = await findUser(username)
+    const user = await User.findById(req.session.user.id)
     if(!user){
         return res.sendStatus(404)
     }
@@ -968,6 +1004,7 @@ module.exports = {
     handleAddNewOrgUser, 
     addCameraToOrganization,
     getCameraDetails,
+    getUserData,
     getOrgUserData,
     getUserLastLogin,
     getOrganizationDetails,
