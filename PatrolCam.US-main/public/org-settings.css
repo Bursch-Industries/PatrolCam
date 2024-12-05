@@ -158,7 +158,7 @@ header {
 .account-info-container{
     background-color: #1B3A57;
     border-radius: 15px;
-    margin-top: 1rem;
+    margin: 1.5rem;
 }
 
 .account-info-form{
@@ -174,7 +174,6 @@ header {
     flex-direction: column;
     width: auto;
     max-width: 90%;
-
 }
 
 .account-content{
@@ -260,7 +259,7 @@ header {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    padding: 20px;
+    padding: 1.5rem;
 }
 
 /* Camera Frame Styles */
@@ -375,33 +374,18 @@ header {
     background-color: white;
 }
 
-/* Responsive Layout */
-@media (max-width: 768px) {
-    .camera-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
 .no-cameras-message{
     font-size: 2rem;
     color:white;
 }
 
 /* Officers Tab */
-
-.officerHeader {
-    display:flex;
-}
-
-.officerHeader button {
-    flex: 1;
-    background-color: black;
-    font-size: xx-large;
-}
-.placeholder-icon{
-    width: 2vw;
-    height: 2vw;
-    border:1px black solid
+.officer-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
 }
 
 .disabled{
@@ -413,15 +397,6 @@ header {
     flex-direction: column;
     gap: 1.5rem;
     padding: 0 2rem;
-}
-
-
-.officer-header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    cursor: pointer;
 }
 
 .officer-card-container{
@@ -436,8 +411,7 @@ header {
 .officer-card{
     display: flex;
     padding:1rem;
-    justify-items: center;
-        
+    justify-items: center;     
 }
 
 /* Profile Picture */
@@ -512,7 +486,6 @@ header {
 
 
 /* Privacy Tab Section */
-
 .privacy-options {
     display: flex;
     flex-direction: column;
@@ -535,7 +508,6 @@ header {
 }
 
 /* Footer Section */
-
 .footer {
     padding: 25px;
     font-size: 15px;
@@ -544,4 +516,11 @@ header {
     opacity: 90%;
     text-align: center;
     position: relative;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .camera-grid {
+        grid-template-columns: 1fr;
+    }
 }
