@@ -9,7 +9,6 @@ const Organization = require('../model/Organization');
 
 function generateRandomString() {
 
-    console.log('generating new string');
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     const charactersLength = characters.length;
@@ -22,12 +21,6 @@ function generateRandomString() {
 const userLogin = async (req, res) => {
 
     const { email, password, rememberMeBool, rememberMeValue } = req.body;
-
-    console.log('entering userLogin');
-    console.log('email: ' + email);
-    console.log('password: ' + password);
-    console.log('rememberMeBool: ' + rememberMeBool);
-    console.log('rememberMeValue: ' + rememberMeValue);
 
     try {
 
@@ -92,7 +85,6 @@ const userLogin = async (req, res) => {
                     const validatePassword = await bcrypt.compare(password, user.password); 
 
                     if(validatePassword){
-                        console.log('password validated')
                         const newVal = generateRandomString();
                         await User.updateOne({_id: user._id}, {$set: {rememberMe: newVal}});
                         await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}});
@@ -140,13 +132,11 @@ const userLogin = async (req, res) => {
                 } 
                 else { // User was previously remembered, the local storage doesn't match, and they entered a password 
                     if(password && password != "••••••••••••"){
-                        console.log('password value not null: ' + password);
     
                         // Verify login via password
                         const validatePassword = await bcrypt.compare(password, user.password); 
     
                         if(validatePassword){
-                            console.log('password validated')
                             await User.updateOne({_id: user._id}, {$set: {rememberMe: ""}});
                             await User.updateOne({_id: user._id}, {$set: {lastLoggedIn: Date.now()}});
         

@@ -617,7 +617,6 @@ async function getOrgUserData(req, res) {
         })
         
     } catch (error) {
-        console.log(error.message)
         if(error.message === "404") return res.sendStatus(404)
         if(error.message === "403") return res.sendStatus(403)
 
