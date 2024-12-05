@@ -39,15 +39,17 @@ const getOrgCamData = async (req, res) => {
     }
 
     try {
-        const oneOrg = await org.findById(orgId); 
-        const cameras = oneOrg.cameras;
+        const targetOrg = await org.findById(orgId).populate({
+            path: 'cameras'
+        }); 
+        
 
-        if(cameras == '') {
+        if(targetOrg.cameras == '') {
             console.log('No camera data for this organization');
             return res.sendStatus(204)
         } else {
-            console.log('cameras found: ' + cameras);
-            return res.status(200).json(cameras)
+            console.log('cameras found: ' + targetOrg.cameras);
+            return res.status(200).json(targetOrg.cameras)
         }
         
     } catch (error) {

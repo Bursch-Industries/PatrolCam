@@ -333,7 +333,8 @@ function renderCameras(cameras){
         const cameraFrame = document.createElement('div')
         cameraFrame.className = 'camera-frame'
 
-        console.log('Camera ' + index + ' Status: ' + camera.status);
+        console.log(JSON.stringify(camera));
+        console.log('Camera Index: ' + index + '||  Camera ID: '  + camera._id + ' ||  Status: ' + camera.status);
 
         //Update UI element
         cameraFrame.innerHTML = `
