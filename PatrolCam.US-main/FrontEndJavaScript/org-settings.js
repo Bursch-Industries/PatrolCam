@@ -185,9 +185,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if(window.location.pathname === '/org-settings'){ // Check URI for path
             if(window.location.search != ''){ // Check the URI for params
                 const params = new URLSearchParams(window.location.search); // Params are sent by pages accessible to Account Admin (param should only be an org id)
-                params.forEach((value, key) => { // Convert param to key - value pair
-                    console.log(`${key}: ${value}`);
-                });
                 const orgId = params.get('id');
                 populateOrgDataAccountAdmin(orgId);
             } else{
@@ -223,7 +220,6 @@ async function populateOrgData(){
         }
 
         const data = await response.json();
-        console.log(data)
         //Update UI elements
         document.getElementById('org-name').value = data.organization.organizationName
         document.getElementById('email-address').value = data.organization.organizationEmail
@@ -260,11 +256,7 @@ document.getElementById('camera-btn').addEventListener('click',(async()=>{
     setTimeout(()=>{
         if(window.location.pathname === '/org-settings'){ // Check URL for path
             if(window.location.search != ''){ // Check the URL for params
-                console.log('params found')
                 const params = new URLSearchParams(window.location.search); // Params are sent by pages accessible to Account Admin (should only be an org id)
-                params.forEach((value, key) => { // Convert params to key - value pair
-                    console.log(`${key}: ${value}`);
-                });
                 const orgId = params.get('id');
                 populateCamDataAccountAdmin(orgId);
             } else{
@@ -307,7 +299,6 @@ async function populateCamData(){
         }
 
         const data = await response.json();
-        console.log(data)
         renderCameras(data.cameras)
 
     } catch (error) {
@@ -481,11 +472,7 @@ document.getElementById('officers-btn').addEventListener('click',(async()=>{
     setTimeout(()=>{
         if(window.location.pathname === '/org-settings'){ // Check URI for path
             if(window.location.search != ''){ // Check the URI for params
-                console.log('params found')
                 const params = new URLSearchParams(window.location.search); // Params are sent by pages accessible to Account Admin (should only be an org id)
-                params.forEach((value, key) => { // Convert params to key - value pairs
-                    console.log(`${key}: ${value}`);
-                });
                 const orgId = params.get('id');
                 populateOrgUserDataAccountAdmin(orgId);
             } else{
@@ -653,7 +640,7 @@ async function createNewUser(user, password, userFirstname, userLastname, userEm
         }
 
         const result = await response.json()
-        console.log('Response received: ', result)
+
         return result
     } catch (error) {
         console.error('Error posting data:', error)
@@ -686,7 +673,6 @@ async function getOrgList(){
         }
 
         data = response.json()
-        console.log(data)
 
     } catch(error) {
         console.error('Error posting data:', error)
@@ -830,9 +816,6 @@ document.getElementById('privacy-btn').addEventListener('click',(async()=>{
         if(window.location.pathname === '/org-settings'){ // Check URI for path
             if(window.location.search != ''){ // Check URI for params
                 const params = new URLSearchParams(window.location.search); // Params are sent by pages accessible to Account Admin (should only be an org id)
-                params.forEach((value, key) => { // Convert params to key - value pairs
-                    console.log(`${key}: ${value}`);
-                });
                 const orgId = params.get('id');
                 populateOrgPrivacyDataAccountAdmin(orgId);
             } else{

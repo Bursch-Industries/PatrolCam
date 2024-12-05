@@ -3,6 +3,7 @@
 const formContainer = document.getElementById('orgFormContainer');
 const formButton = document.getElementById('orgFormButton');
 
+// Event listener for button that shows/hides the form for adding a new organization
 document.getElementById('orgFormButton').addEventListener('click', function() {
     // Toggle visibility
     if (formContainer.style.display === 'none' || formContainer.style.display === '') {
@@ -27,10 +28,9 @@ formContainer.addEventListener('click', function(event) {
     event.stopPropagation(); // Prevent the click from propagating to the document
 });
 
+// Event listener for button that hides/shows the advanced filter form
 document.getElementById('filterFormToggle').addEventListener('click', function() {
-    console.log('filter button clicked')
     const formContainer = document.getElementById('filterContainer');
-    console.log(formContainer.style.display)
     // Toggle visibility
     if (formContainer.style.display === 'none' || formContainer.style.display === '') {
         formContainer.style.display = 'flex';
