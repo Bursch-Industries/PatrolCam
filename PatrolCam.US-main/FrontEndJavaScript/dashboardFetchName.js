@@ -1,3 +1,4 @@
+// Fetches the first name of the logged in user and displays it on the dashboard
 window.addEventListener('DOMContentLoaded', async () => {
     try {
         const response = await fetch('/register/getCurrentUserFirstName', {
@@ -7,10 +8,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             },
         });;
         const data = await response.json();
-
-        console.log(JSON.stringify(data));
         document.getElementById('nameTag').textContent = data.name;
-        console.log('no error')
     } catch (error) {
         console.error('Error fetching user name:', error);
     }

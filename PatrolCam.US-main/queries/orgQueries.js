@@ -1,5 +1,4 @@
 const org = require("../model/Organization");
-const  { logActivity } = require('../controllers/logger'); //Used for logging activities
 const { logError } = require('../controllers/errorLogger'); //Used for logging errors
 const { withTransaction } = require('../controllers/transactionHandler') //Handles Database transaction
 
