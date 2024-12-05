@@ -44,6 +44,7 @@ async function fetchOrgPage(filter) {
                 orgList.appendChild(orgDiv);
 
                 const changeStatus = orgDiv.querySelector(`#orgStatus-${org._id}`);
+                changeStatus.value = org.status;
 
                 // Event listener for the status selector
                 changeStatus.addEventListener('change', async (event) => {

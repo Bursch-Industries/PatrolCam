@@ -186,7 +186,7 @@ const getOrgPage = async (req, res) => {
                 } else if(key.startsWith('maxVal_')) {
                     advFilterCriteria.$lte = parseInt(req.query.maxVal_);
                 } else {
-                    filterCriteria[key] = { $regex: value }; // Handle other filters
+                    filterCriteria[key] = { $regex: value, $options: 'i' }; // Handle other filters
                 }
             }
         }
