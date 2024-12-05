@@ -193,8 +193,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 populateOrgDataAccountAdmin(orgId);
             } else{
                 populateOrgData();
-            }
-            
+            }    
+        }
+        else if(window.location.pathname === '/userSettings'){
+            populateUserData();
         }
     }, 1000)
     
@@ -202,10 +204,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 //Load the organization data from database
 async function populateOrgData(){
-
     try{
 
-        console.log()
         //API to fetch organization data
         const response = await fetch('/register/getOrg',{ 
             method: 'GET',
@@ -257,6 +257,44 @@ async function populateOrgData(){
     }
 }
 
+async function populateUserData(){
+    try{
+
+        //API to fetch organization data
+        const response = await fetch('/register/getUserInfo',{ 
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        //If unauthorized to make request
+        if(response.status === 401){
+            console.log('Session expired or unauthorized. Redirecting to login...')
+            window.location.href = '/login'
+            return
+        }
+
+        //Server error
+        if(!response.ok){
+            throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+        const data = await response.json();
+
+        //Update UI elements
+        document.getElementById('account-firstname').value = data.user.firstname 
+        document.getElementById('account-lastname').value = data.user.lastname
+        document.getElementById('account-email-address').value = data.user.email
+        document.getElementById('account-phone-number').value = data.user.phone || "null"
+
+        //Hide placeholder and show loaded content
+        document.getElementById('account-info-form').style.display = "none"
+        document.getElementById('loaded-content').style.display = "flex"
+
+    } catch (error) {
+        console.error('Error fetching user data:', error)
+    }
+}
 
 //--------Fetching organization cameras----------
 document.getElementById('camera-btn').addEventListener('click',(async()=>{
@@ -273,15 +311,17 @@ document.getElementById('camera-btn').addEventListener('click',(async()=>{
                 populateCamDataAccountAdmin(orgId);
             } else{
                 console.log('fetching cam data with params')
-                populateCamData();
+                populateCamData(true); //Populating Cam Data for admins
             }
             
+        } else if (window.location.pathname === '/userSettings'){
+            populateCamData(); //Populating Cam Data for users
         }
     }, 1000)
 }))
 
 //Loads the cameras of organization from database
-async function populateCamData(){
+async function populateCamData(isAdmin = false){
     try{
         //API to fetch camera data
         const response = await fetch('/register/getCams',{ 
@@ -312,8 +352,7 @@ async function populateCamData(){
         }
 
         const data = await response.json();
-        console.log(data)
-        renderCameras(data.cameras)
+        renderCameras(data.cameras, isAdmin)
 
     } catch (error) {
         const cameraGrid = document.getElementById('camera-grid')
@@ -324,7 +363,7 @@ async function populateCamData(){
 }
 
 //Dynamically generates camera elements
-function renderCameras(cameras){
+function renderCameras(cameras, isAdmin){
     const cameraGrid = document.getElementById('camera-grid')
     cameraGrid.innerHTML = ''
 
@@ -362,15 +401,24 @@ function renderCameras(cameras){
                         </select>
                     </div>
 
-                    <div class="camera-form-btns">
-                        <button class="btn btn-warning" id="cameraCancelBtn" type="reset" onclick="disableCameraEditMode(${index})">Cancel</button>
-                        <button class="btn btn-secondary" id="cameraUpdateBtn" type="submit" onclick="udpateCameraInfo(${index})">Update</button>
-                    </div>
+                    ${isAdmin? 
+                        `
+                        <div class="camera-form-btns">
+                            <button class="btn btn-warning" id="cameraCancelBtn" type="reset" onclick="disableCameraEditMode(${index})">Cancel</button>
+                            <button class="btn btn-secondary" id="cameraUpdateBtn" type="submit" onclick="udpateCameraInfo(${index})">Update</button>
+                        </div>
+                        `
+                        : ''
+                    }
                 </div>
-
-                <div class = "camera-edit-icon">
-                    <i onclick="enableCameraEditMode(${index})">&#9998;</i> <!-- Single Pencil Icon -->
-                </div>
+                    ${isAdmin?
+                        `
+                        <div class = "camera-edit-icon">
+                            <i onclick="enableCameraEditMode(${index})">&#9998;</i> <!-- Single Pencil Icon -->
+                        </div>
+                        `
+                        : ''
+                    }
             </div>
 
         `
@@ -497,6 +545,8 @@ document.getElementById('officers-btn').addEventListener('click',(async()=>{
                 populateOrgUserData();
             }
             
+        } else if (window.location.pathname === '/userSettings'){
+            populateOrgUserData();
         }
     }, 1000)
 }))
@@ -516,6 +566,14 @@ async function populateOrgUserData(){
         if(response.status === 401){
             console.log('Session expired or unauthorized. Redirecting to login...')
             window.location.href = '/login'
+            return
+        }
+
+        //If no Officers found
+        if(response.status === 404){
+            const officerList = document.getElementById('officer-list')
+            //Adding no Officers found message to UI
+            officerList.innerHTML = `<p class=no-cameras-message>No Officers found</p>`
             return
         }
         
