@@ -610,9 +610,13 @@ async function getUserData(req, res){
     }
 
     try{
-        const userId = await User.findById(req.session.user.id)
-        const userData = await getUserFields(userId, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id'], true) 
+        const userData = await User.findById(req.session.user.id)
+            .select("firstname lastname email phone -_id")
+            .lean()
+            .exec();
 
+        console.log(userData)
+        
         return res.status(200).json({
             user: userData
         })
@@ -702,7 +706,7 @@ async function getUserLastLogin(req, res) {
     }
 }
 
-async function getUserFields(userId, fields = [], singleUserRequest = false) {
+async function getUserFields(userId, fields = []) {
     //Making sure userId is not null
     if(!userId){
         throw new Error("userId is required to retieve user data")
@@ -711,21 +715,6 @@ async function getUserFields(userId, fields = [], singleUserRequest = false) {
     //Join all selected fields
     const fieldSelection = fields.join(' ')
 
-    //Case 1: If only a single user is requesting information about their own account
-    if(singleUserRequest) {
-        const targetUserData = await User.findById(userId)
-            .select(fieldSelection)
-            .lean()
-            .exec();
-
-        if (!targetUserData){
-            throw new Error("404"); //Specific user not found
-        }
-
-        return targetUserData; //Return specific user's data
-    }
-
-    //Case 2: Admin requesting all users within their organization
     const orgUserListData = await Organization.findOne({users: userId})
         .populate({
             path: "users",
