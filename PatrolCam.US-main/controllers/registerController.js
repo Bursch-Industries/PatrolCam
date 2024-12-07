@@ -658,7 +658,6 @@ async function getUserData(req, res){
     } 
 }
 
-async function getOrgUserData(req, res) {
 
 
 async function getUserData(req, res){
@@ -1060,4 +1059,4 @@ module.exports = {
     updateOrganizationInfo,
     updateOrganizationStatus,
     updateCameraInfo
-};
+}
