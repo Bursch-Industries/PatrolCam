@@ -2,7 +2,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     initializeTabs();
     initializeStatusDropdowns();
-    // initializeAccountEdit();
 });
 
 // Tab Initialization
@@ -20,12 +19,6 @@ function initializeTabs() {
             targetTab.classList.add("active");
         });
     });
-}
-
-//Toggles dropdown menu for officer card
-function toggleOfficerDetails(header) {
-    const officerCard = header.parentElement;
-    officerCard.classList.toggle('active')
 }
 
 // Status Dropdown Logic
@@ -84,20 +77,6 @@ function saveCameraChanges(cameraId) {
     saveChanges("camera", cameraId, payload);
 }
 
-function initializeOfficerToggle() {
-    const officerCards = document.querySelectorAll(".officer-card");
-
-    officerCards.forEach((card) => {
-        const header = card.querySelector(".officer-header");
-        header.addEventListener("click", () => toggleOfficerDetails(card));
-    });
-}
-
-function toggleOfficerDetails(card) {
-    console.log("Toggling card:", card);  // Debugging output
-    card.classList.toggle("active");
-}
-
 //Enables input elements so that we can changed
 function enableAccountEditMode(){
     const loadedContent = document.getElementById('loaded-content')
@@ -107,6 +86,7 @@ function enableAccountEditMode(){
         const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
         field.setAttribute('data-original-value', originalValue) 
         field.removeAttribute("disabled")
+        field.style.color = "black" 
     })
 
     const editIcon = document.getElementById("edit-icon")
@@ -123,6 +103,7 @@ function disableAccountEditMode(){
 
     fields.forEach(field => {
         if (field.tagName === "SELECT"){
+            field.style.color = "white" 
             const originalOption = field.getAttribute('data-original-value')
             for (let i = 0; i < field.options.length; i++){
                 const option = field.options[i]
@@ -132,7 +113,9 @@ function disableAccountEditMode(){
                 }
             }
         } else {
-            field.value = field.getAttribute('data-original-value')    
+            field.value = field.getAttribute('data-original-value')
+            field.style.color = "white" 
+
         }
         field.setAttribute("disabled", "enabled")
     })
@@ -210,8 +193,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 populateOrgDataAccountAdmin(orgId);
             } else{
                 populateOrgData();
-            }
-            
+            }    
+        }
+        else if(window.location.pathname === '/userSettings'){
+            populateUserData();
         }
     }, 1000)
     
@@ -219,10 +204,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 //Load the organization data from database
 async function populateOrgData(){
-
     try{
 
-        console.log()
         //API to fetch organization data
         const response = await fetch('/register/getOrg',{ 
             method: 'GET',
@@ -244,14 +227,16 @@ async function populateOrgData(){
         }
 
         const data = await response.json();
-
-        const addressString = (data.organization.organizationAddress.Address1 + ', ' + data.organization.organizationAddress.State + ' ' + data.organization.organizationAddress.ZipCode);
-
+        console.log(data)
         //Update UI elements
         document.getElementById('org-name').value = data.organization.organizationName
         document.getElementById('email-address').value = data.organization.organizationEmail
         document.getElementById('phone-number').value = data.organization.organizationPhone
-        document.getElementById('org-address').value = addressString; 
+        document.getElementById('org-address').value = data.organization.organizationAddress.Address1
+        document.getElementById('org-city').value = data.organization.organizationAddress.City
+        document.getElementById('org-state').value = data.organization.organizationAddress.State
+        document.getElementById('org-zipcode').value = data.organization.organizationAddress.ZipCode
+
         
         const orgSubscription = document.getElementById('org-subscription')
         const databaseValue = "Silver"
@@ -272,6 +257,44 @@ async function populateOrgData(){
     }
 }
 
+async function populateUserData(){
+    try{
+
+        //API to fetch organization data
+        const response = await fetch('/register/getUserInfo',{ 
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        //If unauthorized to make request
+        if(response.status === 401){
+            console.log('Session expired or unauthorized. Redirecting to login...')
+            window.location.href = '/login'
+            return
+        }
+
+        //Server error
+        if(!response.ok){
+            throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+        const data = await response.json();
+
+        //Update UI elements
+        document.getElementById('account-firstname').value = data.user.firstname 
+        document.getElementById('account-lastname').value = data.user.lastname
+        document.getElementById('account-email-address').value = data.user.email
+        document.getElementById('account-phone-number').value = data.user.phone || "null"
+
+        //Hide placeholder and show loaded content
+        document.getElementById('account-info-form').style.display = "none"
+        document.getElementById('loaded-content').style.display = "flex"
+
+    } catch (error) {
+        console.error('Error fetching user data:', error)
+    }
+}
 
 //--------Fetching organization cameras----------
 document.getElementById('camera-btn').addEventListener('click',(async()=>{
@@ -287,16 +310,18 @@ document.getElementById('camera-btn').addEventListener('click',(async()=>{
                 const orgId = params.get('id');
                 populateCamDataAccountAdmin(orgId);
             } else{
-                console.log('fetching cam data without params')
-                populateCamData();
+                console.log('fetching cam data with params')
+                populateCamData(true); //Populating Cam Data for admins
             }
             
+        } else if (window.location.pathname === '/userSettings'){
+            populateCamData(); //Populating Cam Data for users
         }
     }, 1000)
 }))
 
 //Loads the cameras of organization from database
-async function populateCamData(){
+async function populateCamData(isAdmin = false){
     try{
         //API to fetch camera data
         const response = await fetch('/register/getCams',{ 
@@ -327,19 +352,18 @@ async function populateCamData(){
         }
 
         const data = await response.json();
-        console.log(data)
-        renderCameras(data.cameras)
+        renderCameras(data.cameras, isAdmin)
 
     } catch (error) {
         const cameraGrid = document.getElementById('camera-grid')
         cameraGrid.innerHTML = `<p class = "error-message">Error occured while getting camera details</p>`
-        cameraGrid.classList.remove('placeholder-glow');
+        cameraGrid.classList.remove('placeholder');
         console.error('Error fetching camera data:', error)
     }
 }
 
 //Dynamically generates camera elements
-function renderCameras(cameras){
+function renderCameras(cameras, isAdmin){
     const cameraGrid = document.getElementById('camera-grid')
     cameraGrid.innerHTML = ''
 
@@ -379,15 +403,24 @@ function renderCameras(cameras){
                         </select>
                     </div>
 
-                    <div class="camera-form-btns">
-                        <button class="btn btn-secondary" id="cameraCancelBtn" type="reset" onclick="disableCameraEditMode(${index})">Cancel</button>
-                        <button class="btn btn-primary" id="cameraUpdateBtn" type="submit" onclick="udpateCameraInfo(${index})">Update</button>
-                    </div>
+                    ${isAdmin? 
+                        `
+                        <div class="camera-form-btns">
+                            <button class="btn btn-warning" id="cameraCancelBtn" type="reset" onclick="disableCameraEditMode(${index})">Cancel</button>
+                            <button class="btn btn-secondary" id="cameraUpdateBtn" type="submit" onclick="udpateCameraInfo(${index})">Update</button>
+                        </div>
+                        `
+                        : ''
+                    }
                 </div>
-
-                <div class = "camera-edit-icon">
-                    <i onclick="enableCameraEditMode(${index})">&#9998;</i> <!-- Single Pencil Icon -->
-                </div>
+                    ${isAdmin?
+                        `
+                        <div class = "camera-edit-icon">
+                            <i onclick="enableCameraEditMode(${index})">&#9998;</i> <!-- Single Pencil Icon -->
+                        </div>
+                        `
+                        : ''
+                    }
             </div>
 
         `
@@ -515,6 +548,8 @@ document.getElementById('officers-btn').addEventListener('click',(async()=>{
                 populateOrgUserData();
             }
             
+        } else if (window.location.pathname === '/userSettings'){
+            populateOrgUserData();
         }
     }, 1000)
 }))
@@ -534,6 +569,14 @@ async function populateOrgUserData(){
         if(response.status === 401){
             console.log('Session expired or unauthorized. Redirecting to login...')
             window.location.href = '/login'
+            return
+        }
+
+        //If no Officers found
+        if(response.status === 404){
+            const officerList = document.getElementById('officer-list')
+            //Adding no Officers found message to UI
+            officerList.innerHTML = `<p class=no-cameras-message>No Officers found</p>`
             return
         }
         
@@ -558,37 +601,45 @@ function renderOrgUsers(users){
     //Looping through all users and creating each element
     users.forEach((user, index) =>  {
         const userCard = document.createElement('div')
-        userCard.className = 'officer-card collapsed'
+        userCard.className = 'officer-card-container'
 
         //Update UI element
         userCard.innerHTML = `
-            <div class="officer-header" onclick="toggleOfficerDetails(this)">
+            <div class="officer-card" onclick="toggleOfficerDetails(this)">
+
                 <img src="./officer_placeholder_1.jpg" alt="Officer 1">
 
-                <p class="officer-name">
-                    <strong>Officer ${user.firstname} ${user.lastname}</strong>
-                </p>
+                <div class="officer-card-content">
+                    <p>
+                        <strong>Officer ${user.firstname} ${user.lastname}</strong>
+                    </p>
+
+                    <p>
+                        <strong>Last Login:</strong> ${user.lastLoggedIn}
+                    </p>
+                </div>
 
                 <span class="dropdown-arrow">&#9662;</span>
             </div>
 
             <form class="officer-details" onsubmit="saveOfficerChanges('officer-1'); return false;">
-                <label>
-                    <strong>Email:</strong>
-                    <input type="email" id="email-officer-${index}" value="${user.email}">
-                </label>
+                <div class="form-group">
+                    <label>
+                        <strong>Email:</strong>
+                        <input type="email" id="email-officer-${index}" value="${user.email}">
+                    </label>
+                </div>
 
-                <label>
-                    <strong>Password:</strong>
-                    <input type="password" id="password-officer-${index}" value="******">
-                </label>
+                <div class="form-group">
+                    <label>
+                        <strong>Password:</strong>
+                        <input type="password" id="password-officer-${index}" value="******" disabled>
+                    </label>
+                </div>
 
-                <p>
-                    <strong>Last Login:</strong> 
-                    ${user.lastLoggedIn}
-                </p>
-                
-                <button type="submit" class="save-btn">Save Changes</button>
+                <div>
+                    <button type="submit" class="save-btn">Save Changes</button>
+                <div>
             </form>
         `
         //Adding user card element
@@ -596,9 +647,22 @@ function renderOrgUsers(users){
     })
 
     //Removing placeholder animations
-    officerContainer.classList.remove('placeholder-wave')
+    officerContainer.classList.remove('placeholder')
 }
 
+function toggleOfficerDetails(card) {
+    card.classList.toggle("active");
+    const form = card.nextElementSibling;
+
+    if(form && form.classList.contains('officer-details')) {
+        
+        // form.style.display = form.style.display === "none" || form.style.display === '' ? "block" : 'none';
+        form.classList.toggle('visible')
+
+    } else {
+        console.error("Form not found or incorrect structure")
+    }
+}
 
 
 //For Account Admin role (Nate only)
@@ -734,13 +798,14 @@ async function populateOrgDataAccountAdmin(orgId){
 
         console.log('response: ' + JSON.stringify(data))
 
-        const addressString = (data.organizationAddress.Address1 + ', ' + data.organizationAddress.State + ' ' + data.organizationAddress.ZipCode);
-
         //Update UI elements
         document.getElementById('org-name').value = data.organizationName;
         document.getElementById('email-address').value = data.organizationEmail;
         document.getElementById('phone-number').value = data.organizationPhone;
-        document.getElementById('org-address').value = addressString; 
+        document.getElementById('org-address').value = data.organizationAddress.Address1
+        document.getElementById('org-city').value = data.organizationAddress.City
+        document.getElementById('org-state').value = data.organizationAddress.State
+        document.getElementById('org-zipcode').value = data.organizationAddress.ZipCode
         
         const orgSubscription = document.getElementById('org-subscription')
         const databaseValue = "Silver"
