@@ -17,7 +17,7 @@ router.get('/getUserInfo', registerController.getUserData)
 router.get('/getOrgUsers', registerController.getOrgUserData)
 router.get('/getUsersLastLogin', registerController.getUserLastLogin)
 router.get('/getOrg', registerController.getOrganizationDetails)
-router.get('getOrgList', registerController.getOrganizationList)
+router.get('/getOrgList', registerController.getOrganizationList)
 
 router.put('/updateOrg', registerController.updateOrganizationInfo)
 router.put('/updateOrgStatus', registerController.updateOrganizationStatus);
