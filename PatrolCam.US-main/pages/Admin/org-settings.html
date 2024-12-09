@@ -36,7 +36,7 @@
         <button class="tab-btn" data-tab="officers" id="officers-btn">Officers</button>
         <hr class="divider">
 
-        <button class="tab-btn" data-tab="privacy">Privacy</button>
+        <button class="tab-btn" data-tab="privacy" id="privacy-btn">Privacy</button>
         <hr class="divider">
         
         </aside>
@@ -47,7 +47,7 @@
             <!-- Account Info Tab -->
 
             <section id="account-info" class="tab-content active">
-                <h2 class="account-info-text">Account Info</h2>
+                <h2 class="account-info-text">Organization Info</h2>
 
                 <div class="account-info-container">
                     <div id = "account-info-form" class="account-info-form placeholder-glow">
@@ -142,9 +142,7 @@
             <!-- Camera Tab -->
                 
             <section id="cameras" class="tab-content">
-                <div class="cam-nav" >
-                    <h2>Cameras</h2>
-                </div>
+                <h2>Cameras</h2>
                 
                 <div id="camera-grid" class="camera-grid">
                     <!-- Camera 1 -->
@@ -193,7 +191,7 @@
                         <h2>Officers</h2>
                     </div>
                     <div class="officer-header-button">
-                        <button type="button" class="btn-secondary addOfficer">Add +</button>
+                        <button type="button" class="btn-secondary addOfficer">+ Add</button>
                     </div>
                 </div>
                 
@@ -227,6 +225,7 @@
                     <p class="privacy-option">Change Password</p>
                     <p class="privacy-option">Two Factor Authorization (2FA)</p>
                     <p class="privacy-option">Last Login</p>
+                    <div id="loginHistory"></div>
                 </div>
             </section>
         </main>

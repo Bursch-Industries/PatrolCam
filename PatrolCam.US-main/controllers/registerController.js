@@ -11,10 +11,16 @@ const { withTransaction } = require('./transactionHandler') //Handles Database t
 async function handleNewUser (req, res) {
     const { password, userFirstname, userLastname, userEmail, phone, rank, role } = req.body;
 
-    //Check missing request fields
+    // Check missing request fields
     if (!password || !userFirstname || !userLastname || !userEmail){
         
         return res.status(400).json({ 'Error while creating new user': 'All required fields must be filled.' });
+    }
+
+    // Check for duplicate usernames in the db
+    const duplicate = await User.findOne({email: userEmail}) // Locate user
+    if (duplicate) {
+        return res.sendStatus(409) // Duplicate conflict 
     }
 
     try {
@@ -597,6 +603,41 @@ async function getCameraDetails(req, res) {
     }
 }
 
+async function getUserData(req, res){
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
+
+    try{
+        const userData = await User.findById(req.session.user.id)
+            .select("firstname lastname email phone -_id")
+            .lean()
+            .exec();
+        
+        return res.status(200).json({
+            user: userData
+        })
+        
+    } catch (error) {
+        if(error.message === "404") return res.sendStatus(404)
+        if(error.message === "403") return res.sendStatus(403)
+
+        await withTransaction(async (session) => {  
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to retrieve users data',
+                source: 'registerController - getUserData',
+                userId: 'System',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+        });
+
+        return res.status(500).json({'Error occured while getting user data' : error.message})
+    } 
+}
+
 async function getOrgUserData(req, res) {
 
 
@@ -676,12 +717,11 @@ async function getUserFields(orgId, fields = []) {
             select: fieldSelection
         })
         .lean()
-        .exec()
+        .exec();
     
     if(!orgUserData || !orgUserData.users || !orgUserData.users.length === 0) {
         throw new Error("404")
     }
-
     return orgUserData
 }
 
@@ -748,9 +788,7 @@ async function getOrganizationList(req, res){
         return res.sendStatus(401);
     }
 
-    const username = req.session.user
-
-    const user = await findUser(username)
+    const user = await User.findById(req.session.user.id)
     if(!user){
         return res.sendStatus(404)
     }
@@ -976,6 +1014,7 @@ module.exports = {
     handleAddNewOrgUser, 
     addCameraToOrganization,
     getCameraDetails,
+    getUserData,
     getOrgUserData,
     getUserLastLogin,
     getOrganizationDetails,

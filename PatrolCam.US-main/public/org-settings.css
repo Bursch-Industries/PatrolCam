@@ -158,7 +158,7 @@ header {
 .account-info-container{
     background-color: #1B3A57;
     border-radius: 15px;
-    margin-top: 1rem;
+    margin: 1.5rem;
 }
 
 .account-info-form{
@@ -174,7 +174,6 @@ header {
     flex-direction: column;
     width: auto;
     max-width: 90%;
-
 }
 
 .account-content{
@@ -224,8 +223,10 @@ header {
 }
 
 .form-group label {
-    text-align: end;
-    color: black;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-left: 15px;
 }
 
 .form-group input,
@@ -233,7 +234,9 @@ header {
     background-color: transparent;
     border: none;
     padding: 0.5rem;
-    color: black;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
 }
 
 .form-group input:enabled, 
@@ -260,7 +263,7 @@ header {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    padding: 20px;
+    padding: 1.5rem;
 }
 
 /* Camera Frame Styles */
@@ -375,45 +378,18 @@ header {
     background-color: white;
 }
 
-/* Responsive Layout */
-@media (max-width: 768px) {
-    .camera-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
 .no-cameras-message{
     font-size: 2rem;
     color:white;
 }
 
 /* Officers Tab */
-
-.officerHeader {
-    display:flex;
-    justify-content: space-between;
-    height: 80px;
-}
-
-.officerHeader button {
-    background-color: black;
-    font-size: large;
-    color: white;
-    width: 20%;
-    border-radius: 5px;
+.officer-header-container {
+    display: flex;
     align-items: center;
-    height: 60%;
-}
-
-.officerHeader button:hover {
-    background-color: #444; /* A lighter shade of black/gray */
-    transform: scale(1.05);  /* Slightly enlarge the button */
-}
-
-.placeholder-icon{
-    width: 2vw;
-    height: 2vw;
-    border:1px black solid
+    justify-content: space-between;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
 }
 
 .disabled{
@@ -452,8 +428,7 @@ header {
 .officer-card{
     display: flex;
     padding:1rem;
-    justify-items: center;
-        
+    justify-items: center;     
 }
 
 /* Profile Picture */
@@ -528,7 +503,6 @@ header {
 
 
 /* Privacy Tab Section */
-
 .privacy-options {
     display: flex;
     flex-direction: column;
@@ -543,11 +517,6 @@ header {
     font-weight: bold;
     cursor: pointer;
     transition: color 0.3s ease;
-}
-
-
-.privacy-option:hover {
-    color: #FFD700;
 }
 
 .login-record {
@@ -567,11 +536,24 @@ header {
     color: black;
 }
 
-/* Cameras */ 
+.privacy-option:hover {
+    color: #FFD700;
+}
 
-.newCamContainer {
-    display: none;
-    padding: 5px;
-    background-color: white;
-    height: 150px;
+/* Footer Section */
+.footer {
+    padding: 25px;
+    font-size: 15px;
+    color: white;
+    background-color: black;
+    opacity: 90%;
+    text-align: center;
+    position: relative;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .camera-grid {
+        grid-template-columns: 1fr;
+    }
 }
