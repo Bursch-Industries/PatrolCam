@@ -80,7 +80,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
     inputs.forEach(input => {
         if (input.element.value.trim() === '') {
             input.element.style.border = '2px solid red';
-            console.log(`missing ${input.name}`);
             isInvalid = true;
         } else {
             input.element.style.border = '2px solid green';
@@ -99,7 +98,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
                 requestBody[input.name] = input.element.value.trim();
             });
 
-            console.log(JSON.stringify(requestBody));
             // POST to server API
             const response = await fetch('/contact', {
                 method: 'POST',
@@ -108,7 +106,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
                 },
                 body: JSON.stringify(requestBody),
             });
-            console.log(response.status);
             if (!response.ok) {
                 const data = await response.json();
                // errorMessage.textContent = data.message; // Display error message  
@@ -118,7 +115,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
                 console.error('Error:', error.message);
                 //errorMessage.textContent = 'An unexpected error occurred.';
             }
-            console.log('Contact Form Sent');
             window.location.href = '/'; // Adjust the URL as necessary
     }
 

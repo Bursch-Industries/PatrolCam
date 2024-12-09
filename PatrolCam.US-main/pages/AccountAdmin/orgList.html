@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrganizationList</title>
+    <link rel="icon" type="image/png" href="PatrolCamLogo.png">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="orgList.css">
+    <link rel="stylesheet" href="login-modal.css">
+    <script src="../../FrontEndJavaScript/fetchNavbar.js" defer></script>
+    <script src="../../FrontEndJavaScript/orgListModals.js" defer></script>
+    <script src="../../FrontEndJavaScript/fetchOrgPage.js" defer></script>
+    <script src="../../FrontEndJavaScript/sessionTimeout.js" defer></script>
+    <script src="../../FrontEndJavaScript/org-settings.js" defer></script> <!--This is here for the different Color Dropdown-->
+</head>
+<body>
+    <!--This is where the header is coded-->
+    <header id="navbar"></header>
+
+    <div class="main-content">
+        <div class="filters-section"> 
+            <div class="left">
+                <form id="searchForm" class="searchContainer"> 
+                    <p>Search:</p>
+                    <input type="text" id="searchbar">      
+                </form>
+                <button id="filterFormToggle" class="filterButton">Filter</button>
+            </div>
+            <div class="right">
+                <button id="orgFormButton" class="addButton">+</button>
+            </div>
+        </div>
+
+        <!-- Modal Form to create a new organization -->
+        <div id="orgFormContainer" class = "orgFormContainer">
+
+            <form method="POST" action="/register/newOrg">
+
+                <h2>Organization Details</h2>
+                <div class="inputColumns">
+
+                    <div class="inputBox">
+                        <label for="orgName">Organization Name:</label>
+                        <input type="text" id="orgName" name="orgName" placeholder="Enter organization name" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="orgEmail">Organization Email:</label>
+                        <input type="email" id="orgEmail" name="orgEmail" placeholder="Enter organization email" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="orgPhone">Organization Phone:</label>
+                        <input type="tel" id="orgPhone" name="orgPhone" placeholder="Phone number" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="orgAddress">Organization Address:</label>
+                        <input type="text" id="orgAddress" name="orgAddress" placeholder="Street Address" required>
+                    </div>
+
+                    <div class="addressBox">
+
+                        <div class="cityBox">
+                            <label for="orgCity">City:</label>
+                            <input type="text" id="orgAddress" name="orgcity" placeholder="City" required>
+                        </div>
+
+                        <div class="stateBox">
+                            <label for="orgState">State:</label>
+                            <input type="text" id="orgState" name="orgState" placeholder="State" required>
+                        </div>
+
+                        <div class="zipBox">
+                            <label for="orgZipCode">Zip Code:</label>
+                            <input type="text" id="orgZip" name="orgZip" placeholder="Zip Code" required>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <h2>New Admin Details</h2>
+
+                <div class="inputColumns">
+
+                    <div class="inputBox">
+                        <label for="userFirstname">First Name:</label>
+                        <input type="text" id="userFirstname" name="userFirstname" placeholder="Enter first name" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="userLastname">Last Name:</label>
+                        <input type="text" id="userLastname" name="userLastname" placeholder="Enter last name" required>
+                    </div>
+                    
+                    <div class="inputBox">
+                        <label for="userEmail">User Email:</label>
+                        <input type="email" id="userEmail" name="userEmail" placeholder="Enter email" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
+                    </div>
+                </div>
+
+                <button class="registerButton" type="submit">Create</button>
+
+            </form>
+        </div>
+
+        <!-- Form for advanced filtering of org list -->
+         <div id="filterContainer" class="filterContainer">
+            <form id="filterForm" class="filter-form">
+                <h2>Filter Results</h2>
+               
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="">-- Select a Category --</option>
+                    <option value="numberOfUsers">Number of Users</option>
+                </select>
+            
+                <label for="value-range">Value Range:</label>
+                <input type="text" id="minValue" name="min-value" placeholder="Min Value">
+                <input type="text" id="maxValue" name="max-value" placeholder="Max Value">
+            
+                <button id="advancedFilterSubmit">Apply Filters</button>
+            </form>
+        </div>
+
+        <div class="org-table-section">
+            <div class="tableOrg">
+                <div class="tableBackground">
+                    <div class="tableNav">
+                        <h3 id="toggleActivity">Toggle</h3>
+                        <button id="filterOrgName" class="userToggle">Org Name</button>
+                        <button id="filterNumUsers" class="userToggle"># of Users</button>
+                        <h3 id="details">More Details</h3>
+                    </div>
+                </div>
+
+                <!-- div where organizations are populated -->
+                <div id="orgList" class="orgList"></div>
+
+                <div class="tableFooter">
+                    <button id="previousPage" class="backPage">&lt;</button>
+                    <p class="page-info">
+                        Pg. <input id="pageNumber" class="pageNumber" placeholder="#" aria-label="Page Number" />
+                        / <span id="maxPages"></span>
+                    </p>
+                    <button id="nextPage" class="forwardPage">&gt;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">© 2024 PatrolCam. All rights reserved.</footer>
+</body>
+
+</html>

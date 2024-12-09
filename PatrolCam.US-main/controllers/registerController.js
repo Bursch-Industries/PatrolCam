@@ -2,24 +2,25 @@ const User = require('../model/User'); //User schema
 const Organization = require('../model/Organization'); //Organization schema
 const Camera = require('../model/Camera'); //Camera schema
 const bcrypt = require('bcrypt'); //For hashing passwords
+const mongoose = require('mongoose');
 const  { logActivity } = require('./logger'); //Used for logging activities
 const { logError } = require('./errorLogger'); //Used for logging errors
 const { withTransaction } = require('./transactionHandler') //Handles Database transaction
 
 //Handles new user creation
 async function handleNewUser (req, res) {
-    const { user, password, userFirstname, userLastname, userEmail, phone, rank } = req.body;
+    const { password, userFirstname, userLastname, userEmail, phone, rank, role } = req.body;
 
-    //Check missing request fields
-    if (!user || !password || !userFirstname || !userLastname || !userEmail){
+    // Check missing request fields
+    if (!password || !userFirstname || !userLastname || !userEmail){
         
         return res.status(400).json({ 'Error while creating new user': 'All required fields must be filled.' });
     }
 
-    //Check for duplicate usernames in the db
-    const duplicate = await findUser(user)
+    // Check for duplicate usernames in the db
+    const duplicate = await User.findOne({email: userEmail}) // Locate user
     if (duplicate) {
-        return res.sendStatus(409) //Duplicate conflict 
+        return res.sendStatus(409) // Duplicate conflict 
     }
 
     try {
@@ -29,14 +30,14 @@ async function handleNewUser (req, res) {
             
             //Create and store the new user
             const newUser = new User({
-                username: user,
                 password: hashedPassword,
                 firstname: userFirstname,
                 lastname: userLastname,
                 email: userEmail,
                 organization: "Individual",
                 phone: phone || 'N/A', //Optional
-                rank: rank || 'N/A' //Optional
+                rank: rank || 'N/A', //Optional
+                roles: role
             });
             await newUser.save({ session });
 
@@ -52,7 +53,7 @@ async function handleNewUser (req, res) {
         });
 
         //User creation success
-        res.status(201).json({ 'User creation success': `New user ${user} created!` });
+        res.status(201).json({ 'User creation success': `New user ${userFirstname} created!` });
     } catch (error) {
 
         await withTransaction(async (session) => {
@@ -76,20 +77,19 @@ async function handleNewUser (req, res) {
 
 //Handles new organization creation
 async function handleNewOrganization (req, res) {
-    const { orgName, orgEmail, orgPhone, orgAddress, user, password, userFirstname, userLastname, userEmail } = req.body;
+    const { orgName, orgEmail, orgPhone, orgAddress, orgCity, orgState, orgZip, password, userFirstname, userLastname, userEmail } = req.body;
 
     //Check missing request fields
-    if (!orgName || !orgPhone || !orgAddress || !user || !password || !orgEmail || !userFirstname || !userLastname || !userEmail) {
+    if (!orgName || !orgPhone || !orgAddress || !password || !orgEmail || !userFirstname || !userLastname || !userEmail) {
         return res.status(400).json({ 
             'Error occured while creating new organization' : 'All required fields must be filled.'
         });
     }
 
     //Check for duplicate usernames in the database
-    const organizationDuplicate = await Organization.findOne({ organizationName: orgName}).exec();
-    const userDuplicate = await findUser(user)
+    const organizationDuplicate = await Organization.findOne({ organizationName: orgName});
 
-    if (organizationDuplicate || userDuplicate) {
+    if (organizationDuplicate) {
         return res.sendStatus(409) //Duplicate conflict
     } 
 
@@ -100,12 +100,11 @@ async function handleNewOrganization (req, res) {
 
             //Create and store the owner of organization
             const owner = new User({
-                username: user,
-                password: hashedPassword,
-                roles: 'Creator',
                 firstname: userFirstname,
                 lastname: userLastname,
+                password: hashedPassword,
                 email: userEmail,
+                roles: 'Admin',
                 organization: "N/A" //Null since we don't have organization id yet
             });
             await owner.save({ session });
@@ -115,7 +114,7 @@ async function handleNewOrganization (req, res) {
                 organizationName : orgName,
                 owner: owner._id, //Attach owner id to keep track of creator
                 organizationPhone: orgPhone,
-                organizationAddress: orgAddress,
+                organizationAddress: {Address1: orgAddress, City: orgCity, State: orgState, ZipCode: orgZip}, 
                 users: [owner._id], 
                 organizationEmail: orgEmail,
             });
@@ -170,25 +169,26 @@ async function handleNewOrganization (req, res) {
     }
 }
 
-//Deletes user using username
+//Deletes user using userId
 async function deleteOrganizationUser (req, res) {
-    const { username, admin } = req.body;
+    //Id of user being deleted
+    const { userId } = req.body;
 
     //Check missing request fields
-    if (!username || !admin) return res.status(400).json({
+    if (!userId) return res.status(400).json({
         "Error occured while deleting user" : "All required fields must be filled."
     });
 
-    const deletedBy = await findUser(admin)
-    const user = await findUser(username)
+    const deletedBy = await User.findById(req.session.user.id);
+    const userToDelete = await User.findById(userId);
 
     //Check if user or deletedBy is undefined
-    if(!deletedBy || !user){
+    if(!deletedBy || !userToDelete){
         return res.sendStatus(404) //User not found
     }
 
-    //Check if both users are from the same organization and action performers role is set to creator
-    if(!deletedBy.organization.equals(user.organization) || !checkUserRole(deletedBy)){
+    //Check if both users are from the same organization and action performers role is Admin or AccountAdmin
+    if(!deletedBy.organization.equals(userToDelete.organization) || (deletedBy.roles != "Admin" && deletedBy.roles != "AccountAdmin")){
         return res.sendStatus(403) //Access denied
     }
 
@@ -198,21 +198,21 @@ async function deleteOrganizationUser (req, res) {
             //Remove user from organization
             const newData = await Organization.findByIdAndUpdate(
                 deletedBy.organization,
-                { $pull: {users: user._id}},
+                { $pull: {users: userToDelete._id}},
                 { new: true},
                 session
             )
 
-            await User.deleteOne({username}, {session})//locate username and delete
+            await User.deleteOne({userToDelete}, {session})//locate user and delete
 
             //Log user deletion
             await logActivity({
                 action: 'delete',
                 collectionName: 'User',
-                documentId: user._id,
+                documentId: userToDelete._id,
                 performedBy: deletedBy._id,
-                organizationId: user.organization,
-                removedData: user,
+                organizationId: userToDelete.organization,
+                removedData: userToDelete,
                 session
             });
 
@@ -220,7 +220,7 @@ async function deleteOrganizationUser (req, res) {
             await logActivity({
                 action: 'update',
                 collectionName: 'Organization',
-                documentId: user.organization,
+                documentId: userToDelete.organization,
                 performedBy: deletedBy._id,
                 originalData: {
                     originalUsers: originalData.users
@@ -233,7 +233,7 @@ async function deleteOrganizationUser (req, res) {
         });
 
         //Deletion success
-        return res.status(200).json({"Deletion Confirmation" : `User ${username} deleted Successfully!`})
+        return res.status(200).json({"Deletion Confirmation" : `User ${userToDelete._id} deleted Successfully!`})
 
     } catch (error){
 
@@ -243,7 +243,7 @@ async function deleteOrganizationUser (req, res) {
                 level: 'ERROR',
                 desc: 'Failed to delete User',
                 source: 'registerController - deleteOrganizationUser',
-                userId: deletedBy,
+                userId: deletedBy._id,
                 code: '500',
                 meta: { message: error.message, stack: error.stack },
                 session
@@ -257,14 +257,14 @@ async function deleteOrganizationUser (req, res) {
 
 //User password reset
 async function handlePasswordReset (req, res) {
-    const { username, newPwd } = req.body;
+    const { newPwd } = req.body;
 
     //check missing request fields
-    if (!username || !newPwd) {
+    if (!req.session || !req.session.user || !newPwd) {
         return res.status(400).json({"Password Reset error" : "All required fields must be filled."});
     }
 
-    const user = await findUser(username);//Find user by username
+    const user = await User.findById(req.session.user.id);
 
     if(!user){
         return res.sendStatus(404)
@@ -274,7 +274,7 @@ async function handlePasswordReset (req, res) {
             const newHashedPwd = await hashPassword(newPwd);//Hash new password
 
             await User.findOneAndUpdate( //Update new password over in database
-                {username},
+                {_id: req.session.user.id},
                 {password : newHashedPwd},
                 {session}
             )
@@ -320,25 +320,19 @@ async function handlePasswordReset (req, res) {
 
 //Adding new user into organization
 async function handleAddNewOrgUser (req, res) {
-    const {creator, user, userPassword, userFirstname, userLastname, userEmail } = req.body;
+    const {userPassword, userFirstname, userLastname, userEmail } = req.body;
 
     //Check missing request fields
-    if(!creator || !user || !userPassword || !userFirstname || !userLastname || !userEmail) {
+    if(!userPassword || !userFirstname || !userLastname || !userEmail) {
         return res.status(400).json({"Error occured while adding user to organization" : "All required fields must be filled."});
     }
-
-    //Check for duplicate usernames in the db
-    const duplicate = await User.findOne({ username: user }).exec();
-    if (duplicate) {
-        return res.sendStatus(409) //Duplicate conflict 
-    } 
-
-    //Find and store organization and user data based on username
-    const {organizationData, userData, error} = await findOrganizationForAdmin(creator);
+ 
+    const creator = await User.findById(req.session.user.id);
+    const organizationData = await Organization.findById(creator.organization);
 
     //If user wasn't found or access was denied
     if(error) {
-        return res.sendStatus(error === "User not found" ? 404 : 403)
+        return res.status(error === "User not found" ? 404 : 403)
     }
 
     try{
@@ -348,13 +342,12 @@ async function handleAddNewOrgUser (req, res) {
 
             //Create and store the subuser of organization
             const subUser = new User({
-                username: user,
                 password: hashedPassword,
                 firstname: userFirstname,
                 lastname: userLastname,
                 email: userEmail,
                 organization: organizationData._id,
-                createdBy: userData._id
+                createdBy: creator._id
             });
 
             await subUser.save({ session })
@@ -362,7 +355,7 @@ async function handleAddNewOrgUser (req, res) {
             //Add the new sub user into the organization user list
             const updatedOrganization = await Organization.findByIdAndUpdate(
                 organizationData._id,
-                { $push:{ users: subUser.id}},
+                { $push:{ users: subUser._id}},
                 { new: true, session}
             )
             await updatedOrganization.save({session})
@@ -377,7 +370,7 @@ async function handleAddNewOrgUser (req, res) {
                 action: 'create',
                 collectionName: 'User',
                 documentId: subUser._id,
-                performedBy: userData._id,
+                performedBy: creator._id,
                 organizationId: organizationData._id,
                 newData: subUser,
                 session
@@ -388,7 +381,7 @@ async function handleAddNewOrgUser (req, res) {
                 action: 'update',
                 collectionName: 'Organization',
                 documentId: organizationData._id,
-                performedBy: userData._id,
+                performedBy: creator._id,
                 originalData: {
                     originalUsers: organizationData.users
                 },
@@ -426,52 +419,59 @@ async function handleAddNewOrgUser (req, res) {
 
 //Handles adding camera to organization
 async function addCameraToOrganization(req, res) {
-    const {camName, username, camModel, camLocation} = req.body;
+    const {camName, camModel, camLocation} = req.body;
 
     //Check missing request fields
-    if (!camName || !username || !camModel || !camLocation){
+    if (!camName || !camModel || !camLocation){
         return res.status(400).json({"Error occured while adding camera to organization":"All required fields must be filled."})
     } 
 
-    //Find and store organization and user data based on username
-    const {organizationData, userData, error} = await findOrganizationForAdmin(username)
+    let user;
+    let organizationData;
 
-    //If user wasn't found or access was denied
-    if(error) {
-        return res.sendStatus(error === "User not found" ? 404 : 403)
+
+    if(req.session && req.session.user && req.session.user.id) {
+        user = await User.findById(req.session.user.id);
+        organizationData = await Organization.findById(user.organization);
+    } else { 
+        return res.sendStatus(404);
     }
+
+    
+    const owner = organizationData._id;
+    const admin = user._id;
 
     try{
         await withTransaction(async (session) => {     
             //Create and store camera in database
             const newCamera = new Camera({
                 camera_Name: camName,
-                model:camModel,
-                owner: organizationData._id,
+                model: camModel,
+                owner: owner,
                 location: camLocation,
-                users: [userData._id]
+                users: [admin]
             });
             await newCamera.save({session});
 
             //Update the camera list in organization
             const updatedData = await Organization.findByIdAndUpdate(
-                organizationData._id,
-                { $push:{ cameras: newCamera.id}},
+                owner,
+                { $push:{ cameras: newCamera._id}},
                 { new: true}
             )
             await updatedData.save({session});
 
             //Check if the camera was added successfully
             if(!newCamera) {
-                throw new Error(`Couldnot add camera to organization ${organizationData.organizationName}`)
+                throw new Error(`Could not add camera to organization ${organizationData.organizationName}`)
             }
             //Log new camera creation
             await logActivity({
                 action: 'create',
                 collectionName: 'Camera',
                 documentId: newCamera._id,
-                organizationId: organizationData._id,
-                performedBy: userData._id,
+                organizationId: owner,
+                performedBy: admin,
                 newData: newCamera,
                 session
             })
@@ -480,8 +480,8 @@ async function addCameraToOrganization(req, res) {
             await logActivity({
                 action: 'update',
                 collectionName: 'Organization',
-                documentId: organizationData._id,
-                performedBy: userData._id,
+                documentId: owner,
+                performedBy: admin,
                 originalData: {
                     originalCameras: organizationData.cameras
                 },
@@ -503,7 +503,7 @@ async function addCameraToOrganization(req, res) {
                 level: 'ERROR',
                 desc: 'Failed to create new Camera',
                 source: 'registerController - addCameraToOrganization',
-                userId: userData.username,
+                userId: admin,
                 code: '500',
                 meta: { message: error.message, stack: error.stack },
                 session
@@ -515,41 +515,15 @@ async function addCameraToOrganization(req, res) {
     }
 }
 
-async function findOrganizationForAdmin(username) {
+async function findOrganizationForAdmin(userId) {
     try {
-        //Find the creator user
-        const user = await findUser(username);
-        if(!user){
-            return {error: 'User not found'}
-        }
+        const userOrganization = await userId.populate('organization')
 
-        //Check if user has "Creator" role
-        const isAdmin = checkUserRole(user) //Checks user authorization
-        if (!isAdmin) {
-            return {error: 'Access Denied'} //Throw access denied error if user isn't authorized
-        } 
-
-        const userOrganization = await user.populate('organization')
-
-        return {organizationData: userOrganization.organization, userData: user}
+        return {organizationData: userOrganization.organization, userData: userId};
 
     } catch (error) {
 
-        await withTransaction(async (session) => {
-                
-            await logError(req, {
-                level: 'ERROR',
-                desc: 'Failed to find Organization Creator',
-                source: 'registerController - findOrganizationCreator',
-                userId: 'System',
-                code: '500',
-                meta: { message: error.message, stack: error.stack },
-                session
-            });
-
-        });
-
-        return {error: `Error occured while searching for organization: ${error.message}`}
+        return {error: `Error occured while searching for organization: ${error.message}`};
     }
 };
 
@@ -579,32 +553,15 @@ async function hashPassword (password) {
     }
 }
 
-//Check if the user role is "Creator"
-function checkUserRole(user){
-    if (!user || !user.roles) {
-        return false //Return false if user or roles are not defined
-    }
-
-    //Case insensitive check for string roles
-    return user.roles.toLowerCase() === "creator" || user.roles.toLowerCase() === "admin"
-}
-
-//Finds user using username
-async function findUser(username){
-    const user = await User.findOne({username:username}) //Locate user
-    if(!user) return false
-    return user //Return result
-}
-
 async function getCameraDetails(req, res) {
-    const { username } = req.body;
 
-    if(!username){
-        return res.status(400).json({"Error occured while getting camera details": "All fields are required"})
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
     }
 
     try{
-        const user = await findUser(username)
+        
+        const user = await User.findById(req.session.user.id);
         
         if(!user){
             return res.sendStatus(404)
@@ -612,15 +569,18 @@ async function getCameraDetails(req, res) {
 
         const organization = await Organization.findById(user.organization._id).populate({
             path: 'cameras',
-            select: 'camera_Name location status -_id'
+            select: '_id camera_Name location status'
         }).exec();
 
-        if(!organization || !organization.cameras || !organization.cameras.length === 0){
-            return res.sendStatus(404)
+        if(!organization || !organization.cameras){
+            return res.sendStatus(500);
+        }
+
+        if(organization.cameras.length === 0){
+            return res.sendStatus(204)
         }
 
         return res.status(200).json({
-            message: `Cameras found for user ${username}`,
             cameras: organization.cameras
         })
     } catch (error) {
@@ -643,15 +603,60 @@ async function getCameraDetails(req, res) {
     }
 }
 
-async function getOrgUserData(req, res) {
-    const { username } = req.body
+async function getUserData(req, res){
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
 
     try{
-        const orgUserArray = await getUserFields(username, ['firstname', 'lastname', '-_id']) 
+        const userData = await User.findById(req.session.user.id)
+            .select("firstname lastname email phone -_id")
+            .lean()
+            .exec();
+        
         return res.status(200).json({
-            message: `Users found for user ${username}`,
+            user: userData
+        })
+        
+    } catch (error) {
+        if(error.message === "404") return res.sendStatus(404)
+        if(error.message === "403") return res.sendStatus(403)
+
+        await withTransaction(async (session) => {  
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to retrieve users data',
+                source: 'registerController - getUserData',
+                userId: 'System',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+        });
+
+        return res.status(500).json({'Error occured while getting user data' : error.message})
+    } 
+}
+
+async function getOrgUserData(req, res) {
+
+
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
+
+    const user = await User.findById(req.session.user.id);
+
+    if(!user){
+        return res.sendStatus(401);
+    }
+    
+    try{
+        const orgUserArray = await getUserFields(req.session.org.id, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id']) 
+        return res.status(200).json({
             users: orgUserArray.users
         })
+        
     } catch (error) {
         if(error.message === "404") return res.sendStatus(404)
         if(error.message === "403") return res.sendStatus(403)
@@ -673,10 +678,12 @@ async function getOrgUserData(req, res) {
 }
 
 async function getUserLastLogin(req, res) {
-    const { username } = req.body
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
 
     try{
-        const lastLoginArray = await getUserFields(username, ["firstname", "lastname", "lastLoggedIn", "-_id"])
+        const lastLoginArray = await getUserFields(req.session.org.id, ["firstname", "lastname", "lastLoggedIn", "-_id"])
         return res.status(200).json({
             message: 'Login history found',
             users: lastLoginArray.users
@@ -701,39 +708,33 @@ async function getUserLastLogin(req, res) {
     }
 }
 
-async function getUserFields(username, fields = []) {
-    if(!username){
-        throw new Error("All fields are required")
-    }
-    const {organizationData, error} = await findOrganizationForAdmin(username)
-
-    if(error){
-        throw new Error(error === "User not found" ? "404" : "403")
-    }
+async function getUserFields(orgId, fields = []) {
 
     const fieldSelection = fields.join(' ')
-    const orgUserData = await Organization.findById(organizationData._id)
+    const orgUserData = await Organization.findById(orgId)
         .populate({
             path: "users",
             select: fieldSelection
         })
         .lean()
-        .exec()
+        .exec();
     
     if(!orgUserData || !orgUserData.users || !orgUserData.users.length === 0) {
         throw new Error("404")
     }
-
     return orgUserData
 }
 
 async function getOrganizationDetails(req, res){
-    const { username } = req.body
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
+
+    const user = await User.findById(req.session.user.id);
 
     try{
-        const orgDetails = await getOrganizationFields(username)
+        const orgDetails = await Organization.findById(user.organization);
         return res.status(200).json({
-            message: 'Organization detials retrieved successfully',
             organization: orgDetails
         })
     } catch (error) {
@@ -756,11 +757,9 @@ async function getOrganizationDetails(req, res){
     }
 }
 
-async function getOrganizationFields(username){
-    if(!username){
-        throw new Error("All fields are required")
-    }
-    const {organizationData, error} = await findOrganizationForAdmin(username)
+async function getOrganizationFields(userId){
+    
+    const {organizationData, error} = await findOrganizationForAdmin(userId)
 
     if(error){
         throw new Error(error === "User not found" ? "404" : "403")
@@ -779,9 +778,233 @@ async function getOrganizationFields(username){
     if(!orgFields) {
         throw new Error("404")
     }
-
+    
     return orgFields
 }
+
+//TODO: Test function and make sure it works
+async function getOrganizationList(req, res){
+    if(!req.session || !req.session.user){
+        return res.sendStatus(401);
+    }
+
+    const user = await User.findById(req.session.user.id)
+    if(!user){
+        return res.sendStatus(404)
+    }
+
+    try{
+        const orgList = getAllOrganizations(user)
+        return res.json(orgList) //Send the organization list as JSON
+
+    } catch (error) {
+        if(error.message === "403") return res.sendStatus(403)
+
+        await withTransaction(async (session) => {  
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to retrieve organization list',
+                source: 'registerController - getOrganizationList',
+                userId: 'System',
+                code: '500',
+                meta: { message: error.message, stack: error.stack },
+                session
+            });
+        });
+    
+        return res.status(500).json({'Error occured while getting organization list' : error.message})
+    }
+}
+
+async function getAllOrganizations(user){
+    if((user.roles).toLowerCase() !== 'AccountAdmin'){
+        throw new Error("403") //Throw error if user is not authorized
+    }
+
+    const organizations = await Organization.find({})
+    return organizations
+}
+
+// Function used to get the name of the current user. Currently used to display name in the Dashboard html
+const getCurrentUserFirstName = async(req, res) => {
+
+    try{
+        if(req.session && req.session.user){  // Check for login
+            const userId = req.session.user.id; // Get ID from request object
+            const currentUser = await User.findById(userId); 
+            const nameString = ', ' + currentUser.firstname; // Add comma here, rather than in raw HTML, so if the name is not found the greeting will be "Welcome Back!"
+            res.json({ name: nameString });
+        } else{
+            res.json( { name: '!' } ) // If the user is logged in and the name isn't found, return generic greeting
+        }
+    } catch(error) {
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'TRACE',
+                desc: 'Failed to find name of current user',
+                source: 'getCurrentUserFirstName',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: '500',
+                meta: {error: error.message},
+                session
+            });
+        });
+        res.status(500).json({message: 'Failed to find name of current user', error: error.message})
+    }
+    
+}
+
+// Function to log out all users of an organization that are currently logged in
+async function deactivateOrg(req, orgId) {
+
+    // Allows access to sessions without making a dedicated model since we are using mongo-connect
+    let Session = mongoose.model('Session', new mongoose.Schema({}, { collection: 'sessions' }));
+    try {
+        let result = await Session.deleteMany({ org: {id: orgId }}); // Delete all sessions for given org
+        await logActivity({
+            action: 'Organization Deactivation - ' + orgId,
+            collectionName: 'sessions',
+            performedBy: req.session.user.id
+        })
+    } catch (error) {
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to deactivate organization',
+                source: 'deactivateOrg',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: 'ORG_DEACTIVATE_ERROR',
+                meta: {error: error.message},
+                session
+            });
+        });
+        console.error('Error deleting documents:', error);
+    }
+}
+
+async function updateOrganizationStatus(req, res){
+
+    if(!req.session.user){
+        return res.sendStatus(401)
+    }
+
+    const newStatus = req.body.status;
+    const orgToUpdate = req.body.orgId;
+    const originalStatus = Organization.findById(orgToUpdate).status;
+    try{
+
+        await withTransaction(async (session) => {
+            await Organization.findByIdAndUpdate(
+                orgToUpdate,
+                {$set: {status: newStatus}},
+                {new: true, session}
+            )         
+            if(newStatus == "Inactive") {
+                await deactivateOrg(req, orgToUpdate);
+            }
+            await logActivity({
+                action: 'Update Organization Status - ' + orgToUpdate,
+                collectionName: 'organizations',
+                originalData: originalStatus,
+                newData: newStatus,
+                performedBy: req.session.user.id
+            })
+        })
+
+        return res.status(200).json({message: 'Success'})
+
+    } catch (error){
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to update organization status',
+                source: 'updateOrganizationStatus',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: 'ORG_UPDATE_ERROR',
+                meta: {error: error.message},
+                session
+            });
+        });
+
+        res.status(500).json({message: 'Failed to update organization information', error: error.message})
+    }
+    
+}
+
+//TODO: Create update function to organization data
+async function updateOrganizationInfo(req, res){
+
+    if(!req.session.user){
+        return res.sendStatus(401)
+    }
+
+    try{
+        const updatedData = req.body
+
+        await withTransaction(async (session) => {
+            await Organization.findByIdAndUpdate(
+                req.session.user.organizationId,
+                {$set: updatedData},
+                {new: true, session}
+            )
+        })
+
+        return res.status(200).json({message: 'Organization information updated successfully'})
+
+    } catch (error){
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to update organization information',
+                source: 'updateOrganizationInfo',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: 'ORG_UPDATE_ERROR',
+                meta: {error: error.message},
+                session
+            });
+        });
+
+        res.status(500).json({message: 'Failed to update organization information', error: error.message})
+    } 
+}
+
+async function updateCameraInfo(req, res){
+
+    if(!req.session.user){
+        return res.sendStatus(401)
+    }
+
+    try{
+        const {updatedInfo, cameraInfo} = req.body
+
+        await withTransaction(async (session) => {
+            await Camera.findByIdAndUpdate(
+                cameraInfo,
+                {$set: updatedInfo},
+                {new: true, session}
+            )
+        })
+
+        return res.status(200).json({message: 'Camera information updated successfully'})
+
+    } catch (error){
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to update Camerea information',
+                source: 'updateCameraInfo',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: 'CAMERA_UPDATE_ERROR',
+                meta: {error: error.message},
+                session
+            });
+        });
+
+        res.status(500).json({message: 'Failed to update camera information', error: error.message})
+    } 
+}
+
+
 
 module.exports = { 
     handleNewUser, 
@@ -791,7 +1014,13 @@ module.exports = {
     handleAddNewOrgUser, 
     addCameraToOrganization,
     getCameraDetails,
+    getUserData,
     getOrgUserData,
     getUserLastLogin,
-    getOrganizationDetails
+    getOrganizationDetails,
+    getOrganizationList,
+    getCurrentUserFirstName,
+    updateOrganizationInfo,
+    updateOrganizationStatus,
+    updateCameraInfo
 };

@@ -53,8 +53,7 @@ const sendContactFormEmail = async (req, res) => {
                 session
             });
         });
-
-        // REPLACE this with client-side js to show confirmation of successful email sent ? 
+        
         return res.sendStatus(200);
 
     } catch (err) {

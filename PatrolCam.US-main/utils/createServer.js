@@ -26,6 +26,9 @@ app.use(sessionMiddleware.sessionMiddleware);
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use('/FrontEndJavaScript', express.static(path.join(__dirname, '../FrontEndJavaScript')));
 
+// Refresh session on server action
+app.use(sessionMiddleware.sessionRefresh);
+
 // Page Routers
 app.use('/', require('../routes/root'));
 
@@ -39,10 +42,8 @@ app.use('/', require('../routes/api/emailAPI'));
 app.use('/login', require('../routes/api/loginAPI'));
 
 // Query API
-app.use('/api/user', require('../routes/api/userAPI'));
+app.use('/api/org', require('../routes/api/orgAPI'));
 
-// Refresh session on server action
-app.use(sessionMiddleware.sessionRefresh);
 
 // Universal 404 Catch
 app.use((req, res, next) => {

@@ -4,67 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surveillance</title>
+    <link rel="icon" type="image/png" href="PatrolCamLogo.png">
+    <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="camera_page.css">
-    <link rel="stylesheet" href="/login-modal.css">
-    <script src="../FrontEndJavaScript/camera-grid.js" defer></script>
+    <link rel="stylesheet" href="login-modal.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+    <script src="../../FrontEndJavaScript/fetchNavbar.js" defer></script>
+    <script src="../FrontEndJavaScript/camera-grid.js" defer></script>
+    <script src="../../FrontEndJavaScript/sessionTimeout.js" defer></script>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <a href="/#index.html"><img src="PatrolCamLogo.png" alt="PatrolCam Logo"></a>
-        </div>
-        <nav class="navbar">
-            <a href="/dashboard">Home</a>
-            <a href="/demo">Demo</a>
-            <a href="/#contact-section">Contact Us</a>
-            <a href="/cameras">Surveillance</a>
-        </nav>
-        <img id="grid-icon" src="grid_icon.svg" alt="Grid Icon" class="grid-icon">
+    <!-- Navbar placeholder -->
+    <header id="navbar"></header>
 
-        <!-- <img src="placeholderOfficer.png" id="logout-show"> -->
-        <a href="#" id="logout-show" class="profile-picture">
-            <img src="./officer_placeholder_1.jpg" id="login-show" alt="Profile Picture">
-        </a>
+    <!-- Camera grid container -->
+    <div class="grid-container" id="grid-container"></div>
 
-        <div id="logout-modal">
-            <div class="out-modal">
-                <div class="top-out-form">
-                    <div class="close-out-modal">
-                        &#10006;
+    
+    <script>
+        const cameras = [
+            "Camera_1.mp4", "Camera_2.mp4", "Camera_3.mp4",
+            "Camera_4.mp4", "Camera_5.mp4", "Camera_6.mp4",
+            "Camera_7.mp4", "Camera_8.mp4", "Camera_9.mp4"
+        ];
+
+        function generateGrid(gridType) {
+            const container = document.getElementById("grid-container");
+
+            // Clear current grid content
+            container.innerHTML = "";
+
+            // Remove any existing grid class
+            container.className = "grid-container";
+
+            // Add the specific grid class
+            container.classList.add(`grid-${gridType}`);
+
+            let rows = 1, cols = 1;
+
+            if (gridType === "1x1") { rows = 1; cols = 1; }
+            if (gridType === "1x2") { rows = 1; cols = 2; }
+            if (gridType === "2x2") { rows = 2; cols = 2; }
+            if (gridType === "3x3") { rows = 3; cols = 3; }
+
+            container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+            const totalCameras = rows * cols;
+            for (let i = 0; i < totalCameras; i++) {
+                const cameraFrame = document.createElement("div");
+                cameraFrame.classList.add("camera-frame");
+
+                // Add dropdown and video iframe inside each frame
+                cameraFrame.innerHTML = `
+                    <div class="camera-dropdown">
+                        <button class="camera-icon-btn">⚙</button>
+                        <div class="camera-dropdown-content">
+                            <div class="camera-column">
+                                ${cameras.slice(0, 4).map((camera, index) => `<a href="#" data-camera="${camera}">Camera ${index + 1}</a>`).join("")}
+                            </div>
+                            <div class="camera-column">
+                                ${cameras.slice(4).map((camera, index) => `<a href="#" data-camera="${camera}">Camera ${index + 5}</a>`).join("")}
+                            </div>
+                        </div>
+                    </div>
+                    <iframe src="${cameras[i]}" frameborder="0" allowfullscreen></iframe>
+                `;
+
+                // Add event listener for camera dropdown links
+                cameraFrame.querySelectorAll(".camera-dropdown-content a").forEach(link => {
+                    link.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        const selectedCamera = e.target.dataset.camera;
+                        cameraFrame.querySelector("iframe").src = selectedCamera;
+                    });
+                });
+
+                container.appendChild(cameraFrame);
+            }
+        }
+
+        // Listen for navbarLoaded event and add the grid icon to the navbar
+        document.addEventListener("navbarLoaded", () => {
+            const navbar = document.getElementById("navbar");
+
+            const dropdownHTML = `
+                <div class="dropdown">
+                    <button id="grid-icon" class="grid-icon-btn">☰</button>
+                    <div class="dropdown-content">
+                        <a href="#" data-grid="1x1">1x1</a>
+                        <a href="#" data-grid="1x2">1x2</a>
+                        <a href="#" data-grid="2x2">2x2</a>
+                        <a href="#" data-grid="3x3">3x3</a>
                     </div>
                 </div>
-                <div class="logout-form">
-                    <!-- Form for Settings -->
-                    <form action="/org-settings" method="GET">
-                        <button type="submit">Settings</button>
-                    </form>
-        
-                    <!-- Form for Logout -->
-                    <form action="login/logout" method="POST">
-                        <button type="submit">Logout</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+            `;
 
-        <script type="text/javascript">
-            $(function() {
-                $('#logout-show').click(function(){
-                    $('#logout-modal').fadeIn();
-                });
+            navbar.insertAdjacentHTML("beforeend", dropdownHTML);
 
-                $('.close-out-modal').click(function(){
-                    $('#logout-modal').fadeOut();
+            // Handle grid selection
+            document.querySelectorAll(".dropdown-content a").forEach(link => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const gridType = e.target.dataset.grid;
+                    generateGrid(gridType);
                 });
             });
-        </script>
-    </header>
-    <div class="grid-container" id="grid-container">
-        <iframe src="https://www.youtube.com/embed/MtN1YnoL46Q" title="Video 1" frameborder="0" allowfullscreen></iframe>            <iframe src="https://www.youtube.com/embed/7jjcAuEYW9M" title="Video 2" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/Ru4a-js4My4" title="Video 3" frameborder="0" allowfullscreen></iframe>            <iframe src="https://www.youtube.com/embed/jzk2E4UXFFs" title="Video 4" frameborder="0" allowfullscreen></iframe>
-    </div>
-    
+        });
+
+        // Initialize the default grid (3x3)
+        generateGrid("3x3");
+    </script>
+
+    <footer>
+        <div class="footer">
+            <p>© 2024 PatrolCam. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

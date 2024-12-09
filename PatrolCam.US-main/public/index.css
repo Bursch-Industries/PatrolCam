@@ -1,13 +1,8 @@
-/* Dynamic Wording */
-html {
-    scroll-behavior: smooth;
-}
+
 body {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    color: white;
     text-align: center;
 }
+ 
 .wrapper-main {
     max-width: 80%;
 }
@@ -15,19 +10,6 @@ body {
 /* Header CSS */
 header {
     position: sticky;
-    top: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #0C2D48;
-    opacity: 90%;
-    height: 6rem; /* Adjust height if needed */
-}
-
-.logo {
-    display: flex;
-    align-items: center;
 }
 
 .logo img {
@@ -56,9 +38,10 @@ header {
     padding: 0.625rem 1.25rem;
     background-color: black;
     border-radius: 0.3125rem;
-    width: 6.25rem;
+    width: 9rem;
     box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
 }
+
 
 .navbar a:hover {
     background-color: #333;
@@ -72,8 +55,8 @@ header {
     text-decoration: none;
     font-weight: bold;
     font-size: 1.5rem;
-    height: 1.875rem;
-    width: 6.25rem;
+    /* height: 1.875rem;
+    width: 6.25rem; */
     box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0,0,0,0.3);
     margin-right: 1.25rem;
     line-height: normal;
@@ -109,6 +92,14 @@ header {
     padding-left: 6.25rem;
     font-size: 1.5625rem;
 }
+/* #hero-text {
+    font-family: "Michroma", sans-serif;
+    font-size: 3rem;
+    font-weight: bold;
+    width: 150%;
+    -webkit-text-stroke: 0.2px black;
+    text-shadow: 1px 1px 2px black;
+} */
 .image-section {
     display: flex;
     width: 100%;
@@ -293,11 +284,12 @@ header {
     font-weight: bold;
     box-shadow: 0.1875rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.3);
     display: inline-block;
-    height: 1.875rem;
-    width: 4.6875rem;
+    /* height: 1.875rem;
+    width: 4.6875rem; */
     padding: 0.9375rem;
     font-size: 0.875rem;
     margin-left: 1.25rem;
+    margin-top: 1rem;
 }
 
 .features-gs-button:hover {
@@ -347,7 +339,7 @@ header {
 .contact-form select {
     width: 100%;
     padding: 0.625rem 0;
-    padding-left: 0.125rem;
+    padding-left: 0.5rem;
     margin-bottom: 0.9375rem;
     border: none;
     border-radius: 5px;
@@ -395,10 +387,8 @@ header {
 
 /* Footer CSS */
 .footer {
-    padding: 1px;
-    font-size: 30px;
-    background-color: black;
-    opacity: 90%;
+    padding: 25px;
+    font-size: 1.25rem;
     text-align: center;
     position: relative;
 }

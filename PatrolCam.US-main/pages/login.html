@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login to PatrolCam</title>
+    <link rel="icon" type="image/png" href="PatrolCamLogo.png">
     <link rel="stylesheet" href="./login.css">
     <script src="../FrontEndJavaScript/loginSubmission.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -13,10 +14,10 @@
         <div class="left-section">
             <h1>Welcome back!</h1>
             <p class="enter-credentials">Enter your credentials to access your account</p>
-            <span id="missing-info-error" class="error-message">Missing Username or Password</span>
+            <!-- <span id="missing-info-error" class="error-message">Missing Username or Password</span> -->
             <p>Email address</p>
-            <input type="text" placeholder="Enter your email" name="username" id="username">
-            <span id="username-error" class="error-message">Invalid Username</span>
+            <input type="text" placeholder="Enter your email" name="username" id="loginEmail">
+            <!-- <span id="username-error" class="error-message">Invalid Username</span> -->
             <div class="password-group">
                 <div class="password-label">
                     <p>Password</p>
@@ -26,7 +27,7 @@
                     <input type="password" name="password" placeholder="Enter your password" id="password">
                     <i class="fa-solid fa-eye" id="toggleButton"></i>
                 </div>
-                <span id="password-error" class="error-message">Invalid Password</span>
+                <!-- <span id="password-error" class="error-message">Invalid Password</span> -->
             </div>
             
 
@@ -34,11 +35,15 @@
                 <input type="checkbox" id="remember">
                 <label for="remember">Remember password</label>
             </div>
+
+            <!-- Error box for displaying dynamic error messages -->
+            <div id="error-box" class="error-box"></div>
+
             
             <button type="submit">Login</button>
 
             <div class="signup">
-                <p>Don't have an account? <a href="/userSettings">Sign Up</p></a>
+                <p>Interested in our product? <a href="/#contact-section">Sign Up</p></a>
             </div>
         </div>
 

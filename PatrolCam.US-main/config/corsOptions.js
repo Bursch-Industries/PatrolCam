@@ -2,7 +2,6 @@ const whitelist = ['https://patrol-cam-production-75e679f974e1.herokuapp.com', '
 // Checks for domains in the above list. 
 const corsOptions = {  
     origin: (origin, callback) => {
-        console.log('origin: ' + origin);
         if (whitelist.indexOf(origin) !== -1 || !origin) { 
             callback(null, true)
         } 
