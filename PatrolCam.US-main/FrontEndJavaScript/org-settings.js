@@ -830,7 +830,7 @@ async function populateCamDataAccountAdmin(orgId){
         }
 
         const data = await response.json();
-        renderCameras(data)
+        renderCameras(data, true)
 
     } catch (error) {
         const cameraGrid = document.getElementById('camera-grid')

@@ -34,30 +34,6 @@ header {
     margin-left: 20px;
 }
 
-.navbar {
-    display: flex;
-    gap: 0px;
-    background-color: rgba(0, 0, 0, 0.9);
-    border-radius: 10px;
-    opacity: 90%;
-    margin: 0 300px;
-}
-
-.navbar a {
-    color: white;
-    font-size: 20px;
-    text-decoration: none;
-    padding: 10px 20px;
-    background-color: black;
-    border-radius: 5px;
-    width: 100px;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-    text-align: center;
-}
-
-.navbar a:hover {
-    background-color: #333;
-}
 
 .profile-picture {
     border: none;
@@ -80,6 +56,7 @@ header {
     position: relative;
     display: inline-block;
     z-index: 1000;
+    margin-left: 35px;
 }
 
 .grid-icon-btn {
@@ -88,8 +65,9 @@ header {
     font-size: 24px;
     border: none;
     cursor: pointer;
-    margin-right: 70px;
-    margin-top: 150px;
+    align-items: left;
+    width: 100%;
+    display: flex;
 }
 
 
@@ -100,7 +78,7 @@ header {
     left: 0;
     background-color: white;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
+    z-index: 10020;
     min-width: 120px;
 }
 
@@ -163,6 +141,8 @@ header {
 }
 
 .camera-icon-btn {
+    display: flex;
+    position: relative;
     background-color: black;
     color: white;
     font-size: 16px;
@@ -170,6 +150,7 @@ header {
     cursor: pointer;
     padding: 5px;
     border-radius: 5px;
+    z-index: 10;
 }
 
 .camera-dropdown-content {
