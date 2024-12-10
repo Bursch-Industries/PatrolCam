@@ -16,7 +16,7 @@ const { withTransaction } = require('./transactionHandler') //Handles Database t
  */
 async function handleNewUser (req, res) {
     //Ensure that request is coming from AccountAdmin
-    if(!req.session || !req.session.user || !req.session.user.roles === "AccountAdmin"){
+    if(!req.session || !req.session.user || !req.session.user.role === "AccountAdmin"){
         return res.sendStatus(401);
     }
 
@@ -101,7 +101,7 @@ async function handleNewUser (req, res) {
  */
 async function handleNewOrganization (req, res) {
     //Ensure that request is coming from AccountAdmin
-    if(!req.session || !req.session.user || !req.session.user.roles === "AccountAdmin"){
+    if(!req.session || !req.session.user || !req.session.user.role === "AccountAdmin"){
         return res.sendStatus(401);
     }
 
@@ -402,7 +402,7 @@ async function handlePasswordReset (req, res) {
  */
 async function handleAddNewOrgUser (req, res) {
     //Ensure that request is coming from a logged in user with required roles
-    if(!req.session || !req.session.user || !req.session.user.roles !== "Admin"){
+    if(!req.session || !req.session.user || !req.session.user.role !== "Admin"){
         return res.sendStatus(401);
     }
 
@@ -517,7 +517,7 @@ async function handleAddNewOrgUser (req, res) {
  */
 async function addCameraToOrganization(req, res) {
     //Ensure that request is coming from a logged in user with required roles
-    if(!req.session || !req.session.user || !req.session.user.roles !== "Admin"){
+    if(!req.session || !req.session.user || !req.session.user.role !== "Admin"){
         return res.sendStatus(401); //Unauthorized
     }
 
@@ -914,11 +914,19 @@ async function getOrganizationDetails(req, res){
             return res.sendStatus(404); //User not found
         }
 
-        //Retrieve organization details
-        const orgDetails = await Organization.findById(user.organization);
+        //Set orgDetails to null initially until data is retrieved
+        let orgDetails = null;
 
-        if(!orgDetails){
-            return res.sendStatus(404); //Organization not found
+        //Retrieve organization details
+        if(typeof user.organization !== "object" && user.organization.toLowerCase() === "individual"){
+            return res.sendStatus(404); //Organization is individual
+        } else{
+            //Find organization of user
+            orgDetails = await Organization.findById(user.organization);
+
+            if(!orgDetails){
+                return res.sendStatus(404); //Organization not found
+            }
         }
 
         //Respond with organization details
@@ -955,7 +963,7 @@ async function getOrganizationDetails(req, res){
  */
 async function getOrganizationList(req, res){
     //Ensure that request is coming from a logged in user and has reqiured role
-    if(!req.session || !req.session.user || (req.session.user.roles).toLowerCase() !== 'accountadmin'){
+    if(!req.session || !req.session.user || (req.session.user.role).toLowerCase() !== 'accountadmin'){
         return res.sendStatus(401); //Unauthorized
     }
 
@@ -1115,21 +1123,28 @@ async function updateOrganizationStatus(req, res){
  */
 async function updateOrganizationInfo(req, res){
     //Ensure that request is coming from a logged in user and has reqiured role
-    if(!req.session.user || (req.session.user.roles).toLowerCase() !== 'admin'){
-        return res.sendStatus(401); //Unauthorized
+    if(!req.session.user || 
+        ((req.session.user.role).toLowerCase() !== 'admin' && (req.session.user.role).toLowerCase() !== "accountadmin")
+    ){
+        return res.status(401).json({ message: "Unauthorized to make changes!"}); //Unauthorized
     }
 
     try{
         const updatedData = req.body
-
+        console.log(updatedData)
         //Begin database transaction
         await withTransaction(async (session) => {
             //Update the organization data based on new data
-            await Organization.findByIdAndUpdate(
-                req.session.user.organizationId,
+            const updatedOrganization = await Organization.findByIdAndUpdate(
+                req.session.org.id,
                 {$set: updatedData},
                 {new: true, session}
             )
+
+            //If updating organization fails
+            if(!updatedOrganization){
+                return res.status(400).json({ message: "Couldn't find organization or error in data received"}); //Organization Not Found
+            }
         })
 
         //Respond with success status
@@ -1164,7 +1179,7 @@ async function updateOrganizationInfo(req, res){
  */
 async function updateCameraInfo(req, res){
     //Ensure that request is coming from a logged in user and has reqiured role
-    if(!req.session.user || (req.session.user.roles).toLowerCase() !== 'admin'){
+    if(!req.session.user || (req.session.user.role).toLowerCase() !== 'admin'){
         return res.sendStatus(401)
     }
 
