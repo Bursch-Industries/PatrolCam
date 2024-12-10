@@ -128,24 +128,28 @@ function disableAccountEditMode(){
 }
 
 //Collects information on data to update account information
-async function updateAccountInfo(){
+async function updateOrgInfo(){
 
     const loadedContent = document.getElementById('loaded-content')
     const fields = loadedContent.querySelectorAll('input, select')
-    const updateBtn = document.getElementById('accountUpdateBtn')
+    const updateBtn = document.getElementById('orgUpdateBtn')
 
     updateBtn.textContent = "Updating..."
 
-    const updatedData = {}
+    const updatedData = {
+        organizationAddress: {} //Placeholder for the nested address object
+    }
 
     fields.forEach(field => {
-        const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
-        field.setAttribute('data-original-value', originalValue) 
+        // const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
+        // field.setAttribute('data-original-value', originalValue) 
+        const fieldName = field.name;
+        const fieldValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value;
 
-        if (field.tagName === "SELECT"){
-            updatedData[field.name] = field.options[field.selectedIndex].text
+        if (['Address1', 'City', 'State', 'ZipCode'].includes(fieldName)){
+            updatedData.organizationAddress[fieldName] = fieldValue;
         } else {
-            updatedData[field.name] = field.value  
+            updatedData[fieldName] = fieldValue 
         }
     }); 
 
@@ -168,6 +172,7 @@ async function updateAccountInfo(){
 
         updateBtn.textContent = "Update"
         disableAccountEditMode()
+        populateOrgData()
 
     } catch (error){
         console.error('Error:', error);
@@ -219,15 +224,21 @@ async function populateOrgData(){
             console.log('Session expired or unauthorized. Redirecting to login...')
             window.location.href = '/login'
             return
+        } else if(response.status === 404){
+            // document.getElementById('account-info-form').style.display = "none"
+            // document.getElementById('loaded-content').style.display = "flex"
+
+            const accountInfo = document.getElementById('account-info-form')
+            accountInfo.innerHTML = `<p class = "error-message">No organization exists under account.</p>`
         }
 
         //Server error
-        if(!response.ok){
+        else if(!response.ok){
             throw new Error(`HTTP error! Status: ${response.status}`)
         }
 
         const data = await response.json();
-        console.log(data)
+
         //Update UI elements
         document.getElementById('org-name').value = data.organization.organizationName
         document.getElementById('email-address').value = data.organization.organizationEmail
@@ -396,8 +407,8 @@ function renderCameras(cameras, isAdmin){
                             <strong>Status:</strong>
                         </label>
                         <select type="text" name = "status" disabled>
-                                <option value="active">Active</option>
-                                <option value="inactive" selected>Inactive</option>
+                                <option value="active" ${camera.status === 'Active'? 'selected' : ''}>Active</option>
+                                <option value="inactive" ${camera.status === 'Inactive'? 'selected' : ''}>Inactive</option>
                         </select>
                     </div>
 
@@ -490,14 +501,10 @@ async function udpateCameraInfo(index){
 
     const fields = cameraElement.querySelectorAll('input, select')
     fields.forEach(field => {
-        const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
-        field.setAttribute('data-original-value', originalValue) 
+        const fieldName = field.name;
+        const fieldValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value;
 
-        if (field.tagName === "SELECT"){
-            updatedData[field.name] = field.options[field.selectedIndex].text
-        } else {
-            updatedData[field.name] = field.value  
-        }
+        updatedData[fieldName] = fieldValue
     });
 
     try{
@@ -516,10 +523,14 @@ async function udpateCameraInfo(index){
 
         if(response.ok){
             alert(data.message || 'Organization information updated successfully!');
-        }
+    
+            updateBtn.textContent = "Update"
+            disableCameraEditMode(index)
+            populateCamData(true)
 
-        updateBtn.textContent = "Update"
-        disableCameraEditMode(index)
+        } else {
+            alert(data.message || 'Update failed. Please try again.')
+        }
 
     } catch (error){
         console.error('Error:', error);
