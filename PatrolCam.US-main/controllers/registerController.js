@@ -572,8 +572,6 @@ async function addCameraToOrganization(req, res) {
                 documentId: newCamera._id,
                 organizationId: owner,
                 performedBy: admin,
-                organizationId: owner,
-                performedBy: admin,
                 newData: newCamera,
                 session
             })
