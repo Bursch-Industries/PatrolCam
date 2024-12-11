@@ -4,18 +4,16 @@ async function fetchOrgPage(filter) {
 
     
     try {
+
         let response;
-        console.log('filter ' + JSON.stringify(filter))
+
         // If there are no params, fetch the first page with default number of results
         if(filter){
-            // Convert json into URL Search format (string=x&page=y&etc...)
-            const params = new URLSearchParams(filter).toString();
-            console.log('page to fetch: ' + `/api/org/page?${params}`)
+            const params = new URLSearchParams(filter).toString(); // Convert json into URL Search format
             response = await fetch(`/api/org/page?${params}`)
         } else {
-            // Clear any current search data when the user (re)loads the page
             if(localStorage.getItem('currentSearch')) {
-                localStorage.removeItem('currentSearch');
+                localStorage.removeItem('currentSearch'); // Clear any search data stored in the browser when the user (re)loads the page
             }
             response = await fetch('/api/org/page'); // Default to fetching first x org results in alphabetical order
         }
@@ -30,11 +28,12 @@ async function fetchOrgPage(filter) {
             // Generate new divs to hold organization info
             orgs.orgs.forEach(org => {
                 const orgDiv = document.createElement('div');
+                const statusColor = org.status === 'Active' ? 'green' : 'red';
                 orgDiv.className = 'user';
                 orgDiv.innerHTML = `
-                <select id="orgStatus-${org._id}" name="status">
-                    <option value='Active'>Active</option>
-                    <option value='inactive'>Inactive</option>
+                <select style="color:${statusColor};" id="orgStatus-${org._id}" name="status">
+                    <option style="color:green;" value='Active'>Active</option>
+                    <option style="color:red;" value='Inactive'>Inactive</option>
                 </select>
                 <span class="orgName">${org.organizationName}</span>
                 <span class="userCount">${org.users.length}</span>
@@ -42,42 +41,52 @@ async function fetchOrgPage(filter) {
                 `;
                 orgList.appendChild(orgDiv);
 
-                
-
+                // Set the status value of each organization after the <select> element is rendered
                 const changeStatus = orgDiv.querySelector(`#orgStatus-${org._id}`);
-
-                // Set the current status of the org 
-                changeStatus.value = org.status;
+                changeStatus.value = org.status; 
 
                 // Event listener for the status selector
                 changeStatus.addEventListener('change', async (event) => {
                     const newStatus = event.target.value;
-                    try {
-                        const response = await fetch(`/register/updateOrgStatus`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ status: newStatus, orgId: org._id }),
-                        });
-                        const result = await response.json();
-                        const message = result.message;
-                        if(message.includes('Success')) {
-                            alert("Organization Status Changed Successfully")
-                        }
-                    } catch(error) {
-                        console.error('Failed to update status:', error);
+
+                    const response = confirm("This will change the Organizations Activity. Are you sure?") // Built-in Node message box, not custom
+                    if(response) {               
+                        try {
+                            const response = await fetch(`/register/updateOrgStatus`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ status: newStatus, orgId: org._id }),
+                            });
+                            
+                            changeStatus.value = newStatus; // Set the current status of the org 
+
+                            if(newStatus === "Active"){
+                                event.target.style.color = "green";
+                            } else if(newStatus === "Inactive"){
+                                event.target.style.color = "red";
+                            }
+                            
+                            const result = await response.json();
+                            const message = result.message;
+                            if(message.includes('Success')) {
+                                alert("Organization Status Changed Successfully")
+                            }
+                        } catch(error) {
+                            return
+                        } 
                     }
                 })
             });
-        } else {
+        } else { // If no results are found for the given filter
             const noResultsDiv = document.createElement('div');
             noResultsDiv.className = 'noResults';
             noResultsDiv.textContent = 'No results found';
             orgList.appendChild(noResultsDiv);
         }
         
-        // Update current page
+        // Update current page number
         document.getElementById('pageNumber').value = orgs.page;
 
         // Update total pages
@@ -88,13 +97,12 @@ async function fetchOrgPage(filter) {
         }
         
 
-
-
     } catch (error) {
         console.error('Error fetching orgs:', error);
     }
 }
 
+// Event listener for retrieving the next page of results
 document.getElementById('nextPage').addEventListener("click", function() {
     
     let filter = {};
@@ -133,7 +141,7 @@ document.getElementById('nextPage').addEventListener("click", function() {
     
 })
 
-// Functionality for previous page button
+// Event listener for retrieving the previous page of results
 document.getElementById('previousPage').addEventListener("click", function() {
 
     let filter = {};
@@ -152,8 +160,6 @@ document.getElementById('previousPage').addEventListener("click", function() {
      }
      const currentOrder = localStorage.getItem('currentOrder');
 
-     
-
     // Current page must be greater than 1 in order to go a previous page
     if(currentPage > 1){
         filter.page = currentPage - 1;
@@ -170,6 +176,8 @@ document.getElementById('previousPage').addEventListener("click", function() {
     }
 })
 
+
+// Event listener for button that switches organization order alphabetically 
 document.getElementById('filterOrgName').addEventListener("click", function(){
 
     let filter = {};
@@ -193,7 +201,6 @@ document.getElementById('filterOrgName').addEventListener("click", function(){
     filter.sort_ = currentSort;
     filter.order_= updatedOrder;
     if(localStorage.getItem('currentSearch')) {
-        console.log('found current serach')
         const currentSearch = localStorage.getItem('currentSearch')
         filter.organizationName = currentSearch;
      }
@@ -201,7 +208,7 @@ document.getElementById('filterOrgName').addEventListener("click", function(){
 
 })
 
-
+// Event listener for button to sort by number of users in an organization
 document.getElementById('filterNumUsers').addEventListener("click", function(){
 
     let filter = {};
@@ -225,7 +232,6 @@ document.getElementById('filterNumUsers').addEventListener("click", function(){
     filter.sort_ = currentSort;
     filter.order_= updatedOrder;
     if(localStorage.getItem('currentSearch')) {
-        console.log('found current serach')
         const currentSearch = localStorage.getItem('currentSearch')
         filter.organizationName = currentSearch;
      }
@@ -233,10 +239,11 @@ document.getElementById('filterNumUsers').addEventListener("click", function(){
 
 })
 
-
+// Event listener for the search bar
 document.getElementById('searchForm').addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent the default form submission
 
+    // Get the value input into the search bar
     const searchInput = document.getElementById('searchbar').value;
 
     // Get the current sort, using organizationName as a default
@@ -251,28 +258,27 @@ document.getElementById('searchForm').addEventListener('submit', (event) => {
     // Set currentSearch
     localStorage.setItem('currentSearch', searchInput);
 
+    // If the search is submitted with nothing in it, return the default page
     if (searchInput === '') {
         fetchOrgPage();
     }
     else {
         let filter = {};
-        console.log('searchInput: ' + searchInput);
         filter.page = 1;
         filter.skip = 10;
         filter.sort_ = currentSort;
         filter.order_ = 'asc';
         filter.organizationName = searchInput;
-
-        console.log(filter);
         fetchOrgPage(filter);
     }
 });
 
+// Event listener for button to submit advanced filters
 document.getElementById('advancedFilterSubmit').addEventListener('click', function(){
-    event.preventDefault();
 
     const filter = {};
     
+    // Get information from form fields
     const currentPage = document.getElementById('pageNumber').value;
     const maxVal = document.getElementById('maxValue').value;
     const minVal = document.getElementById('minValue').value;
@@ -284,13 +290,10 @@ document.getElementById('advancedFilterSubmit').addEventListener('click', functi
     filter.sort_= category;
     filter.minVal_ = minVal;
     filter.maxVal_ = maxVal;
-    
-    
-    console.log('fetching filter: ' + JSON.stringify(filter));
 
     fetchOrgPage(filter);
 
 })
 
-// Fetch orgs when the page loads
+// Fetch default view when the page initially loads
 window.onload = fetchOrgPage();

@@ -29,7 +29,6 @@ fetch('/navbar')
                 }
             )
             .then(response => {
-                console.log(response);
                 if (response.ok) {
                     window.location.href = '/login'; // Redirect to login page
                 } else {

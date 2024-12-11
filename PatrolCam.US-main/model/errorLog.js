@@ -8,7 +8,7 @@ const errorLogSchema = new Schema({
       },
       level: {
         type: String,
-        enum: ['TRACE', 'FATAL', 'INFO', 'WARN', 'ERROR', 'DEBUG'], // Allowed log levels
+        enum: ['TRACE', 'FATAL', 'INFO', 'WARN', 'ERROR', 'DEBUG'], // Allowed log levels. See https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels for details
         required: true,
       },
       desc: {

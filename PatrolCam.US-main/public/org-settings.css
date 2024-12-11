@@ -223,8 +223,10 @@ header {
 }
 
 .form-group label {
-    text-align: end;
     color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-left: 15px;
 }
 
 .form-group input,
@@ -233,6 +235,8 @@ header {
     border: none;
     padding: 0.5rem;
     color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
 }
 
 .form-group input:enabled, 
@@ -399,6 +403,19 @@ header {
     padding: 0 2rem;
 }
 
+.officer-name {
+    width: 50%;
+    color: black;
+}
+
+.officer-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    cursor: pointer;
+}
+
 .officer-card-container{
     background-color: #1B3A57;
     border-radius: 10px;
@@ -502,6 +519,22 @@ header {
     transition: color 0.3s ease;
 }
 
+.login-record {
+    display: flex;
+    width: 50%;
+    background-color: white;
+    margin: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 1cm;
+    border-color: black;
+    border-width: 2px;
+}
+
+.dateTime {
+    font-weight: 600;
+    color: black;
+}
 
 .privacy-option:hover {
     color: #FFD700;

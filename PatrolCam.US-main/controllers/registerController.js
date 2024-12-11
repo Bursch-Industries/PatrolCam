@@ -545,9 +545,9 @@ async function addCameraToOrganization(req, res) {
             const newCamera = new Camera({
                 camera_Name: camName,
                 model: camModel,
-                owner: organizationData._id,
+                owner: owner,
                 location: camLocation,
-                users: [req.session.user.id]
+                users: [admin]
             });
 
             //Save the new camera in the transaction
@@ -570,8 +570,8 @@ async function addCameraToOrganization(req, res) {
                 action: 'create',
                 collectionName: 'Camera',
                 documentId: newCamera._id,
-                organizationId: organizationData._id,
-                performedBy: req.session.user.id,
+                organizationId: owner,
+                performedBy: admin,
                 newData: newCamera,
                 session
             })
@@ -580,8 +580,8 @@ async function addCameraToOrganization(req, res) {
             await logActivity({
                 action: 'update',
                 collectionName: 'Organization',
-                documentId: organizationData._id,
-                performedBy: req.session.user.id,
+                documentId: owner,
+                performedBy: admin,
                 originalData: {
                     originalCameras: organizationData.cameras
                 },
@@ -602,7 +602,7 @@ async function addCameraToOrganization(req, res) {
                 level: 'ERROR',
                 desc: 'Failed to create new Camera',
                 source: 'registerController - addCameraToOrganization',
-                userId: req.sesison.user.id,
+                userId: admin,
                 code: '500',
                 meta: { message: error.message, stack: error.stack },
                 session
@@ -1008,6 +1008,45 @@ async function getOrganizationList(req, res){
  * @param {Object} req - The HTTP request object containing user session.
  * @param {string} orgId - The organization ID whose users' sessions need to be deleted. 
  */
+async function getAllOrganizations(user){
+    if((user.roles).toLowerCase() !== 'AccountAdmin'){
+        throw new Error("403") //Throw error if user is not authorized
+    }
+
+    const organizations = await Organization.find({})
+    return organizations
+}
+
+// Function used to get the name of the current user. Currently used to display name in the Dashboard html
+const getCurrentUserFirstName = async(req, res) => {
+
+    try{
+        if(req.session && req.session.user){  // Check for login
+            const userId = req.session.user.id; // Get ID from request object
+            const currentUser = await User.findById(userId); 
+            const nameString = ', ' + currentUser.firstname; // Add comma here, rather than in raw HTML, so if the name is not found the greeting will be "Welcome Back!"
+            res.json({ name: nameString });
+        } else{
+            res.json( { name: '!' } ) // If the user is logged in and the name isn't found, return generic greeting
+        }
+    } catch(error) {
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'TRACE',
+                desc: 'Failed to find name of current user',
+                source: 'getCurrentUserFirstName',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: '500',
+                meta: {error: error.message},
+                session
+            });
+        });
+        res.status(500).json({message: 'Failed to find name of current user', error: error.message})
+    }
+    
+}
+
+// Function to log out all users of an organization that are currently logged in
 async function deactivateOrg(req, orgId) {
     // Allows access to sessions without making a dedicated model since we are using mongo-connect
     let Session = mongoose.model('Session', new mongoose.Schema({}, { collection: 'sessions' }));
@@ -1027,7 +1066,7 @@ async function deactivateOrg(req, orgId) {
         //Log error with a transaction
         await withTransaction(async (session) => {
             await logError(req, {
-                level: 'error',
+                level: 'ERROR',
                 desc: 'Failed to deactivate organization',
                 source: 'deactivateOrg',
                 userId: req.session.user ? req.session.user.id: 'unknown',
@@ -1096,7 +1135,7 @@ async function updateOrganizationStatus(req, res){
         //Log error with a transaction
         await withTransaction(async (session) => {
             await logError(req, {
-                level: 'error',
+                level: 'ERROR',
                 desc: 'Failed to update organization status',
                 source: 'updateOrganizationStatus',
                 userId: req.session.user ? req.session.user.id: 'unknown',
@@ -1186,10 +1225,6 @@ async function updateCameraInfo(req, res){
     try{
         const {updatedInfo, cameraInfo} = req.body
 
-        // Debugging
-        // console.log(updatedInfo)
-        // console.log(cameraInfo) 
-
         //Being a database transaction
         await withTransaction(async (session) => {
             //Update the existing camera information
@@ -1222,6 +1257,7 @@ async function updateCameraInfo(req, res){
     } 
 }
 
+
 //Exports
 module.exports = { 
     handleNewUser, 
@@ -1236,6 +1272,7 @@ module.exports = {
     getUserLastLogin,
     getOrganizationDetails,
     getOrganizationList,
+    getCurrentUserFirstName,
     updateOrganizationInfo,
     updateOrganizationStatus,
     updateCameraInfo

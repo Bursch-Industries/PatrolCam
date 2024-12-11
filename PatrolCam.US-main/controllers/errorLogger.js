@@ -29,6 +29,8 @@ async function logError(req, {
     // Check if session and user information are available, and use the session user ID if provided.
     if(req.session && req.session.user){
         userId = req.session.user.id
+    }else {
+        userId = ''
     }
 
     try{
