@@ -1173,7 +1173,6 @@ async function updateOrganizationInfo(req, res){
 
     try{
         const updatedData = req.body
-        console.log(updatedData)
         //Begin database transaction
         await withTransaction(async (session) => {
             //Update the organization data based on new data
