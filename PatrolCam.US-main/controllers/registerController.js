@@ -572,6 +572,8 @@ async function addCameraToOrganization(req, res) {
                 documentId: newCamera._id,
                 organizationId: owner,
                 performedBy: admin,
+                organizationId: owner,
+                performedBy: admin,
                 newData: newCamera,
                 session
             })
@@ -580,6 +582,8 @@ async function addCameraToOrganization(req, res) {
             await logActivity({
                 action: 'update',
                 collectionName: 'Organization',
+                documentId: owner,
+                performedBy: admin,
                 documentId: owner,
                 performedBy: admin,
                 originalData: {
@@ -602,6 +606,7 @@ async function addCameraToOrganization(req, res) {
                 level: 'ERROR',
                 desc: 'Failed to create new Camera',
                 source: 'registerController - addCameraToOrganization',
+                userId: admin,
                 userId: admin,
                 code: '500',
                 meta: { message: error.message, stack: error.stack },
@@ -1067,6 +1072,7 @@ async function deactivateOrg(req, orgId) {
         await withTransaction(async (session) => {
             await logError(req, {
                 level: 'ERROR',
+                level: 'ERROR',
                 desc: 'Failed to deactivate organization',
                 source: 'deactivateOrg',
                 userId: req.session.user ? req.session.user.id: 'unknown',
@@ -1135,6 +1141,7 @@ async function updateOrganizationStatus(req, res){
         //Log error with a transaction
         await withTransaction(async (session) => {
             await logError(req, {
+                level: 'ERROR',
                 level: 'ERROR',
                 desc: 'Failed to update organization status',
                 source: 'updateOrganizationStatus',
@@ -1272,6 +1279,7 @@ module.exports = {
     getUserLastLogin,
     getOrganizationDetails,
     getOrganizationList,
+    getCurrentUserFirstName,
     getCurrentUserFirstName,
     updateOrganizationInfo,
     updateOrganizationStatus,
