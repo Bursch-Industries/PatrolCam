@@ -582,8 +582,6 @@ async function addCameraToOrganization(req, res) {
                 collectionName: 'Organization',
                 documentId: owner,
                 performedBy: admin,
-                documentId: owner,
-                performedBy: admin,
                 originalData: {
                     originalCameras: organizationData.cameras
                 },
