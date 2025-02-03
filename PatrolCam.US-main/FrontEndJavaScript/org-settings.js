@@ -310,7 +310,7 @@ document.getElementById('camera-btn').addEventListener('click',(async()=>{
             if(window.location.search != ''){ // Check the URL for params
                 const params = new URLSearchParams(window.location.search); // Params are sent by pages accessible to Account Admin (should only be an org id)
                 const orgId = params.get('id');
-                populateCamDataAccountAdmin(orgId);
+                populateCamDataAccountAdmin(orgId); // Nates toy
             } else{
                 populateCamData(true); //Populating Cam Data for admins
             }
@@ -421,8 +421,7 @@ function renderCameras(cameras, isAdmin){
                         : ''
                     }
             </div>
-
-        `
+`
         //Add element into camera grid
         cameraGrid.appendChild(cameraFrame)
     })
@@ -436,7 +435,7 @@ function enableCameraEditMode(index){
 
     const fields = cameraElement.querySelectorAll('.camera-form input, select')
 
-    fields.forEach(field => {
+    fields.forEach(field => {   
         const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
         field.setAttribute('data-original-value', originalValue)
         field.style.color = "black" 
@@ -549,7 +548,7 @@ document.getElementById('officers-btn').addEventListener('click',(async()=>{
 }))
 
 //Loads the users under an organization from database
-async function populateOrgUserData(){
+async function populateOrgUserData(isAdmin = true){
     try{
         //API to fetch organization users
         const response = await fetch('/register/getOrgUsers',{ 
@@ -567,7 +566,7 @@ async function populateOrgUserData(){
         }
 
         //If no Officers found
-        if(response.status === 404){
+        if(response.status === 204){
             const officerList = document.getElementById('officer-list')
             //Adding no Officers found message to UI
             officerList.innerHTML = `<p class=no-cameras-message>No Officers found</p>`
@@ -580,15 +579,18 @@ async function populateOrgUserData(){
         }
 
         const data = await response.json();
-        renderOrgUsers(data.users)
+        renderOrgUsers(data.users, isAdmin)
 
     } catch (error) {
-        console.error('Error fetching org user data:', error)
+        const officerContainer = document.getElementById('officer-list')
+        officerContainer.innerHTML = `<p class = "error-message">Error occured while getting officer details</p>`
+        officerContainer.classList.remove('placeholder');
+        console.error('Error fetching officer data:', error)
     }
 }
 
 //Dynamically generates user elements
-function renderOrgUsers(users){
+function renderOrgUsers(users, isAdmin){
     const officerContainer = document.getElementById('officer-list')
     officerContainer.innerHTML = ''
 
@@ -599,67 +601,165 @@ function renderOrgUsers(users){
 
         //Update UI element
         userCard.innerHTML = `
-            <div class="officer-card" onclick="toggleOfficerDetails(this)">
+            <img src="./officer_placeholder_${(index % 2) + 1}.jpg" alt="${user.firstname} ${user.lastname}">
 
-                <img src="./officer_placeholder_1.jpg" alt="Officer 1">
+            <div class="officer-element" data-index="${index}" data-id="${user._id}">
+                <div class="officer-info">
+                    <div class="officer-form officer-name">
+                        <label>
+                            <strong>Name:</strong>
+                        </label>
+                        <input value="${user.firstname} ${user.lastname}" name="officer_Name" disabled>
+                    </div>
 
-                <div class="officer-card-content">
-                    <p>
-                        <strong>Officer ${user.firstname} ${user.lastname}</strong>
-                    </p>
+                    <div class="officer-form officer-login">
+                        <label>
+                            <strong>Last Login:</strong>
+                        </label>
+                        <input value="${user.lastLoggedIn}" name="lastLoggedIn" disabled>
+                    </div>
 
-                    <p>
-                        <strong>Last Login:</strong> ${user.lastLoggedIn}
-                    </p>
+                    <div class="officer-form officer-email">
+                        <label>
+                            <strong>Email:</strong>
+                        </label>
+                        <input type="email" value="${user.email}" name="email" disabled>
+                    </div>
+
+                    ${isAdmin ? 
+                        `
+                        <div class="officer-form-btns">
+                            <button class="btn btn-warning" id="officerCancelBtn" type="reset" onclick="disableOfficerEditMode(${index})">Cancel</button>
+                            <button class="btn btn-secondary" id="officerUpdateBtn" type="submit" onclick="updateOfficerInfo(${index})">Update</button>
+                        </div>
+                        `
+                        : ''
+                    }
+
+                    ${isAdmin ?
+                        `
+                        </div>
+                <div class="officer-edit-icon">
+                            <i onclick="enableOfficerEditMode(${index})">&#9998;</i> <!-- Edit Icon -->
+                        </div>
+                        
+                        `
+                        : ''
+                    }
                 </div>
+`
 
-                <span class="dropdown-arrow">&#9662;</span>
-            </div>
 
-            <form class="officer-details" onsubmit="saveOfficerChanges('officer-1'); return false;">
-                <div class="form-group">
-                    <label>
-                        <strong>Email:</strong>
-                        <input type="email" id="email-officer-${index}" value="${user.email}">
-                    </label>
-                </div>
 
-                <div class="form-group">
-                    <label>
-                        <strong>Password:</strong>
-                        <input type="password" id="password-officer-${index}" value="******" disabled>
-                    </label>
-                </div>
-
-                <div>
-                    <button type="submit" class="save-btn">Save Changes</button>
-                <div>
-            </form>
-        `
         //Adding user card element
         officerContainer.appendChild(userCard)
     })
 
     //Removing placeholder animations
-    officerContainer.classList.remove('placeholder')
+    officerContainer.classList.remove('placeholder-glow')
 }
 
-function toggleOfficerDetails(card) {
-    card.classList.toggle("active");
-    const form = card.nextElementSibling;
+// function toggleOfficerDetails(card) {
+//     card.classList.toggle("active");
+//     const form = card.nextElementSibling;
 
-    if(form && form.classList.contains('officer-details')) {
+//     if(form && form.classList.contains('officer-details')) {
         
-        // form.style.display = form.style.display === "none" || form.style.display === '' ? "block" : 'none';
-        form.classList.toggle('visible')
+//         //form.style.display = form.style.display === "none" || form.style.display === '' ? "block" : 'none';
+//         form.classList.toggle('visible')
 
-    } else {
-        console.error("Form not found or incorrect structure")
+//     } else {
+//         console.error("Form not found or incorrect structure")
+//     }
+// }
+
+function enableOfficerEditMode(index){
+
+    const officerElement = document.querySelector(`.officer-element[data-index= "${index}"]`)
+    const fields = officerElement.querySelectorAll('.officer-form input, select')
+
+    fields.forEach(field => {
+        const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
+        field.setAttribute('data-original-value', originalValue)
+        field.style.color = "black"
+        field.removeAttribute("disabled")
+    })
+
+    const editIcon = officerElement.querySelector(".officer-edit-icon")
+    editIcon.style.display = "none"
+
+    const formBtns = officerElement.querySelector(".officer-form-btns")
+    formBtns.style.display = "flex"
+}
+
+function disableOfficerEditMode(index){
+    const officerElement = document.querySelector(`.officer-element[data-index= "${index}"]`)
+    const fields = officerElement.querySelectorAll('input')
+
+    fields.forEach(field => {
+        field.value = field.getAttribute('data-original-value')
+        field.style.color = "white"
+        field.setAttribute("disabled", "enabled")
+    })
+
+    const editIcon = officerElement.querySelector(".officer-edit-icon")
+    editIcon.style.display = "flex"
+    
+    const formBtns = officerElement.querySelector(".officer-form-btns")
+    formBtns.style.display = "none"
+}
+
+async function updateOfficerInfo(index){
+    const officerElement = document.querySelector(`.officer-element[data-index= "${index}"]`)
+    const officerId = officerElement.dataset.id
+
+    const updateBtn = document.getElementById('officerUpdateBtn')
+    updateBtn.textContent = "Updating..."
+
+    const updatedData = {}
+
+    const fields = officerElement.querySelectorAll('input, select')
+    fields.forEach(field => {
+        const fieldName = field.name;
+        const fieldValue = field.value;
+
+        updatedData[fieldName] = fieldValue
+    });
+
+    try{
+        const response = await fetch('/register/updateOrgUser', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                updatedInfo: updatedData, 
+                userInfo: officerId
+            })
+        });
+
+        const data = response.json()
+
+        if(response.ok){
+            alert(data.message || 'Organization information updated successfully!');
+    
+            updateBtn.textContent = "Update"
+            disableOfficerEditMode(index)
+            populateOrgUserData(true)
+
+        } else {
+            alert(data.message || 'Update failed. Please try again.')
+        }
+
+    } catch (error){
+        console.error('Error:', error);
+        alert('Failed to update organization information')
+        updateBtn.textContent = "Update"
     }
 }
 
+//<----All the belows code is For Account Admin role (Nate only)-------------------
 
-//For Account Admin role (Nate only)
 async function createNewOrganization(orgName, orgEmail, orgPhone, orgAddress, user, password, userFirstname, userLastname, userEmail){
     try{
         const response = await fetch('register/newOrg', {
