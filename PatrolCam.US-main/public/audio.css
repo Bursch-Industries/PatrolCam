@@ -1,0 +1,64 @@
+
+ .content-container {   
+    display: flex;
+    flex: 1;
+    background-color: #2E8BC0;
+    flex-direction: column;
+    row-gap: 2rem;
+ }
+
+/* .heading-text {
+    border: solid black 2px;
+} */
+
+#header {
+    font-size: 3rem;
+}
+
+#description {
+    font-size: 1.5rem;
+}
+
+.audioAI-container{
+    color: black;
+    border: solid #0C2D48 2px;
+    background-color: whitesmoke;
+    /* height: 18rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    margin-right: 18rem;
+    margin-left: 18rem;
+    border-radius: 1rem;
+    overflow: auto; */
+}
+
+.file-input-container{
+    /* border: solid black 4px; */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+} 
+
+.audio-file-button { 
+    color: white;
+    background-color: #0C2D48;
+    border-color: transparent;
+} 
+
+.upload-button {
+    background-color: #0C2D48;
+    border-color: transparent;
+}
+
+.reset-button {
+    background-color: #0C2D48;
+    border-color: transparent;
+}
+
+.container-md {
+    /* background-color: whitesmoke;
+    border: solid #0C2D48 2px; */
+    height: 18rem;
+    width: 55%;
+    border-radius: 1rem;
+    overflow: auto;
+}
