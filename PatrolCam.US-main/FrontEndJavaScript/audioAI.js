@@ -23,7 +23,7 @@ hideSpinner();
 audioFile.addEventListener('change', async function(event) {
     formData.set('audioFile', audioFile.files[0]);
     const fileName = audioFile.files[0].name;
-    uploadButton.innerText = `Upload: ${fileName}`; //display name    
+    uploadButton.textContent = `Upload: ${fileName}`; //display name    
 });
 
 uploadButton.addEventListener('click', uploadAudio);
@@ -41,25 +41,27 @@ async function uploadAudio () {
 
     //show spinner while file is being transcribed
     showSpinner();
-    console.log(spinner.style.display);
     
     try{
-        const response = await fetch('https://api.patrolcam.us/audioai/simulateAnalyze', {
+        const response = await fetch("https://api.patrolcam.us/audioai/simulateAnalyze", {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                "Accept": "application/json",
+            }
         });
 
         if(!response.ok) throw new Error("Failed to process audio");
+
         hideSpinner();
         const result = await response.json();
-        audioContainer.innerText = JSON.stringify(result, NULL, 2);
+        audioContainer.textContent = JSON.stringify(result, NULL, 2);
         
 
     }catch(error){
         hideSpinner();
         console.log('Error: ', error);
-        audioContainer.innerText = "Error processing audio"
-        
+        audioContainer.textContent = "Error processing audio" 
     }
     
 };
@@ -67,13 +69,11 @@ async function uploadAudio () {
 //reset option implementation
 function reset() {
     //clear files
-    formData = new FormData(); //clear formdata
-    audioFile.value = ""; //clear file input
-    
-
+    formData = new FormData();
+    audioFile.value = "";
     //reset UI
-    audioContainer.innerText = "";
-    uploadButton.innerText = "Upload";
+    audioContainer.textContent = "";
+    uploadButton.textContent = "Upload";
 
     hideSpinner();
 }

@@ -134,6 +134,7 @@ header {
 
 #chat {
     padding: 1rem;
+    padding-right: 1.75rem;
 }
 
 #surveillance {
@@ -143,7 +144,7 @@ header {
     height: 100%;           /* Ensure the container's height is defined */
     text-align: center; 
     margin-left: 9.1rem;
-    padding-left:4.8rem;
+    padding-left:4.5rem;
     margin-right:5rem;
 }
 .menu-options a:hover {

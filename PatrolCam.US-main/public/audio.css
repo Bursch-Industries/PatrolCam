@@ -7,10 +7,6 @@
     row-gap: 2rem;
  }
 
-/* .heading-text {
-    border: solid black 2px;
-} */
-
 #header {
     font-size: 3rem;
 }
@@ -22,29 +18,22 @@
 .audioAI-container{
     color: black;
     border: solid #0C2D48 2px;
-    background-color: whitesmoke;
-    /* height: 18rem;
-    padding-left: 5rem;
-    padding-right: 5rem;
-    margin-right: 18rem;
-    margin-left: 18rem;
-    border-radius: 1rem;
-    overflow: auto; */
+    background-color: whitesmoke;     
 }
 
 .file-input-container{
-    /* border: solid black 4px; */
     padding-top: 1rem;
     padding-bottom: 1rem;
 } 
 
-.audio-file-button { 
+.audio-file-button, .upload-button, .reset-button { 
     color: white;
     background-color: #0C2D48;
     border-color: transparent;
+    word-wrap: break-word;
 } 
 
-.upload-button {
+/* .upload-button {
     background-color: #0C2D48;
     border-color: transparent;
 }
@@ -52,11 +41,9 @@
 .reset-button {
     background-color: #0C2D48;
     border-color: transparent;
-}
+} */
 
-.container-md {
-    /* background-color: whitesmoke;
-    border: solid #0C2D48 2px; */
+.container-md {    
     height: 18rem;
     width: 55%;
     border-radius: 1rem;
