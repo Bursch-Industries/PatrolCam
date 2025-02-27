@@ -23,5 +23,6 @@ router.get('/getCurrentUserFirstName', registerController.getCurrentUserFirstNam
 router.put('/updateOrg', registerController.updateOrganizationInfo)
 router.put('/updateOrgStatus', registerController.updateOrganizationStatus);
 router.put('/updateOrgCam', registerController.updateCameraInfo)
+router.put('/updateOrgUser', registerController.updateOrganizationUserInfo)
 
 module.exports = router;

@@ -62,8 +62,9 @@ async function saveChanges(entityType, id, payload) {
 function saveOfficerChanges(officerId) {
     const email = document.getElementById(`email-${officerId}`).value;
     const password = document.getElementById(`password-${officerId}`).value;
+    const lastLoggedIn = document.getElementById(`lastLoggedIn-${officerId}`).value;
 
-    const payload = { email, password };
+    const payload = { email, password, lastLoggedIn };
     saveChanges("officers", officerId, payload);
 }
 
@@ -378,6 +379,11 @@ function renderCameras(cameras, isAdmin){
             <img src="./security_camera_placeholder_${(index % 2) + 1}.jpg" alt="${camera.name}">
             <div class = "camera-element" data-index = ${index} data-id = ${camera._id}>
                 <div class = "camera-info">
+                    <label>
+                        <strong>index:</strong>
+                    </label>
+                    <input value="${camera.id}" name = "index" disabled></input>
+                <div class = "camera-info">
                     <div class="camera-form camera-name">
                         <label>
                             <strong>Name:</strong>
@@ -431,9 +437,10 @@ function renderCameras(cameras, isAdmin){
 }
 
 function enableCameraEditMode(index){
-    const cameraElement = document.querySelector(`.camera-element[data-index= "${index}"]`)
+    const cameraElement = document.querySelector(`.camera-element[data-index="${index}"]`);
 
-    const fields = cameraElement.querySelectorAll('.camera-form input, select')
+    console.log("This is cam:",cameraElement);
+    const fields = cameraElement.querySelectorAll('.camera-form input, select');
 
     fields.forEach(field => {   
         const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
@@ -482,6 +489,7 @@ function disableCameraEditMode(index){
 async function udpateCameraInfo(index){
     const cameraElement = document.querySelector(`.camera-element[data-index= "${index}"]`)
     const camId = cameraElement.dataset.id
+    console.log(camId)
 
     const updateBtn = document.getElementById('cameraUpdateBtn')
     updateBtn.textContent = "Updating..."
@@ -538,7 +546,7 @@ document.getElementById('officers-btn').addEventListener('click',(async()=>{
                 const orgId = params.get('id');
                 populateOrgUserDataAccountAdmin(orgId);
             } else{
-                populateOrgUserData();
+                populateOrgUserData(true);
             }
             
         } else if (window.location.pathname === '/userSettings'){
@@ -548,7 +556,7 @@ document.getElementById('officers-btn').addEventListener('click',(async()=>{
 }))
 
 //Loads the users under an organization from database
-async function populateOrgUserData(isAdmin = true){
+async function populateOrgUserData(isAdmin = false){
     try{
         //API to fetch organization users
         const response = await fetch('/register/getOrgUsers',{ 
@@ -579,6 +587,8 @@ async function populateOrgUserData(isAdmin = true){
         }
 
         const data = await response.json();
+        console.log("This is data",data)
+        console.log("This is users:",data.users)
         renderOrgUsers(data.users, isAdmin)
 
     } catch (error) {
@@ -589,130 +599,179 @@ async function populateOrgUserData(isAdmin = true){
     }
 }
 
-//Dynamically generates user elements
-function renderOrgUsers(users, isAdmin){
-    const officerContainer = document.getElementById('officer-list')
-    officerContainer.innerHTML = ''
+function renderOrgUsers(users, isAdmin) {
+    const officerContainer = document.getElementById('officer-list');
+    officerContainer.innerHTML = ''; // Clear any placeholder content
 
-    //Looping through all users and creating each element
+    // CSS from website
+    if (!document.getElementById('fancy-card-style')) {
+        const styleEl = document.createElement('style');
+        styleEl.id = 'fancy-card-style';
+        styleEl.textContent = `
+            .fancy-card {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                border-radius: 15px;
+                overflow: hidden;
+                position: relative;
+            }
+            .fancy-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            }
+            .fancy-card input {
+                background-color: rgba(255, 255, 255, 0.1);
+                border: none;
+                color: white;
+            }
+            .fancy-card input:disabled {
+                opacity: 1;
+            }
+            .fancy-card .card-body {
+                padding: 1.5rem;
+            }
+            .fancy-card label {
+                font-weight: bold;
+            }
+            /* Rendering effect: a light-sweep animation across the card */
+            .fancy-card::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+                transform: skewX(-25deg);
+                animation: renderingEffect 1s ease-out forwards;
+            }
+            @keyframes renderingEffect {
+                0% {
+                    left: -100%;
+                }
+                100% {
+                    left: 100%;
+                }
+            }
+        `;
+        document.head.appendChild(styleEl);
+    }
+
+    // Loop through each user and create card
     users.forEach((user, index) =>  {
-        const userCard = document.createElement('div')
-        userCard.className = 'officer-card-container'
+        const colDiv = document.createElement('div');
+        console.log('User ID:', user._id);
+        colDiv.className = 'col-md-4 mb-3';
 
-        //Update UI element
-        userCard.innerHTML = `
-            <img src="./officer_placeholder_${(index % 2) + 1}.jpg" alt="${user.firstname} ${user.lastname}">
-
-            <div class="officer-element" data-index="${index}" data-id="${user._id}">
-                <div class="officer-info">
-                    <div class="officer-form officer-name">
-                        <label>
-                            <strong>Name:</strong>
-                        </label>
-                        <input value="${user.firstname} ${user.lastname}" name="officer_Name" disabled>
-                    </div>
-
-                    <div class="officer-form officer-login">
-                        <label>
-                            <strong>Last Login:</strong>
-                        </label>
-                        <input value="${user.lastLoggedIn}" name="lastLoggedIn" disabled>
-                    </div>
-
-                    <div class="officer-form officer-email">
-                        <label>
-                            <strong>Email:</strong>
-                        </label>
-                        <input type="email" value="${user.email}" name="email" disabled>
-                    </div>
-
-                    ${isAdmin ? 
-                        `
-                        <div class="officer-form-btns">
-                            <button class="btn btn-warning" id="officerCancelBtn" type="reset" onclick="disableOfficerEditMode(${index})">Cancel</button>
-                            <button class="btn btn-secondary" id="officerUpdateBtn" type="submit" onclick="updateOfficerInfo(${index})">Update</button>
-                        </div>
-                        `
-                        : ''
-                    }
-
-                    ${isAdmin ?
-                        `
-                        </div>
-                <div class="officer-edit-icon">
-                            <i onclick="enableOfficerEditMode(${index})">&#9998;</i> <!-- Edit Icon -->
-                        </div>
-                        
-                        `
-                        : ''
-                    }
+        colDiv.innerHTML = `
+        <div class="card fancy-card shadow-lg" style="background: linear-gradient(135deg, #0c2d48, #1b3a5a); color: white; border: none;">
+            <img class="card-img-top" src="./officer_placeholder_${(index % 2) + 1}.jpg" alt="${user.firstname} ${user.lastname}" style="object-fit: cover; height: 200px;">
+            <div class="card-body officer-element" data-index="${index}" data-id="${user._id}">
+                <div class="officer-form officer-info mb-3">
+                    <label class="mb-1 d-block"><strong>ID:</strong></label>
+                    <input class="form-control" value="${user._id}" name="id" disabled>
                 </div>
-`
+                <div class="officer-form officer-name mb-3">
+                    <label class="mb-1 d-block"><strong>Officer:</strong></label>
+                    <input class="form-control" value="${user.firstname} ${user.lastname}" name="officer_Name" disabled>
+                </div>
+                <div class="officer-form officer-login mb-3">
+                    <p class="card-text"><strong>Last Login:</strong> ${user.lastLoggedIn}</p>
+                </div>
+                <div class="officer-form officer-email mb-3">
+                    <label class="mb-1 d-block"><strong>Email:</strong></label>
+                    <input class="form-control" type="email" value="${user.email}" name="email" disabled>
+                </div>
+                ${isAdmin ? `
+                    <div class="officer-form-btns d-none">
+                        <button class="btn btn-warning" type="button" onclick="disableOfficerEditMode(${index})">Cancel</button>
+                        <button class="btn btn-secondary" id="officerUpdateBtn-${index}" type="submit" onclick="updateOfficerInfo(${index})">Update</button>
+                    </div>
+                    <div class="mt-2">
+                        <i class="fas fa-edit" style="cursor: pointer;" onclick="enableOfficerEditMode(${index})"></i>
+                    </div>
+                    <div class="officer-edit-icon">
+                        <i style="cursor: pointer;" onclick="enableOfficerEditMode(${index})">&#9998;</i>
+                    </div>
+                ` : ''}
+            </div>
+        </div>
+        `;
+        officerContainer.appendChild(colDiv);
+    });
 
-
-
-        //Adding user card element
-        officerContainer.appendChild(userCard)
-    })
-
-    //Removing placeholder animations
-    officerContainer.classList.remove('placeholder-glow')
+    // Remove any placeholder classes
+    officerContainer.classList.remove('placeholder-glow');
 }
 
-// function toggleOfficerDetails(card) {
-//     card.classList.toggle("active");
-//     const form = card.nextElementSibling;
 
-//     if(form && form.classList.contains('officer-details')) {
-        
-//         //form.style.display = form.style.display === "none" || form.style.display === '' ? "block" : 'none';
-//         form.classList.toggle('visible')
 
-//     } else {
-//         console.error("Form not found or incorrect structure")
-//     }
-// }
+function enableOfficerEditMode(index) {
+    const officerElement = document.querySelector(`.officer-element[data-index="${index}"]`);
+    if (!officerElement) return;
+    if (officerElement) {
+        const officerId = officerElement.dataset.id;
+        console.log(officerId);
+    }
 
-function enableOfficerEditMode(index){
-
-    const officerElement = document.querySelector(`.officer-element[data-index= "${index}"]`)
-    const fields = officerElement.querySelectorAll('.officer-form input, select')
-
-    fields.forEach(field => {
-        const originalValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value
-        field.setAttribute('data-original-value', originalValue)
-        field.style.color = "black"
-        field.removeAttribute("disabled")
-    })
-
-    const editIcon = officerElement.querySelector(".officer-edit-icon")
-    editIcon.style.display = "none"
-
-    const formBtns = officerElement.querySelector(".officer-form-btns")
-    formBtns.style.display = "flex"
-}
-
-function disableOfficerEditMode(index){
-    const officerElement = document.querySelector(`.officer-element[data-index= "${index}"]`)
-    const fields = officerElement.querySelectorAll('input')
-
-    fields.forEach(field => {
-        field.value = field.getAttribute('data-original-value')
-        field.style.color = "white"
-        field.setAttribute("disabled", "enabled")
-    })
-
-    const editIcon = officerElement.querySelector(".officer-edit-icon")
-    editIcon.style.display = "flex"
+    console.log("This is officer:",officerElement);
     
-    const formBtns = officerElement.querySelector(".officer-form-btns")
-    formBtns.style.display = "none"
+    // Select all input and select elements within this officer card
+    const fields = officerElement.querySelectorAll('input, select');
+    
+    // Loop over each field to enable editing and save its original value
+    fields.forEach(field => {
+        // Enable the field
+        field.disabled = false;
+        // Save original value if not already stored
+        if (!field.getAttribute('data-original-value')) {
+            const originalValue = (field.tagName === "SELECT") 
+                                  ? field.options[field.selectedIndex]?.text 
+                                  : field.value;
+            field.setAttribute('data-original-value', originalValue);
+        }
+        // Change text color to indicate edit mode
+        field.style.color = "black";
+    });
+    
+    // Show the update and cancel buttons by removing the "d-none" class
+    const btnContainer = officerElement.querySelector('.officer-form-btns');
+    if (btnContainer) {
+        btnContainer.classList.remove('d-none');
+    }
+}
+
+function disableOfficerEditMode(index) {
+    const officerElement = document.querySelector(`.officer-element[data-index="${index}"]`);
+    if (!officerElement) return;
+    
+    // Select all input and select elements within this officer card
+    const fields = officerElement.querySelectorAll('input, select');
+    
+    // Loop over each field to restore its original value and disable it
+    fields.forEach(field => {
+        const originalValue = field.getAttribute('data-original-value');
+        if (originalValue !== null) {
+            field.value = originalValue;
+        }
+        // Change text color back to non-edit mode (white, in this case)
+        field.style.color = "black";
+        // Disable the field
+        field.disabled = true;
+    });
+    
+    // Hide the update and cancel buttons by adding the "d-none" class
+    const btnContainer = officerElement.querySelector('.officer-form-btns');
+    if (btnContainer) {
+        btnContainer.classList.add('d-none');
+    }
 }
 
 async function updateOfficerInfo(index){
-    const officerElement = document.querySelector(`.officer-element[data-index= "${index}"]`)
-    const officerId = officerElement.dataset.id
+    const officerElement = document.querySelector(`.officer-element[data-index="${index}"]`)
+    const officerId = officerElement ? officerElement.dataset.id : null;
+    console.log(officerId)
 
+    console.log(officerId)
     const updateBtn = document.getElementById('officerUpdateBtn')
     updateBtn.textContent = "Updating..."
 
@@ -721,7 +780,7 @@ async function updateOfficerInfo(index){
     const fields = officerElement.querySelectorAll('input, select')
     fields.forEach(field => {
         const fieldName = field.name;
-        const fieldValue = field.value;
+        const fieldValue = field.tagName === "SELECT" ? field.options[field.selectedIndex]?.text : field.value;
 
         updatedData[fieldName] = fieldValue
     });

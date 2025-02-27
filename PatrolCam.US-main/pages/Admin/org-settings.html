@@ -11,11 +11,17 @@
         <link rel="stylesheet" href="login-modal.css">
         <link rel="stylesheet" href="navbar.css">
         <link rel="stylesheet" href="footer.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/dist/tailwind.min.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="../../FrontEndJavaScript/org-settings.js" defer></script>
         <script src="../../FrontEndJavaScript/fetchNavbar.js" defer></script>
         <script src="../../FrontEndJavaScript/sessionTimeout.js" defer></script>
+        <style>
+  .modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.5) !important; /* dark translucent background */
+  }
+</style>
 
 </head>
 <body>
@@ -135,8 +141,8 @@
                             </div>
                         </div>
                         <div id="form-btns" class="form-btns">
-                            <button class="btn btn-warning" id="cancelBtn" type="reset" onclick="disableAccountEditMode()">Cancel</button>
-                            <button class="btn btn-secondary" id="orgUpdateBtn" type="submit" onclick="updateOrgInfo()">Update</button>
+                            <button class="button" style="background-color:#8B0000;" id="cancelBtn" type="reset" onclick="disableAccountEditMode()">Cancel</button>    
+                            <button class="button"  background="#9998" id="orgUpdateBtn" type="submit" onclick="updateOrgInfo()">Update</button>
                             <button class="button">Click</button>
                               
                         </div>
@@ -173,7 +179,7 @@
                         
                             <div class="camera-info placeholder">
                                 <label>
-                                    <span class="placeholder"></span>
+                                   <span class="placeholder"></span>
                                 </label>
                                 <label>
                                     <span class="placeholder"></span>
@@ -185,7 +191,7 @@
                     </div>
 
                     <div class="camera-frame">
-                        <img class="placeholder" src="./PatrolCamLogo.jpg" alt="Loading Camera...">
+                        <img class="placeholder" src="../security_camera_placeholder_2.jpg" alt="Loading Camera...">
                         
                             <div class="camera-info placeholder">
                                 <label>
@@ -207,14 +213,14 @@
             
             <!-- Officers Tab -->
 
-            <section id="officers" class="tab-content">
+            <!-- <section id="officers" class="tab-content">
                 
                 <div class="officer-header-container">
                     <div class="officer-header">
                         <h2>Officers</h2>
                     </div>
                     <div class="officer-header-button">
-                        <button type="button" class="btn-secondary addOfficer">Add +</button>
+                        <button type="button" class="btn btn-primary">Add Officers</button>
                     </div>
                 </div>
                 
@@ -237,7 +243,71 @@
                     </div>
 
                 </div>
-            </section>
+            </section> -->
+
+            <section id="officers" class="tab-content container mt-4">
+                <div class="row justify-content-between align-items-center mb-3">
+                  <div class="col">
+                    <h2>Officers</h2>
+                  </div>
+                <div class="col-auto">
+                    <button type="button"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#officerModal">Add Officers</button>
+                  </div>
+                <!-- 
+
+                This section contains the HTML code for a Bootstrap modal used to add a new officer. 
+                The modal includes a form with fields for officer name, email, and phone number. 
+                It also includes buttons to close the modal or submit the form.
+
+                Elements:
+                - Modal: A Bootstrap modal with id "officerModal".
+                - Modal Header: Contains the title "Add Officer" and a close button.
+                - Modal Body: Contains a form with id "add-officer-form" and input fields for officer name, email, and phone number.
+                - Modal Footer: Contains buttons to close the modal and to submit the form.
+                -->
+                <!-- Modal -->
+                <div class="modal fade" id="officerModal" tabindex="-1" aria-labelledby="officerModalLabel" aria-hidden="true" data-bs-backdrop="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="officerModalLabel">Add Officer</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="add-officer-form">
+                                    <div class="mb-3">
+                                        <label for="officer-name" class="form-label">Officer Name</label>
+                                        <input type="text" class="form-control" id="officer-name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="officer-email" class="form-label">Officer Email</label>
+                                        <input type="email" class="form-control" id="officer-email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="officer-phone" class="form-label">Officer Phone</label>
+                                        <input type="tel" class="form-control" id="officer-phone" required>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" form="add-officer-form">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+                <!-- Officer List Container -->
+                <div id="officer-list" class="row">
+                  <!-- Placeholder cards can remain here if needed -->
+                  <div class="col-md-4 mb-3">
+                    <div class="card placeholder-glow">
+                      <div class="card-body">
+                        <p class="placeholder">Loading...</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
                 
             <!-- Privacy Tab  -->
 
@@ -257,9 +327,15 @@
     <!-- Footer -->
     <footer>
         <div class="footer">
-            <p>&copy; 2024 PatrolCam. All rights reserved.</p>
+            <p>&copy; 2025 PatrolCam. All rights reserved.</p>
         </div>
     </footer>
+    <script 
+         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>

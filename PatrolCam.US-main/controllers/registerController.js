@@ -775,7 +775,7 @@ async function getOrgUserData(req, res) {
         }
 
         //Fetch organization users with specified fields
-        const orgUserArray = await getUserFields(user, ['firstname', 'lastname', 'email', 'lastLoggedIn', '-_id']) 
+        const orgUserArray = await getUserFields(user, ['firstname', 'lastname', 'email', 'lastLoggedIn']) 
 
         //If no data is returned, respond with 404
         if(!orgUserArray || orgUserArray.length === 0){
@@ -1227,6 +1227,9 @@ async function updateCameraInfo(req, res){
     try{
         const {updatedInfo, cameraInfo} = req.body
 
+        console.log('Updated Info:', updatedInfo);
+        console.log('Camera ID:', cameraInfo);
+
         //Being a database transaction
         await withTransaction(async (session) => {
             //Update the existing camera information
@@ -1258,6 +1261,50 @@ async function updateCameraInfo(req, res){
         return res.status(500).json({message: 'Failed to update camera information', error: error.message})
     } 
 }
+async function updateOrganizationUserInfo(req, res){
+    //Ensure that request is coming from a logged in user and has reqiured role
+    if(!req.session.user || (req.session.user.role).toLowerCase() !== 'admin'){
+        return res.sendStatus(401)
+    }
+
+    try{
+        const {updatedInfo, userInfo} = req.body
+
+        console.log('Updated Info:', updatedInfo);
+        console.log('User ID:', userInfo);
+
+
+        //Being a database transaction
+        await withTransaction(async (session) => {
+            //Update the existing user information
+            await User.findByIdAndUpdate(
+                userInfo,
+                {$set: updatedInfo},
+                {new: true, session}
+            )
+        })
+
+        //Respond with success status
+        return res.status(200).json({message: 'User information updated successfully'})
+
+    } catch (error){
+        //Log errors with a transaction
+        await withTransaction(async (session) => {
+            await logError(req, {
+                level: 'ERROR',
+                desc: 'Failed to update User information',
+                source: 'updateOrganizationUserInfo',
+                userId: req.session.user ? req.session.user.id: 'unknown',
+                code: 'USER_UPDATE_ERROR',
+                meta: {error: error.message},
+                session
+            });
+        });
+
+        //Respond with server error 
+        return res.status(500).json({message: 'Failed to update user information', error: error.message})
+    } 
+}
 
 
 //Exports
@@ -1278,5 +1325,6 @@ module.exports = {
     getCurrentUserFirstName,
     updateOrganizationInfo,
     updateOrganizationStatus,
-    updateCameraInfo
+    updateCameraInfo,
+    updateOrganizationUserInfo
 };
