@@ -1,5 +1,6 @@
 //elements
 const audioContainer = document.getElementById('audioAI-container');
+const audioText = document.getElementById('audio-text');
 const audioFile = document.getElementById('audioFile');
 const uploadButton = document.getElementById('upload-button');
 const resetButton = document.getElementById('reset-button');
@@ -21,7 +22,8 @@ hideSpinner();
 
 //get file name and dispay in audio file button after chosen
 audioFile.addEventListener('change', async function(event) {
-    formData.set('audioFile', audioFile.files[0]);
+    //add file to form data
+    formData.set('audio', audioFile.files[0]);
     const fileName = audioFile.files[0].name;
     uploadButton.textContent = `Upload: ${fileName}`; //display name    
 });
@@ -29,41 +31,38 @@ audioFile.addEventListener('change', async function(event) {
 uploadButton.addEventListener('click', uploadAudio);
 resetButton.addEventListener('click', reset);
 
-//api request for audio.ai feature
+// //api request for audio.ai feature
 async function uploadAudio () {
     //making sure user selected file
     if(!audioFile.files.length){
         alert('Please select a file')
         return;
     } 
-    //add file to formData
-    formData.set('audioFile', audioFile.files[0]);
-
+    
     //show spinner while file is being transcribed
     showSpinner();
     
     try{
         const response = await fetch("https://api.patrolcam.us/audioai/simulateAnalyze", {
             method: 'POST',
-            body: formData,
             headers: {
-                "Accept": "application/json",
-            }
+                "api-key": "3mx2cIuUB7X4o3vn6phy",
+            },
+            body: formData,
         });
 
         if(!response.ok) throw new Error("Failed to process audio");
 
         hideSpinner();
         const result = await response.json();
-        audioContainer.textContent = JSON.stringify(result, NULL, 2);
+        audioText.textContent = JSON.stringify(result, null, 2);
         
-
     }catch(error){
         hideSpinner();
         console.log('Error: ', error);
-        audioContainer.textContent = "Error processing audio" 
+        audioText.textContent = "Error processing" 
     }
-    
+      
 };
 
 //reset option implementation
@@ -72,7 +71,8 @@ function reset() {
     formData = new FormData();
     audioFile.value = "";
     //reset UI
-    audioContainer.textContent = "";
+    // audioContainer.textContent = "";
+    audioText.textContent = "";
     uploadButton.textContent = "Upload";
 
     hideSpinner();
