@@ -19,9 +19,10 @@ function showSpinner() {
 hideSpinner();
 
 
-//get file name and dispay in audio file button after chosen
+//get file name and display in audio file button after chosen
 audioFile.addEventListener('change', async function(event) {
-    formData.set('audioFile', audioFile.files[0]);
+    //add file to formdData
+    formData.set('audio', audioFile.files[0]);
     const fileName = audioFile.files[0].name;
     uploadButton.textContent = `Upload: ${fileName}`; //display name    
 });
@@ -36,28 +37,21 @@ async function uploadAudio () {
         alert('Please select a file')
         return;
     } 
-    //add file to formData
-    formData.set('audioFile', audioFile.files[0]);
-
+    
     //show spinner while file is being transcribed
     showSpinner();
     
     try{
-        const response = await fetch("https://api.patrolcam.us/audioai/simulateAnalyze", {
+        const response = await fetch("/api/audio/audioAnalyze", {
             method: 'POST',
-            body: formData,
-            headers: {
-                "Accept": "application/json",
-            }
+            body: formData, // Send formData
         });
 
         if(!response.ok) throw new Error("Failed to process audio");
 
         hideSpinner();
         const result = await response.json();
-        audioContainer.textContent = JSON.stringify(result, NULL, 2);
-        
-
+        audioContainer.textContent = JSON.stringify(result, null, 2);
     }catch(error){
         hideSpinner();
         console.log('Error: ', error);
@@ -77,4 +71,6 @@ function reset() {
 
     hideSpinner();
 }
+
+
 
