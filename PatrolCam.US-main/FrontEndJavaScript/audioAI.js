@@ -54,7 +54,7 @@ async function uploadAudio () {
 
         hideSpinner();
         const result = await response.json();
-        audioContainer.textContent = JSON.stringify(result, null, 2);
+        audioText.textContent = JSON.stringify(result, null, 2);
         
 
     }catch(error){
