@@ -22,7 +22,7 @@ hideSpinner();
 
 //get file name and display in audio file button after chosen
 audioFile.addEventListener('change', async function(event) {
-    formData.set('audioFile', audioFile.files[0]);
+    formData.set('audio', audioFile.files[0]);
     const fileName = audioFile.files[0].name;
     uploadButton.textContent = `Upload: ${fileName}`; //display name    
 });
@@ -54,7 +54,7 @@ async function uploadAudio () {
 
         hideSpinner();
         const result = await response.json();
-        audioContainer.textContent = JSON.stringify(result, NULL, 2);
+        audioContainer.textContent = JSON.stringify(result, null, 2);
         
 
     }catch(error){
