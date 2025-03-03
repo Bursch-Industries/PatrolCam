@@ -17,8 +17,45 @@
 
 .audioAI-container{
     color: black;
+    /* border: solid #0C2D48 2px; */
+    background-color: whitesmoke;
+    text-align: left;
+    line-height: 1.5; 
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+.audio-text {
+    display: block;
+    font-family: monospace;
+    unicode-bidi: isolate;
+    white-space: pre-wrap;
+    margin: 1em 0px;
+}
+
+.container-md {    
+    height: 18rem;
+    width: 55%;
     border: solid #0C2D48 2px;
-    background-color: whitesmoke;     
+}
+
+/* Custom scrollbar styles */
+.audioAI-container::-webkit-scrollbar {
+    width: 0.5rem; /* Width of the scrollbar */
+}
+
+.audioAI-container::-webkit-scrollbar-track {
+    background: none; /* Background of the scrollbar track */
+    border-radius: 1rem;
+}
+
+.audioAI-container::-webkit-scrollbar-thumb {
+    background: #0C2D48; /* Color of the scrollbar thumb */
+    border-radius: 1rem;
+}
+
+.audioAI-container::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar thumb when hovered */
 }
 
 .file-input-container{
@@ -33,19 +70,3 @@
     word-wrap: break-word;
 } 
 
-/* .upload-button {
-    background-color: #0C2D48;
-    border-color: transparent;
-}
-
-.reset-button {
-    background-color: #0C2D48;
-    border-color: transparent;
-} */
-
-.container-md {    
-    height: 18rem;
-    width: 55%;
-    border-radius: 1rem;
-    overflow: auto;
-}
