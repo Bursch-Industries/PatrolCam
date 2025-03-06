@@ -1,22 +1,20 @@
 //layout for landing page of Patrol Cam
-
-import Head from 'next/head';
 import Footer from '@/app/ui/footer';
+import '@/app/styles/globals.css';
+
+//metadata for the landing page
+export const metadata = {
+    title: "PatrolCam",
+    icons: "/PatrolCamLogo.png",
+};
 
 export default function LandingLayout({ children }) {
     return (
-        <>
-            <Head>
-                <meta charSet="UTF-8"></meta>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-                <title>PatrolCam</title>
-            </Head>
-            <html lang="en">
-                <body>
-                    <main> {children} </main>
-                    <Footer />
-                </body>
-            </html>
-        </>
+        <html lang="en">
+            <body>
+                <main> {children} </main>
+                <Footer />
+            </body>
+        </html>
     );
 }

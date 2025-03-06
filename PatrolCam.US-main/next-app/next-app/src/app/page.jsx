@@ -1,14 +1,10 @@
 //landing page for PatrolCam 
+import '@/app/styles/globals.css';
 
-export default function Page() {
-  return (
-    <>
-      {/* First part of the actual website users will see */}
-      <div className="container">
-          <h1>PatrolCam</h1>
-      </div>
-
-      {/* Start of the features page */}
-    </>
-  );
+export default function LandingPage() {
+  return (  
+    <div>
+      <h1>Patrol Cam</h1>
+    </div>
+  )
 }
