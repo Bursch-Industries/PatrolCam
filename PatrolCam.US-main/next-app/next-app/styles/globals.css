@@ -3,6 +3,9 @@
 @theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-primary: oklch(28.85% 0.0623 247.05);
+  --color-secondary: oklch(53.58% 0.2598 274.81);
+  --color-pcYellow: oklch(88.68% 0.182186 95.3305); /*patrolcam yellow */
 }
 
 :root {
