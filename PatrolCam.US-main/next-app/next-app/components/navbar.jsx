@@ -13,8 +13,8 @@ export default function Navbar() {
                         <Image 
                         src="/PatrolCamLogo.png" 
                         alt="PatrolCam Logo" 
-                        width={130}
-                        height={130} 
+                        width={150}
+                        height={150} 
                         />
                     </Link>
                 </div>

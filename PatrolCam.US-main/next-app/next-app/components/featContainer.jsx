@@ -8,9 +8,10 @@ export default function FeatContainer({ children }) {
         bg-[#B1D4E0]
         text-black
         rounded-[1.25rem]
-        py-[8rem]
-        px-[6rem]
-        mt-[2rem]
+        py-[10rem]
+        px-[8rem]
+        mt-[1rem]
+        mb-[1rem]
         "
         >
             {children}
