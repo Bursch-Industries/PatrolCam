@@ -3,6 +3,7 @@ import '../../styles/globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import FeatContainer from '../../components/featContainer';
+import ContactForm from '../../components/contactUs';
 
 export default function LandingPage() {
   return ( 
@@ -92,16 +93,13 @@ export default function LandingPage() {
               </FeatContainer>
             </div>
           </div>
-
         </div>
-
       </div>
 
       {/* TODO Contact Us section */}
-      <div id="contact-us" className="flex bg-[#145DA0] justify-center">
-        <h1 className="text-6xl">Contact us Section</h1>
-      </div>
-
+      <section className="flex bg-[#145DA0] justify-center">
+        <ContactForm />
+      </section>
     </div>
   )
 }
