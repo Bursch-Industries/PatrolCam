@@ -8,9 +8,29 @@
   --color-pcYellow: oklch(88.68% 0.182186 95.3305); /*patrolcam yellow */
 }
 
+/* Navbar styling */
+.nav-button {
+  @apply flex justify-center text-xl py-3 px-5  w-50 rounded-md hover:bg-[#333];
+}
+
+/* Landing page styling components */
+.feature-card {
+  @apply flex flex-col items-center bg-[#B1D4E0] text-black text-xl rounded-[1.25rem] px-4 py-20;
+}
+
+.feature-container {
+  @apply flex flex-wrap justify-around items-center py-10;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -19,9 +39,3 @@
     --foreground: #ededed;
   }
 } */
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}

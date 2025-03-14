@@ -7,41 +7,42 @@ import ContactForm from '../../components/contactUs';
 export default function LandingPage() {
   return ( 
     <div>
-      {/* First part of the website that users see */}
+      {/* hero section*/}
       <div className="bg-[url(/hero-background.jpg)] bg-cover bg-center">
       {/* hero text section */}
-        <div className="flex text-white justify-between border-primary">
-          <div className="content-center ml-50 font-bold">
+        <div className="flex flex-col-2 justify-around text-white border-primary">
+          <div className="content-center font-bold">
             <h1 className="text-6xl">
               The Most Advanced<br/>
               Surveillance<br/>
               Solutions For<br/>
               Defense Agencies
             </h1>
-            <div className="bg-pcYellow text-black inline-block mt-5 px-6 py-2 rounded-md">
-              <Link href="#features" className="text-xl"> Get Started </Link>
-            </div>
+            <Link href="#features" className="text-xl bg-pcYellow text-black inline-block mt-5 px-6 py-2 rounded-md">
+              Get Started
+            </Link>
           </div>
+          <div>
             <Image 
               src="/trial_logo.svg" 
               alt="PatrolCam Home Logo"
               width={470}
               height={470}
-              className="mr-50"
             />
+          </div>
         </div>
       </div>
       
       {/* Features Section*/}
        <div id="features" className="bg-[#145DA0] text-white"> {/* bg-[#145DA0] */}
-        <div className="flex bg-primary opacity-90 justify-center text-3xl py-8">
+        <div className="flex justify-center text-3xl py-8 bg-primary">
           <h1>WHAT PATROLCAM BRINGS TO YOUR SECURITY</h1>
         </div>
-
+        
         <div>
           {/* First Subset of Features */}
             <div className="py-10">
-              <div className="flex flex-wrap justify-around items-center py-10">
+              <div className="feature-container">
                 {/* Image Container */}
                 <div>
                   <Image
@@ -54,10 +55,10 @@ export default function LandingPage() {
                 
                 {/* Text Content */}
                 <div className="max-w-lg w-full">
-                  <div className="flex flex-col items-center bg-[#B1D4E0] text-black text-xl rounded-[1.25rem] px-4 py-20">
+                  <div className="feature-card">
                     <Image
                       src="/camera-icon.png"
-                      alt="LittleCameraIcon"
+                      alt="Little Camera Icon"
                       width={60}
                       height={60}
                       className="mb-4"
@@ -75,9 +76,9 @@ export default function LandingPage() {
 
 
           {/* Second Subset of Features */}
-          <div className="flex flex-wrap justify-around items-center py-10">
+          <div className="feature-container">
             <div className="max-w-lg w-full">
-              <div className="flex flex-col items-center bg-[#B1D4E0] text-black text-xl rounded-[1.25rem] px-4 py-20">
+              <div className="feature-card">
                 <Image
                   src="/VehicleTrackingIcon.png"
                   alt="AI icon"
@@ -105,19 +106,19 @@ export default function LandingPage() {
 
           {/* Third and Final Subset of Features */}
           <div className="py-10">
-            <div className="flex flex-wrap justify-around items-center py-10">
+            <div className="feature-container">
               {/* Image container */}
               <div>
                 <Image
                   src="/PingImage.jpg"
-                  alt="Surveillance Image"
+                  alt="Ping Image"
                   width={400}
                   height={400}
                   />
               </div>
               {/* Text Content */}
               <div className="max-w-lg w-full">
-                <div className="flex flex-col items-center bg-[#B1D4E0] text-black text-xl rounded-[1.25rem] px-4 py-20">
+                <div className="feature-card">
                   <Image
                     src="/Ping.png"
                     alt="Ping icon"

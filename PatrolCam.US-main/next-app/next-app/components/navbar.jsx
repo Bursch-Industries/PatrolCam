@@ -20,12 +20,12 @@ export default function Navbar() {
                 </div>
                 {/* navagation links */}
                 <nav className="flex bg-black rounded-lg ">
-                    <Link href="/#features" className="flex justify-center text-xl py-3 px-5  w-50 rounded-md hover:bg-[#333]">Features</Link>
-                    <Link href="/demo" className="flex justify-center text-xl py-3 px-5 w-50  rounded-md hover:bg-[#333]">Demo</Link>
-                    <Link href="/#contact-us" className="flex justify-center text-xl py-3 px-5 w-50  rounded-md hover:bg-[#333]">Contact Us</Link>
+                    <Link href="/#features" className="nav-button">Features</Link>
+                    <Link href="/demo" className="nav-button">Demo</Link>
+                    <Link href="/#contact-us" className="nav-button">Contact Us</Link>
                 </nav>
                 {/* login button */}
-                <div className="flex bg-pcYellow text-black text-2xl mr-5 px-5 py-2 rounded-lg">
+                <div className="flex bg-pcYellow text-black text-2xl font-bold mr-5 px-5 py-2 rounded-lg">
                     <Link href="">Login</Link>
                 </div>
             </div>
