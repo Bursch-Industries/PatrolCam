@@ -2,7 +2,6 @@
 import '../../styles/globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import FeatContainer from '../../components/featContainer';
 import ContactForm from '../../components/contactUs';
 
 export default function LandingPage() {
@@ -34,72 +33,114 @@ export default function LandingPage() {
       </div>
       
       {/* Features Section*/}
-      <div id="features" className="bg-[#145DA0] text-white">
-        <div className="flex justify-center text-3xl py-8">
+       <div id="features" className="bg-[#145DA0] text-white"> {/* bg-[#145DA0] */}
+        <div className="flex bg-primary opacity-90 justify-center text-3xl py-8">
           <h1>WHAT PATROLCAM BRINGS TO YOUR SECURITY</h1>
         </div>
 
         <div>
-
           {/* First Subset of Features */}
-          <div>
-            <div className="flex justify-between py-10">
-              <div className="ml-65">
-                <Image
-                  src="/SurveillanceImage.jpg"
-                  alt="Surveillance Image"
-                  width={400}
-                  height={400}
+            <div className="py-10">
+              <div className="flex flex-wrap justify-around items-center py-10">
+                {/* Image Container */}
+                <div>
+                  <Image
+                    src="/SurveillanceImage.jpg"
+                    alt="Surveillance Image"
+                    width={400}
+                    height={400}
                   />
-              </div>
-              <div className="mr-65">
-                <FeatContainer>
-                  <h1> 24/7 SURVEILLANCE</h1>
-                </FeatContainer>
+                </div>
+                
+                {/* Text Content */}
+                <div className="max-w-lg w-full">
+                  <div className="flex flex-col items-center bg-[#B1D4E0] text-black text-xl rounded-[1.25rem] px-4 py-20">
+                    <Image
+                      src="/camera-icon.png"
+                      alt="LittleCameraIcon"
+                      width={60}
+                      height={60}
+                      className="mb-4"
+                    />
+                    <h1 className="text-[2rem] text-center font-bold break-words max-w-xs">
+                      24/7 SURVEILLANCE
+                    </h1>
+                    <p className="text-[1.5rem] text-center break-words max-w-xs whitespace-normal">
+                      Stay protected around the clock with our continuous monitoring system.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+
 
           {/* Second Subset of Features */}
-          <div className="flex justify-between py-10">
-            <div className="ml-65">
-              <FeatContainer>
-                <h1> AI-DRIVEN <br/> VEHICLE TRACKING </h1>
-              </FeatContainer>
-            </div>
-            <div className="mr-65">
+          <div className="flex flex-wrap justify-around items-center py-10">
+            <div className="max-w-lg w-full">
+              <div className="flex flex-col items-center bg-[#B1D4E0] text-black text-xl rounded-[1.25rem] px-4 py-20">
                 <Image
-                  src="/VehicleTrackingImage.png"
-                  alt="VehicleTracking Image"
-                  width={400}
-                  height={400}
-                  />
+                  src="/VehicleTrackingIcon.png"
+                  alt="AI icon"
+                  width={60}
+                  height={60}
+                  className="mb-4"  
+                />
+                <h1 className="text-[2rem] text-center font-bold max-w-xs"> 
+                  AI-DRIVEN VEHICLE TRACKING 
+                </h1>
+                <p className="text-[1.5rem] text-center break-words max-w-xs whitespace-normal"> 
+                  Advanced Machine Learning algorithms are engineered to help you track suspicious vehicles with unparalleled precision 
+                </p>
+              </div>
+            </div>
+            <div>
+              <Image
+                src="/VehicleTrackingImage.png"
+                alt="VehicleTracking Image"
+                width={400}
+                height={400}
+                />
             </div>
           </div>
 
           {/* Third and Final Subset of Features */}
-          <div className="flex justify-between py-10">
-            <div className="ml-65">
+          <div className="py-10">
+            <div className="flex flex-wrap justify-around items-center py-10">
+              {/* Image container */}
+              <div>
                 <Image
                   src="/PingImage.jpg"
                   alt="Surveillance Image"
                   width={400}
                   height={400}
                   />
-            </div>
-            <div className="mr-65">
-              <FeatContainer>
-                <h1> EASY PING FOR <br/> RAPID RESPONSE </h1>
-              </FeatContainer>
+              </div>
+              {/* Text Content */}
+              <div className="max-w-lg w-full">
+                <div className="flex flex-col items-center bg-[#B1D4E0] text-black text-xl rounded-[1.25rem] px-4 py-20">
+                  <Image
+                    src="/Ping.png"
+                    alt="Ping icon"
+                    width={60}
+                    height={60}
+                    className="mb-4"
+                  />
+                  <h1 className="text-[2rem] text-center font-bold break-words max-w-xs"> 
+                    EASY PING FOR <br/> RAPID RESPONSE 
+                  </h1>
+                  <p className="text-[1.5rem] text-center break-words max-w-xs whitespace-normal"> 
+                    With a single tap, instantly access live feeds, send commands, or retrieve stored footage.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
 
       {/* TODO Contact Us section */}
-      <section className="flex bg-[#145DA0] justify-center">
         <ContactForm />
-      </section>
     </div>
   )
 }
