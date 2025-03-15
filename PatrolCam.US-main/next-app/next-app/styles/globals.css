@@ -8,6 +8,11 @@
   --color-pcYellow: oklch(88.68% 0.182186 95.3305); /*patrolcam yellow */
 }
 
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Navbar styling */
 .nav-button {
   @apply flex justify-center text-xl py-3 px-5  w-50 rounded-md hover:bg-[#333];

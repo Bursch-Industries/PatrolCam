@@ -18,7 +18,7 @@ export default function LandingPage() {
               Solutions For<br/>
               Defense Agencies
             </h1>
-            <Link href="#features" className="text-xl bg-pcYellow text-black inline-block mt-5 px-6 py-2 rounded-md">
+            <Link href="#contact-us" className="text-xl bg-pcYellow text-black inline-block mt-5 px-6 py-2 rounded-md">
               Get Started
             </Link>
           </div>
