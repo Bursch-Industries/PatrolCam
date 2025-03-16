@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function Navbar() {
+    
     return (
         <>
             <div className="bg-primary text-white flex items-center justify-between opacity-90 h-24">
@@ -26,9 +27,9 @@ export default function Navbar() {
                 </nav>
                 {/* login button */}
                 <div className="flex bg-pcYellow text-black text-2xl font-bold mr-5 px-5 py-2 rounded-lg">
-                    <Link href="">Login</Link>
+                    <Link href="/login">Login</Link>
                 </div>
             </div>
         </>
-    )
+    );
 }
