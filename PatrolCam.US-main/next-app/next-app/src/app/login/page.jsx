@@ -1,10 +1,36 @@
-// Login for the PatrolCam website
+// Login page for the PatrolCam website
 'use client';
+import { useState } from 'react'; // importing React hooks
+import { Router } from 'next/router';  // handle page redirection
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Login() {
-    
+    // Toggle Password Visibility
+
+    // Load saved password if "Remember Me" is checked
+
+    // Form Submission Handling
+
+        // prevent the default form submission
+
+        // get the values from the input fields
+
+        // Check for empty fields
+
+        // Allow the user to log in with no password value if they have been remembered in the browser local storage
+
+        // Send login request
+
+            // Display the server error messages
+
+        // Check if response header contains JSON
+
+            // Handle "Remember Me" functionality
+
+        // Redirect to dashboard on successful login
+        // success
+
     return (
         <div className="flex items-center justify-center h-screen">
             {/* Left section */}
