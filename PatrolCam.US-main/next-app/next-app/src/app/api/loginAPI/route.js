@@ -4,7 +4,7 @@ import { userLogin, userLogout } from "@/lib/controllers/loginController";
 export default async function LoginHandler(req, res) {
     if (req.method === 'POST') {
         try {
-            const result = await userLogin(req.body);
+            const result = await userLogin(req, res);
             res.status(200).json(result);
         } catch (error) {
             res.status(500).json( {error: error.message} );
@@ -13,6 +13,8 @@ export default async function LoginHandler(req, res) {
         res.status(405).json( { message: 'Method not allowed' } )
     }
 }
+
+
 
 
 

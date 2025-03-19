@@ -19,57 +19,34 @@ export default function Login() {
 
     // store username in state
     function handleEmail(e) {
-
         setUser({
             ...user,
             email: e.target.value,
         });
-
     }
-    
     // store password in state
     function handlePassword(e) {
-
         setUser({
             ...user,
             password: e.target.value,
         });
-        
     }
     
     // Submit request to the backend
     function loginSubmission() {
-        // check if email is being stored correctly
-        console.log(`username: ${user.email}`);
-        if (!user.email) {
-            emailElement.current.style.border = "2px solid red";
-        } else {
-            emailElement.current.style.border = "1px solid black";
-        }
+        const email = user.email
+        const password = user.password
+        //add rememberMeBool and rememberMeValue
 
-        // check if password is being stored correctly
-        console.log(`password: ${user.password}`);
-        if (!user.password) {
-            passwordElement.current.style.border = "2px solid red";
-        } else {
-            passwordElement.current.style.border = "1px solid black";
-        }
-
-        // submit login request
-            // const email = user.email
-            // const password = user.password
-
-            // const handleLogin = async() => {
-            // const res = await fetch('/loginAPI', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'Application/json'
-            //     },
-            //     body: JSON.stringify({email, name})
-            // });
-
-        };
-
+        fetch('/loginAPI', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'Application/json'
+            },
+            body: JSON.stringify({email, password}),
+        });
+    }
+//add rememberMeBool, rememberMeValue
         
 
 
@@ -142,3 +119,23 @@ export default function Login() {
         </div>
     );
 }
+
+
+
+
+// ideas 
+// check if email is being stored correctly
+// console.log(`username: ${user.email}`);
+// if (!user.email) {
+//     emailElement.current.style.border = "2px solid red";
+// } else {
+//     emailElement.current.style.border = "1px solid black";
+// }
+
+// // check if password is being stored correctly
+// console.log(`password: ${user.password}`);
+// if (!user.password) {
+//     passwordElement.current.style.border = "2px solid red";
+// } else {
+//     passwordElement.current.style.border = "1px solid black";
+// }
