@@ -1,67 +1,62 @@
 // Login page for the PatrolCam website
 'use client';
 import { useState } from 'react'; // importing React hooks
+import { useRef } from 'react';
 import { Router } from 'next/router';  // handle page redirection
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Login() {
     // grab username and password entered
-    const [username, setUserName] = useState('');
-    const [password, setPassword] = useState('');
+    const [user, setUser] = useState({
+        email: (''),
+        password: (''),
+    });
+
+    // used to style elements in certain conditions
+    const emailElement = useRef(null);
+    const passwordElement = useRef(null);
 
     // store username in state
-    function handleUserName(e) {
-        setUserName(e.target.value);
-        // check if username is being stored
-        console.log(username);
-    };
+    function handleEmail(e) {
+
+        setUser({
+            ...user,
+            email: e.target.value,
+        });
+
+    }
     
     // store password in state
     function handlePassword(e) {
-        setPassword(e.target.value);
-        // check if password is being stored
-        console.log(password);
-    };
 
+        setUser({
+            ...user,
+            password: e.target.value,
+        });
+        
+    }
+    
     // Submit request to the backend
     function loginSubmission() {
-        // check if email is empty and return error if so
-        if (!email){
-            // 
-        };
+        // check if email is being stored correctly
+        console.log(`username: ${user.email}`);
+        if (!user.email) {
+            emailElement.current.style.border = "2px solid red";
+        } else {
+            emailElement.current.style.border = "1px solid black";
+        }
+
+        // check if password is being stored correctly
+        console.log(`password: ${user.password}`);
+        if (!user.password) {
+            passwordElement.current.style.border = "2px solid red";
+        } else {
+            passwordElement.current.style.border = "1px solid black";
+        }
+
         
-        // TEST! check if password is empty (will check for remember me box later)
-
-
-    };
-
-    function EmailInput() {
-        return(
-            <input 
-                type="text" 
-                name="username"
-                id="emailInput" 
-                // onChange={handleUserName} 
-                placeholder="Enter your email"
-                className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
-            /> 
-        );
-    };
-
-    function PasswordInput() {
-        return (
-            <div>
-                <input
-                    type="password" 
-                    name="password" 
-                    id="passwordInput"
-                    // onChange={handlePassword} 
-                    placeholder="Enter your password"
-                    className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
-                />
-            </div>
-        );
+        
     };
 
 
@@ -74,17 +69,14 @@ export default function Login() {
 
                 {/* Email input */}
                 <p className="font-bold mt-4">Email address</p>
-                <EmailInput 
-                    onChange={handleUserName}
-                />
-                {/* <input 
+                <input 
                     type="text" 
-                    name="username"
-                    id="emailInput" 
-                    onChange={handleUserName} 
+                    value={user.email}
+                    ref = {emailElement}
+                    onChange={handleEmail} 
                     placeholder="Enter your email"
                     className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
-                /> */}
+                />
                 
                 {/* Password input */}
                 <div className="mt-4 mb-2">
@@ -92,19 +84,17 @@ export default function Login() {
                         <p className="font-bold">Password</p>
                         <p className="font-semibold text-blue-600">Forgot password?</p>
                     </div>
-                    <PasswordInput 
-                        onChange={handlePassword} 
-                    />
-                    {/* <div>
+                    
+                    <div>
                         <input 
                             type="password" 
-                            name="password" 
-                            id="passwordInput"
+                            value={user.password}
+                            ref = {passwordElement}
                             onChange={handlePassword} 
                             placeholder="Enter your password"
                             className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
                         />
-                    </div> */}
+                    </div>
                 </div>
 
                 {/* remember me */}
