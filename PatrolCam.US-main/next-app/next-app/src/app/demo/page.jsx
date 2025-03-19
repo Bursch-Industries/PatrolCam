@@ -1,6 +1,6 @@
 //Demo page for the surveilaince feature
-import Navbar from "../../../components/navbar";
-import Footer from "../../../components/footer";
+import Navbar from "../../components/navbar";
+import Footer from "../../components/footer";
 
 export default function Demo() {
 

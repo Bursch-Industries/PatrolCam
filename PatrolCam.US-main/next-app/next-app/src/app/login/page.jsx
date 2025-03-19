@@ -60,7 +60,7 @@ export default function Login() {
             // const password = user.password
 
             // const handleLogin = async() => {
-            // const res = await fetch('/login/login', {
+            // const res = await fetch('/loginAPI', {
             //     method: 'POST',
             //     headers: {
             //         'Content-Type': 'Application/json'

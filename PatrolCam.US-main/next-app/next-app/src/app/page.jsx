@@ -2,9 +2,9 @@
 import '../../styles/globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import ContactForm from '../../components/contactUs';
-import Navbar from '../../components/navbar';
-import Footer from '../../components/footer';
+import ContactForm from '../components/contactUs';
+import Navbar from '../components/navbar';
+import Footer from '../components/footer';
 
 export default function LandingPage() {
   return ( 
