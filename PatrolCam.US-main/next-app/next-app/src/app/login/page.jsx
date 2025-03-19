@@ -2,7 +2,7 @@
 'use client';
 import { useState } from 'react'; // importing React hooks
 import { useRef } from 'react';
-import { Router } from 'next/router';  // handle page redirection
+import { Router } from 'next/navigation';  // handle page redirection
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -55,9 +55,22 @@ export default function Login() {
             passwordElement.current.style.border = "1px solid black";
         }
 
+        // submit login request
+            // const email = user.email
+            // const password = user.password
+
+            // const handleLogin = async() => {
+            // const res = await fetch('/login/login', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'Application/json'
+            //     },
+            //     body: JSON.stringify({email, name})
+            // });
+
+        };
+
         
-        
-    };
 
 
     return (
@@ -129,29 +142,3 @@ export default function Login() {
         </div>
     );
 }
-
-// TODO:
-// Toggle Password Visibility
-
-    // Load saved password if "Remember Me" is checked
-
-    // Form Submission Handling
-
-        // prevent the default form submission
-
-        // get the values from the input fields
-
-        // Check for empty fields
-
-        // Allow the user to log in with no password value if they have been remembered in the browser local storage
-
-        // Send login request
-
-            // Display the server error messages
-            
-            // Check if response header contains JSON
-            
-            // Handle "Remember Me" functionality
-            
-            // Redirect to dashboard on successful login
-            // successs
