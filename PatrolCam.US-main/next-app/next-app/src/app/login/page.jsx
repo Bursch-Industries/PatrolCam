@@ -6,30 +6,64 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Login() {
-    // Toggle Password Visibility
+    // grab username and password entered
+    const [username, setUserName] = useState('');
+    const [password, setPassword] = useState('');
 
-    // Load saved password if "Remember Me" is checked
+    // store username in state
+    function handleUserName(e) {
+        setUserName(e.target.value);
+        // check if username is being stored
+        console.log(username);
+    };
+    
+    // store password in state
+    function handlePassword(e) {
+        setPassword(e.target.value);
+        // check if password is being stored
+        console.log(password);
+    };
 
-    // Form Submission Handling
+    // Submit request to the backend
+    function loginSubmission() {
+        // check if email is empty and return error if so
+        if (!email){
+            // 
+        };
+        
+        // TEST! check if password is empty (will check for remember me box later)
 
-        // prevent the default form submission
 
-        // get the values from the input fields
+    };
 
-        // Check for empty fields
+    function EmailInput() {
+        return(
+            <input 
+                type="text" 
+                name="username"
+                id="emailInput" 
+                // onChange={handleUserName} 
+                placeholder="Enter your email"
+                className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
+            /> 
+        );
+    };
 
-        // Allow the user to log in with no password value if they have been remembered in the browser local storage
+    function PasswordInput() {
+        return (
+            <div>
+                <input
+                    type="password" 
+                    name="password" 
+                    id="passwordInput"
+                    // onChange={handlePassword} 
+                    placeholder="Enter your password"
+                    className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
+                />
+            </div>
+        );
+    };
 
-        // Send login request
-
-            // Display the server error messages
-
-        // Check if response header contains JSON
-
-            // Handle "Remember Me" functionality
-
-        // Redirect to dashboard on successful login
-        // success
 
     return (
         <div className="flex items-center justify-center h-screen">
@@ -40,13 +74,17 @@ export default function Login() {
 
                 {/* Email input */}
                 <p className="font-bold mt-4">Email address</p>
-                <input 
+                <EmailInput 
+                    onChange={handleUserName}
+                />
+                {/* <input 
                     type="text" 
-                    name="username" 
-                    id="loginEmail" 
+                    name="username"
+                    id="emailInput" 
+                    onChange={handleUserName} 
                     placeholder="Enter your email"
                     className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
-                />
+                /> */}
                 
                 {/* Password input */}
                 <div className="mt-4 mb-2">
@@ -54,15 +92,19 @@ export default function Login() {
                         <p className="font-bold">Password</p>
                         <p className="font-semibold text-blue-600">Forgot password?</p>
                     </div>
-                    <div>
+                    <PasswordInput 
+                        onChange={handlePassword} 
+                    />
+                    {/* <div>
                         <input 
                             type="password" 
                             name="password" 
-                            id="password" 
+                            id="passwordInput"
+                            onChange={handlePassword} 
                             placeholder="Enter your password"
                             className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
                         />
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* remember me */}
@@ -72,7 +114,7 @@ export default function Login() {
                 </div>
 
                 {/* Submit */}
-                <button type="submit" className="text-white text-xl py-2 w-[100%] rounded-md bg-secondary mt-4 mb-4">Login</button>
+                <button type="submit" onClick={loginSubmission} className="text-white text-xl py-2 w-[100%] rounded-md bg-secondary mt-4 mb-4">Login</button>
 
                 {/* Signup */}
                 <div className="text-center text-lg">
@@ -97,3 +139,29 @@ export default function Login() {
         </div>
     );
 }
+
+// TODO:
+// Toggle Password Visibility
+
+    // Load saved password if "Remember Me" is checked
+
+    // Form Submission Handling
+
+        // prevent the default form submission
+
+        // get the values from the input fields
+
+        // Check for empty fields
+
+        // Allow the user to log in with no password value if they have been remembered in the browser local storage
+
+        // Send login request
+
+            // Display the server error messages
+            
+            // Check if response header contains JSON
+            
+            // Handle "Remember Me" functionality
+            
+            // Redirect to dashboard on successful login
+            // successs
