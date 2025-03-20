@@ -1,8 +1,14 @@
-// layout for the dashboard of PatrolCam
+// Common layout for PatrolCam
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 export default function DashboardLayout({ children }) {
 
     return (
-        <main>{ children }</main>
+        <div>
+            <Navbar />
+            <main>{ children }</main>
+            <Footer />
+        </div>
     );
 }
