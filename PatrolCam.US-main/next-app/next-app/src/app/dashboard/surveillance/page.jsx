@@ -9,21 +9,10 @@ import { useState } from 'react';
 export default function Surveillance(){
 	// state for camera grids
 	const [row, setRows] = useState(1); // state var to get and set rows
-	const [col, setCols] = useState(1); // state var to get and set cols
+	const [col, setCols] = useState(1); // state var to get and set cols 
+	let totalGrids = row * col;
 
 	// Demo cameras will be replaced with the streaming cameras when implemented
-	// const demoCameras = {
-	// 	camera1: "/Camera_1.mp4",
-	// 	camera2: "/Camera_2.mp4",
-	// 	camera3: "/Camera_3.mp4",
-	// 	camera4: "/Camera_4.mp4",
-	// 	camera5: "/Camera_5.mp4",
-	// 	camera6: "/Camera_6.mp4",
-	// 	camera7: "/Camera_7.mp4",
-	// 	camera8: "/Camera_8.mp4",
-	// 	camera9: "/Camera_9.mp4",
-	// }
-
 	const demoCameras = [
 		"/Camera_1.mp4",
 		"/Camera_2.mp4",
@@ -33,11 +22,11 @@ export default function Surveillance(){
 		"/Camera_6.mp4",
 		"/Camera_7.mp4",
 		"/Camera_8.mp4",
-		"/Camera_9.mp4"
+		"/Camera_9.mp4",
 	];
 
+	// surveillance camera iframe and styling for it
 	function SurvCamera( { src } ){
-		
 		return (
 			<div className="flex justify-center items-center">
 				{/* TODO: insert camera logic here for camera component */}
@@ -46,23 +35,7 @@ export default function Surveillance(){
 		);
 	}
 
-	function CreateCams({rows, cols}) {
-		const totalGrids = rows * cols;
-
-		// loop totalGrids amount of times
-		// on each loop insert a camera into new grid
-		for (let i=0; i < totalGrids.length; i++) {
-			let cam = demoCameras[i];
-			console.log("this is working");
-			return (
-				<>
-					<SurvCamera src={cam} />
-				</>
-			);
-		};
-
-	}
-
+	// component for selecting the current layout of grid
 	function GridDropdown() {
 		// dropdown element for chaning the grid layout of cameras
 		const [view, setView] = useState(true); // if true will just dislay button else if false will dispay grid selection
@@ -85,12 +58,6 @@ export default function Surveillance(){
 						<button onClick={() => { setRows(2); setCols(2); setView(false); }} className="p-2 hover:bg-blue-600">2x2</button>
 						<button onClick={() => { setRows(3); setCols(3); setView(false); }} className="p-2 hover:bg-blue-600">3x3</button>
 					</div>
-					// <div className="absolute right-0 mt-2 w-32 bg-primary opacity-90 rounded-md shadow-lg z-50 flex flex-col text-white text-lg">
-					// 	<button onClick={CreateCams(1,1)} className="p-2 hover:bg-blue-600">1x1</button>
-					// 	<button onClick={CreateCams(1,2)} className="p-2 hover:bg-blue-600">1x2</button>
-					// 	<button onClick={CreateCams(2,2)} className="p-2 hover:bg-blue-600">2x2</button>
-					// 	<button onClick={CreateCams(3,3)} className="p-2 hover:bg-blue-600">3x3</button>
-					// </div>
 				)}
 
 			</div>
@@ -110,28 +77,17 @@ export default function Surveillance(){
 				<div className="flex w-[100%] h-[100%]">
 					<div 
 						className={`grid w-[100%]`}
-						style={{gridTemplateRows: `repeat(${row}, 1fr)`, gridTemplateColumns: `repeat(${col}, 1fr)`}}
+						style={{gridTemplateRows: `repeat(${row}, 1fr)`, gridTemplateColumns: `repeat(${col}, 1fr)`}} // create grids 
 					> 
-						{/* insert video frames here */}
-						<SurvCamera src={demoCameras[0]} />
-						{/* <CreateCams /> */}
+						{/* insert Surveillance camera into each iframe */}
+						{Array.from({length: totalGrids}, (_, i) => (
+							<SurvCamera key={i} src={demoCameras[i]}/>
+						 ))}
 					</div>
 				</div>
-			
-		</div>
+			</div>
 		
 
     );
 }
-
-
-// IDEAS
-// 1.) Create a camera componenent that will contain all the logic needed for it
-// 2.) 
-
-
-// NEEDS
-// Dropdown to change state of cameras ( this needs to be on the navbar ) 
-// Dropdowns within each camera to change which camera is displayed in that grid
-// 
 
