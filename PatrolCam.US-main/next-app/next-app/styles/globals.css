@@ -13,6 +13,10 @@ html {
   scroll-behavior: smooth;
 }
 
+.base-background {
+  @apply bg-[#2E8BC0]; 
+}
+
 /* Navbar styling */
 .nav-button {
   @apply flex justify-center text-xl py-3 px-5  w-50 rounded-md hover:bg-[#333];

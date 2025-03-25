@@ -125,7 +125,7 @@ export default function Surveillance(){
 	}
 
     return (
-        <div className="bg-[#2E8BC0] flex flex-col h-screen">
+        <div className=" base-background flex flex-col h-screen">
 			
 				{/* Temporary dropdown until the navbar is fully implemented */}
 				<div className="flex justify-end">
@@ -151,5 +151,5 @@ export default function Surveillance(){
 // TODOS & Improvements
 	// use live camera feed instead of demo videos
 	// improve styling for better UI and UX
-	// make camera selections stay and not reset on every change or something along those lines
+	// make camera not re render when switching cams
 
