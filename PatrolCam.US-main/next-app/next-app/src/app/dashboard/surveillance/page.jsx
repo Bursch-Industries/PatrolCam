@@ -1,6 +1,5 @@
 // page for the surveillance of PatrolCam
 'use client';
-import Image  from 'next/image';
 import { useState } from 'react'; 
 
 
@@ -9,38 +8,63 @@ import { useState } from 'react';
 export default function Surveillance(){
 	// state for camera grids
 	const [row, setRows] = useState(1); // state var to get and set rows
-	const [col, setCols] = useState(1); // state var to get and set cols 
-	let totalGrids = row * col;
-
+	const [col, setCols] = useState(1); // state var to get and set cols
+	
+	let totalGrids = row * col; // total amount of grids --> total amount of cameras
+	
 	// Demo cameras will be replaced with the streaming cameras when implemented
 	const demoCameras = [
-		"/Camera_1.mp4",
-		"/Camera_2.mp4",
-		"/Camera_3.mp4",
-		"/Camera_4.mp4",
-		"/Camera_5.mp4",
-		"/Camera_6.mp4",
-		"/Camera_7.mp4",
-		"/Camera_8.mp4",
+		"/Camera_1.mp4","/Camera_2.mp4",
+		"/Camera_3.mp4","/Camera_4.mp4",
+		"/Camera_5.mp4","/Camera_6.mp4",
+		"/Camera_7.mp4","/Camera_8.mp4",
 		"/Camera_9.mp4",
 	];
+	
+
+	function CameraSelection(){
+		const [cam, setCam] = useState(true);
+
+		function selectionDropdown() {
+			setCam(!cam);
+		};
+
+		return (
+			<div>
+				{/* camera selection button */}
+				<button onClick={selectionDropdown} className="absolute place-self-start top-2 left-2 text-white text-2xl mt-2">⚙</button>
+				{/* camera selection dropdown */}
+				{!cam && (<div className="flex flex-col absolute z-50 text-white top-10 left-2 bg-primary opacity-90 rounded-md shadow-lg">
+					<button className="p-2 hover:bg-blue-600">Camera 1</button>
+					<button className="p-2 hover:bg-blue-600">Camera 2</button>
+					<button className="p-2 hover:bg-blue-600">Camera 3</button>
+					<button className="p-2 hover:bg-blue-600">Camera 4</button>
+					<button className="p-2 hover:bg-blue-600">Camera 5</button>
+					<button className="p-2 hover:bg-blue-600">Camera 6</button>
+					<button className="p-2 hover:bg-blue-600">Camera 7</button>
+					<button className="p-2 hover:bg-blue-600">Camera 8</button>
+					<button className="p-2 hover:bg-blue-600">Camera 9</button>
+				</div>)}
+			</div>
+		)
+	};
 
 	// surveillance camera iframe and styling for it
 	function SurvCamera( { src } ){
+		
 		return (
-			<div className="flex justify-center items-center">
-				{/* TODO: insert camera logic here for camera component */}
-				<iframe src={src} className="w-[90%] h-[90%]"></iframe>
-			</div>
-		);
-	}
+			<div className="flex relative items-center justify-center bg-black">
+				<iframe src={src} allowFullScreen className="w-[90%] h-[90%]"></iframe>
+				{/* <button onClick={() => {console.log("This works")}} className="absolute place-self-start top-2 left-2 text-white text-xl mt-2">⚙</button> */}
+				<CameraSelection />
+			</div>	
+		)	
+	};
 
 	// component for selecting the current layout of grid
 	function GridDropdown() {
-		// dropdown element for chaning the grid layout of cameras
-		const [view, setView] = useState(true); // if true will just dislay button else if false will dispay grid selection
+		const [view, setView] = useState(true);	
 
-		// used to change the state of view when option is selected
 		function ChangeDropdown() {
 			setView(!view);
 		};
@@ -49,7 +73,6 @@ export default function Surveillance(){
 			<div className="relative">
 				{/* dropdown button */}
 				<button onClick={ChangeDropdown} className="mr-4 mt-2 bg-primary p-2 px-3 rounded-md text-white text-2xl">☰</button>
-
 				{/* dropdown menu */}
 				{!view && ( 
 					<div className="absolute right-0 mt-2 w-32 bg-primary opacity-90 rounded-md shadow-lg z-50 flex flex-col text-white text-lg">
@@ -59,7 +82,6 @@ export default function Surveillance(){
 						<button onClick={() => { setRows(3); setCols(3); setView(false); }} className="p-2 hover:bg-blue-600">3x3</button>
 					</div>
 				)}
-
 			</div>
 		);
 	}
@@ -74,15 +96,15 @@ export default function Surveillance(){
 				</div>
 			
 				{/* grid camera container */}
-				<div className="flex w-[100%] h-[100%]">
+				<div className="flex justify-center mb-4 w-[100%] h-[100%]">
 					<div 
-						className={`grid w-[100%]`}
+						className="grid gap-2 w-[90%]"
 						style={{gridTemplateRows: `repeat(${row}, 1fr)`, gridTemplateColumns: `repeat(${col}, 1fr)`}} // create grids 
 					> 
 						{/* insert Surveillance camera into each iframe */}
 						{Array.from({length: totalGrids}, (_, i) => (
 							<SurvCamera key={i} src={demoCameras[i]}/>
-						 ))}
+						))}
 					</div>
 				</div>
 			</div>
@@ -91,3 +113,8 @@ export default function Surveillance(){
     );
 }
 
+// TODO 
+// 	Create a way to switch between cams,
+//  Add better SEO and accessibility to each cam 
+// 	complete the styling of the page, 
+// 	add the dropdown to the navbar when that is completed
