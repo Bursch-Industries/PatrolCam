@@ -2,9 +2,11 @@
 'use client';
 import { useState } from 'react'; // importing React hooks
 import { useRef } from 'react';
-import { Router } from 'next/navigation';  // handle page redirection
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';  // handle page redirection
 import Image from 'next/image';
 import Link from 'next/link';
+
 
 export default function Login() {
     // grab username and password entered
@@ -12,6 +14,7 @@ export default function Login() {
         email: (''),
         password: (''),
     });
+    const router = useRouter();
 
     // used to style elements in certain conditions
     const emailElement = useRef(null);
@@ -38,24 +41,18 @@ export default function Login() {
         const password = user.password
         //add rememberMeBool and rememberMeValue
         
-        try {
-            const res = await fetch('/api/loginAPI', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({email, password})
-            });
+        
 
-            const data = await res.json(); // parse response JSON
+        const res = await signIn("credentials", {
+            email,
+            password,
+            redirect: false, // prevent automatic direction
+        });
 
-            if (res.ok){
-                console.log("User login successful", data);
-            } else {
-                console.log("User login failed: ", data.message);
-            }
-        } catch (error) {
-            console.error("Error during login: ", error);
+        if (res.error) {
+            setError("Invalid email or password"); // Display error message if failure to login
+        } else {
+            router.push("/dashboard"); // redirect user to dashboard if login is successful
         }
 
     };

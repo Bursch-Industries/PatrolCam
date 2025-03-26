@@ -1,60 +1,59 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import connectDB from "@/lib/config/dbConn";
-import bcrypt from "bcryptjs";
+import connectDB from "@/lib/config/dbConn"; // import function to connect to the database
+import bcrypt from "bcryptjs"; 
 import User from "@/lib/model/User";
 
-
+// Authentication options configuration
 export const authOptions = {
-    session: {
-        strategy: "jwt", // Uses JSON Web Token for session management
-    },
     providers: [
         CredentialsProvider({
-            name: "Credentials",
+            name: "credentials",
             credentials: {
-                email: { label: "Email", type: "email", placeholder: "email@example.com" },
+                email: { label: "Email", type: "email", placeholder: "your@email.com" },
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                await connectDB(); // Ensure DB is connected
+                await connectDB(); // Ensure the database is connected before querying
 
-                const { email, password } = credentials;
-                const user = await User.findOne({ email });
-
+                // Find user int eh database by email
+                const user = await User.findOne({ email: credentials.email });
                 if (!user) throw new Error("User not found");
 
-                const isMatch = await bcrypt.compare(password, user.password);
-                if (!isMatch) throw new Error("Invalid password");
-
-                return {
-                    id: user._id,
-                    email: user.email,
-                    firstname: user.firstname,
-                    lastname: user.lastname,
-                    roles: user.roles
-                };
+                // Compare the provided password with the stored hashed password
+                const isValidPassword = await bcrypt.compare(credentials.password, user.password);
+                if (!isValidPassword) throw new Error("Invalid credentials");
+                
+                // Return user object containing relevant details
+                return { id: user._id, email: user.email, name: user.firstname, role: user.roles };
             },
         }),
     ],
     callbacks: {
+        async session({ session, token }) {
+            // Attach user ID and role to session object
+            session.user.id = token.sub;
+            session.user.role = token.role;
+            return session;
+        },
         async jwt({ token, user }) {
+            // Attach user ID and role to JWT token
             if (user) {
-                token.id = user.id;
-                token.roles = user.roles;
+                token.sub = user.id;
+                token.role  = user.role;
             }
             return token;
         },
-        async session({ session, token }) {
-            session.user.id = token.id;
-            session.user.roles = token.roles;
-            return session;
-        },
     },
     pages: {
-        signIn: "/login", // login page
+        signIn: "/login", // Redirect users to login page
     },
+    session: {
+        strategy: "jwt", // Use JSON Web Tokens for session handling
+    },
+    secret: process.env.NEXTAUTH_SECRET, // Secret key for NextAuth encryption
 };
 
+// Authentication handler
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }; // Export handler for GET and POST requests
