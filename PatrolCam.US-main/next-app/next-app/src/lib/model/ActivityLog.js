@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema
+
+import mongoose, { Schema } from "mongoose";
 
 const activityLogSchema = new Schema({
     action: {
@@ -41,4 +43,7 @@ const activityLogSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('ActivityLog', activityLogSchema);
+const ActivityLog = mongoose.model("ActivityLog", activityLogSchema);
+export default ActivityLog;
+
+// module.exports = mongoose.model('ActivityLog', activityLogSchema);

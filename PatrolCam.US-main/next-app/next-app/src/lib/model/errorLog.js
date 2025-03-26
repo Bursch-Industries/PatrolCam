@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema
+
+import mongoose, { Schema } from "mongoose";
 
 const errorLogSchema = new Schema({
     timestamp: {
@@ -41,5 +43,6 @@ const errorLogSchema = new Schema({
     }
     });
     
-
+const ErrorLog = mongoose.model("errorLog", errorLogSchema);
+export default ErrorLog;
 module.exports = mongoose.model('errorLog', errorLogSchema);

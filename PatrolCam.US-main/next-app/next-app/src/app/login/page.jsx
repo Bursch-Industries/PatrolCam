@@ -33,19 +33,32 @@ export default function Login() {
     }
     
     // Submit request to the backend
-    function loginSubmission() {
+    async function loginSubmission() {
         const email = user.email
         const password = user.password
         //add rememberMeBool and rememberMeValue
+        
+        try {
+            const res = await fetch('/api/loginAPI', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({email, password})
+            });
 
-        fetch('/loginAPI', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'Application/json'
-            },
-            body: JSON.stringify({email, password}),
-        });
-    }
+            const data = await res.json(); // parse response JSON
+
+            if (res.ok){
+                console.log("User login successful", data);
+            } else {
+                console.log("User login failed: ", data.message);
+            }
+        } catch (error) {
+            console.error("Error during login: ", error);
+        }
+
+    };
 //add rememberMeBool, rememberMeValue
         
 
@@ -90,7 +103,7 @@ export default function Login() {
                 {/* remember me */}
                 <div>
                     <input type="checkbox" id="remember" />
-                    <label htmlFor="remember">Remember password</label>
+                    <label htmlFor="remember"> Remember password</label>
                 </div>
 
                 {/* Submit */}

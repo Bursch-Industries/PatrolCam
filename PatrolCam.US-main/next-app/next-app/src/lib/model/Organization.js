@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
+
+import mongoose, { Schema } from "mongoose";
 
 const organizationSchema = new Schema({
     organizationName: {
@@ -53,4 +55,8 @@ const organizationSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Organization', organizationSchema);
+
+const Organization = mongoose.model("Organization" , organizationSchema);
+export default User;
+
+// module.exports = mongoose.model('Organization', organizationSchema);

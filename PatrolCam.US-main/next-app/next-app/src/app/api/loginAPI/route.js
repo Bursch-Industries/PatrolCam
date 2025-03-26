@@ -1,19 +1,16 @@
-// routing for login and logout api
-import { userLogin, userLogout } from "@/lib/controllers/loginController"; 
+import { connectMongoDB } from "@/lib/config/dbConn";
 
-export default async function LoginHandler(req, res) {
-    if (req.method === 'POST') {
-        try {
-            const result = await userLogin(req, res);
-            res.status(200).json(result);
-        } catch (error) {
-            res.status(500).json( {error: error.message} );
-        }
-    } else {
-        res.status(405).json( { message: 'Method not allowed' } )
+export async function POST(req) {
+    try {
+        const { email, password } = await req.json();
+
+        await connectMongoDB();
+
+        return Response.json({ message: "Login successful" }, {status: 200})
+    } catch (error) {
+        return Response.json({ message: "Login failed" }, {status: 400});
     }
 }
-
 
 
 

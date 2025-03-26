@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
+
+import mongoose, { Schema } from "mongoose";
 
 const cameraSchema = new Schema({
     camera_Name: {
@@ -35,4 +37,7 @@ const cameraSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Camera', cameraSchema);
+const Camera = mongoose.model("Camera", cameraSchema);
+export default Camera;
+
+// module.exports = mongoose.model('Camera', cameraSchema);
