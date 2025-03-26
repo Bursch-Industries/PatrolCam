@@ -57,6 +57,6 @@ const organizationSchema = new Schema({
 
 
 const Organization = mongoose.model("Organization" , organizationSchema);
-export default User;
+export default Organization;
 
 // module.exports = mongoose.model('Organization', organizationSchema);

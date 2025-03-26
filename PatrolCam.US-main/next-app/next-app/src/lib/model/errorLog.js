@@ -45,4 +45,5 @@ const errorLogSchema = new Schema({
     
 const ErrorLog = mongoose.model("errorLog", errorLogSchema);
 export default ErrorLog;
-module.exports = mongoose.model('errorLog', errorLogSchema);
+
+// module.exports = mongoose.model('errorLog', errorLogSchema);
