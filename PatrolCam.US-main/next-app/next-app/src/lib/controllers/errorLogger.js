@@ -1,4 +1,5 @@
-const errorLog = require('../model/errorLog'); 
+// const errorLog = require('../model/errorLog'); 
+import ErrorLog from "@/lib/model/errorLog"
 
 /**
  * Logs error details to the database dynamically.
@@ -15,6 +16,8 @@ const errorLog = require('../model/errorLog');
  * @returns {Promise<void>} - Resolves if the error is successfully logged; otherwise, throws an error.
  * @throws {Error} - If an error occurs while saving the error log.
  */
+
+// former log error
 async function logError(req, {
     level,
     desc,
@@ -34,7 +37,7 @@ async function logError(req, {
     }
 
     try{
-        // Create a new error log document using the provided details.
+        // Create a new error log document using the provided details.  former : error log
         const log = new errorLog({
             level,
             desc,

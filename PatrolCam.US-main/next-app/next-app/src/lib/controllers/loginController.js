@@ -1,10 +1,10 @@
 
-import User from '../model/User'; 
-import Org from "../model/Organization";
-import bcrypt from 'bcryptjs';
-import { withTransaction } from './transactionHandler';
-import { logError } from './errorLogger'; 
-import Organization from '../model/Organization';
+import User from '@/lib/model/User'; 
+import Org from "@/lib/model/Organization";
+import { bcrypt } from 'bcryptjs';
+import { withTransaction } from '@/lib/model/transactionHandler';
+import { logError } from '@/lib/model/errorLogger'; 
+import Organization from '@/lib/model/Organization';
 
 
 function generateRandomString() {
@@ -159,7 +159,7 @@ const userLogin = async (req, res) => {
 
 
         await withTransaction(async (session) => {
-                
+                // log error
             await logError(req, {
                 level: 'ERROR',
                 desc: 'Login Failed',
@@ -185,7 +185,7 @@ const userLogout = async (req, res) => {
     } catch (err) {
 
         await withTransaction(async (session) => {
-                
+                // former log error
             await logError(req, {
                 level: 'ERROR',
                 desc: 'Logout Failed',
