@@ -40,7 +40,7 @@ export default function Login() {
         const email = user.email
         const password = user.password
         //add rememberMeBool and rememberMeValue
-        
+        console.log("login attempt with: ", email, password);
         
 
         const res = await signIn("credentials", {
@@ -50,8 +50,9 @@ export default function Login() {
         });
 
         if (res.error) {
-            setError("Invalid email or password"); // Display error message if failure to login
+            console.log("Invalid login"); // Display error message if failure to login
         } else {
+            console.log("valid login");
             router.push("/dashboard"); // redirect user to dashboard if login is successful
         }
 
