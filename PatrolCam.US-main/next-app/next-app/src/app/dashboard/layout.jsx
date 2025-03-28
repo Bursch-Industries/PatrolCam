@@ -5,10 +5,10 @@ import Footer from "@/components/footer";
 export default function DashboardLayout({ children }) {
 
     return (
-        <div>
+        <>
             <Navbar />
                 { children }
             <Footer />
-        </div>
+        </>
     );
 }

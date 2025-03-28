@@ -132,8 +132,6 @@ export default function Login() {
 }
 
 
-
-
 // ideas 
 // check if email is being stored correctly
 // console.log(`username: ${user.email}`);
@@ -149,4 +147,3 @@ export default function Login() {
 //     passwordElement.current.style.border = "2px solid red";
 // } else {
 //     passwordElement.current.style.border = "1px solid black";
-// }

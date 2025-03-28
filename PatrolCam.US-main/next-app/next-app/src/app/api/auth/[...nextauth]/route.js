@@ -16,7 +16,7 @@ export const authOptions = {
             async authorize(credentials) {
                 await connectDB(); // Ensure the database is connected before querying
 
-                // Find user int eh database by email
+                // Find user in the database by email
                 const user = await User.findOne({ email: credentials.email });
                 if (!user) throw new Error("User not found");
 
@@ -25,6 +25,7 @@ export const authOptions = {
                 if (!isValidPassword) throw new Error("Invalid credentials");
                 
                 // Return user object containing relevant details
+                console.log("valid credentials");
                 return { id: user._id, email: user.email, name: user.firstname, role: user.roles };
             },
         }),
@@ -42,6 +43,7 @@ export const authOptions = {
                 token.sub = user.id;
                 token.role  = user.role;
             }
+            console.log(user.id, user.role);
             return token;
         },
     },
