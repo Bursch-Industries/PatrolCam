@@ -1,5 +1,6 @@
 //layout for landing page of Patrol Cam
 import '../../styles/globals.css';
+import Provider from '@/context/page';
 
 //metadata for the landing page
 export const metadata = {
@@ -10,9 +11,12 @@ export const metadata = {
 export default function LandingLayout({ children }) {
     return (
         <html lang="en">
-            <body>
-                <main> {children} </main>
-            </body>
+            {/* Wrap in provider to allow for use of 'useSession' hooks */}
+            <Provider> 
+                <body>
+                    { children }
+                </body> 
+            </Provider>
         </html>
     );
 }

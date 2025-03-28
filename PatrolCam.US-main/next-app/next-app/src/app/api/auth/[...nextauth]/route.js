@@ -25,26 +25,33 @@ export const authOptions = {
                 if (!isValidPassword) throw new Error("Invalid credentials");
                 
                 // Return user object containing relevant details
-                console.log("valid credentials");
-                return { id: user._id, email: user.email, name: user.firstname, role: user.roles };
+                console.log("valid credentials", isValidPassword);
+                
+                return {id: user._id,  email: user.email, name: user.firstname, role: user.roles };
             },
         }),
     ],
     callbacks: {
-        async session({ session, token }) {
-            // Attach user ID and role to session object
-            session.user.id = token.sub;
-            session.user.role = token.role;
-            return session;
-        },
         async jwt({ token, user }) {
-            // Attach user ID and role to JWT token
+            // Attach wanted user session info to JWT token
             if (user) {
                 token.sub = user.id;
                 token.role  = user.role;
+                token.name = user.name;
             }
-            console.log(user.id, user.role);
+            console.log(user ? user.id : "no user", user ? user.role : "no role", user ? user.name : "no name");
             return token;
+        },
+        async session({ session, token }) {
+            // Attach wanted user session info to object
+            if (token.sub){
+                session.user.id = token.sub;
+                session.user.role = token.role;
+                session.user.name = token.name;
+            }
+            
+            console.log(session.user ? session.user.id : "no id", session.user ? session.user.role : "no role", session.user ? session.user.name : "no name");
+            return session;
         },
     },
     pages: {
