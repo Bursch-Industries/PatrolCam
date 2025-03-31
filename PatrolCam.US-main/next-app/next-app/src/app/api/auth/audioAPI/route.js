@@ -12,7 +12,10 @@ export async function POST(req) {
 
         // prepare formData for external api request
         const audioAiFormData = new FormData();
-        audioAiFormData.set('file', file);
+        audioAiFormData.set('audio', file);
+
+        // used for debugging
+        console.log(audioAiFormData);
 
         const res = await fetch("https://api.patrolcam.us/audioai/simulateAnalyze", {
             method: 'POST',
@@ -21,6 +24,9 @@ export async function POST(req) {
             },
             body: audioAiFormData,
         });
+
+        // used for debugging
+        console.log("request has been made");
 
         if(!res.ok) { return new Response(
             JSON.stringify({error: 'failed to transcribe audio'}),
