@@ -139,6 +139,9 @@ export default function ContactForm() {
                 console.error('Error: ', error);
             }
         }
+
+        // return a success message if request was good
+        // reset contact form after receiving request response
     }
 
 
