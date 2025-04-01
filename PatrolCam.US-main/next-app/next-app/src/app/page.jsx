@@ -53,6 +53,7 @@ export default function LandingPage() {
                     alt="Surveillance Image"
                     width={400}
                     height={400}
+                    className="pic-styles"
                   />
                 </div>
                 
@@ -103,6 +104,7 @@ export default function LandingPage() {
                 alt="VehicleTracking Image"
                 width={400}
                 height={400}
+                className="pic-styles"
                 />
             </div>
           </div>
@@ -117,6 +119,7 @@ export default function LandingPage() {
                   alt="Ping Image"
                   width={400}
                   height={400}
+                  className="pic-styles"
                   />
               </div>
               {/* Text Content */}

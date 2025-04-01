@@ -24,11 +24,15 @@ html {
 
 /* Landing page styling components */
 .feature-card {
-  @apply flex flex-col items-center bg-[#B1D4E0] text-black text-xl rounded-[1.25rem] px-4 py-20;
+  @apply flex flex-col items-center bg-[#B1D4E0] text-black text-xl rounded-[1.25rem] px-4 py-20 shadow-lg delay-200 duration-500 ease-in-out  hover:scale-110  ;
 }
 
 .feature-container {
   @apply flex flex-wrap justify-around items-center py-10;
+}
+
+.pic-styles {
+  @apply rounded-md ;
 }
 
 :root {
