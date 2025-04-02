@@ -145,8 +145,6 @@ export default function LandingPage() {
 
         </div>
       </div>
-
-      {/* TODO Contact Us section */}
         <ContactForm />
       <Footer />
     </div>

@@ -5,6 +5,7 @@ export async function POST(req){
     // get the form info from the request
     const formInfo = await req.json();
     const { contactName, organization, phoneNumber, email, productInterest, extension } = formInfo;
+    console.log(formInfo);
 
     if (!contactName || !email || !organization || !phoneNumber || !productInterest) {
         return new Response(
