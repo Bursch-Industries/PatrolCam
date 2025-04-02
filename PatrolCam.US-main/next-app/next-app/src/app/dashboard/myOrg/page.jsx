@@ -1,3 +1,8 @@
+'use client';
+import User from "@/lib/model/User";
+import { SaveButton } from "./my-org-content";
+import { UserData } from "@/components/user-data";
+
 export default function MyOrg(){
     return (
         <div className="flex min-h-screen base-background">
@@ -20,7 +25,12 @@ export default function MyOrg(){
   <main className="flex-1 p-8">
     {/* Organization Info Tab */}
     <section className="bg-white rounded-lg shadow-md p-6 mb-8">
-      <div className="flex justify-between items-center mb-6">
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">My Organization</h1>
+        <UserData />
+      </div>
+
+      {/* <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold">Organization Info</h2>
         <button className="text-blue-600 hover:text-blue-800">✎</button>
       </div>
@@ -73,8 +83,8 @@ export default function MyOrg(){
       
       <div className="flex gap-4 mt-8">
         <button className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">Cancel</button>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Update</button>
-      </div>
+        <SaveButton />
+      </div> */}
     </section>
 
     {/* Cameras Tab */}

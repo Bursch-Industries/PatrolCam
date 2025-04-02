@@ -5,6 +5,19 @@ import { useSession } from 'next-auth/react';
 
 
 
+/**
+ * DashboardPage Component
+ * 
+ * This component represents the dashboard page of the application. It utilizes the `useSession` hook
+ * to retrieve the session data, including the user's information, and displays the user's name on the page.
+ * 
+ * @returns {JSX.Element} The rendered dashboard page component.
+ * 
+ * @remarks
+ * - The `useSession` hook is used to fetch the session data.
+ * - The component displays a placeholder message for the home page design.
+ * - Tailwind CSS classes are used for styling.
+ */
 export default function DashboardPage() {
     const {data: session } = useSession();
     console.log("useSession Hook session object", session);

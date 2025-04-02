@@ -105,9 +105,12 @@ export default function Login() {
                 </div>
 
                 {/* Submit */}
-                <button type="submit" onClick={loginSubmission} className="text-white text-xl py-2 w-[100%] rounded-md bg-secondary mt-4 mb-4">Login</button>
+                <button type="submit" onClick={loginSubmission} 
+                    className="text-white text-xl py-2 w-[100%] rounded-md bg-blue-600 hover:bg-blue-700 mt-4 mb-4">
+                        Login
+                </button>
 
-                {/* Signup */}
+                    {/* Signup */}
                 <div className="text-center text-lg">
                     <p>
                         Interested in our product <Link href="/#contact-us" className="underline text-blue-700">Sign up</Link>

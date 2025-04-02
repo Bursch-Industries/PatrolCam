@@ -27,14 +27,13 @@ export const authOptions = {
                 
                 // Return user object containing relevant details
                 console.log("valid credentials", isValidPassword);
-
+                
                 return {
                     id: user._id,  
                     email: user.email, 
                     name: user.firstname, 
-                    role: user.roles , 
+                    role: user.roles 
                 };
-
             },
         }),
     ],
