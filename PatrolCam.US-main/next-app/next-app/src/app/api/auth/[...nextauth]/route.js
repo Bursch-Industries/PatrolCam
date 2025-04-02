@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import connectDB from "@/lib/config/dbConn"; // import function to connect to the database
 import bcrypt from "bcryptjs"; 
 import User from "@/lib/model/User";
+import Organization from "@/lib/model/Organization";
 
 // Authentication options configuration
 export const authOptions = {
@@ -26,8 +27,14 @@ export const authOptions = {
                 
                 // Return user object containing relevant details
                 console.log("valid credentials", isValidPassword);
-                
-                return {id: user._id,  email: user.email, name: user.firstname, role: user.roles };
+
+                return {
+                    id: user._id,  
+                    email: user.email, 
+                    name: user.firstname, 
+                    role: user.roles , 
+                };
+
             },
         }),
     ],

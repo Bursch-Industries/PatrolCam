@@ -48,6 +48,9 @@ export async function POST(req){
         // Send the email
         await transporter.sendMail(mailOptions);
 
+
+        // TODO: implement this function so that it works for us
+
         // // Log email sent action
         // await withTransaction(async (session) => {
             
@@ -56,14 +59,16 @@ export async function POST(req){
         //         session
         //     });
         // });
-        
+
         return new Response (
             { status: 200 }
         )
         
     } catch (error) {
-        // await withTransaction(async (session) => {
-                
+        
+        // TODO: Implement this function so that it works for us
+
+        // await withTransaction(async (session) => {        
         //     await logError(req, {
         //         level: 'ERROR',
         //         desc: 'Failed to send email',
@@ -73,7 +78,6 @@ export async function POST(req){
         //         meta: { message: err.message, stack: err.stack },
         //         session
         //     });
-
         // });
 
         return new Response(
