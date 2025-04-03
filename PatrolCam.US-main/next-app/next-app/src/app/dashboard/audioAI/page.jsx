@@ -4,6 +4,7 @@
 import { useState } from "react";
 
 
+
 export default function AudioAI(){
     // const [selectedFile, setSelectedFile] = useState(null); // state to store and change audio file
     const [fileData, setFileData] = useState({
@@ -33,10 +34,10 @@ export default function AudioAI(){
             const result = await res.json();
             const textResponse = JSON.stringify(result, null, 2);
 
-            setFileData(prev => ({
-                ... prev,
-                audioTranscription: textResponse
-            }));
+            setFileData({
+              ...fileData,
+              audioTranscription: textResponse,
+            });
         
             // used for testing
             console.log(fileData.audioTranscription ? 'text file transcribed successfully': 'text file was not transcribed successfully');
