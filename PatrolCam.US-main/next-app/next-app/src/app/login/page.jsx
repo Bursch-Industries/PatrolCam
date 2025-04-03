@@ -51,6 +51,8 @@ export default function Login() {
 
         if (res.error) {
             console.log("Invalid login"); // Display error message if failure to login
+            emailElement.current.style.border = "2px solid red";
+            passwordElement.current.style.border = "2px solid red";
         } else {
             console.log("valid login");
             router.push("/dashboard"); // redirect user to dashboard if login is successful
@@ -106,7 +108,7 @@ export default function Login() {
 
                 {/* Submit */}
                 <button type="submit" onClick={loginSubmission} 
-                    className="text-white text-xl py-2 w-[100%] rounded-md bg-blue-600 hover:bg-blue-700 mt-4 mb-4">
+                    className="text-white text-xl py-2 w-[100%] rounded-md bg-blue-600 hover:bg-blue-700 mt-4 mb-4 cursor-pointer">
                         Login
                 </button>
 
@@ -134,19 +136,3 @@ export default function Login() {
     );
 }
 
-
-// ideas 
-// check if email is being stored correctly
-// console.log(`username: ${user.email}`);
-// if (!user.email) {
-//     emailElement.current.style.border = "2px solid red";
-// } else {
-//     emailElement.current.style.border = "1px solid black";
-// }
-
-// // check if password is being stored correctly
-// console.log(`password: ${user.password}`);
-// if (!user.password) {
-//     passwordElement.current.style.border = "2px solid red";
-// } else {
-//     passwordElement.current.style.border = "1px solid black";

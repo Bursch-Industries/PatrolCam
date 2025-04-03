@@ -60,7 +60,7 @@ function GuestNavbar() {
                     <Link href="/#contact-us" className="nav-button">Contact Us</Link>
                 </nav>
                 {/* login button or logout button depending on session */}
-                <div className="flex bg-pcYellow text-black text-2xl font-bold mr-5 px-5 py-2 rounded-lg">
+                <div className="flex bg-pcYellow text-black text-2xl font-bold mr-5 px-5 py-2 rounded-lg cursor-pointer hover:bg-yellow-400">
                     <Link href="/login">Login</Link>
                 </div>
             </div>

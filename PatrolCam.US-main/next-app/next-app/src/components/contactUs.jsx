@@ -13,7 +13,7 @@ export default function ContactForm() {
         productInterest: ('Surveillance Cameras'),
         extension: ('')
     });
-
+    const [invalidFields, setInvalidFields] = useState([]); // track invalid fields
     
     function HandleName(e){
         setFormInfo({
@@ -31,7 +31,6 @@ export default function ContactForm() {
 
     function EnforceFormat(e){
         // Allows numeric input in phone number field
-        
         const isNumericInput = (e) => {
             const key = e.keyCode;
             return ((key >= 48 && key <= 57) || // Allow number line
@@ -50,7 +49,6 @@ export default function ContactForm() {
             (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
         )
     };
-    
     // Combines the allowed keys into one event
     // Input must be of a valid number format or a modifier key, and not longer than ten digits
     if(!isNumericInput(e) && !isModifierKey(e)){
@@ -99,34 +97,42 @@ export default function ContactForm() {
             productInterest: e.target.value,
         });
     }
-
+    
+    let newInvalidFields = []; // store invalid fields in array to add styling
 
     // make async function
     async function HandleFormSubmission(e){
         e.preventDefault(); // prevent the default submission
 
-        let isInvalid = false;
-
         // Used for testing
         console.log(formInfo);
 
+        
         Object.entries(formInfo).forEach( ([key, value]) => {
-            // Skip validation for the 'extension' field
             if (key === 'extension') return;
 
-            if (String(value).trim() === ''){
-                isInvalid = true;
-                console.log(key, 'form contains empty input field');
-                // TODO: add red border to invalid input field
-            } else {
-                console.log('form is good for submission')
-                // TODO: add green border to all valid input fields or show success
+            if (key === 'phoneNumber'){
+                const num = String(value);
+                if (num.length === 10 || num.length === 18) {
+                    return;
+                } else {
+                    newInvalidFields.push(key);
+                }
             }
+
+            if (String(value).trim() === ''){
+                newInvalidFields.push(key);
+                console.log(key, 'form contains empty input field');
+            }
+
         });
 
-        if (isInvalid){
-            return; // form submission has invalid properties, stop execution
-        } else {
+        setInvalidFields(newInvalidFields);
+        console.log(invalidFields.length);
+
+        if (newInvalidFields.length > 0){
+            return; // stop submission if there are invalid input fields
+        } else { 
             try {
                 const requestBody = formInfo;
                 const response = await fetch('/api/auth/emailAPI', {
@@ -141,8 +147,24 @@ export default function ContactForm() {
                     console.log('An error has occured');
                     return; // problem with response, stop execution
                 }
-                 
-                console.log('response is successful email has been sent');
+
+                // TODO: replace with model for better user experience later, just used to alert user of successful submission
+                alert('Successful form submission!')
+
+                // clear invalid fields after a successful submission
+                setInvalidFields([]);
+                
+                // Clear the form info
+                setFormInfo({
+                    contactName: (''),
+                    organization: (''),
+                    phoneNumber : (''),
+                    email: (''),
+                    productInterest: ('Surveillance Cameras'),
+                    extension: ('')
+                });
+                
+
             } catch (error) {
                 console.error('Error: ', error);
             }
@@ -166,6 +188,9 @@ export default function ContactForm() {
                         placeholder="Contact Name"
                         value={formInfo.contactName}
                         onChange={HandleName}
+                        style= {{
+                            border: `${invalidFields.includes('contactName') ? 'solid 2px red' : '' }`
+                        }}
                         className="bg-white rounded-md w-[100%] pl-2 mt-2 mb-4 py-2 shadow-lg"
                     />
                     <input
@@ -173,6 +198,9 @@ export default function ContactForm() {
                         placeholder="Organization"
                         value={formInfo.organization}
                         onChange={HandleOrg}
+                        style= {{
+                            border: `${invalidFields.includes('organization') ? 'solid 2px red' : '' }`
+                        }}
                         className="bg-white rounded-md w-[100%] pl-2 py-2 shadow-lg"
                     />
                     <div className="flex justify-between mt-4">
@@ -189,6 +217,9 @@ export default function ContactForm() {
                             value={formInfo.phoneNumber}
                             onKeyDown={EnforceFormat}
                             onChange={HandlePhoneNumber}
+                            style= {{
+                                border: `${invalidFields.includes('phoneNumber') ? 'solid 2px red' : '' }`
+                            }}
                             maxLength="18"
                             className="bg-white rounded-md pl-2 py-2 w-[70%] ml-1 shadow-lg"
                         />
@@ -198,6 +229,9 @@ export default function ContactForm() {
                         placeholder="E-mail"
                         value={formInfo.email}
                         onChange={HandleEmail}
+                        style= {{
+                            border: `${invalidFields.includes('email') ? 'solid 2px red' : '' }`
+                        }}
                         className="bg-white rounded-md w-[100%] pl-2 py-2 mt-4 mb-4 shadow-lg"
                     />
                     <label htmlFor="productInterest" className="block text-center text-2xl "> What product are you interested in? </label>
