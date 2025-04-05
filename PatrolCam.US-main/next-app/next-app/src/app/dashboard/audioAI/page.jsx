@@ -2,8 +2,7 @@
 'use client';
 
 import { useState } from "react";
-
-
+import Transcription from "@/app/dashboard/audioAI/transcription";
 
 export default function AudioAI(){
     // const [selectedFile, setSelectedFile] = useState(null); // state to store and change audio file
@@ -13,65 +12,57 @@ export default function AudioAI(){
         selectedFile: null,
     });
 
-    const fileName = fileData.fileName;
-    const audioTranscription = fileData.audioTranscription;
+    const selectedFile = fileData.selectedFile;
+    const fileName = fileData.fileName; 
+    const audioTranscription = fileData.audioTranscription; 
 
     // function for api request using chosen file
     async function AudioUpload() {
         try {
             const formData = new FormData();
-            formData.set('audioFile', fileData.selectedFile);
+            formData.set('audioFile', fileData.selectedFile); // store the users file in new formData object
             const res = await fetch('/api/auth/audioAPI', {
                 method: 'POST',
-                body: formData,
                 headers: {
-                    'Accept' : 'application/json',
+                  'Accept' : 'application/json',
                 },
+                body: formData,
             });
 
             if (!res.ok) throw new Error("Failed to process audio");
 
-            const result = await res.json();
-            const textResponse = JSON.stringify(result, null, 2);
+            const result = await res.json(); // returns js object
+            // const textResponse = JSON.stringify(result, null, 2);
+            const textResponse = result
 
+            // store the audio transcription in state
             setFileData({
               ...fileData,
               audioTranscription: textResponse,
-            });
-        
-            // used for testing
-            console.log(fileData.audioTranscription ? 'text file transcribed successfully': 'text file was not transcribed successfully');
-            
-        } catch (error) {
+            });  
+          
+          } catch (error) {
             console.log('Error: ', error);
         }
     }
 
     // used to set and store selected audio file in state
     function HandleFile(e) {
-        
         if (e.target.files && e.target.files[0]){
             setFileData({
                 ...fileData,
                 fileName: e.target.files[0].name,
                 selectedFile: e.target.files[0]
-            })
-
-            // Used for testing function
-            console.log(e.target.files[0]);
-            console.log(e.target.files[0].name);
-        }
+        })};
     }
 
     // function for resetting state of audio ai, and clearing input file
     function ResetAudioAi() {
-        
         setFileData({
             fileName: (''),
             audioTranscription: (''),
             selectedFile: null,
         });
-
         const currFile = document.getElementById("audioFileInput");
         if (currFile) currFile.value = ''; // remove the selected input
     }
@@ -83,7 +74,7 @@ return (
 
         {/* Heading and Description */}
         <div className="text-center text-white">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">Audio.Ai Page</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">Audio.Ai</h1>
           <p className="text-base md:text-lg">Upload audio files for AI transcription</p>
         </div>
         
@@ -98,9 +89,9 @@ return (
         </div>
         
         {/* Audio AI container */}
-        <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-4 min-h-[200px] md:min-h-[250px]">
+        <div className="w-full bg-gray-100 rounded-4xl shadow-lg p-4 min-h-[50px] md:min-h-[50px]">
           {audioTranscription ? (
-            <p className="whitespace-pre-wrap">{audioTranscription}</p>
+            <Transcription audioData={audioTranscription} />
           ) : (
             <p className="text-gray-400 italic">Transcription will appear here...</p>
           )}
@@ -121,17 +112,17 @@ return (
             disabled={!fileData.selectedFile}
             type="submit" 
             className={`text-white text-base md:text-lg rounded-md py-2 px-4 text-center ${
-              fileData.selectedFile 
+              selectedFile 
                 ? "bg-primary hover:bg-blue-700 transition-colors" 
                 : "bg-gray-400 cursor-not-allowed"
             }`}
           >
-            {fileData.selectedFile ? "Upload file" : "Select a file first"}
+            {selectedFile ? "Upload file" : "Select a file first"}
           </button>
         </div>
         
         {/* File status indicator */}
-        {fileData.selectedFile && (
+        {selectedFile && (
           <div className="text-center text-white text-lg">
             Selected file: <span className="font-semibold">{fileName}</span>
           </div>
