@@ -35,7 +35,7 @@ const userSchema = new Schema({
     refreshToken: String,
 
     organization: { //Which organization the user is in
-        type: Schema.Types.Mixed, 
+        type: Schema.Types.ObjectId, 
         ref: 'Organization',
         required: true
     },
@@ -65,7 +65,7 @@ const userSchema = new Schema({
     }
 });
 
-const User = mongoose.model("User" ,userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 export default User;
 
 // module.exports = mongoose.model('User', userSchema);
