@@ -1,13 +1,9 @@
-// component for audio ai page that will take in the json transcription and format and style it for a clean viewing experience
+// component for audio ai page that will take in the parsed json transcription and format and style it for a clean viewing experience
 'use client'
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
+
+// shadcn components for styling
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { AlertCircle, Clock } from "lucide-react"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-
 
 export default function Transcription({ audioData }) {
     const lines = audioData.result.transcript.split("\n");
@@ -17,7 +13,7 @@ export default function Transcription({ audioData }) {
     let currentSpeaker = "" // track the current speaker
     let currentText = "" // track the current text
     let currentTimestamp = "" // track the current timestamp
-
+    
     // loop over the transcript lines
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim()
@@ -44,7 +40,6 @@ export default function Transcription({ audioData }) {
             // continue the current message
             currentText += " " + line
         }
-
     }
     // add the last message
     if (currentSpeaker && currentText) {
@@ -53,45 +48,46 @@ export default function Transcription({ audioData }) {
             text: currentText,
             timestamp: currentTimestamp,
         })
-    };
-    
+    }
+
+    // className="items-center w-full bg-gray-100 rounded-4xl shadow-lg p-4 min-h-[50px] md:min-h-[50px]"
     return (
-        <Tabs defaultValue="conversation" className="flex items-center">
-            <TabsList>
-                <TabsTrigger value="conversation" className="p-5 font-bold text-lg hover:cursor-pointer">Conversation</TabsTrigger>
-                <TabsTrigger value="summary" className="p-5 font-bold text-lg hover:cursor-pointer">Summary</TabsTrigger>
-                <TabsTrigger value="suspiciousWords" className="p-5 font-bold text-lg hover:cursor-pointer">Suspicious Words</TabsTrigger>
+        <Tabs defaultValue="conversation" className="items-center w-full bg-gray-100 rounded-4xl shadow-lg p-4 min-h-[50px] md:min-h-[50px]">
+            <TabsList className="gap-2">
+                <TabsTrigger value="conversation" className="bg-gray-100 p-3 sm:p-4 font-semibold data-[state=active]:border-2 data-[state=active]:border-primary sm:font-bold text-base sm:text-lg hover:bg-gray-200 rounded-lg transition">Conversation</TabsTrigger>
+                <TabsTrigger value="summary" className="bg-gray-100 p-3 sm:p-4 font-semibold data-[state=active]:border-2 data-[state=active]:border-primary sm:font-bold text-base sm:text-lg hover:bg-gray-200 rounded-lg transition">Summary</TabsTrigger>
+                <TabsTrigger value="suspiciousWords" className="bg-gray-100 p-3 sm:p-4 font-semibold data-[state=active]:border-2 data-[state=active]:border-primary sm:font-bold text-base sm:text-lg hover:bg-gray-200 rounded-lg transition">Suspicious Words</TabsTrigger>
             </TabsList>
+
             {/* conversation tab*/}
             <TabsContent value="conversation">
-                <Card>
+                <Card className="bg-gray-100 border-none shadow-none">
                     <CardHeader>
                         <CardTitle><span className="text-3xl font-bold">Conversation</span></CardTitle>
                         <CardDescription>
-                            <span className="font-semibold">TranscriptionId:</span> {audioData.result.transactionId}
+                            <p className="text-lg"><span className="font-semibold">TranscriptionId:</span> {audioData.result.transactionId}</p>
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         {messages.map((message, index) => {
                             return ( 
-                                <div key={index}>
-                                    <p className="text-lg"><span className="font-semibold">{message.speaker}:</span> {message.text} {message.timestamp}</p>
+                                <div key={index} className="border-b-2 border-black mb-2 p-2">
+                                    <p className="text-lg"><span className="font-semibold">{message.speaker}:</span> {message.text} <span className="font-semibold">{message.timestamp}</span></p>
                                 </div>
                             )
                         })}
                     </CardContent>
                     <CardFooter />
-                </Card>                
+                </Card>
             </TabsContent>
 
             {/* Summary tab */}
             <TabsContent value="summary">
-                <Card>
+                <Card className="bg-gray-100 border-none shadow-none">
                     <CardHeader>
-                        <CardTitle><span className="text-3xl font-bold">Summary</span></CardTitle>
-                        <CardDescription>
-                            <span className="text-lg font-semibold">Summary of the transcription</span>
-                        </CardDescription>
+                        <CardTitle>
+                            <span className="text-3xl font-bold">Summary</span>
+                        </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-lg">{audioData.result.summary}</p>
@@ -102,9 +98,11 @@ export default function Transcription({ audioData }) {
 
             {/* Suspicious words tab */}
             <TabsContent value="suspiciousWords">
-                <Card>
+                <Card className="bg-gray-100 border-none shadow-none">
                     <CardHeader>
-                        <CardTitle><span className="text-3xl font-bold">Suspicious Words</span></CardTitle>
+                        <CardTitle>
+                            <span className="text-3xl font-bold">Suspicious Words</span>
+                        </CardTitle>
                         <CardDescription>
                             <span className="text-lg font-bold">Suspicious words from the transcription</span>
                         </CardDescription>
@@ -113,8 +111,10 @@ export default function Transcription({ audioData }) {
                         {hasSuspiciousWords ? (
                             suspiciousWords.map((context, index) => {
                                 return (
-                                    <div key={index}>
-                                        <p className="text-lg"><span className="font-semibold">{context.word}: </span>{context.sentence}</p>
+                                    <div key={index} className="border-b-2 border-black mb-2 p-2">
+                                        <p className="text-lg">
+                                            <span className="font-semibold">{context.word}: </span>{context.sentence}
+                                        </p>
                                     </div>
                                 )
                             })
@@ -127,4 +127,4 @@ export default function Transcription({ audioData }) {
             </TabsContent>
         </Tabs>
     )
-}
+};

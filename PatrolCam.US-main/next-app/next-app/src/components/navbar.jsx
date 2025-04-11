@@ -23,14 +23,14 @@ function UserNavbar() {
                 {/* navagation links */}
                 <nav className="flex bg-black rounded-lg ">
                     <Link href="/dashboard" className="nav-button">Home</Link>
-                    <Link href="/dashboard/audioAI" className="nav-button">audioAI</Link>
+                    <Link href="/dashboard/audioAI" className="nav-button">Audio.Ai</Link>
                     <Link href="/dashboard/surveillance" className="nav-button">surveillance</Link>
                     <Link href="/dashboard/myOrg" className="nav-button">Settings</Link>
                 </nav>
                 {/* logout button */}
                 <div>
-                    <button className="bg-pcYellow text-black text-lg font-bold  px-4 py-2 mt-4 rounded-lg" onClick={() => {signOut()}}>
-                        Logout Test
+                    <button className="bg-pcYellow text-black text-lg font-bold  px-4 py-2 mr-3 rounded-lg" onClick={() => {signOut()}}>
+                        Logout
                     </button>
                 </div>
             </div>

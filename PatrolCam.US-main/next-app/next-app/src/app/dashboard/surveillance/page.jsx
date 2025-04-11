@@ -88,7 +88,7 @@ export default function Surveillance(){
 	function SurvCamera( { src, gridIndex } ){
 		
 		return (
-			<div className="relative flex items-center justify-center bg-black">
+			<div className="relative flex items-center justify-center bg-black shadow-lg">
 				<iframe src={src} allowFullScreen className="w-[90%] h-[90%]" />
 				<CameraSelection gridIndex={gridIndex} />
 			</div>	
@@ -128,7 +128,7 @@ export default function Surveillance(){
         <div className=" base-background flex flex-col h-screen">
 			
 				{/* Temporary dropdown until the navbar is fully implemented */}
-				<div className="flex justify-end">
+				<div className="flex justify-end mr-2">
 					<GridDropdown />
 				</div>
 			
