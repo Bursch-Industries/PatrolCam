@@ -37,7 +37,7 @@ const cameraSchema = new Schema({
     }
 });
 
-const Camera = mongoose.model("Camera", cameraSchema);
+const Camera = mongoose.model("Camera", cameraSchema) || mongoose.models.Camera; // Use existing model if it exists
 export default Camera;
 
 // module.exports = mongoose.model('Camera', cameraSchema);
