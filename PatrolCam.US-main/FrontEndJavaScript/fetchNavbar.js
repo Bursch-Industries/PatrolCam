@@ -20,7 +20,7 @@ fetch('/navbar')
 
         // Logout button API POST
         document.getElementById("logoutButton").addEventListener("click", function() {
-            fetch('./login/logout',
+            fetch('./logout',
                 {
                     method: "POST",
                     headers: {

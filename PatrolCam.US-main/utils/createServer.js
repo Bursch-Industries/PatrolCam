@@ -39,7 +39,8 @@ app.use('/register', require('../routes/api/register'));
 app.use('/', require('../routes/api/emailAPI'));
 
 // Login API
-app.use('/login', require('../routes/api/loginAPI'));
+// app.use('/login', require('../routes/api/loginAPI'));
+app.use('/', require('../routes/api/loginAPI'));
 
 // Query API
 app.use('/api/org', require('../routes/api/orgAPI'));

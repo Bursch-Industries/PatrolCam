@@ -79,7 +79,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             },
             body: JSON.stringify({ email, password, rememberMeBool, rememberMeValue }),
         });
-
+        
         if (!response.ok) {
             const data = await response.json();
             
