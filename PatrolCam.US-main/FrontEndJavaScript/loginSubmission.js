@@ -72,7 +72,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     // Send login request to the server
     try {
-        const response = await fetch('/login', {
+        const response = await fetch('/login/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
