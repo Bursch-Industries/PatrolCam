@@ -13,6 +13,7 @@ import {
     DropdownMenuTrigger,
     DropdownMenuGroup,
 } from '@radix-ui/react-dropdown-menu';
+import { SettingsIcon, LogOutIcon, CircleHelpIcon } from 'lucide-react';
 
 
 function GuestNavbar() {
@@ -63,9 +64,8 @@ function UserNavbar() {
     const userImage = null; // TODO: change once user is allowed to upload image to db
 
     return(
-        <>
+        
             <div className="bg-primary text-white flex justify-around items-center opacity-90 shadow-xl h-22 w-full">
-                {/* <div className="flex gap-20"> */}
                 {/* Logo */}
                 <div className="flex items-center ml-8">
                     <Link href="/dashboard">
@@ -77,8 +77,8 @@ function UserNavbar() {
                     />
                     </Link>
                 </div>
-                {/* navagation links */}
 
+                {/* navagation links */}
                 <nav className="flex items-end gap-12 self-end mb-4 mr-4 text-xl">
                     <Link href="/dashboard" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">Dashboard</Link>
                     <Link href="/dashboard/audioAI" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">Audio.Ai</Link>
@@ -86,47 +86,47 @@ function UserNavbar() {
                     <Link href="/dashboard/myOrg" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">MyOrg</Link>
                 </nav>
 
-                {/* </div> */}
-    
                 {/* Profile icon & modal */}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Avatar className="bg-gray-300 text-black text-2xl p-6 shadow-lg mr-12 hover:cursor-pointer">
+                        <Avatar className="bg-gray-300 text-black text-2xl p-6 shadow-lg hover:cursor-pointer">
                             <AvatarImage src={userImage} alt="userImage" />
                             <AvatarFallback>{userLetter}</AvatarFallback>
                         </Avatar>
                     </ DropdownMenuTrigger>
-                    <DropdownMenuContent variant="outline" className="bg-gray-100 p-5 rounded-md text-black mt-2">
-                        <DropdownMenuGroup>
+                    <DropdownMenuContent variant="outline" className="bg-gray-100 p-5 rounded-md text-black mt-2 shadow-lg">
+                        <DropdownMenuGroup className="flex flex-col items-center gap-1 mb-2">
                             <DropdownMenuItem>
-                                email
+                                {session.user.email}
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                username                           
+                                <Avatar className="bg-gray-300 text-black text-2xl p-6 shadow-lg">
+                                    <AvatarImage src={userImage} alt="userImage" />
+                                    <AvatarFallback>{userLetter}</AvatarFallback>
+                                </Avatar>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                organization
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                role
+                                Hi, <span className="font-semibold">{userName}</span>!
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                Settings
+                        <DropdownMenuSeparator className="border-1 border-gray-300 shadow-lg" />
+                        <DropdownMenuGroup className="flex flex-col gap-4 mt-2">
+                            <DropdownMenuItem className="flex gap-2">
+                               <SettingsIcon /> 
+                               <Link href="/dashboard/myOrg">Settings</Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem disabled>
+                            <DropdownMenuItem className="flex gap-2">
+                                <CircleHelpIcon />
                                 Support
                             </DropdownMenuItem>
+                            <DropdownMenuItem className="flex gap-2">
+                                <LogOutIcon /> 
+                                <button className="hover:cursor-pointer" onClick={() => {signOut()}}>Log Out</button>
+                            </DropdownMenuItem>
                         </DropdownMenuGroup> 
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            <button onClick={() => {signOut()}}>Log Out</button>
-                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </ DropdownMenu>
             </div>
-        </>
+    
     );
 }
