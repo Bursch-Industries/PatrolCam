@@ -14,7 +14,7 @@ import {
     DropdownMenuGroup,
 } from '@radix-ui/react-dropdown-menu';
 import { SettingsIcon, LogOutIcon, CircleHelpIcon } from 'lucide-react';
-
+import { useEffect } from 'react';
 
 function GuestNavbar() {
         return(
@@ -60,12 +60,11 @@ function UserNavbar() {
     // grab the first letter of the users first name
     const userLetter = session.user.name[0];
     const userName = session.user.name;
-
     const userImage = null; // TODO: change once user is allowed to upload image to db
-
+    
     return(
         
-            <div className="bg-primary text-white flex justify-around items-center opacity-90 shadow-xl h-22 w-full">
+            <div className="bg-primary text-white flex justify-around items-center opacity-90 shadow-xl h-22 w-full z-[1000] relative">
                 {/* Logo */}
                 <div className="flex items-center ml-8">
                     <Link href="/dashboard">
@@ -111,15 +110,15 @@ function UserNavbar() {
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator className="border-1 border-gray-300 shadow-lg" />
                         <DropdownMenuGroup className="flex flex-col gap-4 mt-2">
-                            <DropdownMenuItem className="flex gap-2">
+                            <DropdownMenuItem className="flex gap-2 py-2 px-4 rounded-md hover:py-2 hover:px-4 hover:rounded-md hover:border-2 hover:border-black">
                                <SettingsIcon /> 
                                <Link href="/dashboard/myOrg">Settings</Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="flex gap-2">
+                            <DropdownMenuItem className="flex gap-2 py-2 px-4 rounded-md hover:py-2 hover:px-4 hover:rounded-md hover:border-2 hover:border-black">
                                 <CircleHelpIcon />
                                 Support
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="flex gap-2">
+                            <DropdownMenuItem className="flex gap-2 py-2 px-4 rounded-md hover:py-2 hover:px-4 hover:rounded-md hover:border-2 hover:border-black">
                                 <LogOutIcon /> 
                                 <button className="hover:cursor-pointer" onClick={() => {signOut()}}>Log Out</button>
                             </DropdownMenuItem>
