@@ -1,0 +1,51 @@
+
+ .content-container {   
+    display: flex;
+    flex: 1;
+    background-color: #2E8BC0;
+    flex-direction: column;
+    row-gap: 2rem;
+ }
+
+#header {
+    font-size: 3rem;
+}
+
+#description {
+    font-size: 1.5rem;
+}
+
+.audioAI-container{
+    color: black;
+    border: solid #0C2D48 2px;
+    background-color: whitesmoke;     
+}
+
+.file-input-container{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+} 
+
+.audio-file-button, .upload-button, .reset-button { 
+    color: white;
+    background-color: #0C2D48;
+    border-color: transparent;
+    word-wrap: break-word;
+} 
+
+/* .upload-button {
+    background-color: #0C2D48;
+    border-color: transparent;
+}
+
+.reset-button {
+    background-color: #0C2D48;
+    border-color: transparent;
+} */
+
+.container-md {    
+    height: 18rem;
+    width: 55%;
+    border-radius: 1rem;
+    overflow: auto;
+}

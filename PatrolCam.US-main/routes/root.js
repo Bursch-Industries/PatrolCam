@@ -23,9 +23,15 @@ router.get('/navbar', (req, res) => {
 })
 
 
+
+
 // --- Pages that differ based on role --- 
 router.get('/dashboard', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'pages', `${req.session.user.role}`, 'dashboard.html'));
+});
+
+router.get('/audioAI', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'pages', `${req.session.user.role}`, 'audioAI.html'));
 });
 
 router.get('/cameras', requireAuth, (req, res) => {

@@ -44,7 +44,6 @@ app.use('/login', require('../routes/api/loginAPI'));
 // Query API
 app.use('/api/org', require('../routes/api/orgAPI'));
 
-
 // Universal 404 Catch
 app.use((req, res, next) => {
     res.redirect('/404');
