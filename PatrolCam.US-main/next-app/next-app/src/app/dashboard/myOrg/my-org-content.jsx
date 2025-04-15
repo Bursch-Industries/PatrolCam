@@ -50,7 +50,7 @@ export function CamerasSection() {
   // Function to handle camera update
   const handleUpdate = (updatedCamera) => {
     setCameras((cams) =>
-      cams.map((camera) => (camera._id === updatedCamera._id ? updatedCamera : camera))
+      cams.map((camera) => (camera.id === updatedCamera.id ? updatedCamera : camera))
     );
     setEditingCamera(null); // Close the edit modal after updating
   };
@@ -104,6 +104,7 @@ export function CamerasSection() {
                   <h3 className="font-medium text-gray-900">
                     Name: {camera.camera_Name}
                   </h3>
+                  <p className="text-sm text-gray-600">Serial Number: {camera.id}</p>
                   <p className="text-sm text-gray-600">Model: {camera.model}</p>
                   <p className="text-sm">
                     Status:{' '}
@@ -199,6 +200,19 @@ export function OrganizationSection() {
                 <p className="text-gray-800">{organization.organizationEmail}</p>
               </div>
             </div>
+
+            <div className="flex items-start gap-3">
+              <div className="mt-1 bg-gray-100 p-2 rounded-full">
+                <Mail className="h-5 w-5 text-gray-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Id</p>
+                <p className="text-gray-800">{organization._id}</p>
+              </div>
+            </div>
+
+            
+            
 
             <div className="flex items-start gap-3">
               <div className="mt-1 bg-gray-100 p-2 rounded-full">

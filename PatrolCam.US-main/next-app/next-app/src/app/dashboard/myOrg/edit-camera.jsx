@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Label } from '@radix-ui/react-label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { X, Camera } from "lucide-react"
 
@@ -28,6 +28,7 @@ import { X, Camera } from "lucide-react"
 export const EditCameraModal = ({ camera, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
     owner: camera.owner,
+    cameraId: camera.id,
     camera_Name: camera.camera_Name,
     model: camera.model,
     status: camera.status,
@@ -39,6 +40,7 @@ export const EditCameraModal = ({ camera, onClose, onUpdate }) => {
 
     const payload = { // Prepare the payload for the PUT request
       owner: camera.owner,
+      cameraId: formData.cameraId,
       camera_Name: formData.camera_Name,
       model: formData.model,
       status: formData.status,
@@ -63,10 +65,11 @@ export const EditCameraModal = ({ camera, onClose, onUpdate }) => {
       }
 
       const data = await res.json()
-      onUpdate(data.camera)
+      onUpdate(data.camera) // Call the onUpdate function with the updated camera data
+      console.log("Camera updated successfully:", data.camera)
       onClose()
       alert("Camera updated successfully")
-      window.location.reload() // Reload the page to reflect changes
+      //window.location.reload() // Reload the page to reflect changes
 
     } catch (err) {
       console.error("Error updating camera:", err)

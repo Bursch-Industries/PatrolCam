@@ -13,7 +13,7 @@ export async function middleware(req) {
     }
 
     // session exists
-    console.log("Session exists", session);
+    //console.log("Session exists", session);
     return NextResponse.next(); // allow request to continue
 }
 

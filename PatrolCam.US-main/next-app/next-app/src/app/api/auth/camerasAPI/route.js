@@ -194,8 +194,8 @@ export async function PUT(request) {
         { status: 404 }
       );
     }
-    const updatedCamera = await Camera.findOneAndUpdate(
-      { owner: data.owner },
+    const updatedCamera = await Camera.findOneAndUpdate( //
+      { _id: data.cameraId}, // Find camera by ID and organization
       {
         camera_Name: data.camera_Name,
         model: data.model,
