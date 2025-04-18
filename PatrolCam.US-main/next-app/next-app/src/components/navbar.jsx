@@ -46,7 +46,7 @@ function GuestNavbar() {
 
 // export conditional logic for both navbars
 export default function Navbar() {
-    const { data: session } = useSession(); 
+    const { data: session, status } = useSession(); 
     // check if session exists: if so return users navbar / else return guest navbar
     if (status === 'loading') {
         // TODO change to skeleton loading icons instead of just plain bar
