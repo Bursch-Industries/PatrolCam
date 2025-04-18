@@ -67,39 +67,39 @@ export default function Login() {
         <div className="flex items-center justify-center h-screen">
             {/* Left section */}
             <div>
-                <h1 className="font-bold text-[36px]">Welcome back!</h1>
-                <p className="font-bold text-[18px]">Enter your credentials to access your account</p>
+                <form action={loginSubmission}>
+                    <h1 className="font-bold text-[36px]">Welcome back!</h1>
+                    <p className="font-bold text-[18px]">Enter your credentials to access your account</p>
 
-                {/* Email input */}
-                <p className="font-bold mt-4">Email address</p>
-                <input 
-                    type="text" 
-                    value={user.email}
-                    ref = {emailElement}
-                    onChange={handleEmail} 
-                    placeholder="Enter your email"
-                    className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
-                />
-                
-                {/* Password input */}
-                <div className="mt-4 mb-2">
-                    <div className="flex justify-between mb-1">
-                        <p className="font-bold">Password</p>
-                        <p className="font-semibold text-blue-600">Forgot password?</p>
-                    </div>
-                    
-                    <div>
-                        <input 
-                            type="password" 
-                            value={user.password}
-                            ref = {passwordElement}
-                            onChange={handlePassword} 
-                            placeholder="Enter your password"
-                            className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
-                        />
-                    </div>
-                </div>
+                    {/* Email input */}
+                    <p className="font-bold mt-4">Email address</p>
+                    <input 
+                        type="text" 
+                        value={user.email}
+                        ref = {emailElement}
+                        onChange={handleEmail} 
+                        placeholder="Enter your email"
+                        className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
+                    />
 
+                    {/* Password input */}
+                    <div className="mt-4 mb-2">
+                        <div className="flex justify-between mb-1">
+                            <p className="font-bold">Password</p>
+                            <p className="font-semibold text-blue-600">Forgot password?</p>
+                        </div>
+
+                        <div>
+                            <input 
+                                type="password" 
+                                value={user.password}
+                                ref = {passwordElement}
+                                onChange={handlePassword} 
+                                placeholder="Enter your password"
+                                className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
+                            />
+                        </div>
+                    </div>
                 {/* remember me */}
                 <div>
                     <input type="checkbox" id="remember" />
@@ -109,30 +109,63 @@ export default function Login() {
                 {/* Submit */}
                 <button type="submit" onClick={loginSubmission} 
                     className="text-white text-xl py-2 w-[100%] rounded-md bg-blue-600 hover:bg-blue-700 mt-4 mb-4 cursor-pointer">
-                        Login
+                    Login
                 </button>
 
-                    {/* Signup */}
+                {/* Signup */}
                 <div className="text-center text-lg">
                     <p>
                         Interested in our product <Link href="/#contact-us" className="underline text-blue-700">Sign up</Link>
                     </p>
                 </div>
-                
+            </form>
             </div>
-
             {/* Right section */}
-            {/* Logo */}
-            <div className="ml-10">
-                <Image
-                    src="/PatrolCamBlankLogo.png"
-                    alt="PatrolCam logo"
-                    width={500}
-                    height={500}
-                />
+            <div>
+                {/* Logo */}
+                <div className="ml-10">
+                    <Image
+                        src="/PatrolCamBlankLogo.png"
+                        alt="PatrolCam logo"
+                        width={500}
+                        height={500}
+                    />
+                </div>
             </div>
-    
         </div>
     );
 }
+// <div>
+//                 <h1 className="font-bold text-[36px]">Welcome back!</h1>
+//                 <p className="font-bold text-[18px]">Enter your credentials to access your account</p>
+//
+//                 {/* Email input */}
+//                 <p className="font-bold mt-4">Email address</p>
+//                 <input 
+//                     type="text" 
+//                     value={user.email}
+//                     ref = {emailElement}
+//                     onChange={handleEmail} 
+//                     placeholder="Enter your email"
+//                     className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
+//                 />
+//
+//                 {/* Password input */}
+//                 <div className="mt-4 mb-2">
+//                     <div className="flex justify-between mb-1">
+//                         <p className="font-bold">Password</p>
+//                         <p className="font-semibold text-blue-600">Forgot password?</p>
+//                     </div>
+//
+//                     <div>
+//                         <input 
+//                             type="password" 
+//                             value={user.password}
+//                             ref = {passwordElement}
+//                             onChange={handlePassword} 
+//                             placeholder="Enter your password"
+//                             className="pl-2 py-1 border-1 border-black rounded-md w-[100%]"
+//                         />
+//                     </div>
+//                 </div>
 
