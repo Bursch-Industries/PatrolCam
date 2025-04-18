@@ -48,8 +48,13 @@ function GuestNavbar() {
 
 // export conditional logic for both navbars
 export default function Navbar() {
-    const { data: session } = useSession(); 
+    const { data: session, status} = useSession(); 
     // check if session exists: if so return users navbar / else return guest navbar
+    if (status === 'loading') {
+        // TODO change to skeleton loading icons instead of just plain bar
+        return <div className="bg-primary text-white flex justify-around items-center opacity-90 shadow-xl h-22 w-full" />;
+    }
+    // status is not loading so either session exists or doesn't
     return session ? <UserNavbar /> : <GuestNavbar />;
 }
 
@@ -87,7 +92,7 @@ function UserNavbar() {
                 </nav>
 
                 {/* Profile icon & modal */}
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Avatar className="bg-gray-300 text-black text-2xl p-6 shadow-lg hover:cursor-pointer">
                             <AvatarImage src={userImage} alt="userImage" />

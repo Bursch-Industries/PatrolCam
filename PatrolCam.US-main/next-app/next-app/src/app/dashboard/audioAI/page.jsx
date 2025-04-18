@@ -18,10 +18,9 @@ export default function AudioAI(){
 
     // function for api request using chosen file
     async function AudioUpload() {
-      // start the loading animation
-      
-
         try {
+            // start the loading animation
+            console.log("currently loading");
             const formData = new FormData(); // form data object to store users selected file
             formData.set('audioFile', fileData.selectedFile);
             const res = await fetch('/api/auth/audioAPI', {
@@ -43,6 +42,7 @@ export default function AudioAI(){
         }
 
       // End the loading animation
+      console.log("end the loading animation here");
 
     }
 
