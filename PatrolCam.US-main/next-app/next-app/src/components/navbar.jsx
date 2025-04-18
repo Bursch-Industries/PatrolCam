@@ -8,13 +8,11 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
     DropdownMenuGroup,
 } from '@radix-ui/react-dropdown-menu';
 import { SettingsIcon, LogOutIcon, CircleHelpIcon } from 'lucide-react';
-import { useEffect } from 'react';
 
 function GuestNavbar() {
         return(
@@ -48,12 +46,15 @@ function GuestNavbar() {
 
 // export conditional logic for both navbars
 export default function Navbar() {
-    const { data: session } = useSession(); 
+    const { data: session, status } = useSession(); 
+    // page is refreshing or loading (this is to avoid unintentionally seeing the wrong navbar)
+    if (status === 'loading') {
+        return null;
+    }
     // check if session exists: if so return users navbar / else return guest navbar
     return session ? <UserNavbar /> : <GuestNavbar />;
 }
-
-
+// create a placeholder nav to replace null so that we can avoid initial layout shift on refresh
 
 function UserNavbar() {
     const {data: session} = useSession();
