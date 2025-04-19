@@ -1,7 +1,7 @@
 'use client';
 import { CameraEdit, SaveButton } from "./my-org-content";
 import { UserData } from "@/components/user-data";
-import { CamerasSection, OrganizationSection, Sidebar } from "./my-org-content";
+import { CamerasSection, OrganizationSection, Sidebar, OfficerSection } from "./my-org-content";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
@@ -29,18 +29,7 @@ export default function MyOrg(){
 
     {/* Officers Tab */}
     <section id="officers" className="bg-white rounded-lg shadow-md p-6 mb-8">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold">Officers</h2>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">+ Add</button>
-      </div>
-      <div className="space-y-4">
-        {[1, 2].map((officer) => (
-          <div key={officer} className="border rounded-lg p-4 animate-pulse">
-            <div className="h-6 bg-gray-200 w-1/4 mb-2" />
-            <div className="h-4 bg-gray-200 w-1/2" />
-          </div>
-        ))}
-      </div>
+       <OfficerSection />
     </section>
 
     {/* Privacy Tab */}

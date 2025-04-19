@@ -1,3 +1,7 @@
+// // TODO: Get the organization of the user id
+// // Get the users in the organization
+// Check if the user is an Admin
+
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -21,7 +25,7 @@ export async function GET() {
         // Get the user ID from the session
         const userId = session.user.id;
 
-        // Check if user is admin
+        //Check if user is admin
         const isAdmin = session.user.role.includes('Admin'); //TOIDO: Check also if AccoundADMIN
         //const isAccountAdmin = session.user.role.includes('AccountAdmin'); //TOIDO: Check also if Admin
 
@@ -49,20 +53,23 @@ export async function GET() {
             return NextResponse.json({ error: 'Organization not found' }, { status: 404 });
         }
 
-        const organizationDetails = {
-            organizationName: organization.organizationName,
-            organizationEmail: organization.organizationEmail,
-            organizationPhone: organization.organizationPhone,
-            organizationAddress: {
-                Address1: organization.organizationAddress.Address1,
-                City: organization.organizationAddress.City,
-                State: organization.organizationAddress.State,
-                ZipCode: organization.organizationAddress.ZipCode,
-            },
-            status: organization.status, 
+        const organizationUserId = {
+            users: organization.users,
         };
 
-        return NextResponse.json({ organization: organizationDetails });
+        // Get the users in the organization
+        const users = await User.find(
+            { _id: 
+            { $in: organizationUserId.users } 
+            },
+            { firstname: 1, lastname: 1, roles: 1, status: 1 } // Select only the fields you need
+        );
+        if (!users) {
+            return NextResponse.json({ error: 'No users found in the organization' }, { status: 404 });
+        }
+
+
+        return NextResponse.json({ officers: users });
     }
     catch (error) {
         console.error('Error fetching organization details:', error);

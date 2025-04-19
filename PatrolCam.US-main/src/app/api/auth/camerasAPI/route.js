@@ -26,6 +26,12 @@ export async function GET() {
 
     //check if user is admin
     const isAdmin = session.user.role.includes('Admin');
+    const isAccountAdmin = session.user.role.includes('AccountAdmin'); //TOIDO: Check also if Admin
+
+    // if (!isAccountAdmin) {
+    //   return NextResponse.json({ error: 'Unauthorized - AccountAdmin access required' }, { status: 403 });
+    // }
+
    
     
     if (!isAdmin) {

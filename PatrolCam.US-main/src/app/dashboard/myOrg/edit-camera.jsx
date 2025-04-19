@@ -68,6 +68,7 @@ export const EditCameraModal = ({ camera, onClose, onUpdate }) => {
       onUpdate(data.camera) // Call the onUpdate function with the updated camera data
       console.log("Camera updated successfully:", data.camera)
       onClose()
+      window.location.reload() // Reload the page to reflect changes
       alert("Camera updated successfully")
       //window.location.reload() // Reload the page to reflect changes
 

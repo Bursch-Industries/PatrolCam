@@ -15,6 +15,8 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import { SettingsIcon, LogOutIcon, CircleHelpIcon } from 'lucide-react';
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+
 
 function GuestNavbar() {
         return(
@@ -61,9 +63,9 @@ function UserNavbar() {
     const userLetter = session.user.name[0];
     const userName = session.user.name;
     const userImage = null; // TODO: change once user is allowed to upload image to db
+    const pathname = usePathname();
     
     return(
-        
             <div className="bg-primary text-white flex justify-around items-center opacity-90 shadow-xl h-22 w-full z-[1000] relative">
                 {/* Logo */}
                 <div className="flex items-center ml-8">
@@ -73,16 +75,41 @@ function UserNavbar() {
                             alt="PatrolCam Logo" 
                             width={130}
                             height={130} 
-                    />
+                            className="hover:scale-105 transition-transform duration-300"
+                        />
                     </Link>
                 </div>
 
-                {/* navagation links */}
-                <nav className="flex items-end gap-12 self-end mb-4 mr-4 text-xl">
-                    <Link href="/dashboard" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">Dashboard</Link>
-                    <Link href="/dashboard/audioAI" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">Audio.Ai</Link>
-                    <Link href="/dashboard/surveillance" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">Surveillance</Link>
-                    <Link href="/dashboard/myOrg" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">MyOrg</Link>
+                {/* Navigation links */}
+                <nav className="flex items-end gap-12 self-end mb-4 mr-4 text-xl font-medium">
+                    <Link 
+                        href="/dashboard" 
+                        className={`py-1 px-4 rounded-lg transition-all duration-300 hover:text-black hover:bg-pcYellow ${
+                            pathname === '/dashboard' ? 'border-b-2 border-white' : ''
+                        }`}>
+                        Dashboard
+                    </Link>
+                    <Link 
+                        href="/dashboard/audioAI" 
+                        className={`py-1 px-4 rounded-lg transition-all duration-300 hover:text-black hover:bg-pcYellow ${
+                            pathname === '/dashboard/audioAI' ? 'border-b-2 border-white' : ''
+                        }`}>
+                        Audio.Ai
+                    </Link>
+                    <Link 
+                        href="/dashboard/surveillance" 
+                        className={`py-1 px-4 rounded-lg transition-all duration-300 hover:text-black hover:bg-pcYellow ${
+                            pathname === '/dashboard/surveillance' ? 'border-b-2 border-white' : ''
+                        }`}>
+                        Surveillance
+                    </Link>
+                    <Link 
+                        href="/dashboard/myOrg" 
+                        className={`py-1 px-4 rounded-lg transition-all duration-300 hover:text-black hover:bg-pcYellow ${
+                            pathname === '/dashboard/myOrg' ? 'border-b-2 border-white' : ''
+                        }`}>
+                        MyOrg
+                    </Link>
                 </nav>
 
                 {/* Profile icon & modal */}
