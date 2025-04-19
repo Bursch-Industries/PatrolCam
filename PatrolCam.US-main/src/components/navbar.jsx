@@ -82,6 +82,7 @@ function UserNavbar() {
                     <Link href="/dashboard" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">Dashboard</Link>
                     <Link href="/dashboard/audioAI" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">Audio.Ai</Link>
                     <Link href="/dashboard/surveillance" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">Surveillance</Link>
+                    <Link href="/dashboard/streamArchive" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">Archive</Link>
                     <Link href="/dashboard/myOrg" className="py-1 px-4 hover:text-black hover:bg-pcYellow hover:py-1 hover:px-4 hover:rounded-4xl">MyOrg</Link>
                 </nav>
 
