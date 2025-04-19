@@ -1,7 +1,7 @@
 // page for the surveillance of PatrolCam
 'use client';
 import { useState } from 'react'; 
-
+import LiveStreamPlayer from './LiveStreamPlayer';
 
 
 
@@ -139,9 +139,11 @@ export default function Surveillance(){
 						style={{gridTemplateRows: `repeat(${row}, 1fr)`, gridTemplateColumns: `repeat(${col}, 1fr)`}} // initial creation of grids
 					> 
 						{/* insert Camera component into each grid */}
-						{Array.from({length: totalGrids}, (_, i) => (
+						{/* {Array.from({length: totalGrids}, (_, i) => (
 							<SurvCamera key={i} src={cameras[i]} gridIndex={i}/>
-						))}
+							
+						))} */}
+						<LiveStreamPlayer streamUrl="http://73.65.103.134:8080/hls/jetsontest/stream.m3u8" />
 					</div>
 				</div>
 			</div>
