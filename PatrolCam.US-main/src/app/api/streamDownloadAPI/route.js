@@ -1,5 +1,7 @@
-import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
+import { S3Client, GetObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { NextResponse } from 'next/server';
+import { extract } from 'tar';
+import fs from 'fs';
 
 export async function GET() {
 // access r2 bucket which holds ours stored video streams
@@ -18,7 +20,7 @@ export async function GET() {
 	};
 	const bucketReq = new ListObjectsV2Command(input);
 	const bucketRes = await r2.send(bucketReq); // get a list of objects from the bucket
-	// unzip the tar files and concat them
+	// unzip the tar files and concat them to be playable videos
 	// return download links for these concatenated files
 	
 	// For testing

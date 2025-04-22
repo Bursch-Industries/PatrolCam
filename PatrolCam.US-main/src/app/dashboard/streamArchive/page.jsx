@@ -23,9 +23,8 @@ export default function StreamArchive() {
         <div className="base-background min-h-screen">
             <h1 className="py-4 text-white text-4xl text-center"> Stream Archives </h1>
             <div className="flex justify-center text-white text-lg">
-                <p> Stored live surveillance data from </p>
+                <p>Download your stored live surveillance data</p>
                 <ul>
-
                 </ul>
             </div>
         </div>
