@@ -63,6 +63,8 @@ export async function GET() {
         owner: camera.owner,
         location: camera.location,
         status: camera.status,
+        ip: camera.ip,
+        localIp: camera.local_ip,
       };
     });
 

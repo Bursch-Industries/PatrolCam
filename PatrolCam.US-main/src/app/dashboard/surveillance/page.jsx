@@ -2,7 +2,7 @@
 'use client';
 import { useState } from 'react'; 
 import LiveStreamPlayer from './LiveStreamPlayer';
-
+// import GET from '../../api/auth/camerasAPI/route'
 
 
 export default function Surveillance(){
@@ -14,11 +14,7 @@ export default function Surveillance(){
 	
 	// Demo cameras will be replaced with the streaming cameras when implemented
 	const demoCameras = [
-		"/Camera_1.mp4","/Camera_2.mp4",
-		"/Camera_3.mp4","/Camera_4.mp4",
-		"/Camera_5.mp4","/Camera_6.mp4",
-		"/Camera_7.mp4","/Camera_8.mp4",
-		"/Camera_9.mp4",
+		"http://73.65.103.134:8080/hls/jetsontest/stream.m3u8"
 	];
 	
 	// State to track which camera is displayed in each grid tile
@@ -89,48 +85,49 @@ export default function Surveillance(){
 		
 		return (
 			<div className="relative flex items-center justify-center bg-black shadow-lg">
-				<iframe src={src} allowFullScreen className="w-[90%] h-[90%]" />
+				<LiveStreamPlayer streamUrl={src} allowFullScreen className="w-[100%] h-[100%]" />
 				<CameraSelection gridIndex={gridIndex} />
+				{/* <LiveStreamPlayer streamUrl="http://73.65.103.134:8080/hls/jetsontest/stream.m3u8" /> */}
 			</div>	
 		)	
 	};
 
 	// dropdown that will let the user select what grid layout they want
-	function GridDropdown() {
-		const [isDropdownOpen, setDropdownOpen] = useState(false);
+	// function GridDropdown() {
+	// 	const [isDropdownOpen, setDropdownOpen] = useState(false);
 
-		function changeLayout(newRows, newCols) {
-			// change state of rows and columns to new values passed in
-			setRows(newRows); 
-			setCols(newCols);
-			setDropdownOpen(false); // no longer display dropdown
-			setCameras(demoCameras.slice(0, newRows * newCols)); // Reset Cameras to default
-		}
+	// 	function changeLayout(newRows, newCols) {
+	// 		// change state of rows and columns to new values passed in
+	// 		setRows(newRows); 
+	// 		setCols(newCols);
+	// 		setDropdownOpen(false); // no longer display dropdown
+	// 		setCameras(demoCameras.slice(0, newRows * newCols)); // Reset Cameras to default
+	// 	}
 
-		return (
-			<div className="relative">
-				{/* dropdown button */}
-				<button onClick={() => setDropdownOpen(!isDropdownOpen)} className="mr-4 mt-2 bg-primary p-2 px-3 rounded-md text-white text-2xl">☰</button>
-				{/* dropdown menu */}
-				{isDropdownOpen && ( 
-					<div className="absolute right-0 mt-2 w-32 bg-primary opacity-90 rounded-md shadow-lg z-50 flex flex-col text-white text-lg">
-						<button onClick={() => changeLayout(1,1)} className="p-2 hover:bg-blue-600">1x1</button>
-						<button onClick={() => changeLayout(1,2)} className="p-2 hover:bg-blue-600">1x2</button>
-						<button onClick={() => changeLayout(2,2)} className="p-2 hover:bg-blue-600">2x2</button>
-						<button onClick={() => changeLayout(3,3)} className="p-2 hover:bg-blue-600">3x3</button>
-					</div>
-				)}
-			</div>
-		);
-	}
+	// 	return (
+	// 		<div className="relative">
+	// 			{/* dropdown button */}
+	// 			<button onClick={() => setDropdownOpen(!isDropdownOpen)} className="mr-4 mt-2 bg-primary p-2 px-3 rounded-md text-white text-2xl">☰</button>
+	// 			{/* dropdown menu */}
+	// 			{isDropdownOpen && ( 
+	// 				<div className="absolute right-0 mt-2 w-32 bg-primary opacity-90 rounded-md shadow-lg z-50 flex flex-col text-white text-lg">
+	// 					<button onClick={() => changeLayout(1,1)} className="p-2 hover:bg-blue-600">1x1</button>
+	// 					<button onClick={() => changeLayout(1,2)} className="p-2 hover:bg-blue-600">1x2</button>
+	// 					<button onClick={() => changeLayout(2,2)} className="p-2 hover:bg-blue-600">2x2</button>
+	// 					<button onClick={() => changeLayout(3,3)} className="p-2 hover:bg-blue-600">3x3</button>
+	// 				</div>
+	// 			)}
+	// 		</div>
+	// 	);
+	// }
 
     return (
         <div className=" base-background flex flex-col h-screen">
 			
 				{/* Temporary dropdown until the navbar is fully implemented */}
-				<div className="flex justify-end mr-2">
+				{/* <div className="flex justify-end mr-2">
 					<GridDropdown />
-				</div>
+				</div> */}
 			
 				{/* grid camera container */}
 				<div className="flex justify-center mb-4 w-[100%] h-[100%]">
@@ -139,11 +136,11 @@ export default function Surveillance(){
 						style={{gridTemplateRows: `repeat(${row}, 1fr)`, gridTemplateColumns: `repeat(${col}, 1fr)`}} // initial creation of grids
 					> 
 						{/* insert Camera component into each grid */}
-						{/* {Array.from({length: totalGrids}, (_, i) => (
+						{Array.from({length: totalGrids}, (_, i) => (
 							<SurvCamera key={i} src={cameras[i]} gridIndex={i}/>
 							
-						))} */}
-						<LiveStreamPlayer streamUrl="http://73.65.103.134:8080/hls/jetsontest/stream.m3u8" />
+						))}
+						{/* <LiveStreamPlayer streamUrl="http://73.65.103.134:8080/hls/jetsontest/stream.m3u8" /> */}
 					</div>
 				</div>
 			</div>
