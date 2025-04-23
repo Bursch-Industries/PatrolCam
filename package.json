@@ -63,5 +63,8 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
     "tailwindcss": "^4.0.14"
+  },
+  "engines": {
+    "node": "20.19.0"
   }
 }
