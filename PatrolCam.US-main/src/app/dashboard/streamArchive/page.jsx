@@ -8,16 +8,16 @@ export default function StreamArchive() {
    
     
     // retrieve video files from the backend api call upon page load
-    useEffect (() => {
-        const fetchVideoFiles = async () => {
-            const res = await fetch('/api/streamDownloadAPI');
-            const data = await res.json();
-            console.log(data); 
-            setVideoFiles(data.videoFiles); // store video files in state
-        };
+    // useEffect (() => {
+    //     const fetchVideoFiles = async () => {
+    //         const res = await fetch('/api/streamDownloadAPI');
+    //         const data = await res.json();
+    //         console.log(data); 
+    //         setVideoFiles(data.videoFiles); // store video files in state
+    //     };
 
-        fetchVideoFiles(); // call fetch video files
-    }, []); // <-- empty dependency array = run once on mount ( this is just a test for now) 
+    //     fetchVideoFiles(); // call fetch video files
+    // }, []); // <-- empty dependency array = run once on mount ( this is just a test for now) 
 
     return (
         <div className="base-background min-h-screen">
