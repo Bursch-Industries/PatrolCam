@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 
 export default function MyOrg(){
     return (
-        <div className="flex min-h-screen base-background">
+        <div className="flex min-h-screen bg-blue-200">
   {/* Sidebar */}
   <Sidebar />
 

@@ -92,7 +92,7 @@ export default function AudioAI(){
     }
     
 return (
-    <div className="base-background min-h-screen p-4 md:p-6 lg:p-8">
+    <div className="bg-blue-200 min-h-screen p-4 md:p-6 lg:p-8">
       <div className="max-w-4xl mx-auto flex flex-col gap-6">
 
         {/* Heading and Description */}

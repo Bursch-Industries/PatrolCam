@@ -25,7 +25,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-blue-300 shadow-md p-6 rounded-lg sticky top-10 left-3 self-start">
+    <aside className="w-64 bg-gray-300 shadow-md p-6 rounded-lg sticky top-10 left-3 self-start">
       <div className="flex items-center gap-2 mb-8">
         <Settings className="h-5 w-5 text-blue-600" />
         <h1 className="text-2xl font-bold text-gray-800">Settings</h1>
@@ -253,6 +253,9 @@ export function CamerasSection() {
 
   // determine skeleton count based on the number of cameras
   const skeletonCount = cameras.length > 0 ? cameras.length : 2;
+  // this will be the amount of camears are in teh organizations that I can use to export to other pages
+
+  
 
   return (
     <section className="bg-white rounded-lg shadow-md p-6 mb-8">
@@ -326,6 +329,8 @@ export function CamerasSection() {
       </div>
     </section>
   );
+
+  
 }
 
 export function OfficerSection() {

@@ -66,7 +66,7 @@ function UserNavbar() {
     const pathname = usePathname();
     
     return(
-            <div className="bg-primary text-white flex justify-around items-center opacity-90 shadow-xl h-22 w-full z-[1000] relative">
+            <div className="bg-gray-800 text-white flex justify-around items-center opacity-90 shadow-xl h-22 w-full z-[1000] relative">
                 {/* Logo */}
                 <div className="flex items-center ml-8">
                     <Link href="/dashboard">
@@ -115,7 +115,7 @@ function UserNavbar() {
                 {/* Profile icon & modal */}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Avatar className="bg-gray-300 text-black text-2xl p-6 shadow-lg hover:cursor-pointer">
+                        <Avatar className="h-15 w-15 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 font-medium">
                             <AvatarImage src={userImage} alt="userImage" />
                             <AvatarFallback>{userLetter}</AvatarFallback>
                         </Avatar>
