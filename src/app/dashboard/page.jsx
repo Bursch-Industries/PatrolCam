@@ -29,7 +29,7 @@ export default function Page() {
   }));
 
   return (
-    <div className="bg-blue-200 min-h-screen container mx-auto px-4 py-6 flex flex-col">
+    <div className="bg-blue-200 min-h-screen container max-w-screen px-4 py-6 flex flex-col">
       <header className="mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Dashboard Overview</h1>
         <p className="text-gray-500">Welcome back! Here's what's happening today.</p>
