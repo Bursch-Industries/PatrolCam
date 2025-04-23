@@ -25,7 +25,7 @@ const LiveStreamPlayer = ({ streamUrl }) => {
       controls
       autoPlay
       muted
-      style={{ width: '100%', maxWidth: '720px', borderRadius: '12px' }}
+      style={{ width: '90%', height: '90%', borderRadius: '12px' }}
     />
   );
 };
