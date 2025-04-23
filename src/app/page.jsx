@@ -1,12 +1,27 @@
 //landing page for PatrolCam 
+'use client'
 import '../../styles/globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import ContactForm from '../components/contactUs';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';  // handle page redirection
+import { useEffect } from 'react';
 
 export default function LandingPage() {
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  // Redirect in useEffect AFTER session is ready
+  useEffect(() => {
+    if (session) {
+      router.push('/dashboard');
+    }
+  }, [session, router]);
+
+
   return ( 
     <div>
       <Navbar />
