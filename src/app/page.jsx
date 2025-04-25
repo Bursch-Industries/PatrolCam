@@ -1,4 +1,4 @@
-//landing page for PatrolCam 
+//landing page for PatrolCam website
 'use client'
 import '../../styles/globals.css';
 import Image from 'next/image';
@@ -52,7 +52,7 @@ export default function LandingPage() {
       </div>
       
       {/* Features Section*/}
-       <div id="features" className="bg-[#145DA0] text-white"> {/* bg-[#145DA0] */}
+       <div id="features" className="bg-[#145DA0] text-white">
         <div className="flex justify-center text-3xl py-8 bg-primary">
           <h1>WHAT PATROLCAM BRINGS TO YOUR SECURITY</h1>
         </div>

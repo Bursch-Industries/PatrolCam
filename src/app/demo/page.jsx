@@ -7,15 +7,14 @@ export default function Demo() {
     return (
         <>
             <Navbar />
-
             <div className="min-h-screen flex flex-col justify-center items-center bg-[#145DA0]">
 
-                {/* header text */}
+            {/* header text */}
                 <h1 className="self-start mb-10 ml-10 text-white m-0 text-[30px] font-light leading-[1.5] border-b-2 border-white/20 pb-[10px] w-[90%]">
                     <span className="hover:text-pcYellow">Simple, Powerful and Affordable</span>
                 </h1>
 
-                {/* video container */}
+            {/* video container */}
                 <div className="flex justify-center">
                     <video 
                         autoPlay 
@@ -29,9 +28,7 @@ export default function Demo() {
                         Your browser does not support the video tag.
                     </video>
                 </div>
-
             </div>
-
             <Footer />
         </>
     );

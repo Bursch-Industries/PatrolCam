@@ -1,8 +1,6 @@
-// audio api call and logic 
-
-
+// audio.ai api
 export async function POST(req) {
-    // logic for handling sending audio file to the audio api cURL and returning a formatted response bac 
+    // logic for handling sending audio file to the audio api cURL and returning a formatted response back 
     try {
         const oldFormData = await req.formData();
         const file = oldFormData.get('audioFile'); 

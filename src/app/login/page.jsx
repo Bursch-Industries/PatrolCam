@@ -1,33 +1,34 @@
 // Login page for the PatrolCam website
 'use client';
-import { useState } from 'react'; // importing React hooks
+import { useState } from 'react';
 import { useRef } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';  // handle page redirection
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
 
 export default function Login() {
-    // grab username and password entered
+    // create state variables that will be dynamically updated as user types
     const [user, setUser] = useState({
         email: (''),
         password: (''),
     });
     const router = useRouter();
 
-    // used to style elements in certain conditions
+    // used to style elements if user login fails or fields are empty
     const emailElement = useRef(null);
     const passwordElement = useRef(null);
 
-    // store username in state
+    // updates as user types in email field
     function handleEmail(e) {
         setUser({
             ...user,
             email: e.target.value,
         });
     }
-    // store password in state
+
+    // updates as user types in password field
     function handlePassword(e) {
         setUser({
             ...user,
@@ -35,14 +36,13 @@ export default function Login() {
         });
     }
     
-    // Submit request to the backend
+    // Submit login request with given credentials to the backend
     async function loginSubmission() {
         const email = user.email
         const password = user.password
-        //add rememberMeBool and rememberMeValue
-        console.log("login attempt with: ", email, password);
-        
 
+        // TODO add rememberMeBool and rememberMeValue functionalities
+        
         const res = await signIn("credentials", {
             email,
             password,
@@ -50,7 +50,7 @@ export default function Login() {
         });
 
         if (res.error) {
-            console.log("Invalid login"); // Display error message if failure to login
+            // change border stylings to show user invalid login
             emailElement.current.style.border = "2px solid red";
             passwordElement.current.style.border = "2px solid red";
         } else {
@@ -59,9 +59,6 @@ export default function Login() {
         }
 
     };
-//add rememberMeBool, rememberMeValue
-        
-
 
     return (
         <div className="flex items-center justify-center h-screen">
@@ -86,8 +83,7 @@ export default function Login() {
                     <div className="flex justify-between mb-1">
                         <p className="font-bold">Password</p>
                         <p className="font-semibold text-blue-600">Forgot password?</p>
-                    </div>
-                    
+                    </div> 
                     <div>
                         <input 
                             type="password" 
@@ -112,13 +108,13 @@ export default function Login() {
                         Login
                 </button>
 
-                    {/* Signup */}
+                {/* Signup */}
                 <div className="text-center text-lg">
                     <p>
                         Interested in our product <Link href="/#contact-us" className="underline text-blue-700">Sign up</Link>
                     </p>
                 </div>
-                
+                 
             </div>
 
             {/* Right section */}

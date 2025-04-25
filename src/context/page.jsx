@@ -1,4 +1,4 @@
-// used to wrap everything from root layout
+// used to wrap everything from root layout for Next Auth
 'use client';
 
  import { SessionProvider } from "next-auth/react";

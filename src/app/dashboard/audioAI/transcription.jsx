@@ -1,4 +1,4 @@
-// component for audio ai page that will take in the parsed json transcription and format and style it for a clean viewing experience
+// transcription component for audio ai page that will take in the parsed json transcription and format and style it for a clean viewing experience
 'use client'
 
 // shadcn components for styling
@@ -50,7 +50,6 @@ export default function Transcription({ audioData }) {
         })
     }
 
-    // className="items-center w-full bg-gray-100 rounded-4xl shadow-lg p-4 min-h-[50px] md:min-h-[50px]"
     return (
         <Tabs defaultValue="conversation" className="items-center w-full bg-gray-100 rounded-4xl shadow-lg p-4 min-h-[50px] md:min-h-[50px]">
             <TabsList className="gap-2">

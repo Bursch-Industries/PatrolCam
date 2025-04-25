@@ -10,17 +10,12 @@ export default function AudioAI(){
         audioTranscription: (''),
         selectedFile: null,
     });
-    const [isLoading, setIsLoading] = useState(false); // used for when audio file is being transcribed
-
     const selectedFile = fileData.selectedFile;
     const fileName = fileData.fileName; 
     const audioTranscription = fileData.audioTranscription; 
 
-    // function for api request using chosen file
+    // function for api request using users chosen file
     async function AudioUpload() {
-      // start the loading animation
-      
-
         try {
             const formData = new FormData(); // form data object to store users selected file
             formData.set('audioFile', fileData.selectedFile);
@@ -41,9 +36,6 @@ export default function AudioAI(){
           } catch (error) {
             console.log('Error: ', error);
         }
-
-      // End the loading animation
-
     }
 
     // used to set and store selected audio file in state
