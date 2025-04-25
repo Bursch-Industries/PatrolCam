@@ -53,9 +53,10 @@ export async function GET() {
 
     
     // Get all cameras for this organization
-    const cameras = await Camera.find({ owner: organizationId });
+    const cameras = await Camera.find({ owner: organizationId }).lean();
 
     const cameraDetails = cameras.map(camera => {
+
       return {
         id: camera._id,
         camera_Name: camera.camera_Name,
@@ -63,6 +64,8 @@ export async function GET() {
         owner: camera.owner,
         location: camera.location,
         status: camera.status,
+        ip: camera.ip,
+        local_ip: camera.local_ip,
       };
     });
 
