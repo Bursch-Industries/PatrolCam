@@ -12,6 +12,10 @@ html {
     scroll-behavior: smooth;
 }
 
+/*dark mode*/
+
+
+
 /* Body Styling */
 body {
     font-family: 'Roboto', sans-serif;
@@ -21,6 +25,19 @@ body {
     min-height: 100vh;
     /* text-align: center; */
 }
+
+/* Background Image */
+
+.dark-mode {
+    --bg-color: #000;
+    --text-color: #fff;
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease;
+  }
 
 
 /* Header Styling */

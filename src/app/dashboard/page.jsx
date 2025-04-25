@@ -6,6 +6,7 @@ import StatsCard from '@/components/StatsCard';
 import useOfficers from '@/hooks/useOfficers';
 import OfficersSection from '@/components/OfficersSection';
 
+
 export default function Page() {
   const { cameras, loading: camsLoading, error: camsError } = useCameras();
   const { officers, loading: offsLoading, error: offsError } = useOfficers();

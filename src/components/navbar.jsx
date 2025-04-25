@@ -16,6 +16,8 @@ import {
 import { SettingsIcon, LogOutIcon, CircleHelpIcon } from 'lucide-react';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import DarkModeToggle from '@/components/UseDarkmode';
+// import DarkModeToggle from './components/useDarkmode';
 
 
 function GuestNavbar() {
@@ -152,6 +154,7 @@ function UserNavbar() {
                         </DropdownMenuGroup> 
                     </DropdownMenuContent>
                 </ DropdownMenu>
+                <DarkModeToggle />
             </div>
     
     );
