@@ -54,6 +54,8 @@ Open the OneDrive document (or other provided documentation) to find the require
 
 Copy and paste them into your `.env` file, and save that
 
+# Note: Your env file must be in the patrolcam folder.
+
 ---
 
 ## Step 6
