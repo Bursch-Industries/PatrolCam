@@ -1,7 +1,7 @@
 # PatrolCam.US
-
+![PatrolCam Logo](public/PatrolCamLogo.png)
 # Introduction
-    put introduction information here
+PatrolCam, is a technology taht empowers law enforcement to be both proactive and responsive. In an era where the integration of technology in policing lags behind other sectors. PatrolCam works to push for progress. Designed to bridge the gap between traditional policing methods and cutting-edge technology, PatrolCam utilizes the power of artificial intelligence and machine learning to enhance surveillance capabilities, streamline operations, and foster safer communities.
 
 
 # Setting Up Local Development Environment for PatrolCam
