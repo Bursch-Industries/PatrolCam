@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import LiveStreamPlayer from './LiveStreamPlayer';
 import useCameras from '@/hooks/useCameras';
 
-// Helper to test stream availability
+// Helper to test whether a stream URL is reachable via a HEAD request
 const testStreamUrl = async (url) => {
 	try {
 		const controller = new AbortController();
@@ -19,40 +19,77 @@ const testStreamUrl = async (url) => {
 export default function Surveillance() {
 	const [row, setRows] = useState(1);
 	const [col, setCols] = useState(1);
+
+	// Fetch camera info from backend
 	const { cameras: cameraInfo, loading: camsLoading, error: camsError } = useCameras();
 
 	const [jetsonLink, setJetsonLink] = useState(null);
 	const [checkingStream, setCheckingStream] = useState(true);
+	const [cameras, setCameras] = useState([]);
 
+	// Choose whether to try to access stream from local or public IP address
 	useEffect(() => {
+		let cancelled = false;
+		let attempt = 0;
+
 		const chooseBestStream = async () => {
-			if (!camsLoading && cameraInfo?.length) {
-				const JetsonNano = cameraInfo.find(obj => obj.camera_Name === "Jetson1");
+			while (!cancelled) {
+				attempt++;
+				console.log(`🔁 Attempt ${attempt}: checking stream availability...`);
 
-				if (JetsonNano?.local_ip && JetsonNano?.public_ip) {
-					const publicUrl = `http://${JetsonNano.public_ip}:8080/hls/stream/index.m3u8`;
-					const localUrl = `http://${JetsonNano.local_ip}:8080/hls/stream/index.m3u8`;
+				if (!camsLoading && cameraInfo?.length) {
+					const JetsonNano = cameraInfo.find(obj => obj.camera_Name === "Jetson1");
+					console.log("cameraInfo:", cameraInfo);
+					console.log("Found Jetson1:", JetsonNano);
 
-					const isPublicAvailable = await testStreamUrl(publicUrl);
-					const bestUrl = isPublicAvailable ? publicUrl : localUrl;
+					if (JetsonNano?.local_ip && JetsonNano?.ip) {
+						const publicUrl = `http://${JetsonNano.ip}:8080/hls/jetsontest/stream.m3u8`;
+						const localUrl = `http://${JetsonNano.local_ip}:8080/hls/jetsontest/stream.m3u8`;
 
-					setJetsonLink(bestUrl);
+						console.warn("Checking public stream at:", publicUrl);
+						const isPublicAvailable = await testStreamUrl(publicUrl);
+						if (isPublicAvailable) {
+							console.log("✅ Public stream is available");
+							if (!cancelled) {
+								setJetsonLink(publicUrl);
+								break;
+							}
+						} else {
+							// Fallback to local stream
+							console.log("❌ Public stream is unavailable. Checking local stream...");
+							console.log("Checking local stream at:", localUrl);
+							const isLocalAvailable = await testStreamUrl(localUrl);
+							if (isLocalAvailable) {
+								console.log("✅ Local stream is available");
+								if (!cancelled) {
+									setJetsonLink(localUrl);
+									break;
+								}
+							} else {
+								console.log("❌ No stream available yet. Retrying...");
+							}
+						}
+					} else {
+						console.warn("⚠️ Missing IP info for Jetson1");
+					}
 				}
+				await new Promise(res => setTimeout(res, 5000)); // wait 5s before next try
 			}
-			setCheckingStream(false);
+
+			if (!cancelled) setCheckingStream(false);
 		};
 
 		chooseBestStream();
+
+		return () => { cancelled = true; }; // Clean up on unmount
 	}, [cameraInfo, camsLoading]);
 
-	// if (camsLoading || checkingStream) return <p>Loading cameras...</p>;
-	// if (camsError) return <p>Error loading cameras</p>;
-	// if (!jetsonLink) return <p>No available stream found for Jetson1.</p>;
-
-	const totalGrids = row * col;
-	const demoCameras = [jetsonLink];
-
-	const [cameras, setCameras] = useState(demoCameras.slice(0, totalGrids));
+	// Update specific camera in grid when changed via UI
+	useEffect(() => {
+		if (jetsonLink) {
+			setCameras(Array(row * col).fill(jetsonLink));
+		}
+	}, [jetsonLink, row, col]);
 
 	function updateCamera(gridIndex, newCameraSrc) {
 		setCameras(prevCameras => {
@@ -62,6 +99,7 @@ export default function Surveillance() {
 		});
 	}
 
+	// Settings dropdown for each grid cell
 	function CameraSelection({ gridIndex }) {
 		const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -72,7 +110,7 @@ export default function Surveillance() {
 					<div className="absolute z-50 text-white top-10 left-2 bg-primary opacity-90 rounded-md shadow-lg">
 						<div className="flex flex-col">
 							<div className="flex">
-								{demoCameras.slice(0, 5).map((cam, i) => (
+								{cameras.slice(0, 5).map((cam, i) => (
 									<button
 										key={i}
 										onClick={() => {
@@ -86,7 +124,7 @@ export default function Surveillance() {
 								))}
 							</div>
 							<div className="flex">
-								{demoCameras.slice(5).map((cam, i) => (
+								{cameras.slice(5).map((cam, i) => (
 									<button
 										key={i}
 										onClick={() => {
@@ -106,6 +144,7 @@ export default function Surveillance() {
 		);
 	}
 
+	// Grid cell for a single stream
 	function SurvCamera({ src, gridIndex }) {
 		if (!src) return <div className="bg-white flex items-center justify-center">Loading...</div>;
 		return (
@@ -115,6 +154,8 @@ export default function Surveillance() {
 			</div>
 		);
 	}
+
+	const totalGrids = row * col;
 
 	return (
 		<div className="base-background flex flex-col h-screen">
