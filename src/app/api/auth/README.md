@@ -5,7 +5,7 @@ This directory contains various authentication-related APIs and utilities utiliz
 ## Directory Structure
 
 - **`[...nextauth]`**:Handles dynamic routing for authentication using the NextAuth.js library.
-- **`audioAPI`**: Manages authentication or access control for audio-related operations.
+- **`audioAPI`**: Manages authentication or access control for the audio ai feature. It is a feature that Nate provided, we used hes API to transcribe it.
 - **`camerasAPI`**: Handles authentication or access control for camera-related functionalities.
 - **`emailAPI`**: Manages email-based authentication and related operations.
 - **`myOrgAPI`**: Handles authentication or access control specific to organizational data.
