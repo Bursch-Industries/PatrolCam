@@ -30,7 +30,3 @@ This folder contains custom React hooks that encapsulate logic for reuse across 
 
 ### [lib](https://github.com/Bursch-Industries/PatrolCam/tree/final-dev/src/lib)
 The library directory is designed for utility functions, helpers, and other shared logic that doesn't belong to a specific application module.
-
----
-
-Let me know if you'd like to explore any specific folder or file further!
